@@ -43,7 +43,7 @@
           <span>Supervision</span>
         </div>
       </div>
-      <img src="~/assets/image-4.png" alt="" class="mdx:mt-8 mdx:px-1 mdx:mx-auto" width="562px">
+      <img src="~/assets/images/image-4.png" alt="" class="mdx:mt-8 mdx:px-1 mdx:mx-auto" width="562px">
     </div>
   </section>
 </template>

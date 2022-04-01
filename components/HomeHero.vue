@@ -24,7 +24,7 @@
           Get Yours Now
         </div>
       </div>
-      <img src="~/assets/image-2.png" alt="" class="mdx:mx-auto" width="415px">
+      <img src="~/assets/images/image-2.png" alt="" class="mdx:mx-auto" width="415px">
     </div>
   </section>
 </template>

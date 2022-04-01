@@ -21,6 +21,6 @@
         </div>
       </div>
     </div>
-    <img src="~/assets/image-6.png" alt="" class="absolute md:h-full top-0 right-20 mdx:hidden">
+    <img src="~/assets/images/image-6.png" alt="" class="absolute md:h-full top-0 right-20 mdx:hidden">
   </section>
 </template>

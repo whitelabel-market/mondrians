@@ -1,7 +1,7 @@
 <template>
   <section class="bg-[rgba(228,14,22,0.4)] md:py-28 py-16 mdx:px-[1.563rem]">
     <div class="flex mdx:flex-col-reverse items-center max-w-[56.938rem] mx-auto">
-      <img src="~/assets/image-5.png" alt="" width="416px" class="mdx:mt-[2.75rem]">
+      <img src="~/assets/images/image-5.png" alt="" width="416px" class="mdx:mt-[2.75rem]">
       <div class="text-white md:ml-32 md:w-96 px-[0.625rem]">
         <div class="font-bold text-4xl relative z-10">
           Creator
