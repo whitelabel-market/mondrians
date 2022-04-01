@@ -4,8 +4,10 @@
       <header>
         <TheHeader />
       </header>
-      <main />
-      <NuxtPage />
+      <main>
+        <NuxtPage />
+      </main>
+      <footer><TheFooter /></footer>
     </NuxtLayout>
   </div>
 </template>

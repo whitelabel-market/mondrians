@@ -1,5 +1,11 @@
 <template>
   <div>
-    <NuxtWelcome />
+    <HomeHero />
+    <HomeItemGallery />
+    <HomeRoadmap />
+    <HomeRarity />
+    <HomeInfo />
+    <HomeFaq />
+    <HomeCta />
   </div>
 </template>

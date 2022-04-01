@@ -15,11 +15,11 @@ module.exports = {
         serif: ['Birthstone Bounce', ...defaultTheme.fontFamily.serif]
       },
       screens: {
-        'mdx': {'max': '767px'},
-        'fix': {'min': '1100px'},
-        'lgs': {'min': '974px'}
+        mdx: { max: '767px' },
+        fix: { min: '1100px' },
+        lgs: { min: '974px' }
       }
-    },
+    }
   },
-  plugins: [],
+  plugins: []
 }
