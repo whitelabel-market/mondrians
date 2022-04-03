@@ -1,6 +1,7 @@
 <template>
   <div>
     <HomeHero />
+    <HomeAbout />
     <HomeItemGallery />
     <HomeRoadmap />
     <HomeRarity />

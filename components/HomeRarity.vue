@@ -1,11 +1,11 @@
 <template>
-  <section id="Rarity" class="md:py-20 py-[2.375rem]">
+  <section id="Rarity" class="md:py-20 pt-[2.375rem] pb-[1.438rem]">
     <div class="md:flex md:justify-end max-w-[60.875rem] md:mx-auto relative fix:left-16">
       <div class="mdx:px-[1.75rem]">
         <div class="font-bold text-4xl relative mdx:ml-[0.313rem] z-10">
           Rarity
           <span
-            class="text-blue text-[2.5rem] font-normal tracking-[0.13em] font-serif absolute -left-4 top-0 -z-10"
+            class="text-blue text-[2.5rem] font-normal tracking-[0.13em] font-bounce absolute -left-4 top-0 -z-10"
           >Rarity</span>
         </div>
         <p class="md:text-base text-sm mdx:ml-[0.438rem] md:mt-8 mt-3">
@@ -43,7 +43,7 @@
           <span>Supervision</span>
         </div>
       </div>
-      <img src="~/assets/images/image-4.png" alt="" class="mdx:mt-8 mdx:px-1 mdx:mx-auto" width="562px">
+      <img src="assets/image-4.png" alt="" class="mdx:mt-[3.688rem] mdx:px-1 mdx:mx-auto" width="562px">
     </div>
   </section>
 </template>
