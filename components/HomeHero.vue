@@ -1,7 +1,7 @@
 <template>
   <section class="md:py-24 pb-16 pt-12">
     <div class="lgs:flex items-center max-w-[61rem] mx-auto relative lgs:-left-[2.625rem]">
-      <img src="assets/image-1.png" alt="" class="lgs:mx-0 mx-auto" width="560px">
+      <img src="~/assets/images/image-1.png" alt="" class="lgs:mx-0 mx-auto" width="560px">
       <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
         <div class="font-bold md:text-[4.406rem] text-5xl italic relative z-10 lgs:text-left text-center">
           Mondrian`s

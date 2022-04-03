@@ -11,7 +11,7 @@
             Get your Mondrian’s NFT now
           </h1>
           <div class="md:hidden w-[141px] h-[141px] relative">
-            <img src="assets/Image.png" class="h-full absolute left-[1.5rem] top-0" alt="">
+            <img src="~/assets/images/Image.png" class="h-full absolute left-[1.5rem] top-0" alt="">
             <div
               class="border-4 w-full h-full rotate-[8.74deg] inline-block bg-[rgba(0,0,0,0.25)] shadow-[0_4px_10px_4px_rgba(0,0,0,.25)] relative left-[0.625rem] border-black overflow-hidden"
             />
@@ -29,6 +29,6 @@
         </div>
       </div>
     </div>
-    <img src="assets/image-6.png" alt="" class="absolute md:h-full top-0 right-20 mdx:hidden">
+    <img src="~/assets/images/image-6.png" alt="" class="absolute md:h-full top-0 right-20 mdx:hidden">
   </section>
 </template>

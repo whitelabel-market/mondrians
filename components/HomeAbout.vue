@@ -7,7 +7,7 @@
           <span class="relative italic z-10">
             Mondrian`s
             <span
-              class="text-yellowish text-[2.5rem] font-normal tracking-[0.12em] font-bounce absolute -left-2 top-0 -z-10"
+              class="text-yellowish text-[2.5rem] font-normal tracking-[0.12em] font-serif absolute -left-2 top-0 -z-10"
             >Mondrian’s</span>
           </span>
         </div>
@@ -24,7 +24,7 @@
           Get Yours Now
         </div>
       </div>
-      <img src="assets/image-2.png" alt="" class="mdx:mx-auto" width="415px">
+      <img src="~/assets/images/image-2.png" alt="" class="mdx:mx-auto" width="415px">
     </div>
   </section>
 </template>

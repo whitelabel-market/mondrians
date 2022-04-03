@@ -2,7 +2,7 @@
   <section id="Roadmap" class="bg-[rgba(252,218,25,0.45)] mdx:px-4 md:pt-12 md:pb-24 pt-[2.75rem] pb-[2.063rem]">
     <div class="md:grid md:grid-cols-2 mdx:flex mdx:flex-col-reverse max-w-[54.875rem] mx-auto">
       <img
-        src="assets/image-3.png"
+        src="~/assets/images/image-3.png"
         alt=""
         width="410px"
         class="mdx:mx-auto mdx:mt-[2.188rem] mdx:px-[1.125rem]"
@@ -11,7 +11,7 @@
         <div class="font-bold mdx:ml-4 text-4xl relative z-10">
           Roadmap
           <span
-            class="text-[#AC0C11] text-[2.5rem] font-normal tracking-[0.25em] font-bounce absolute -left-4 top-0 -z-10"
+            class="text-[#AC0C11] text-[2.5rem] font-normal tracking-[0.25em] font-serif absolute -left-4 top-0 -z-10"
           >Roadmap</span>
         </div>
         <p class="md:text-base text-sm mdx:ml-4 md:mt-6 mt-[0.813rem]">

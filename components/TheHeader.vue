@@ -3,7 +3,7 @@
     <nav
       class="container flex items-center md:justify-around justify-between mdx:pl-[2.188rem] mdx:pr-[1.625rem] mx-auto pt-6 pb-3"
     >
-      <img src="assets/Logo.png" alt="logo" class="md:w-[130px] w-[115px]">
+      <img src="~/assets/images/Logo.png" alt="logo" class="md:w-[130px] w-[115px]">
       <svg
         width="24"
         height="24"
@@ -54,13 +54,13 @@
             <div class="flex">
               <a href="#">
                 <div class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"><img
-                  src="assets/discord.png"
+                  src="~/assets/images/discord.png"
                   width="21px"
                 ></div>
               </a>
               <a href="#" class="ml-4">
                 <div class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"><img
-                  src="assets/twitter.png"
+                  src="~/assets/images/twitter.png"
                   width="21px"
                 ></div>
               </a>
@@ -77,10 +77,10 @@
           <a href="#Rarity">Rarity</a>
         </li>
         <li class="md:ml-10">
-          <a href="#"><img src="assets/discord.png" alt="discord" width="20px"></a>
+          <a href="#"><img src="~/assets/images/discord.png" alt="discord" width="20px"></a>
         </li>
         <li class="md:ml-3">
-          <a href="#"><img src="assets/twitter.png" alt="twitter" width="20px"></a>
+          <a href="#"><img src="~/assets/images/twitter.png" alt="twitter" width="20px"></a>
         </li>
         <li class="md:ml-4">
           <div class="bg-reddish text-white rounded-lg px-5 py-2 cursor-pointer">
