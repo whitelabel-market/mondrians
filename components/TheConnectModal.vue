@@ -54,9 +54,10 @@ const providersCollapsed = ref(false)
 const connectTo = async ({ connect }) => {
   const instance = await connect()
   // ... do something with instance
-  console.log('wallet connected', instance)
-  // const provider = new ethers.providers.Web3Provider(instance)
-  // const signer = provider.getSigner()
+  const { $ethers } = useNuxtApp()
+  const provider = new $ethers.providers.Web3Provider(instance)
+  const signer = provider.getSigner()
+  console.log('wallet connected, signer', signer)
 
   emit('update:modelValue', false)
 }
