@@ -10,5 +10,13 @@
     "@nuxtjs/tailwindcss": "^5.0.2",
     "eslint": "^8.12.0",
     "nuxt3": "latest"
+  },
+  "dependencies": {
+    "@coinbase/wallet-sdk": "^3.0.5",
+    "@walletconnect/web3-provider": "^1.7.7",
+    "authereum": "^0.1.14",
+    "eth-provider": "^0.10.0",
+    "fortmatic": "^2.2.1",
+    "rollup-plugin-polyfill-node": "^0.9.0"
   }
 }
