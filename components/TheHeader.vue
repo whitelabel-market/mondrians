@@ -3,7 +3,11 @@
     <nav
       class="container flex items-center md:justify-around justify-between mdx:pl-[2.188rem] mdx:pr-[1.625rem] mx-auto pt-6 pb-3"
     >
-      <img src="~/assets/images/Logo.png" alt="logo" class="md:w-[130px] w-[115px]">
+      <img
+        src="~/assets/images/Logo.png"
+        alt="logo"
+        class="md:w-[130px] w-[115px]"
+      >
       <svg
         width="24"
         height="24"
@@ -17,8 +21,12 @@
           fill="black"
         />
       </svg>
-      <div class="md:hidden bg-white fixed top-0 right-[-16rem] z-50 w-[15.75rem] h-full pr-[1.625rem] transition-right duration-300 ease-in-out modal">
-        <ul class="font-bold leading-[2.813rem] text-[1.563rem] flex flex-col items-end">
+      <div
+        class="md:hidden bg-white fixed top-0 right-[-16rem] z-50 w-[15.75rem] h-full pr-[1.625rem] transition-right duration-300 ease-in-out modal"
+      >
+        <ul
+          class="font-bold leading-[2.813rem] text-[1.563rem] flex flex-col items-end"
+        >
           <li class="mt-[1.449rem] cursor-pointer">
             <svg
               width="18"
@@ -53,22 +61,24 @@
           <li class="mt-[1.688rem]">
             <div class="flex">
               <a href="#">
-                <div class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"><img
-                  src="~/assets/images/discord.png"
-                  width="21px"
-                ></div>
+                <div
+                  class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"
+                >
+                  <img src="~/assets/images/discord.png" width="21px">
+                </div>
               </a>
               <a href="#" class="ml-4">
-                <div class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"><img
-                  src="~/assets/images/twitter.png"
-                  width="21px"
-                ></div>
+                <div
+                  class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"
+                >
+                  <img src="~/assets/images/twitter.png" width="21px">
+                </div>
               </a>
             </div>
           </li>
         </ul>
       </div>
-      <ul class="font-semibold flex items-center text-sm mdx:hidden">
+      <ul class="flex items-center text-sm font-semibold mdx:hidden">
         <li><a href="#About">About</a></li>
         <li class="md:ml-5">
           <a href="#Roadmap">Roadmap</a>
@@ -77,17 +87,35 @@
           <a href="#Rarity">Rarity</a>
         </li>
         <li class="md:ml-10">
-          <a href="#"><img src="~/assets/images/discord.png" alt="discord" width="20px"></a>
+          <a href="#"><img
+            src="~/assets/images/discord.png"
+            alt="discord"
+            width="20px"
+          ></a>
         </li>
         <li class="md:ml-3">
-          <a href="#"><img src="~/assets/images/twitter.png" alt="twitter" width="20px"></a>
+          <a href="#"><img
+            src="~/assets/images/twitter.png"
+            alt="twitter"
+            width="20px"
+          ></a>
         </li>
         <li class="md:ml-4">
-          <div class="bg-reddish text-white rounded-lg px-5 py-2 cursor-pointer">
-            View on OpenSea
-          </div>
+          <button
+            class="px-5 py-2 text-white rounded-lg cursor-pointer bg-reddish"
+            @click.prevent="showConnectModal = true"
+          >
+            Connect Wallet
+          </button>
         </li>
       </ul>
     </nav>
+
+    <TheConnectModal v-model="showConnectModal" />
   </header>
 </template>
+<script setup lang="ts">
+
+const showConnectModal = ref(true)
+
+</script>
