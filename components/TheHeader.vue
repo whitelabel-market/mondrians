@@ -7,7 +7,7 @@
         src="~/assets/images/Logo.png"
         alt="logo"
         class="md:w-[130px] w-[115px]"
-      />
+      >
       <svg
         width="24"
         height="24"
@@ -64,14 +64,14 @@
                 <div
                   class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"
                 >
-                  <img src="~/assets/images/discord.png" width="21px" />
+                  <img src="~/assets/images/discord.png" width="21px">
                 </div>
               </a>
               <a href="#" class="ml-4">
                 <div
                   class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"
                 >
-                  <img src="~/assets/images/twitter.png" width="21px" />
+                  <img src="~/assets/images/twitter.png" width="21px">
                 </div>
               </a>
             </div>
@@ -87,23 +87,35 @@
           <a href="#Rarity">Rarity</a>
         </li>
         <li class="md:ml-10">
-          <a href="#"
-            ><img src="~/assets/images/discord.png" alt="discord" width="20px"
-          /></a>
+          <a href="#"><img
+            src="~/assets/images/discord.png"
+            alt="discord"
+            width="20px"
+          ></a>
         </li>
         <li class="md:ml-3">
-          <a href="#"
-            ><img src="~/assets/images/twitter.png" alt="twitter" width="20px"
-          /></a>
+          <a href="#"><img
+            src="~/assets/images/twitter.png"
+            alt="twitter"
+            width="20px"
+          ></a>
         </li>
         <li class="md:ml-4">
-          <div
+          <button
             class="px-5 py-2 text-white rounded-lg cursor-pointer bg-reddish"
+            @click.prevent="showConnectModal = true"
           >
             Connect Wallet
-          </div>
+          </button>
         </li>
       </ul>
     </nav>
+
+    <TheConnectModal v-model="showConnectModal" />
   </header>
 </template>
+<script setup lang="ts">
+
+const showConnectModal = ref(true)
+
+</script>

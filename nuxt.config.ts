@@ -16,6 +16,9 @@ export default defineNuxtConfig({
     ]
   },
   buildModules: ['@nuxtjs/tailwindcss'],
+  build: {
+    transpile: ['@headlessui/vue']
+  },
   vite: {
     plugins: [
       // ↓ Needed for development mode

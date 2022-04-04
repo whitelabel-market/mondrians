@@ -46,11 +46,6 @@ export default class Connector {
   }
 
   private static initProviders (opts: ConnectorOptions): Array<IProvider> {
-    const applyOptions = (provider: IProvider): IProvider => {
-      provider.connect = provider.connect.bind(opts)
-      return provider
-    }
-
-    return _providers.map(applyOptions)
+    return _providers.map((p: IProvider): IProvider => ({ ...p, connect: () => p.connect(opts) }))
   }
 }
