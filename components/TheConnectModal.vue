@@ -35,6 +35,9 @@
 
 <script lang="ts" setup>
 import Connector from '../libs/@walletConnector'
+import { useWallet } from '~/store/wallet'
+
+const wallet = useWallet()
 
 const props = defineProps({
   modelValue: Boolean
@@ -51,14 +54,8 @@ const providers = Connector.init({
 
 const providersCollapsed = ref(false)
 
-const connectTo = async ({ connect }) => {
-  const instance = await connect()
-  // ... do something with instance
-  const { $ethers } = useNuxtApp()
-  const provider = new $ethers.providers.Web3Provider(instance)
-  const signer = provider.getSigner()
-  console.log('wallet connected, signer', signer)
-
+const connectTo = async (provider) => {
+  await wallet.connect(provider)
   emit('update:modelValue', false)
 }
 

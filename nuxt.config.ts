@@ -3,7 +3,6 @@ import nodePolyfills from 'rollup-plugin-polyfill-node'
 
 const production = process.env.NODE_ENV === 'production'
 
-// https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
   meta: {
     link: [
@@ -15,13 +14,13 @@ export default defineNuxtConfig({
       }
     ]
   },
-  buildModules: ['@nuxtjs/tailwindcss'],
+  buildModules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
   build: {
     transpile: ['@headlessui/vue']
   },
   vite: {
     plugins: [
-      // ↓ Needed for development mode
+      // Needed for build if using WalletConnect and other providers
       !production && nodePolyfills({
         include: ['node_modules/**/*.js', new RegExp('node_modules/.vite/.*js')]
       })
@@ -29,11 +28,11 @@ export default defineNuxtConfig({
     build: {
       rollupOptions: {
         plugins: [
-          // ↓ Needed for build
+          // Needed for build if using WalletConnect and other providers
           nodePolyfills()
         ]
       },
-      // ↓ Needed for build if using WalletConnect and other providers
+      // Needed for build if using WalletConnect and other providers
       commonjsOptions: {
         transformMixedEsModules: true
       }

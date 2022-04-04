@@ -15,11 +15,13 @@
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.0.5",
     "@headlessui/vue": "^0.0.0-insiders.ab6310c",
+    "@pinia/nuxt": "^0.1.8",
     "@walletconnect/web3-provider": "^1.7.7",
     "authereum": "^0.1.14",
     "eth-provider": "^0.10.0",
     "ethers": "^5.6.2",
     "fortmatic": "^2.2.1",
+    "pinia": "^2.0.13",
     "rollup-plugin-polyfill-node": "^0.9.0"
   }
 }
