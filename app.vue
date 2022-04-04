@@ -1,11 +1,11 @@
 <template>
   <div>
     <NuxtLayout>
-      <TheHeader />
+      <LayoutHeader />
       <main>
         <NuxtPage />
       </main>
-      <TheFooter />
+      <LayoutFooter />
     </NuxtLayout>
   </div>
 </template>

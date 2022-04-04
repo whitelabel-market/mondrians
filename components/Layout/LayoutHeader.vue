@@ -111,7 +111,7 @@
       </ul>
     </nav>
 
-    <TheConnectModal v-model="showConnectModal" />
+    <LayoutConnectModal v-model="showConnectModal" />
   </header>
 </template>
 <script setup lang="ts">
