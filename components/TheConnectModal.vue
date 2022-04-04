@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import Connector from '../libs/@walletConnector'
-import { useWallet } from '~/store/wallet'
+import { useWallet } from '~/store/useWallet'
 
 const wallet = useWallet()
 

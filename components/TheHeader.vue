@@ -116,6 +116,6 @@
 </template>
 <script setup lang="ts">
 
-const showConnectModal = ref(true)
+const showConnectModal = ref(false)
 
 </script>

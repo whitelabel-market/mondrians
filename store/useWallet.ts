@@ -21,7 +21,6 @@ export const useWallet = defineStore('wallet', {
 
   },
   getters: {
-    provider: state => state.provider,
     signer: state => state.provider?.getSigner()
   }
 })
