@@ -1,7 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  content: [],
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -11,7 +11,7 @@ module.exports = {
         dropdown: "#F1F8FF",
       },
       fontFamily: {
-        sans: ["inter", ...defaultTheme.fontFamily.sans],
+        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
         serif: ["Birthstone Bounce", ...defaultTheme.fontFamily.serif],
       },
       screens: {
