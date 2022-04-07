@@ -1,7 +1,16 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div>
+    <LayoutHeader />
+    <main>
+      <router-view />
+    </main>
+    <LayoutFooter />
+  </div>
 </template>
+<script>
+import LayoutFooter from "@/components/layouts/LayoutFooter";
+import LayoutHeader from "@/components/layouts/LayoutHeader";
+export default {
+  components: { LayoutHeader, LayoutFooter },
+};
+</script>

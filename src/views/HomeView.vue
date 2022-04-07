@@ -1,28 +1,85 @@
 <template>
-  <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div>
+    <HomeHero />
+    <HomeAbout />
+    <HomeItemGallery />
+    <HomeRoadmap />
+    <HomeRarity />
+    <HomeInfo />
+    <HomeFaq />
+    <HomeCta />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue";
-import Connector from "@/libs/@walletConnector";
+import { defineComponent, watch } from "vue";
+import HomeHero from "@/components/home/HomeHero.vue";
+import HomeAbout from "@/components/home/HomeAbout.vue";
+import HomeItemGallery from "@/components/home/HomeItemGallery.vue";
+import HomeRoadmap from "@/components/home/HomeRoadmap.vue";
+import HomeRarity from "@/components/home/HomeRarity.vue";
+import HomeInfo from "@/components/home/HomeInfo.vue";
+import HomeFaq from "@/components/home/HomeFaq.vue";
+import HomeCta from "@/components/home/HomeCta.vue";
+import { provideApolloClient, useSubscription } from "@vue/apollo-composable";
+import { client } from "@/services/graphql";
+import gql from "graphql-tag";
 
 export default defineComponent({
-  name: "HomeView",
   components: {
-    HelloWorld,
+    HomeHero,
+    HomeAbout,
+    HomeItemGallery,
+    HomeRoadmap,
+    HomeRarity,
+    HomeInfo,
+    HomeFaq,
+    HomeCta,
   },
   setup() {
-    const providers = Connector.init({
-      appName: "Mondrians",
-      infuraId: "",
-      authereum: { key: "" },
-      fortmatic: { key: "" },
-    }).providers;
+    // const { result, refetch } = provideApolloClient(client)(() =>
+    //   useQuery(
+    //     gql`
+    //       query MyQuery {
+    //         contracts {
+    //           id
+    //           name
+    //           symbol
+    //           totalSupply
+    //         }
+    //       }
+    //     `
+    //   )
+    // );
 
-    console.log("providers", providers);
+    // const contracts = useResult(result, null, ({ contracts }) => contracts);
+
+    // watchEffect(() => {
+    //   console.log(contracts.value);
+    // });
+
+    const { result } = provideApolloClient(client)(() =>
+      useSubscription(gql`
+        subscription {
+          contracts {
+            id
+            name
+            symbol
+            totalSupply
+          }
+        }
+      `)
+    );
+
+    watch(
+      result,
+      (data) => {
+        console.log("New message received:", data);
+      },
+      {
+        // lazy: true, // Don't immediately execute handler
+      }
+    );
   },
 });
 </script>
