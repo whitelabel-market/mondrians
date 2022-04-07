@@ -1,7 +1,7 @@
 import { MetaMaskLogo } from "../logos";
-import { type ConnectorOptions, ProviderType } from "../../types";
+import { ProviderType } from "../../types";
 
-const ConnectToInjected = async (options: ConnectorOptions) => {
+const ConnectToInjected = async () => {
   let provider = null;
   if (typeof window.ethereum !== "undefined") {
     provider = window.ethereum;

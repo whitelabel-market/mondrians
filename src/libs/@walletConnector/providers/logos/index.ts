@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 // @ts-ignore
 import MetaMaskLogo from "./metamask.svg";
 // @ts-ignore

@@ -1,11 +1,7 @@
-import {
-  ProviderType,
-  type IProvider,
-  type ConnectorOptions,
-} from "../../types";
+import { ProviderType, type IProvider } from "../../types";
 import { BinanceChainWalletLogo } from "../logos/";
 
-const ConnectToBinanceChainWallet = async (options?: ConnectorOptions) => {
+const ConnectToBinanceChainWallet = async () => {
   let provider = null;
   if (typeof window.BinanceChain !== "undefined") {
     provider = window.BinanceChain;

@@ -1,13 +1,9 @@
 // @ts-ignore
 import ethProvider from "eth-provider";
-import {
-  ProviderType,
-  type IProvider,
-  type ConnectorOptions,
-} from "../../types";
+import { ProviderType, type IProvider } from "../../types";
 import { FrameLogo } from "../logos";
 
-const ConnectToFrame = async (options: ConnectorOptions) => {
+const ConnectToFrame = async () => {
   return ethProvider("frame");
 };
 
