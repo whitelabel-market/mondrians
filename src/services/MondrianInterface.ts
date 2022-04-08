@@ -21,6 +21,7 @@ export default class MondrianInterface {
         signer
       );
       const signedContract = contract.connect(signer);
+      console.log(signedContract);
 
       const tx = await signedContract.whitelistMint(
         address,
@@ -32,6 +33,7 @@ export default class MondrianInterface {
       );
       await tx.wait();
     } catch (e: any) {
+      console.log(e);
       throw new Error(e.toString());
     }
   }
