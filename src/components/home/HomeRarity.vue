@@ -7,7 +7,7 @@
         <div class="font-bold text-4xl relative mdx:ml-[0.313rem] z-10">
           Rarity
           <span
-            class="text-blue text-[2.5rem] font-normal tracking-[0.13em] font-serif absolute -left-4 top-0 -z-10"
+            class="text-blueish text-[2.5rem] font-normal tracking-[0.13em] font-serif absolute -left-4 top-0 -z-10"
             >Rarity</span
           >
         </div>

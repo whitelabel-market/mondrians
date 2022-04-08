@@ -25,7 +25,7 @@
             leave-to="opacity-0 scale-95"
           >
             <div
-              class="relative flex flex-col items-stretch w-full max-w-lg max-h-full py-4 space-y-4 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
+              class="relative flex flex-col items-stretch max-h-full py-4 space-y-4 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
             >
               <slot />
             </div>

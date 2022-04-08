@@ -26,7 +26,7 @@
         </p>
         <div class="bg-white md:p-5 p-[1.125rem] md:mt-8 mt-[2.313rem]">
           <h6 class="text-lg font-bold">
-            <span class="text-blue md:text-sm">1.</span> Launch
+            <span class="text-blueish md:text-sm">1.</span> Launch
           </h6>
           <p class="text-sm mt-1.5 opacity-50">
             Lorem ipsum dolor sit amet, consetetur adipiscing elit, sed do
@@ -35,7 +35,7 @@
         </div>
         <div class="bg-white md:p-5 p-[1.125rem] mt-5">
           <h6 class="text-lg font-bold">
-            <span class="text-blue md:text-sm">2.</span> Community Giveaway
+            <span class="text-blueish md:text-sm">2.</span> Community Giveaway
           </h6>
           <p class="text-sm mt-1.5 opacity-50">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -45,7 +45,7 @@
         </div>
         <div class="bg-white md:p-5 p-[1.125rem] mt-5">
           <h6 class="text-lg font-bold">
-            <span class="text-blue md:text-sm">3.</span> Merchandise Drop
+            <span class="text-blueish md:text-sm">3.</span> Merchandise Drop
           </h6>
           <p class="text-sm mt-1.5 opacity-50">
             Lorem ipsum dolor sit amet, consetetur adipiscing elit, sed do
@@ -54,7 +54,7 @@
         </div>
         <div class="bg-white md:p-5 p-[1.125rem] mt-5">
           <h6 class="text-lg font-bold">
-            <span class="text-blue md:text-sm">4.</span> Collaboration
+            <span class="text-blueish md:text-sm">4.</span> Collaboration
           </h6>
           <p class="text-sm mt-1.5 opacity-50">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -64,7 +64,7 @@
         </div>
         <div class="bg-white md:p-5 p-[1.125rem] mt-5">
           <h6 class="text-lg font-bold">
-            <span class="text-blue md:text-sm">5.</span> Future Drops
+            <span class="text-blueish md:text-sm">5.</span> Future Drops
           </h6>
           <p class="text-sm mt-1.5 opacity-50">
             Lorem ipsum dolor sit amet, consetetur adipiscing elit, sed do

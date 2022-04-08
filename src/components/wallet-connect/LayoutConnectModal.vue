@@ -73,6 +73,7 @@ export default defineComponent({
 
     const connectTo = async (provider: IProvider) => {
       await wallet.connect(provider);
+      console.log(wallet.signer);
       emit("update:modelValue", false);
     };
 

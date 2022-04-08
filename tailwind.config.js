@@ -7,7 +7,7 @@ module.exports = {
       colors: {
         reddish: "#E40E16",
         yellowish: "#FCDA19",
-        blue: "#268AEE",
+        blueish: "#268AEE",
         dropdown: "#F1F8FF",
       },
       fontFamily: {
