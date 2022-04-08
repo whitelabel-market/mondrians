@@ -1,18 +1,18 @@
 import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "@/utils/constants";
 import magicMondrian from "@/utils/abis/MagicMondrian.json";
+import { useWalletStore } from "@/store/useWallet";
+import { toRaw } from "vue";
 
-class MondrianInterface {
-  private provider: ethers.providers.Web3Provider;
-
-  constructor(provider: ethers.providers.Web3Provider) {
-    this.provider = provider;
-  }
-
+export default class MondrianInterface {
   async whitelistMint(quantity: number, signature: string) {
+    const { provider } = useWalletStore();
     try {
-      const signer = this.provider.getSigner();
-      const address = await signer.getAddress();
+      if (!provider) {
+        throw new Error("Wallet not connected");
+      }
+      const signer = toRaw(provider).getSigner();
+      const address = await signer?.getAddress();
       const price = 0.0025;
 
       const contract = new ethers.Contract(
@@ -37,8 +37,13 @@ class MondrianInterface {
   }
 
   async publicMint(quantity: number) {
+    const { provider } = useWalletStore();
+
     try {
-      const signer = this.provider.getSigner();
+      if (!provider) {
+        throw new Error("Connect wallet");
+      }
+      const signer = toRaw(provider).getSigner();
       const address = await signer.getAddress();
       const price = 0.005;
 
@@ -58,5 +63,3 @@ class MondrianInterface {
     }
   }
 }
-
-export default MondrianInterface;

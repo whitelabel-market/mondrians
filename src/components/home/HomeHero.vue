@@ -115,11 +115,9 @@
 </template>
 
 <script lang="ts">
-import MondrianInterface from "@/services/MondrianInterface";
-import { useWalletStore } from "@/store/useWallet";
 import MintModal from "@/components/mint/MintModal.vue";
-
 import { defineComponent, ref } from "vue";
+import { mondrianInterface } from "@/services";
 
 export default defineComponent({
   components: {
@@ -127,10 +125,8 @@ export default defineComponent({
   },
   setup() {
     const modelValue = ref(false);
-    const wallet = useWalletStore();
 
     const mint = async () => {
-      const mondrianInterface = new MondrianInterface(wallet.provider);
       await mondrianInterface.whitelistMint(
         1,
         "0x0857e07a95ef5d4ed6184bd467bb5e8ee4eaa93e1b6409400885698853505ef16c8c20256ef0ed593e77cc9d4479bbc14cd46c526c74066b6083f5a8e3ddfb681c"
