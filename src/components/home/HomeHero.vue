@@ -127,9 +127,9 @@ export default defineComponent({
   },
   setup() {
     const modelValue = ref(false);
-    const wallet = useWalletStore();
 
     const mint = async () => {
+      const wallet = useWalletStore();
       const mondrianInterface = new MondrianInterface(wallet.provider);
       await mondrianInterface.whitelistMint(
         1,
