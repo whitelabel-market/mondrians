@@ -23,6 +23,7 @@ const ConnectToInjected = async () => {
 const WALLETS = [
   {
     name: "MetaMask",
+    id: "metamask",
     logo: MetaMaskLogo,
   },
   /*
@@ -102,6 +103,7 @@ const WALLETS = [
 ];
 
 export default WALLETS.map((w) => ({
+  id: w.id,
   name: w.name,
   logo: w.logo,
   type: ProviderType.INJECTED,

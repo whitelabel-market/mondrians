@@ -3,40 +3,48 @@
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
   >
-    <div class="space-y-4">
-      <div class="p-4">
-        <h3 class="text-xl font-bold text-center">
-          Please Connect your Wallet
-        </h3>
-      </div>
-
-      <ul class="flex flex-col p-4 space-y-4">
-        <li
-          v-for="(p, i) of providers.slice(
-            0,
-            providersCollapsed ? providers.length : 3
-          )"
-          :key="i"
-          class="flex justify-center w-full"
-        >
-          <button
-            class="inline-block px-8 py-2 mx-auto text-lg font-semibold text-center bg-yellowish rounded-xl"
-            @click.prevent="connectTo(p)"
+    <div
+      class="inline-block max-w-md overflow-hidden text-left align-bottom transform"
+    >
+      <div v-if="!loading" class="flex flex-col w-full space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="text-base font-bold leading-5">Select a wallet</div>
+          <XIcon
+            role="button"
+            class="w-5 h-5 cursor-pointer"
+            @click.prevent="$emit('update:modelValue', false)"
+          />
+        </div>
+        <ul class="grid grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">
+          <li
+            v-for="(p, i) of providers.slice(
+              0,
+              providersCollapsed ? providers.length : 4
+            )"
+            :key="i"
           >
-            {{ p.name }}
-          </button>
-        </li>
-        <li class="flex justify-center w-full">
+            <AppButton
+              :size="'md'"
+              class="flex items-center justify-between px-3 space-x-4"
+              @click.prevent="connectTo(p)"
+            >
+              <span>{{ p.name }}</span>
+              <img :src="p.logo" class="w-6 h-6" />
+            </AppButton>
+          </li>
+        </ul>
+        <div class="flex items-center justify-center w-full">
           <button
-            class="px-8 py-2 text-lg text-center"
+            class="text-xs font-medium leading-4 text-gray-500 text-secondary hover:text-gray-900 rounded-xl"
             @click.prevent="providersCollapsed = !providersCollapsed"
           >
             {{
               providersCollapsed ? "Show fewer options" : "Show more options"
             }}
           </button>
-        </li>
-      </ul>
+        </div>
+      </div>
+      <LoadingWallet v-else />
     </div>
   </AppModal>
 </template>
@@ -45,12 +53,17 @@
 import { defineComponent, ref } from "vue";
 import AppModal from "@/components/app/AppModal.vue";
 import Connector from "@/libs/@walletConnector";
-import { useWalletStore } from "@/store/useWallet";
-import type { IProvider } from "@/libs/@walletConnector/types";
+import { XIcon } from "@heroicons/vue/solid";
+import AppButton from "@/components/app/AppButton.vue";
+import LoadingWallet from "@/components/wallet-connect/LoadingWallet.vue";
+import { useWallet } from "@/composables/useWallet";
 
 export default defineComponent({
   components: {
     AppModal,
+    AppButton,
+    XIcon,
+    LoadingWallet,
   },
   props: {
     modelValue: {
@@ -60,7 +73,8 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(_, { emit }) {
-    const wallet = useWalletStore();
+    const { connect } = useWallet();
+    const loading = ref(false);
 
     const providers = Connector.init({
       appName: "Mondrians",
@@ -71,12 +85,12 @@ export default defineComponent({
 
     const providersCollapsed = ref(false);
 
-    const connectTo = async (provider: IProvider) => {
-      await wallet.connect(provider);
+    const connectTo = async (provider: any) => {
+      connect(provider.id);
       emit("update:modelValue", false);
     };
 
-    return { connectTo, providersCollapsed, providers, wallet };
+    return { connectTo, loading, providersCollapsed, providers };
   },
 });
 </script>

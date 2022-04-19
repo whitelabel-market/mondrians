@@ -1,5 +1,5 @@
 <template>
-  <section class="py-8 overflow-hidden md:py-32">
+  <section id="Gallery" class="py-8 overflow-hidden md:py-32">
     <div class="max-w-[90.625rem] mx-auto mdx:hidden">
       <div class="md:flex relative left-[-5.813rem] mb-6">
         <div

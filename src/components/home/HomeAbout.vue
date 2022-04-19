@@ -5,7 +5,7 @@
   >
     <div class="md:flex items-center max-w-[54.875rem] mx-auto">
       <div class="text-white md:max-w-[390px] md:mr-24">
-        <div class="relative text-4xl font-bold">
+        <div class="relative text-4xl font-bold gs_reveal">
           What are the<br />
           <span class="relative z-10 italic">
             Mondrian`s
@@ -15,7 +15,7 @@
             >
           </span>
         </div>
-        <p class="mt-4 text-sm font-medium md:text-base md:mt-6">
+        <p class="mt-4 text-sm font-medium gs_reveal md:text-base md:mt-6">
           Mondirans is a drop of custom digital paintings, created by
           <span class="italic text-yellowish">PIET MONDRIAN</span>, aiming to
           express culture, uniqueness and creativity. Through size, shape and
@@ -23,7 +23,7 @@
           having a sense of uniqueness.
         </p>
         <div
-          class="font-semibold bg-yellowish text-center md:py-1.5 pt-[0.813rem] pb-3 w-[10.5rem] text-sm rounded-lg md:mt-14 mdx:my-8 text-black cursor-pointer"
+          class="gs_reveal font-semibold bg-yellowish text-center md:py-1.5 pt-[0.813rem] pb-3 w-[10.5rem] text-sm rounded-lg md:mt-14 mdx:my-8 text-black cursor-pointer"
         >
           Get Yours Now
         </div>
@@ -31,9 +31,19 @@
       <img
         src="../../assets/images/image-2.png"
         alt=""
-        class="mdx:mx-auto"
+        class="gs_reveal gs_reveal_fromRight mdx:mx-auto"
         width="415px"
       />
     </div>
   </section>
 </template>
+
+<script lang="ts">
+import useTransition from "@/composables/useTransition";
+import { defineComponent } from "vue";
+export default defineComponent({
+  setup() {
+    useTransition();
+  },
+});
+</script>

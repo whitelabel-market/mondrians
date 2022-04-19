@@ -1,73 +1,213 @@
 <template>
   <AppModal
     :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    @update:modelValue="
+      $emit('update:modelValue', $event);
+      reset();
+    "
   >
-    <div class="px-8 py-4 space-y-4">
-      <h3 class="text-2xl font-bold text-left">Follow Steps</h3>
-      <ul class="pb-2 space-y-6">
-        <li class="flex items-center pt-2 space-x-8">
-          <div class="flex items-center justify-center w-10 h-10">
-            <AppLoadingSpinner :size="8" :color="'text-blue-600'" />
-          </div>
-          <div class="flex flex-col">
-            <span class="text-lg font-semibold text-left"> Authenticate </span>
-            <span class="text-sm text-left rounded-xl">
-              Check if address is eligible for whitelist sale.
-            </span>
-          </div>
-        </li>
-        <li class="flex items-center space-x-8">
-          <CheckIcon
-            class="w-10 h-10 text-gray-400 transform translate-x-0.5"
-          />
-          <div class="flex flex-col">
-            <span class="text-lg font-semibold text-left"> Voucher </span>
-            <span class="text-sm text-left rounded-xl">
-              Receive voucher for current address to mint.
-            </span>
-          </div>
-        </li>
-        <li class="flex items-center space-x-8">
-          <CheckIcon
-            class="w-10 h-10 text-gray-400 transform translate-x-0.5"
-          />
-          <div class="flex flex-col">
-            <span class="text-lg font-semibold text-left"> Mint </span>
-            <span class="text-sm text-left rounded-xl">
-              Send transaction to mint your Mondrian.
-            </span>
-          </div>
-        </li>
-      </ul>
-      <button
-        class="w-full py-2 text-lg font-semibold text-center bg-yellowish rounded-xl"
-        @click.prevent="$emit('update:modelValue', false)"
-      >
-        Cancel
-      </button>
-    </div>
+    <MintProgress
+      v-if="!tokens.length"
+      :phase="phase"
+      :steps="steps"
+      @update:modelValue="
+        $emit('update:modelValue', $event);
+        reset();
+      "
+    />
+    <MintSuccess
+      v-else
+      :tokens="tokens"
+      @update:modelValue="
+        $emit('update:modelValue', $event);
+        reset();
+      "
+    />
   </AppModal>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive, ref, toRaw, watch } from "vue";
+import MintProgress from "@/components/mint/MintProgress.vue";
+import MintSuccess from "@/components/mint/MintSuccess.vue";
 import AppModal from "@/components/app/AppModal.vue";
-import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
-import { CheckIcon } from "@heroicons/vue/outline";
+import { createAuthInterface } from "@/services/AuthInterface";
+import { useWallet } from "@/composables/useWallet";
+import MondrianInterface from "@/services/MondrianInterface";
+import { getTokensFromBlock } from "@/services/graphql/types";
+import { useQuery, useResult } from "@vue/apollo-composable";
+import { Phase } from "@/composables/useContract";
+
+enum Status {
+  SCHEDULED = "scheduled",
+  PENDING = "pending",
+  SUCCESS = "success",
+  ERROR = "error",
+}
+
+type Step = {
+  name: string;
+  description: string;
+  status: Status;
+};
+
+type MintSteps = {
+  WhitelistSale: Array<Step>;
+  PublicSale: Array<Step>;
+};
 
 export default defineComponent({
   components: {
     AppModal,
-    AppLoadingSpinner,
-    CheckIcon,
+    MintSuccess,
+    MintProgress,
   },
   props: {
     modelValue: {
       type: Boolean,
       required: true,
     },
+    price: {
+      type: String,
+      required: true,
+    },
+    phase: {
+      type: String,
+      required: true,
+    },
   },
   emits: ["update:modelValue"],
+  setup(props) {
+    const { address, provider, signMessage } = useWallet();
+    const enabled = ref(false);
+    const tokens: any = ref([]);
+    const block = ref(0);
+
+    const steps: MintSteps = reactive({
+      WhitelistSale: [
+        {
+          name: "Authenticate",
+          description: "Authenticate with address for Whitelist Sale",
+          status: Status.SCHEDULED,
+        },
+        {
+          name: "Voucher",
+          description: "Check if address is eligible for Whitelist Sale",
+          status: Status.SCHEDULED,
+        },
+        {
+          name: "Mint",
+          description: "Create your Magic Mondrian tokens",
+          status: Status.SCHEDULED,
+        },
+        {
+          name: "Load",
+          description: "Load your tokens",
+          status: Status.SCHEDULED,
+        },
+      ],
+      PublicSale: [
+        {
+          name: "Mint",
+          description: "Create your Magic Mondrian tokens",
+          status: Status.SCHEDULED,
+        },
+        {
+          name: "Load",
+          description: "Load your tokens",
+          status: Status.SCHEDULED,
+        },
+      ],
+    });
+
+    const { result, refetch } = useQuery(
+      getTokensFromBlock,
+      () => ({
+        address: address.value,
+        block: block.value,
+      }),
+      () => ({
+        enabled: enabled.value,
+        fetchPolicy: "cache-and-network",
+      })
+    );
+
+    const response = useResult(result, null, (data) => data.tokens);
+
+    watch(response, () => {
+      if (response.value.length > 0) {
+        tokens.value = response.value;
+        steps[props.phase as keyof MintSteps][
+          props.phase === Phase[1] ? 3 : 1
+        ].status = Status.SUCCESS;
+      } else {
+        setTimeout(() => refetch(), 5000);
+      }
+    });
+
+    const reset = () => {
+      setTimeout(() => {
+        enabled.value = false;
+        block.value = 0;
+        steps[props.phase as keyof MintSteps].forEach(
+          (step) => (step.status = Status.SCHEDULED)
+        );
+        tokens.value = [];
+      }, 500);
+    };
+
+    const mint = async (quantity: number) => {
+      const phase = props.phase;
+      const mondrianInterface = provider.value
+        ? new MondrianInterface(toRaw(provider.value))
+        : null;
+      if (mondrianInterface) {
+        const authInterface = createAuthInterface(address.value);
+
+        try {
+          // Whitelist Sale
+          if (Object.keys(steps).indexOf(phase) === 0) {
+            steps[phase as keyof MintSteps][0].status = Status.PENDING;
+            // Auth
+            const message = await authInterface.login();
+            const signature = await signMessage(message);
+            await authInterface.callback(signature);
+            steps[phase as keyof MintSteps][0].status = Status.SUCCESS;
+            steps[phase as keyof MintSteps][1].status = Status.PENDING;
+            // Voucher
+            const voucher = await authInterface.getVoucher();
+            steps[phase as keyof MintSteps][1].status = Status.SUCCESS;
+            steps[phase as keyof MintSteps][2].status = Status.PENDING;
+            // Whitelist Mint
+            const tx = await mondrianInterface.mint(
+              quantity,
+              props.price,
+              voucher
+            );
+            steps[phase as keyof MintSteps][2].status = Status.SUCCESS;
+            steps[phase as keyof MintSteps][3].status = Status.PENDING;
+            // Load from indexer
+            block.value = tx.blockNumber;
+            enabled.value = true;
+            refetch();
+          } else {
+            // Public Sale
+            steps[phase as keyof MintSteps][0].status = Status.PENDING;
+            const tx = await mondrianInterface.mint(quantity, props.price);
+            steps[phase as keyof MintSteps][0].status = Status.SUCCESS;
+            steps[phase as keyof MintSteps][1].status = Status.PENDING;
+            // Load from indexer
+            block.value = tx.blockNumber;
+            enabled.value = true;
+            refetch();
+          }
+        } catch (e: any) {
+          throw new Error(e.toString());
+        }
+      }
+    };
+
+    return { mint, reset, steps, tokens };
+  },
 });
 </script>

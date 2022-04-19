@@ -1,83 +1,61 @@
 <template>
-  <section class="md:mt-28 mt-[4.25rem] md:mb-36 mb-20 mdx:px-4">
+  <section id="Faq" class="md:mt-28 mt-[4.25rem] md:mb-36 mb-20 mdx:px-4">
     <h1
-      class="font-bold md:text-4xl text-[1.875rem] md:leading-6 leading-[2.063rem] text-center"
+      class="gs_reveal font-bold md:text-4xl text-[1.875rem] md:leading-6 leading-[2.063rem] text-center"
     >
       Frequently Asked Questions
     </h1>
-    <div class="max-w-2xl font-bold text-lg mx-auto md:mt-12 mt-[4.25rem]">
-      <div
-        class="flex items-center md:pb-5 md:pt-6 px-6 bg-dropdown cursor-pointer md:text-base text-[0.938rem] mdx:leading-[1.375rem] rounded-[0.313rem] py-[1.125rem]"
+    <div class="md:mt-12 mt-[4.25rem]">
+      <Disclosure
+        as="div"
+        v-for="(question, index) in questions"
+        :key="index"
+        class="max-w-2xl mx-auto mt-2 gs_reveal"
+        v-slot="{ open }"
       >
-        When is the mint date?
-        <svg
-          width="16"
-          height="9"
-          viewBox="0 0 16 9"
-          class="ml-auto"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        <DisclosureButton
+          class="text-lg font-bold w-full flex items-center justify-between md:pb-5 md:pt-6 px-6 bg-dropdown cursor-pointer md:text-base text-[0.938rem] mdx:leading-[1.375rem] rounded-[0.313rem] py-[1.125rem]"
         >
-          <path
-            d="M7.29289 8.70711C7.68342 9.09763 8.31658 9.09763 8.70711 8.70711L15.0711 2.34315C15.4616 1.95262 15.4616 1.31946 15.0711 0.928932C14.6805 0.538408 14.0474 0.538408 13.6569 0.928932L8 6.58579L2.34315 0.928932C1.95262 0.538408 1.31946 0.538408 0.928932 0.928932C0.538408 1.31946 0.538408 1.95262 0.928932 2.34315L7.29289 8.70711ZM7 7V8H9V7H7Z"
-            fill="#97C7FF"
+          <span>{{ question }}</span>
+          <ChevronDownIcon
+            class="w-6 h-6 transition duration-150 ease-in-out"
+            :class="open ? 'transform rotate-180' : ''"
           />
-        </svg>
-      </div>
-      <div
-        class="flex items-center md:pb-5 md:pt-6 px-6 bg-dropdown mt-2 cursor-pointer md:text-base text-[0.938rem] mdx:leading-[1.375rem] rounded-[0.313rem] py-[1.125rem]"
-      >
-        What’s an NFT?
-        <svg
-          width="16"
-          height="9"
-          viewBox="0 0 16 9"
-          class="ml-auto"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        </DisclosureButton>
+        <DisclosurePanel
+          class="text-sm w-full flex items-center justify-between px-6 cursor-pointer md:text-base text-[0.938rem] mdx:leading-[1.375rem] rounded-[0.313rem] py-[1.125rem]"
         >
-          <path
-            d="M7.29289 8.70711C7.68342 9.09763 8.31658 9.09763 8.70711 8.70711L15.0711 2.34315C15.4616 1.95262 15.4616 1.31946 15.0711 0.928932C14.6805 0.538408 14.0474 0.538408 13.6569 0.928932L8 6.58579L2.34315 0.928932C1.95262 0.538408 1.31946 0.538408 0.928932 0.928932C0.538408 1.31946 0.538408 1.95262 0.928932 2.34315L7.29289 8.70711ZM7 7V8H9V7H7Z"
-            fill="#97C7FF"
-          />
-        </svg>
-      </div>
-      <div
-        class="flex items-center md:pb-5 md:pt-6 px-6 bg-dropdown mt-2 cursor-pointer md:text-base text-[0.938rem] mdx:leading-[1.375rem] rounded-[0.313rem] py-[1.125rem]"
-      >
-        Why Mondiran’s?
-        <svg
-          width="16"
-          height="9"
-          viewBox="0 0 16 9"
-          class="ml-auto"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M7.29289 8.70711C7.68342 9.09763 8.31658 9.09763 8.70711 8.70711L15.0711 2.34315C15.4616 1.95262 15.4616 1.31946 15.0711 0.928932C14.6805 0.538408 14.0474 0.538408 13.6569 0.928932L8 6.58579L2.34315 0.928932C1.95262 0.538408 1.31946 0.538408 0.928932 0.928932C0.538408 1.31946 0.538408 1.95262 0.928932 2.34315L7.29289 8.70711ZM7 7V8H9V7H7Z"
-            fill="#97C7FF"
-          />
-        </svg>
-      </div>
-      <div
-        class="flex items-center md:pb-5 md:pt-6 px-6 bg-dropdown mt-2 cursor-pointer md:text-base text-[0.938rem] mdx:leading-[1.375rem] rounded-[0.313rem] py-[1.125rem]"
-      >
-        What exactly will I get?
-        <svg
-          width="16"
-          height="9"
-          viewBox="0 0 16 9"
-          class="ml-auto"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M7.29289 8.70711C7.68342 9.09763 8.31658 9.09763 8.70711 8.70711L15.0711 2.34315C15.4616 1.95262 15.4616 1.31946 15.0711 0.928932C14.6805 0.538408 14.0474 0.538408 13.6569 0.928932L8 6.58579L2.34315 0.928932C1.95262 0.538408 1.31946 0.538408 0.928932 0.928932C0.538408 1.31946 0.538408 1.95262 0.928932 2.34315L7.29289 8.70711ZM7 7V8H9V7H7Z"
-            fill="#97C7FF"
-          />
-        </svg>
-      </div>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          ciusmod tempor incididunt ut labore et dolore magna aliqua.
+        </DisclosurePanel>
+      </Disclosure>
     </div>
   </section>
 </template>
+
+<script lang="ts">
+import useTransition from "@/composables/useTransition";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import { ChevronDownIcon } from "@heroicons/vue/solid";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  components: {
+    Disclosure,
+    DisclosureButton,
+    ChevronDownIcon,
+    DisclosurePanel,
+  },
+  setup() {
+    useTransition();
+    const questions = [
+      "When is the mint date?",
+      "What’s an NFT?",
+      "Why Mondiran’s?",
+      "What exactly will I get?",
+    ];
+
+    return { questions };
+  },
+});
+</script>

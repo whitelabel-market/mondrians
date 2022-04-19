@@ -43,7 +43,13 @@
             </svg>
           </li>
           <li class="mt-[4.923rem]">
-            <a href="#About">ABOUT</a>
+            <div
+              @click.prevent="
+                gsap.to(window, { duration: 2, scrollTo: '#About' })
+              "
+            >
+              ABOUT
+            </div>
           </li>
           <li class="mt-[0.625rem]">
             <a href="#Roadmap">ROADMAP</a>
@@ -78,13 +84,13 @@
           </li>
         </ul>
       </div>
-      <ul class="flex items-center text-sm font-semibold mdx:hidden">
-        <li><a href="#About">About</a></li>
-        <li class="md:ml-5">
-          <a href="#Roadmap">Roadmap</a>
-        </li>
-        <li class="md:ml-5">
-          <a href="#Rarity">Rarity</a>
+      <ul
+        class="flex items-center text-sm font-semibold mdx:hidden md:space-x-5"
+      >
+        <li v-for="section in Object.values(Section)" :key="section">
+          <a :href="`#${section}`" @click.prevent="scrollTo(`#${section}`)">{{
+            section
+          }}</a>
         </li>
         <li class="md:ml-10">
           <a href="#"
@@ -104,10 +110,19 @@
         </li>
         <li class="md:ml-4">
           <button
+            class="flex items-center px-5 py-2 space-x-1 text-xs font-bold text-white rounded-lg cursor-pointer slashed-zero bg-reddish"
+            @click.prevent="showConnectModal = true"
+            v-if="privateAddress"
+          >
+            <UserCircleIcon class="w-5 h-5" />
+            <span>{{ privateAddress }}</span>
+          </button>
+          <button
             class="px-5 py-2 text-white rounded-lg cursor-pointer bg-reddish"
             @click.prevent="showConnectModal = true"
+            v-else
           >
-            {{ wallet.connected ? "Disconnect Wallet" : "Connect Wallet" }}
+            Connect Wallet
           </button>
         </li>
       </ul>
@@ -120,16 +135,45 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import LayoutConnectModal from "@/components/wallet-connect/LayoutConnectModal.vue";
-import { useWalletStore } from "@/store/useWallet";
+import { useWallet } from "@/composables/useWallet";
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { UserCircleIcon } from "@heroicons/vue/outline";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 export default defineComponent({
   components: {
     LayoutConnectModal,
+    UserCircleIcon,
   },
   setup() {
-    const wallet = useWalletStore();
+    const { privateAddress } = useWallet();
     const showConnectModal = ref(false);
-    return { showConnectModal, wallet };
+
+    enum Section {
+      About = "About",
+      Gallery = "Gallery",
+      Roadmap = "Roadmap",
+      Rarity = "Rarity",
+      Creator = "Creator",
+      Faq = "Faq",
+    }
+
+    const scrollTo = (el: string) => {
+      gsap.to(window, {
+        scrollTo: el,
+        duration:
+          0.5 +
+          Object.values(Section)
+            .map((section) => section.toLowerCase())
+            .indexOf(el.slice(1).toLowerCase()) *
+            0.2,
+      });
+      history.pushState({}, document.title, `/${el}`);
+    };
+
+    return { showConnectModal, privateAddress, scrollTo, Section };
   },
 });
 </script>

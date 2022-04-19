@@ -1,5 +1,8 @@
 <template>
-  <section class="bg-[rgba(228,14,22,0.4)] md:py-28 py-16 mdx:px-[1.563rem]">
+  <section
+    id="Creator"
+    class="bg-[rgba(228,14,22,0.4)] md:py-28 py-16 mdx:px-[1.563rem]"
+  >
     <div
       class="flex mdx:flex-col-reverse items-center max-w-[56.938rem] mx-auto"
     >
@@ -7,17 +10,17 @@
         src="../../assets/images/image-5.png"
         alt=""
         width="416px"
-        class="mdx:mt-[2.75rem]"
+        class="gs_reveal gs_reveal_fromLeft mdx:mt-[2.75rem]"
       />
       <div class="text-white md:ml-32 md:w-96 px-[0.625rem]">
-        <div class="relative z-10 text-4xl font-bold">
+        <div class="relative z-10 text-4xl font-bold gs_reveal">
           Creator
           <span
             class="text-[#E40E16] text-[2.5rem] font-normal tracking-[0.16em] font-serif absolute -left-2 top-0 -z-10"
             >Creator</span
           >
         </div>
-        <p class="mt-3 text-base leading-6">
+        <p class="mt-3 text-base leading-6 gs_reveal">
           I’m Piet Mondrian, a full time painter and art theoretician who is
           regarded as one of the greatest artists of the 20th century. I have
           more than 100 years of experience in experimenting with art.<br /><span
@@ -29,7 +32,7 @@
           <span class="text-yellowish">Discord.</span>
         </p>
         <div
-          class="font-semibold bg-yellowish text-center md:py-1.5 pt-[0.813rem] pb-3 w-[10.5rem] text-sm rounded-lg mt-8 text-black cursor-pointer"
+          class="gs_reveal font-semibold bg-yellowish text-center md:py-1.5 pt-[0.813rem] pb-3 w-[10.5rem] text-sm rounded-lg mt-8 text-black cursor-pointer"
         >
           Follow on Twitter
         </div>
@@ -37,3 +40,13 @@
     </div>
   </section>
 </template>
+
+<script lang="ts">
+import useTransition from "@/composables/useTransition";
+import { defineComponent } from "vue";
+export default defineComponent({
+  setup() {
+    useTransition();
+  },
+});
+</script>

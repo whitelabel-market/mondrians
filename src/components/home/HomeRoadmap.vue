@@ -10,21 +10,25 @@
         src="../../assets/images/image-3.png"
         alt=""
         width="410px"
-        class="mdx:mx-auto mdx:mt-[2.188rem] mdx:px-[1.125rem]"
+        class="gs_reveal gs_reveal_fromLeft mdx:mx-auto mdx:mt-[2.188rem] mdx:px-[1.125rem]"
       />
       <div class="md:ml-24 md:mt-16">
-        <div class="relative z-10 text-4xl font-bold mdx:ml-4">
+        <div class="relative z-10 text-4xl font-bold gs_reveal mdx:ml-4">
           Roadmap
           <span
             class="text-[#AC0C11] text-[2.5rem] font-normal tracking-[0.25em] font-serif absolute -left-4 top-0 -z-10"
             >Roadmap</span
           >
         </div>
-        <p class="md:text-base text-sm mdx:ml-4 md:mt-6 mt-[0.813rem]">
+        <p
+          class="gs_reveal md:text-base text-sm mdx:ml-4 md:mt-6 mt-[0.813rem]"
+        >
           This roadmap outlines our goals and where we want to take Mondrian’s.
           We have a lot of idead and concepts that we are working on.
         </p>
-        <div class="bg-white md:p-5 p-[1.125rem] md:mt-8 mt-[2.313rem]">
+        <div
+          class="gs_reveal bg-white md:p-5 p-[1.125rem] md:mt-8 mt-[2.313rem]"
+        >
           <h6 class="text-lg font-bold">
             <span class="text-blueish md:text-sm">1.</span> Launch
           </h6>
@@ -33,7 +37,7 @@
             ciusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
-        <div class="bg-white md:p-5 p-[1.125rem] mt-5">
+        <div class="gs_reveal bg-white md:p-5 p-[1.125rem] mt-5">
           <h6 class="text-lg font-bold">
             <span class="text-blueish md:text-sm">2.</span> Community Giveaway
           </h6>
@@ -43,7 +47,7 @@
             adipiscing elit, sed do ciusmod tempor incididunt ut
           </p>
         </div>
-        <div class="bg-white md:p-5 p-[1.125rem] mt-5">
+        <div class="gs_reveal bg-white md:p-5 p-[1.125rem] mt-5">
           <h6 class="text-lg font-bold">
             <span class="text-blueish md:text-sm">3.</span> Merchandise Drop
           </h6>
@@ -52,7 +56,7 @@
             ciusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
-        <div class="bg-white md:p-5 p-[1.125rem] mt-5">
+        <div class="gs_reveal bg-white md:p-5 p-[1.125rem] mt-5">
           <h6 class="text-lg font-bold">
             <span class="text-blueish md:text-sm">4.</span> Collaboration
           </h6>
@@ -62,7 +66,7 @@
             adipiscing elit, sed do ciusmod tempor incididunt ut
           </p>
         </div>
-        <div class="bg-white md:p-5 p-[1.125rem] mt-5">
+        <div class="gs_reveal bg-white md:p-5 p-[1.125rem] mt-5">
           <h6 class="text-lg font-bold">
             <span class="text-blueish md:text-sm">5.</span> Future Drops
           </h6>
@@ -75,3 +79,13 @@
     </div>
   </section>
 </template>
+
+<script lang="ts">
+import useTransition from "@/composables/useTransition";
+import { defineComponent } from "vue";
+export default defineComponent({
+  setup() {
+    useTransition();
+  },
+});
+</script>

@@ -1,66 +1,112 @@
 import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "@/utils/constants";
 import magicMondrian from "@/utils/abis/MagicMondrian.json";
-import { useWalletStore } from "@/store/useWallet";
-import { toRaw } from "vue";
 
 export default class MondrianInterface {
-  async whitelistMint(quantity: number, signature: string) {
-    const { provider } = useWalletStore();
+  private contract: ethers.Contract;
+  private signer: ethers.Signer;
+
+  constructor(provider: ethers.providers.Web3Provider) {
+    this.signer = provider.getSigner();
+    this.contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      magicMondrian.abi,
+      provider
+    );
+  }
+
+  /**
+   * Mint new tokens
+   * @param quantity Amount of tokens to be minted
+   * @param price Price of a token
+   * @param signature Voucher to authorize mint in case of Whitelist Sale
+   */
+  async mint(quantity: number, price: string, signature?: string) {
     try {
-      if (!provider) {
+      if (!this.signer) {
         throw new Error("Wallet not connected");
       }
-      const signer = toRaw(provider).getSigner();
-      const address = await signer?.getAddress();
-      const price = 0.0025;
+      const address = await this.signer.getAddress();
+      const signedContract = this.contract.connect(this.signer);
 
-      const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
-        magicMondrian.abi,
-        signer
-      );
-      const signedContract = contract.connect(signer);
-      console.log(signedContract);
-
-      const tx = await signedContract.whitelistMint(
-        address,
-        quantity,
-        signature,
-        {
-          value: ethers.utils.parseEther(price.toString()).mul(quantity),
-        }
-      );
-      await tx.wait();
+      if (signature) {
+        return await this.whitelistMint(
+          address,
+          signedContract,
+          quantity,
+          price,
+          signature
+        );
+      }
+      return await this.publicMint(address, signedContract, quantity, price);
     } catch (e: any) {
-      console.log(e);
+      console.error(e.toString());
       throw new Error(e.toString());
     }
   }
 
-  async publicMint(quantity: number) {
-    const { provider } = useWalletStore();
-
+  // Internal mint function for Whitelist Sale
+  private async whitelistMint(
+    address: string,
+    contract: ethers.Contract,
+    quantity: number,
+    price: string,
+    signature: string
+  ) {
     try {
-      if (!provider) {
-        throw new Error("Connect wallet");
-      }
-      const signer = toRaw(provider).getSigner();
-      const address = await signer.getAddress();
-      const price = 0.005;
-
-      const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
-        magicMondrian.abi,
-        signer
-      );
-      const signedContract = contract.connect(signer);
-
-      const tx = await signedContract.publicMint(address, quantity, {
-        value: ethers.utils.parseEther(price.toString()).mul(quantity),
+      const tx = await contract.whitelistMint(address, quantity, signature, {
+        value: ethers.utils.parseEther(price).mul(quantity),
       });
-      await tx.wait();
+
+      return await tx.wait();
     } catch (e: any) {
+      console.error(e.toString());
+      throw new Error(e.toString());
+    }
+  }
+
+  // Internal mint function for Public Sale
+  private async publicMint(
+    address: string,
+    contract: ethers.Contract,
+    quantity: number,
+    price: string
+  ) {
+    try {
+      const tx = await contract.publicSaleMint(address, quantity, {
+        value: ethers.utils.parseEther(price).mul(quantity),
+      });
+
+      return await tx.wait();
+    } catch (e: any) {
+      console.error(e.toString());
+      throw new Error(e.toString());
+    }
+  }
+
+  /**
+   * Get current total supply
+   */
+  public async getTotalSupply() {
+    try {
+      const totalSupply = await this.contract.totalSupply();
+      return parseInt(totalSupply);
+    } catch (e: any) {
+      console.error(e.toString());
+      throw new Error(e.toString());
+    }
+  }
+
+  /**
+   * Get token uri by token id
+   * @param id id of a token
+   */
+  public async getTokenUri(id: number) {
+    try {
+      const tokenUri = await this.contract.tokenURI(id);
+      return tokenUri;
+    } catch (e: any) {
+      console.error(e.toString());
       throw new Error(e.toString());
     }
   }

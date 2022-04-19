@@ -6,7 +6,7 @@
       <div class="max-w-[25rem] mdx:mx-auto">
         <div class="items-center mdx:flex">
           <h1
-            class="md:text-4xl text-[1.875rem] md:leading-[2.688rem] leading-[2.081rem] font-bold mdx:max-w-[166px]"
+            class="gs_reveal md:text-4xl text-[1.875rem] md:leading-[2.688rem] leading-[2.081rem] font-bold mdx:max-w-[166px]"
           >
             Get your Mondrian’s NFT now
           </h1>
@@ -21,14 +21,14 @@
             />
           </div>
         </div>
-        <p class="mt-4 text-sm md:text-base mdx:pr-6">
+        <p class="mt-4 text-sm gs_reveal md:text-base mdx:pr-6">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           ciusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
         <div
-          class="font-medium bg-[#1E70B9] text-center md:py-1.5 pt-[0.813rem] pb-3 rounded-lg mt-8 w-[10.5rem] text-sm text-white cursor-pointer"
+          class="gs_reveal font-medium bg-[#1E70B9] text-center md:py-1.5 pt-[0.813rem] pb-3 rounded-lg mt-8 w-[10.5rem] text-sm text-white cursor-pointer"
         >
-          View on WLM
+          View on Opensea
         </div>
       </div>
     </div>
@@ -39,3 +39,13 @@
     />
   </section>
 </template>
+
+<script lang="ts">
+import useTransition from "@/composables/useTransition";
+import { defineComponent } from "vue";
+export default defineComponent({
+  setup() {
+    useTransition();
+  },
+});
+</script>

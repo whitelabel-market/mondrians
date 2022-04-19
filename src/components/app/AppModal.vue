@@ -12,20 +12,22 @@
             leave-from="opacity-100"
             leave-to="opacity-0"
           >
-            <DialogOverlay class="fixed inset-0 bg-black opacity-30" />
+            <DialogOverlay
+              class="fixed inset-0 filter backdrop-blur-[5px] bg-[rgb(0,0,0,0.4)]"
+            />
           </TransitionChild>
 
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
-            enter-from="opacity-0 scale-95"
-            enter-to="opacity-100 scale-100"
+            enter-from="opacity-0 translate-y-12"
+            enter-to="opacity-100 translate-y-0"
             leave="duration-200 ease-in"
-            leave-from="opacity-100 scale-100"
-            leave-to="opacity-0 scale-95"
+            leave-from="opacity-100 translate-y-0"
+            leave-to="opacity-0 translate-y-12"
           >
             <div
-              class="relative flex flex-col items-stretch max-h-full py-4 space-y-4 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
+              class="relative flex flex-col items-stretch max-w-lg max-h-full p-6 space-y-4 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
             >
               <slot />
             </div>
