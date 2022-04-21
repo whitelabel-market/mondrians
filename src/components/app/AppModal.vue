@@ -30,6 +30,12 @@
               class="relative flex flex-col items-stretch max-w-lg max-h-full p-6 space-y-4 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
             >
               <slot />
+              <AppButton
+                :color="'secondary'"
+                :size="'sm'"
+                @click.prevent="$emit('update:modelValue', false)"
+                ><slot name="button">Close</slot></AppButton
+              >
             </div>
           </TransitionChild>
         </div>
@@ -46,6 +52,7 @@ import {
   Dialog,
   DialogOverlay,
 } from "@headlessui/vue";
+import AppButton from "@/components/app/AppButton.vue";
 
 export default defineComponent({
   components: {
@@ -53,6 +60,7 @@ export default defineComponent({
     TransitionChild,
     Dialog,
     DialogOverlay,
+    AppButton,
   },
   props: {
     modelValue: {

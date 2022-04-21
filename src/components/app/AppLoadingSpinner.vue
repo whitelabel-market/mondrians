@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { computed, defineComponent } from "vue";
 
 const SpinnerSize: () => { [key: string]: string } = () => {
   return {
@@ -34,7 +34,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const classes = reactive([
+    const classes = computed(() => [
       SpinnerColor[props.color],
       SpinnerSize()[props.size],
     ]);

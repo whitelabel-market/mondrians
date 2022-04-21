@@ -9,11 +9,6 @@
       <div v-if="!loading" class="flex flex-col w-full space-y-4">
         <div class="flex items-center justify-between">
           <div class="text-base font-bold leading-5">Select a wallet</div>
-          <XIcon
-            role="button"
-            class="w-5 h-5 cursor-pointer"
-            @click.prevent="$emit('update:modelValue', false)"
-          />
         </div>
         <ul class="grid grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2">
           <li
@@ -53,7 +48,6 @@
 import { defineComponent, ref } from "vue";
 import AppModal from "@/components/app/AppModal.vue";
 import Connector from "@/libs/@walletConnector";
-import { XIcon } from "@heroicons/vue/solid";
 import AppButton from "@/components/app/AppButton.vue";
 import LoadingWallet from "@/components/wallet-connect/LoadingWallet.vue";
 import { useWallet } from "@/composables/useWallet";
@@ -62,7 +56,6 @@ export default defineComponent({
   components: {
     AppModal,
     AppButton,
-    XIcon,
     LoadingWallet,
   },
   props: {
@@ -86,7 +79,7 @@ export default defineComponent({
     const providersCollapsed = ref(false);
 
     const connectTo = async (provider: any) => {
-      connect(provider.id);
+      await connect(provider.id);
       emit("update:modelValue", false);
     };
 

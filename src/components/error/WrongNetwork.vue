@@ -1,33 +1,32 @@
 <template>
-  <AppModal :modelValue="modelValue">
-    <div class="flex flex-col gap-4 w-80">
-      <AppLoadingSpinner :size="'md'" />
-      <h3 class="text-lg font-bold leading-5 text-center">Wrong network</h3>
-      <p class="text-sm text-center text-gray-700 fomt-medium">
-        Looks like you connected to an unsupported network. Change network to
-        Ropste.
-      </p>
-      <div class="flex flex-col gap-2">
-        <AppButton :size="'sm'" @click.prevent="changeNetwork()"
-          >Change network</AppButton
-        >
-        <AppButton
-          :color="'secondary'"
-          :size="'sm'"
-          @click.prevent="disconnect()"
-          >Logout</AppButton
-        >
-      </div>
-    </div>
+  <AppModal
+    :modelValue="modelValue"
+    class="flex flex-col gap-4"
+    @update:modelValue="
+      $emit('update:modelValue', $event);
+      disconnect();
+    "
+  >
+    <template v-slot:button>Logout</template>
+    <AppLoadingSpinner :size="'md'" />
+    <h3 class="text-lg font-bold leading-5 text-center">Wrong network</h3>
+    <p class="text-sm text-center text-gray-700 fomt-medium w-80">
+      Looks like you connected to an unsupported network. Change network to
+      {{ NETWORK_NAME[0].toUpperCase() + NETWORK_NAME.slice(1) }}.
+    </p>
+    <AppButton :size="'sm'" @click.prevent="changeNetwork()"
+      >Change network</AppButton
+    >
   </AppModal>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import AppModal from "@/components/app/AppModal.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { useWallet } from "@/composables/useWallet";
+import { NETWORK_NAME } from "@/utils/constants";
 
 export default defineComponent({
   components: {
@@ -81,7 +80,7 @@ export default defineComponent({
       }
     };
 
-    return { changeNetwork, disconnect };
+    return { changeNetwork, disconnect, NETWORK_NAME };
   },
 });
 </script>

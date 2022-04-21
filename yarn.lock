@@ -3199,6 +3199,16 @@ bytes@3.1.2:
   resolved "https://registry.npmmirror.com/bytes/-/bytes-3.1.2.tgz#8b0beeb98605adf1b128fa4386403c009e0221a5"
   integrity sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==
 
+caf@13.1.1:
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/caf/-/caf-13.1.1.tgz#c43061a11f01ca642a7b535d075026ce4f13456c"
+  integrity sha512-Xc9exUN5aEnEzjZX+njng7M5TLIJ0dq898cb5cjqOKn+bLGdEPIEXdtD4GWM8eiSO7/a9sIIGQS2AIzhvWD2Bw==
+
+caf@^15.0.0-preB:
+  version "15.0.0-preB"
+  resolved "https://registry.yarnpkg.com/caf/-/caf-15.0.0-preB.tgz#cc539782038c206100799019f576cf9ff00baeda"
+  integrity sha512-Zh+/WCRDn48VAMuc5CEE6mcPGp3XDQM8O3mhcbPB83v787RrY/98bSFi9Ic25e3HIEuNw+iUYVvfHmqDRpFZww==
+
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmmirror.com/call-bind/-/call-bind-1.0.2.tgz#b1d4e89e688119c3c9a903ad30abb2f6a919be3c"
@@ -9235,6 +9245,13 @@ vm-browserify@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
+
+vue-concurrency@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/vue-concurrency/-/vue-concurrency-2.3.0.tgz#8a0623bed6da9ad9f3fb2fa5edca35846420d860"
+  integrity sha512-7Tv+VqLgayeHHCgIARpCamm7DDQafTIjGkHfC6jMdAlfrsgQpPrWdTucBGjy/NsUA2XfWH0/SUXHb/BZNEva9Q==
+  dependencies:
+    caf "13.1.1"
 
 vue-demi@*, vue-demi@^0.12.1:
   version "0.12.5"
