@@ -12,29 +12,30 @@ export const MINT_TASKS: MintSteps = {
   WhitelistSale: [
     {
       name: "Authenticate",
-      description: "Authenticate with address for Whitelist Sale",
+      description: "Ensuring authenticity of your eth account address",
     },
     {
-      name: "Voucher",
-      description: "Check if address is eligible for Whitelist Sale",
+      name: "Get Voucher",
+      description:
+        "Check if your address is eligible for Whitelist Sale and receive voucher",
     },
     {
       name: "Mint",
-      description: "Create your Magic Mondrian tokens",
+      description: "Create your own Magic Mondrian NFT's",
     },
     {
-      name: "Load",
-      description: "Load your tokens",
+      name: "Load Token",
+      description: "Receiving your minted NFT's",
     },
   ],
   PublicSale: [
     {
       name: "Mint",
-      description: "Create your Magic Mondrian tokens",
+      description: "Create your own Magic Mondrian NFT's",
     },
     {
-      name: "Load",
-      description: "Load your tokens",
+      name: "Load Token",
+      description: "Receiving your minted NFT's",
     },
   ],
 };

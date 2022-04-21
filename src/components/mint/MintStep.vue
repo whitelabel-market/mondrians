@@ -8,8 +8,10 @@
         <span class="text-base font-bold leading-5">
           <slot name="name"></slot>
         </span>
-        <span class="text-sm text-left rounded-xl">
+        <span class="text-sm font-medium text-left">
           <slot name="description"></slot>
+        </span>
+        <span class="text-sm font-medium text-left text-red-500">
           <slot name="error"></slot>
         </span>
       </div>

@@ -17,6 +17,7 @@
         :canDecrease="canDecrease"
         :canIncrease="canIncrease"
         :contract="contract"
+        :isConnected="isConnected"
         @increase="quantity++"
         @decrease="quantity--"
         @update:modelValue="modelValue = true"
@@ -39,6 +40,7 @@ import PreSale from "@/components/phase/PreSale.vue";
 import SaleOpen from "@/components/phase/SaleOpen.vue";
 import MintModal from "@/components/mint/MintModal.vue";
 import useContract from "@/composables/useContract";
+import { useWallet } from "@/composables/useWallet";
 
 export default defineComponent({
   components: {
@@ -50,6 +52,7 @@ export default defineComponent({
     const modelValue = ref(false);
     const quantity = ref(1);
     const { getPrice, getPhase, contract } = useContract();
+    const { isConnected } = useWallet();
 
     const canDecrease = computed(() => quantity.value > 0);
     const canIncrease = computed(() => quantity.value < contract.value.maxMint);
@@ -62,6 +65,7 @@ export default defineComponent({
       canIncrease,
       canDecrease,
       getPhase,
+      isConnected,
       MintModal,
     };
   },

@@ -59,11 +59,15 @@ export function useWalletProvider(options: ConfigurableWindow = {}): void {
     const iProvider: any = providers.find(
       (provider) => provider.id === providerID
     );
-    provider.value = iProvider
-      ? new ethers.providers.Web3Provider(await iProvider.connect())
-      : undefined;
-    if (provider.value)
-      walletProvider = useStorage("wallet-provider", providerID);
+    try {
+      provider.value = iProvider
+        ? new ethers.providers.Web3Provider(await iProvider.connect())
+        : undefined;
+      if (provider.value)
+        walletProvider = useStorage("wallet-provider", providerID);
+    } catch (e: any) {
+      throw new Error(e.message);
+    }
   };
 
   const disconnect = (): void => {
@@ -77,7 +81,7 @@ export function useWalletProvider(options: ConfigurableWindow = {}): void {
     try {
       return signer.value ? await signer.value.signMessage(message) : "";
     } catch (e: any) {
-      throw new Error(e.toString());
+      throw new Error(e.message);
     }
   };
 

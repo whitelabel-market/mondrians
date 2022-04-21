@@ -84,30 +84,30 @@ export default class MondrianInterface {
     }
   }
 
-  /**
-   * Get current total supply
-   */
-  public async getTotalSupply() {
-    try {
-      const totalSupply = await this.contract.totalSupply();
-      return parseInt(totalSupply);
-    } catch (e: any) {
-      console.error(e.toString());
-      throw new Error(e.toString());
-    }
-  }
+  // /**
+  //  * Get current total supply
+  //  */
+  // public async getTotalSupply() {
+  //   try {
+  //     const totalSupply = await this.contract.totalSupply();
+  //     return parseInt(totalSupply);
+  //   } catch (e: any) {
+  //     console.error(e.toString());
+  //     throw new Error(e.toString());
+  //   }
+  // }
 
-  /**
-   * Get token uri by token id
-   * @param id id of a token
-   */
-  public async getTokenUri(id: number) {
-    try {
-      const tokenUri = await this.contract.tokenURI(id);
-      return tokenUri;
-    } catch (e: any) {
-      console.error(e.toString());
-      throw new Error(e.toString());
-    }
-  }
+  // /**
+  //  * Get token uri by token id
+  //  * @param id id of a token
+  //  */
+  // public async getTokenUri(id: number) {
+  //   try {
+  //     const tokenUri = await this.contract.tokenURI(id);
+  //     return tokenUri;
+  //   } catch (e: any) {
+  //     console.error(e.toString());
+  //     throw new Error(e.toString());
+  //   }
+  // }
 }

@@ -152,6 +152,7 @@ const runtask = <T>(task: Task<T>, cb: TaskCb<T, any>, options: any): void => {
       if (e !== "cancel") {
         task.error = e;
       }
+      console.log(e);
       setFinished();
       task._deferredObject.reject(e);
     });

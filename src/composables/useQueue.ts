@@ -15,7 +15,7 @@ export type Queue<T> = {
 
   // action methods
   cancelAll: (options?: { force: boolean }) => void;
-  enqueue: (task: Task<T>) => void;
+  enqueue: <T>(task: Task<T>) => void;
   dequeue: () => void;
   clear: () => void;
   destroy: () => void;

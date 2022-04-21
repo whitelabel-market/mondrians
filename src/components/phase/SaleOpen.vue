@@ -62,7 +62,7 @@
     <div class="flex items-center justify-center mt-4">
       <AppButton
         :size="'md'"
-        :disabled="quantity === 0"
+        :disabled="quantity === 0 || !isConnected"
         :fullWidth="false"
         @click.prevent="$emit('update:modelValue', true), $emit('doMint')"
       >
@@ -101,6 +101,10 @@ export default defineComponent({
     },
     contract: {
       type: Object,
+      required: true,
+    },
+    isConnected: {
+      type: Boolean,
       required: true,
     },
   },

@@ -36,31 +36,51 @@ export const createAuthInterface = (address: string) => {
 
   const login = async (): Promise<string> => {
     try {
-      const { data } = await useFetch("login").post().json();
+      const { data, error } = await useFetch("login").post().json();
+      if (error.value) {
+        throw unref(data);
+      }
       const message = unref(data).message;
       if (message) {
         return message;
       }
-      throw new Error("No message returned");
+      throw "No message returned";
     } catch (e: any) {
-      console.error(e.toString());
       throw new Error(e.toString());
     }
   };
 
-  const callback = async (signature: string) => {
-    const { data } = await useFetch("callback").post({ signature }).json();
-    const jwt = unref(data).jwt;
-    if (jwt) {
-      bearerToken = jwt;
-    } else {
-      throw new Error("No bearer token returned");
+  const callback = async (signature: string): Promise<void> => {
+    try {
+      const { data, error } = await useFetch("callback")
+        .post({ signature })
+        .json();
+      if (error.value) {
+        throw unref(data);
+      }
+      const jwt = unref(data).jwt;
+      if (jwt) {
+        bearerToken = jwt;
+      } else {
+        throw "No bearer token returned";
+      }
+    } catch (e: any) {
+      throw new Error(e.toString());
     }
   };
 
-  const getVoucher = async () => {
-    const { data } = await useFetch("api/whitelist/voucher").get().json();
-    return unref(data).signature;
+  const getVoucher = async (): Promise<string> => {
+    try {
+      const { data, error } = await useFetch("api/whitelist/voucher")
+        .get()
+        .json();
+      if (error.value) {
+        throw unref(data);
+      }
+      return unref(data).signature;
+    } catch (e: any) {
+      throw new Error(e.toString());
+    }
   };
 
   return {
