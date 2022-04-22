@@ -8,11 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.10",
     "@coinbase/wallet-sdk": "^3.0.5",
     "@headlessui/vue": "^0.0.0-insiders.591b328",
     "@heroicons/vue": "^1.0.6",
-    "@vue/apollo-composable": "^4.0.0-alpha.16",
     "@vueuse/core": "^8.2.5",
     "@walletconnect/web3-provider": "^1.7.7",
     "authereum": "^0.1.14",
@@ -21,9 +19,6 @@
     "eth-provider": "^0.10.0",
     "ethers": "^5.6.2",
     "fortmatic": "^2.2.1",
-    "graphql": "^16.3.0",
-    "graphql-tag": "^2.12.6",
-    "graphql-ws": "^5.6.4",
     "gsap": "^3.10.3",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "vue": "^3.2.13",

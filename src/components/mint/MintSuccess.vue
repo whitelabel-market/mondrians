@@ -54,36 +54,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import { ChevronLeftIcon } from "@heroicons/vue/solid";
 import AppButton from "@/components/app/AppButton.vue";
 import CarouselItem from "@/components/carousel/CarouselItem.vue";
 
-export default defineComponent({
-  components: {
-    ChevronLeftIcon,
-    AppButton,
-    CarouselItem,
-  },
-  props: {
-    tokens: {
-      type: Array,
-      required: true,
-    },
-  },
-  setup() {
-    const currentToken = ref(0);
-
-    const prev = () => {
-      currentToken.value -= 1;
-    };
-
-    const next = () => {
-      currentToken.value += 1;
-    };
-
-    return { currentToken, prev, next };
+defineProps({
+  tokens: {
+    type: Array,
+    required: true,
   },
 });
+
+const currentToken = ref(0);
+
+const prev = () => {
+  currentToken.value -= 1;
+};
+
+const next = () => {
+  currentToken.value += 1;
+};
 </script>

@@ -64,8 +64,8 @@
   <WrongNetwork v-model="wrongNetwork" />
 </template>
 
-<script lang="ts">
-import { defineComponent, watchEffect, unref, ref, computed } from "vue";
+<script setup lang="ts">
+import { watch, ref, computed } from "vue";
 import HomeHero from "@/components/home/HomeHero.vue";
 import HomeAbout from "@/components/home/HomeAbout.vue";
 import HomeItemGallery from "@/components/home/HomeItemGallery.vue";
@@ -74,8 +74,8 @@ import HomeRarity from "@/components/home/HomeRarity.vue";
 import HomeInfo from "@/components/home/HomeInfo.vue";
 import HomeFaq from "@/components/home/HomeFaq.vue";
 import HomeCta from "@/components/home/HomeCta.vue";
-import { useQuery, useResult } from "@vue/apollo-composable";
-import { CONTRACT_ADDRESS } from "@/utils/constants";
+import { useFetch } from "@vueuse/core";
+import { CONTRACT_ADDRESS, MAMO_SUBGRAPH } from "@/utils/constants";
 import { getContract } from "@/services/graphql/types";
 import type { Contract } from "@/composables/useContract";
 import useContract from "@/composables/useContract";
@@ -88,60 +88,34 @@ import WrongNetwork from "@/components/error/WrongNetwork.vue";
 // import EthereumIcon from "@/components/icons/EthereumIcon.vue";
 import { useWallet } from "@/composables/useWallet";
 
-export default defineComponent({
-  components: {
-    // AppModal,
-    // AppButton,
-    // ChevronDownIcon,
-    // UserCircleIcon,
-    // ClipboardCopyIcon,
-    // EthereumIcon,
-    // ExternalLinkIcon,
-    HomeHero,
-    HomeAbout,
-    HomeItemGallery,
-    HomeRoadmap,
-    HomeRarity,
-    HomeInfo,
-    HomeFaq,
-    HomeCta,
-    WrongNetwork,
-  },
-  setup() {
-    const modelValue = ref(false);
-    let { contract } = useContract();
-    const { network } = useWallet();
-    const ethereumInterface = new EthereumInterface();
+const modelValue = ref(false);
+let { contract } = useContract();
+const { network } = useWallet();
+const ethereumInterface = new EthereumInterface();
 
-    const { result, error, refetch } = useQuery(
-      getContract,
-      () => ({
+const { data, execute } = useFetch(MAMO_SUBGRAPH)
+  .post(
+    JSON.stringify({
+      query: getContract,
+      variables: {
         id: CONTRACT_ADDRESS.toLocaleLowerCase(),
-      }),
-      {
-        fetchPolicy: "cache-and-network",
-      }
-    );
+      },
+    })
+  )
+  .json();
 
-    const res = useResult(result, null, (data) => data.contract);
-
-    const wrongNetwork = computed(() => {
-      if (network.value) {
-        return window.ethereum && network.value.name !== "ropsten";
-      }
-      return false;
-    });
-
-    watchEffect(() => {
-      if (res.value) {
-        contract.value = unref(res) as Contract;
-      }
-    });
-
-    ethereumInterface.subscribeToNewBlock(refetch);
-    ethereumInterface.subscribeToTransfer(refetch);
-
-    return { error, modelValue, wrongNetwork };
-  },
+const wrongNetwork = computed(() => {
+  if (network.value) {
+    return window.ethereum && network.value.name !== "ropsten";
+  }
+  return false;
 });
+
+watch(data, () => {
+  if (data?.value?.data?.contract)
+    contract.value = data?.value?.data?.contract as Contract;
+});
+
+ethereumInterface.subscribeToNewBlock(execute);
+ethereumInterface.subscribeToTransfer(execute);
 </script>

@@ -4,14 +4,15 @@
   <slot v-else-if="loading" name="preloader" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { watch, useSlots } from "vue";
 import useImage from "@/composables/useImage";
 
-export default defineComponent({
-  setup(_, { slots }) {
-    const { loaded, failed, loading } = useImage(slots.image && slots.image());
-    return { loaded, failed, loading };
-  },
+const emits = defineEmits(["loaded"]);
+const slots = useSlots();
+const { loaded, failed, loading } = useImage(slots.image && slots.image());
+
+watch(loaded, () => {
+  if (loaded.value === true) emits("loaded");
 });
 </script>

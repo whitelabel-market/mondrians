@@ -64,7 +64,7 @@
         :size="'md'"
         :disabled="quantity === 0 || !isConnected"
         :fullWidth="false"
-        @click.prevent="$emit('update:modelValue', true), $emit('doMint')"
+        @click.prevent="$emit('update:modelValue', true)"
       >
         Mint
       </AppButton>
@@ -72,41 +72,34 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import EthereumIcon from "../icons/EthereumIcon.vue";
 import AppButton from "@/components/app/AppButton.vue";
 
-export default defineComponent({
-  components: {
-    EthereumIcon,
-    AppButton,
+defineProps({
+  price: {
+    type: String,
+    required: true,
   },
-  props: {
-    price: {
-      type: String,
-      required: true,
-    },
-    quantity: {
-      type: Number,
-      required: true,
-    },
-    canDecrease: {
-      type: Boolean,
-      required: true,
-    },
-    canIncrease: {
-      type: Boolean,
-      required: true,
-    },
-    contract: {
-      type: Object,
-      required: true,
-    },
-    isConnected: {
-      type: Boolean,
-      required: true,
-    },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+  canDecrease: {
+    type: Boolean,
+    required: true,
+  },
+  canIncrease: {
+    type: Boolean,
+    required: true,
+  },
+  contract: {
+    type: Object,
+    required: true,
+  },
+  isConnected: {
+    type: Boolean,
+    required: true,
   },
 });
 </script>

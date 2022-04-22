@@ -14,20 +14,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import LayoutFooter from "@/components/layouts/LayoutFooter.vue";
 import LayoutHeader from "@/components/layouts/LayoutHeader.vue";
-import { useWalletProvider } from "@/composables/useWallet";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import useContract from "@/composables/useContract";
 
-export default defineComponent({
-  components: { LayoutHeader, LayoutFooter, AppLoadingSpinner },
-  setup() {
-    useWalletProvider();
-    const { contract } = useContract();
-    return { contract };
-  },
-});
+const { contract } = useContract();
 </script>

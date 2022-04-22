@@ -1,6 +1,5 @@
 import { createApp, provide, h } from "vue";
-import { DefaultApolloClient } from "@vue/apollo-composable";
-import { apolloClient } from "./services/graphql/index";
+import { createWallet, WALLET_CONTEXT } from "./composables/useWallet";
 
 import App from "./App.vue";
 import router from "./router";
@@ -9,7 +8,7 @@ import "@/assets/css/fonts.css";
 
 const app = createApp({
   setup() {
-    provide(DefaultApolloClient, apolloClient);
+    provide(WALLET_CONTEXT, createWallet());
   },
   render: () => h(App),
 });

@@ -33,29 +33,16 @@
   </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import useTransition from "@/composables/useTransition";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
-import { defineComponent } from "vue";
 
-export default defineComponent({
-  components: {
-    Disclosure,
-    DisclosureButton,
-    ChevronDownIcon,
-    DisclosurePanel,
-  },
-  setup() {
-    useTransition();
-    const questions = [
-      "When is the mint date?",
-      "What’s an NFT?",
-      "Why Mondiran’s?",
-      "What exactly will I get?",
-    ];
-
-    return { questions };
-  },
-});
+useTransition();
+const questions = [
+  "When is the mint date?",
+  "What’s an NFT?",
+  "Why Mondiran’s?",
+  "What exactly will I get?",
+];
 </script>

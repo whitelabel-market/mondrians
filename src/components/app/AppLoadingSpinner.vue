@@ -2,8 +2,8 @@
   <div class="rounded-full spinner" :class="classes"></div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 
 const SpinnerSize: () => { [key: string]: string } = () => {
   return {
@@ -20,25 +20,20 @@ const SpinnerColor: { [key: string]: string } = {
   white: "border-r-blueish border-white",
 };
 
-export default defineComponent({
-  props: {
-    size: {
-      type: String,
-      default: "md",
-    },
-    color: {
-      type: String,
-      default: "primary",
-    },
-  },
-  setup(props) {
-    const classes = computed(() => [
-      SpinnerColor[props.color],
-      SpinnerSize()[props.size],
-    ]);
-    return { classes };
-  },
+interface Props {
+  size?: string;
+  color?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: "md",
+  color: "primary",
 });
+
+const classes = computed(() => [
+  SpinnerColor[props.color],
+  SpinnerSize()[props.size],
+]);
 </script>
 
 <style>

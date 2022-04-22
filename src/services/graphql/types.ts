@@ -1,6 +1,4 @@
-import gql from "graphql-tag";
-
-export const getContract = gql`
+export const getContract = `
   query GetContract($id: String = "") {
     contract(id: $id) {
       cost
@@ -17,7 +15,7 @@ export const getContract = gql`
   }
 `;
 
-export const getTokensFromBlock = gql`
+export const getTokensFromBlock = `
   query GetTokensFromBlock($address: String = "", $block: Int = 0) {
     tokens(where: { owner: $address, createdAtBlockNumber: $block }) {
       id

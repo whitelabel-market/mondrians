@@ -44,8 +44,7 @@
   </TransitionRoot>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import {
   TransitionRoot,
   TransitionChild,
@@ -54,20 +53,11 @@ import {
 } from "@headlessui/vue";
 import AppButton from "@/components/app/AppButton.vue";
 
-export default defineComponent({
-  components: {
-    TransitionRoot,
-    TransitionChild,
-    Dialog,
-    DialogOverlay,
-    AppButton,
+defineEmits(["update:modelValue"]);
+defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
   },
-  props: {
-    modelValue: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ["update:modelValue"],
 });
 </script>

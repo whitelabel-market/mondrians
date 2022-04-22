@@ -44,46 +44,37 @@
   </AppModal>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import AppModal from "@/components/app/AppModal.vue";
 import Connector from "@/libs/@walletConnector";
 import AppButton from "@/components/app/AppButton.vue";
 import LoadingWallet from "@/components/wallet-connect/LoadingWallet.vue";
 import { useWallet } from "@/composables/useWallet";
 
-export default defineComponent({
-  components: {
-    AppModal,
-    AppButton,
-    LoadingWallet,
-  },
-  props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  emits: ["update:modelValue"],
-  setup(_, { emit }) {
-    const { connect } = useWallet();
-    const loading = ref(false);
+const emits = defineEmits(["update:modelValue"]);
 
-    const providers = Connector.init({
-      appName: "Mondrians",
-      infuraId: "",
-      authereum: { key: "" },
-      fortmatic: { key: "" },
-    }).providers;
-
-    const providersCollapsed = ref(false);
-
-    const connectTo = async (provider: any) => {
-      await connect(provider.id);
-      emit("update:modelValue", false);
-    };
-
-    return { connectTo, loading, providersCollapsed, providers };
+defineProps({
+  modelValue: {
+    type: Boolean,
+    required: true,
   },
 });
+
+const { connect } = useWallet();
+const loading = ref(false);
+
+const providers = Connector.init({
+  appName: "Mondrians",
+  infuraId: "",
+  authereum: { key: "" },
+  fortmatic: { key: "" },
+}).providers;
+
+const providersCollapsed = ref(false);
+
+const connectTo = async (provider: any) => {
+  await connect(provider.id);
+  emits("update:modelValue", false);
+};
 </script>

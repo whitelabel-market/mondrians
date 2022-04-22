@@ -40,12 +40,7 @@
   </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import useTransition from "@/composables/useTransition";
-import { defineComponent } from "vue";
-export default defineComponent({
-  setup() {
-    useTransition();
-  },
-});
+useTransition();
 </script>

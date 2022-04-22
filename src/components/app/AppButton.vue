@@ -18,15 +18,19 @@
   </component>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
+
+defineEmits(["click"]);
+
 const ButtonColor: { [key: string]: string } = {
   link: "bg-transparent text-current border-transparent hover:opacity-60 !rounded-none",
   primary: "bg-yellowish text-gray-900 hover:bg-yellowish/75",
   secondary: "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-900",
   reddish: "bg-reddish text-white hover:bg-reddish/75",
 };
+
 const ButtonSize: (
   icon: boolean,
   dense: boolean
@@ -51,68 +55,63 @@ const ButtonSize: (
     };
   }
 };
-export default defineComponent({
-  components: { AppLoadingSpinner },
-  emits: ["click"],
-  props: {
-    type: {
-      type: String,
-      default: "button",
-    },
-    color: {
-      type: String,
-      default: "primary",
-    },
-    rounded: {
-      type: Boolean,
-      default: true,
-    },
-    size: {
-      type: String,
-      default: "md",
-    },
-    fullWidth: {
-      type: Boolean,
-      default: true,
-    },
-    dense: {
-      type: Boolean,
-      default: false,
-    },
-    onlyIcon: {
-      type: Boolean,
-      default: false,
-    },
-    to: {
-      type: Object || String,
-      default: null,
-    },
-    href: {
-      type: String,
-      default: null,
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+
+const props = defineProps({
+  type: {
+    type: String,
+    default: "button",
   },
-  setup(props) {
-    const classes = computed(() => [
-      !props.disabled && ButtonColor[props.color],
-      ButtonSize(props.onlyIcon, props.dense)[props.size],
-      props.fullWidth && "w-full",
-      props.loading &&
-        "active:scale-100 cursor-default hover:opacity-100 hover:border-2",
-      props.rounded ? "rounded-xl" : "rounded",
-      props.disabled &&
-        "disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed",
-    ]);
-    const is = !props.to ? (!props.href ? "button" : "a") : "router-link";
-    return { classes, is, props };
+  color: {
+    type: String,
+    default: "primary",
+  },
+  rounded: {
+    type: Boolean,
+    default: true,
+  },
+  size: {
+    type: String,
+    default: "md",
+  },
+  fullWidth: {
+    type: Boolean,
+    default: true,
+  },
+  dense: {
+    type: Boolean,
+    default: false,
+  },
+  onlyIcon: {
+    type: Boolean,
+    default: false,
+  },
+  to: {
+    type: Object || String,
+    default: null,
+  },
+  href: {
+    type: String,
+    default: null,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const classes = computed(() => [
+  !props.disabled && ButtonColor[props.color],
+  ButtonSize(props.onlyIcon, props.dense)[props.size],
+  props.fullWidth && "w-full",
+  props.loading &&
+    "active:scale-100 cursor-default hover:opacity-100 hover:border-2",
+  props.rounded ? "rounded-xl" : "rounded",
+  props.disabled &&
+    "disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed",
+]);
+const is = !props.to ? (!props.href ? "button" : "a") : "router-link";
 </script>

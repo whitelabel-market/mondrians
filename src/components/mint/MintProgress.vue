@@ -6,12 +6,12 @@
         <component
           :is="
             task.isRunning
-              ? 'AppLoadingSpinner'
+              ? components['AppLoadingSpinner']
               : task.isError
-              ? 'ExclamationCircleIcon'
-              : 'CheckIcon'
+              ? components['ExclamationCircleIcon']
+              : components['CheckIcon']
           "
-          class="w-10 h-10 transform"
+          class="transform"
           :class="
             task.isSuccessful
               ? 'text-blueish translate-x-0.5'
@@ -37,8 +37,7 @@
   >
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import MintStep from "@/components/mint/MintStep.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
@@ -47,29 +46,23 @@ import type { Task } from "@/composables/useTask";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/vue/outline";
 import { MINT_TASKS } from "@/utils/constants";
 
-export default defineComponent({
-  components: {
-    AppButton,
-    MintStep,
-    AppLoadingSpinner,
-    CheckIcon,
-    ExclamationCircleIcon,
+const components = {
+  AppLoadingSpinner,
+  CheckIcon,
+  ExclamationCircleIcon,
+};
+
+const props = defineProps({
+  phase: {
+    type: String,
+    required: true,
   },
-  props: {
-    phase: {
-      type: String,
-      required: true,
-    },
-    tasks: {
-      type: Array,
-      required: true,
-    },
-  },
-  emits: ["update:modelValue"],
-  setup(props) {
-    const queue = useQueue();
-    props.tasks.forEach((task) => queue.enqueue<Task<any>>(task as Task<any>));
-    return { queue, MINT_TASKS };
+  tasks: {
+    type: Array,
+    required: true,
   },
 });
+
+const queue = useQueue();
+props.tasks.forEach((task) => queue.enqueue<Task<any>>(task as Task<any>));
 </script>

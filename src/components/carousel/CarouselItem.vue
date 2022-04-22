@@ -13,29 +13,22 @@
   </AppImageLoad>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 
-export default defineComponent({
-  components: {
-    AppImageLoad,
-    AppLoadingSpinner,
+defineProps({
+  token: {
+    type: Object,
+    required: true,
   },
-  props: {
-    token: {
-      type: Object,
-      required: true,
-    },
-    currentToken: {
-      type: Number,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
+  currentToken: {
+    type: Number,
+    required: true,
+  },
+  index: {
+    type: Number,
+    required: true,
   },
 });
 </script>

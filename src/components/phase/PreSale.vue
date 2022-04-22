@@ -23,15 +23,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  props: {
-    maxSupply: {
-      type: Number,
-      required: true,
-    },
+<script setup lang="ts">
+defineProps({
+  maxSupply: {
+    type: Number,
+    required: true,
   },
 });
 </script>

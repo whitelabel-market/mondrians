@@ -1,11 +1,11 @@
-import { provide, inject, computed, ref, watch, shallowRef } from "vue";
+import { inject, computed, ref, watch, shallowRef } from "vue";
 import type { Ref, ShallowRef } from "vue";
 import type { ConfigurableWindow } from "@vueuse/core";
 import { defaultWindow, useStorage, RemovableRef } from "@vueuse/core";
 import Connector from "@/libs/@walletConnector";
 import { ethers } from "ethers";
 
-const WALLET_CONTEXT = Symbol();
+export const WALLET_CONTEXT = Symbol();
 
 export interface Wallet {
   // state
@@ -32,7 +32,7 @@ const providers = Connector.init({
   fortmatic: { key: "" },
 }).providers;
 
-export function useWalletProvider(options: ConfigurableWindow = {}): void {
+export function createWallet(options: ConfigurableWindow = {}): Wallet {
   let walletProvider: RemovableRef<string | null>;
 
   // state
@@ -164,9 +164,7 @@ export function useWalletProvider(options: ConfigurableWindow = {}): void {
     signMessage,
   };
 
-  provide(WALLET_CONTEXT, {
-    ...wallet,
-  });
+  return wallet;
 }
 
 export function useWallet(): Wallet {

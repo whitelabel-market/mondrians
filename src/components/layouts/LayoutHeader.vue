@@ -144,8 +144,8 @@
   </header>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import LayoutConnectModal from "@/components/wallet-connect/LayoutConnectModal.vue";
 import { useWallet } from "@/composables/useWallet";
 import { gsap } from "gsap";
@@ -157,41 +157,28 @@ import AppButton from "@/components/app/AppButton.vue";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-export default defineComponent({
-  components: {
-    LayoutConnectModal,
-    UserCircleIcon,
-    AppImageLoad,
-    AppLoadingSpinner,
-    AppButton,
-  },
-  setup() {
-    const { privateAddress, loading } = useWallet();
-    const showConnectModal = ref(false);
+const { privateAddress, loading } = useWallet();
+const showConnectModal = ref(false);
 
-    enum Section {
-      About = "About",
-      Gallery = "Gallery",
-      Roadmap = "Roadmap",
-      Rarity = "Rarity",
-      Creator = "Creator",
-      Faq = "Faq",
-    }
+enum Section {
+  About = "About",
+  Gallery = "Gallery",
+  Roadmap = "Roadmap",
+  Rarity = "Rarity",
+  Creator = "Creator",
+  Faq = "Faq",
+}
 
-    const scrollTo = (el: string) => {
-      gsap.to(window, {
-        scrollTo: el,
-        duration:
-          0.5 +
-          Object.values(Section)
-            .map((section) => section.toLowerCase())
-            .indexOf(el.slice(1).toLowerCase()) *
-            0.2,
-      });
-      history.pushState({}, document.title, `/${el}`);
-    };
-
-    return { showConnectModal, privateAddress, scrollTo, Section, loading };
-  },
-});
+const scrollTo = (el: string) => {
+  gsap.to(window, {
+    scrollTo: el,
+    duration:
+      0.5 +
+      Object.values(Section)
+        .map((section) => section.toLowerCase())
+        .indexOf(el.slice(1).toLowerCase()) *
+        0.2,
+  });
+  history.pushState({}, document.title, `/${el}`);
+};
 </script>

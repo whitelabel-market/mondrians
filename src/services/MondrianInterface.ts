@@ -40,8 +40,10 @@ export default class MondrianInterface {
       }
       return await this.publicMint(address, signedContract, quantity, price);
     } catch (e: any) {
-      if (e.error.message) {
+      if (e?.error?.message) {
         throw new Error(e.error.message);
+      } else if (e?.data?.message) {
+        throw new Error(e.data.message);
       } else {
         throw new Error("Something went wrong");
       }
@@ -76,31 +78,4 @@ export default class MondrianInterface {
 
     return await tx.wait();
   }
-
-  // /**
-  //  * Get current total supply
-  //  */
-  // public async getTotalSupply() {
-  //   try {
-  //     const totalSupply = await this.contract.totalSupply();
-  //     return parseInt(totalSupply);
-  //   } catch (e: any) {
-  //     console.error(e.toString());
-  //     throw new Error(e.toString());
-  //   }
-  // }
-
-  // /**
-  //  * Get token uri by token id
-  //  * @param id id of a token
-  //  */
-  // public async getTokenUri(id: number) {
-  //   try {
-  //     const tokenUri = await this.contract.tokenURI(id);
-  //     return tokenUri;
-  //   } catch (e: any) {
-  //     console.error(e.toString());
-  //     throw new Error(e.toString());
-  //   }
-  // }
 }
