@@ -4,12 +4,14 @@ import type { ConfigurableWindow } from "@vueuse/core";
 import { defaultWindow, useStorage, RemovableRef } from "@vueuse/core";
 import Connector from "@/libs/@walletConnector";
 import { ethers } from "ethers";
+import makeBlockie from "ethereum-blockies-base64";
 
 export const WALLET_CONTEXT = Symbol();
 
 export interface Wallet {
   // state
   address: Ref<string>;
+  blockie: Ref<string>;
   loading: Ref<boolean>;
   network: Ref<ethers.providers.Network | undefined>;
   isConnected: Ref<boolean>;
@@ -23,6 +25,7 @@ export interface Wallet {
   connect: (provider: any) => Promise<void>;
   disconnect: () => void;
   signMessage: (message: string) => Promise<string>;
+  getBalance: () => Promise<string>;
 }
 
 const providers = Connector.init({
@@ -37,6 +40,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
 
   // state
   const address = ref<string>("");
+  const blockie = ref<string>("");
   const loading = ref<boolean>(false);
   const network = ref<ethers.providers.Network | undefined>();
   const isConnected = computed<boolean>(() => !!provider.value);
@@ -97,6 +101,16 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
     }
   };
 
+  const getBalance = async (): Promise<string> => {
+    try {
+      return signer.value
+        ? ethers.utils.formatEther(await signer.value.getBalance())
+        : "";
+    } catch (e: any) {
+      throw new Error(e.toString());
+    }
+  };
+
   const getNetwork = async (): Promise<
     ethers.providers.Network | undefined
   > => {
@@ -148,11 +162,15 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
       getAddress(),
       getNetwork(),
     ]);
-    if (address.value) loading.value = false;
+    if (address.value) {
+      blockie.value = makeBlockie(address.value);
+      loading.value = false;
+    }
   });
 
   const wallet: Wallet = {
     address,
+    blockie,
     loading,
     privateAddress,
     network,
@@ -162,6 +180,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
     connect,
     disconnect,
     signMessage,
+    getBalance,
   };
 
   return wallet;

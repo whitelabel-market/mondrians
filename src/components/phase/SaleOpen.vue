@@ -26,8 +26,8 @@
             ? 'bg-yellowish ease-in text-gray-900'
             : 'bg-gray-200 ease-out text-gray-400 cursor-not-allowed'
         "
-        @click.prevent="$emit('decrease')"
         :disabled="!canDecrease"
+        @click.prevent="$emit('decrease')"
       >
         -
       </button>
@@ -35,8 +35,8 @@
         :value="quantity"
         readonly
         type="text"
-        name="mint"
         id="mint"
+        name="mint"
         class="block w-20 mx-auto text-center placeholder-gray-500 border-2 border-gray-700 rounded-full cursor-not-allowed focus:outline-none"
         :placeholder="quantity.toString()"
       />
@@ -47,8 +47,8 @@
             ? 'bg-yellowish ease-in text-gray-900'
             : 'bg-gray-200 ease-out text-gray-400 cursor-not-allowed'
         "
-        @click.prevent="$emit('increase')"
         :disabled="!canIncrease"
+        @click.prevent="$emit('increase')"
       >
         +
       </button>
@@ -75,6 +75,8 @@
 <script setup lang="ts">
 import EthereumIcon from "../icons/EthereumIcon.vue";
 import AppButton from "@/components/app/AppButton.vue";
+
+defineEmits(["increase", "decrease", "update:modelValue"]);
 
 defineProps({
   price: {

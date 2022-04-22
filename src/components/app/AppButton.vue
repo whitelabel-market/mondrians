@@ -2,8 +2,8 @@
   <component
     :is="is"
     :type="!to && type"
-    class="relative flex items-center justify-center font-bold transition-all duration-100 ease-in-out transform cursor-pointer active:scale-[0.98]"
-    :class="classes"
+    class="relative flex items-center font-bold transition-all duration-100 ease-in-out transform cursor-pointer active:scale-[0.98]"
+    :class="[...classes, color === 'link' ? '' : 'justify-center']"
     :to="to && to"
     :href="href && href"
     :disabled="props.disabled"
@@ -25,7 +25,7 @@ import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 defineEmits(["click"]);
 
 const ButtonColor: { [key: string]: string } = {
-  link: "bg-transparent text-current border-transparent hover:opacity-60 !rounded-none",
+  link: "bg-transparent text-current border-transparent ",
   primary: "bg-yellowish text-gray-900 hover:bg-yellowish/75",
   secondary: "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-900",
   reddish: "bg-reddish text-white hover:bg-reddish/75",

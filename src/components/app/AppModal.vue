@@ -27,7 +27,7 @@
             leave-to="opacity-0 translate-y-12"
           >
             <div
-              class="relative flex flex-col items-stretch max-w-lg max-h-full p-6 space-y-4 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
+              class="relative flex flex-col items-stretch max-w-lg max-h-full p-6 space-y-2 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
             >
               <slot />
               <AppButton

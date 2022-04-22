@@ -26,3 +26,31 @@ export const getTokensFromBlock = `
     }
   }
 `;
+
+export const getEnsAccount = `
+  query GetEnsAccount($address: String = "") {
+    account(id: $address) {
+      id
+      domains {
+        name
+        labelName
+        labelhash
+        createdAt
+        events {
+          id
+          transactionID
+          blockNumber
+        }
+        isMigrated
+      }
+    }
+  }
+`;
+
+export const getEthToUsd = `
+  query GetEthToUsd {
+    bundle(id: 1) {
+      ethPrice
+    }
+  }
+`;

@@ -127,38 +127,50 @@
         <li class="md:ml-4">
           <AppButton
             :size="'sm'"
-            :color="'reddish'"
-            :loading="loading"
-            @click.prevent="showConnectModal = true"
+            :color="loading || !isConnected || !blockie ? 'reddish' : 'link'"
+            :loading="loading || !blockie"
+            class="group"
+            :class="loading || !isConnected || !blockie ? 'duration-0' : 'px-0'"
+            @click.prevent="
+              !isConnected ? (showConnectModal = true) : (showUserModal = true)
+            "
           >
-            <UserCircleIcon v-if="privateAddress" class="w-5 h-5" />
-            <span>{{
-              privateAddress ? privateAddress : "Connect Wallet"
-            }}</span>
+            <span v-if="loading || !isConnected || !blockie"
+              >Connect Wallet</span
+            >
+            <div
+              v-else
+              class="flex items-center h-10 gap-2 text-sm font-semibold slashed-zero"
+            >
+              <img :src="blockie" class="object-cover w-6 h-6 rounded-full" />
+              <span class="group-hover:text-blueish">{{ privateAddress }}</span>
+            </div>
           </AppButton>
         </li>
       </ul>
     </nav>
 
     <LayoutConnectModal v-model="showConnectModal" />
+    <UserModal v-model="showUserModal" />
   </header>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import LayoutConnectModal from "@/components/wallet-connect/LayoutConnectModal.vue";
+import UserModal from "@/components/user/UserModal.vue";
 import { useWallet } from "@/composables/useWallet";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { UserCircleIcon } from "@heroicons/vue/outline";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppButton from "@/components/app/AppButton.vue";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-const { privateAddress, loading } = useWallet();
+const { privateAddress, loading, blockie, isConnected } = useWallet();
 const showConnectModal = ref(false);
+const showUserModal = ref(false);
 
 enum Section {
   About = "About",
