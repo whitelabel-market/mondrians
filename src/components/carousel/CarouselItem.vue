@@ -8,7 +8,7 @@
       />
     </template>
     <template v-slot:preloader>
-      <AppLoadingSpinner :size="'8'" v-show="currentToken === index" />
+      <AppLoadingSpinner :size="'md'" v-show="currentToken === index" />
     </template>
   </AppImageLoad>
 </template>

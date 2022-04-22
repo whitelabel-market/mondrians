@@ -2,7 +2,7 @@
   <component
     :is="is"
     :type="!to && type"
-    class="relative inline-flex items-center justify-center font-bold transition-all duration-100 ease-in-out transform cursor-pointer active:scale-[0.98]"
+    class="relative flex items-center justify-center font-bold transition-all duration-100 ease-in-out transform cursor-pointer active:scale-[0.98]"
     :class="classes"
     :to="to && to"
     :href="href && href"
@@ -11,7 +11,8 @@
   >
     <AppLoadingSpinner
       v-if="loading"
-      class="mr-2 pointer-events-none -ml-7"
+      :size="'xs'"
+      :color="'white'"
     ></AppLoadingSpinner>
     <slot></slot>
   </component>
@@ -24,6 +25,7 @@ const ButtonColor: { [key: string]: string } = {
   link: "bg-transparent text-current border-transparent hover:opacity-60 !rounded-none",
   primary: "bg-yellowish text-gray-900 hover:bg-yellowish/75",
   secondary: "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-900",
+  reddish: "bg-reddish text-white hover:bg-reddish/75",
 };
 const ButtonSize: (
   icon: boolean,
@@ -32,7 +34,7 @@ const ButtonSize: (
   if (icon) {
     return {
       xs: "w-6 h-6 text-xs",
-      sm: "w-10 h-10 text-xs",
+      sm: "w-20 h-20 text-xs",
       md: "w-12 h-12 text-sm",
       lg: "w-14 h-14 text-lg",
     };

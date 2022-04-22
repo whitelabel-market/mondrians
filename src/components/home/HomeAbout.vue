@@ -16,7 +16,7 @@
           </span>
         </div>
         <p class="mt-4 text-sm font-medium gs_reveal md:text-base md:mt-6">
-          Mondirans is a drop of custom digital paintings, created by
+          Mondrians is a drop of custom digital paintings, created by
           <span class="italic text-yellowish">PIET MONDRIAN</span>, aiming to
           express culture, uniqueness and creativity. Through size, shape and
           color Mondrian’s embraces what it means to be on the common ground but
@@ -41,6 +41,7 @@
 <script lang="ts">
 import useTransition from "@/composables/useTransition";
 import { defineComponent } from "vue";
+
 export default defineComponent({
   setup() {
     useTransition();

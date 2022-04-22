@@ -40,7 +40,7 @@ export interface Task<T> extends PromiseLike<any> {
   isActive: boolean;
   isError: boolean;
 
-  _run: (options: any) => void;
+  _run: (options: any, params: any[]) => void;
   cancel: (options?: { force: boolean }) => void;
   canceledOn: (signal: AbortSignalWithPromise) => Task<T>;
   token?: Record<string, any>;
@@ -98,8 +98,8 @@ export default function useTask<T>(cb: any): Task<T> {
       return task;
     },
 
-    _run(options: any): void {
-      runtask(task, cb, options);
+    _run(options: any, params: any[]): void {
+      runtask(task, cb, options, params);
       return task as any;
     },
 
@@ -123,7 +123,12 @@ export default function useTask<T>(cb: any): Task<T> {
   return task;
 }
 
-const runtask = <T>(task: Task<T>, cb: TaskCb<T, any>, options: any): void => {
+const runtask = <T>(
+  task: Task<T>,
+  cb: TaskCb<T, any>,
+  options: any,
+  params: any[]
+): void => {
   const token = new (CAF as any).cancelToken();
   const runningToken = (CAF as any)(cb, token);
   task.token = token;
@@ -138,7 +143,7 @@ const runtask = <T>(task: Task<T>, cb: TaskCb<T, any>, options: any): void => {
   }
 
   runningToken
-    .call(task, token)
+    .call(task, token, ...params)
     .then((value: any) => {
       task.value = value;
       task.isSuccessful = true;
@@ -146,14 +151,13 @@ const runtask = <T>(task: Task<T>, cb: TaskCb<T, any>, options: any): void => {
       setFinished();
       task._deferredObject.resolve(value);
       task._canAbort = false;
-      options.onFinish();
+      options.onFinish(task.value);
     })
     .catch((e: any) => {
       if (e !== "cancel") {
         task.error = e;
       }
-      console.log(e);
       setFinished();
-      task._deferredObject.reject(e);
+      //task._deferredObject.reject(e);
     });
 };

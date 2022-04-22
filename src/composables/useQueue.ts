@@ -16,7 +16,7 @@ export type Queue<T> = {
   // action methods
   cancelAll: (options?: { force: boolean }) => void;
   enqueue: <T>(task: Task<T>) => void;
-  dequeue: () => void;
+  dequeue: (params?: any[]) => void;
   clear: () => void;
   destroy: () => void;
 
@@ -34,6 +34,7 @@ export type Queue<T> = {
 
   // other
   _scope: any;
+  _nextParams: any[];
 };
 
 export default function useQueue<T>(
@@ -43,6 +44,7 @@ export default function useQueue<T>(
   const content = reactive({
     _scope: scope,
     _maxConcurrency: 1,
+    _nextParams: [],
 
     isIdle: computed<boolean>(
       () => !!queue._tasks.some((task: any) => !task.isRunning)
@@ -87,24 +89,24 @@ export default function useQueue<T>(
       queue.dequeue();
     },
 
-    dequeue(): void {
-      // If max pending promises is reached, return
+    dequeue(...params: any[]): void {
+      // if max pending promises is reached, return
+      queue._nextParams = params;
       if (queue._activeInstances.length >= queue._maxConcurrency) {
         return;
       }
 
       const item = queue.first;
-      // If all promises are done, return
+      // if all promises are done, return
       if (!item) {
         return;
       }
 
-      // Try to perform the next promise
-      const onFinish = () => onTaskInstanceFinish(queue);
+      // try to perform the next promise
+      const onFinish = (params: any[]) => onTaskInstanceFinish(queue, params);
       queue._scope.run(() => {
-        item._run({ onFinish });
+        item._run({ onFinish }, queue._nextParams);
       });
-      //queue._tasks.shift();
     },
 
     clear(): void {
@@ -136,9 +138,9 @@ export default function useQueue<T>(
   return queue;
 }
 
-const onTaskInstanceFinish = <T>(queue: Queue<T>): void => {
+const onTaskInstanceFinish = <T>(queue: Queue<T>, params: any[]): void => {
   if (queue.size) {
     queue._tasks.shift();
-    queue.dequeue();
+    queue.dequeue(params);
   }
 };

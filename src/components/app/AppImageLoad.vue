@@ -11,7 +11,6 @@ import useImage from "@/composables/useImage";
 export default defineComponent({
   setup(_, { slots }) {
     const { loaded, failed, loading } = useImage(slots.image && slots.image());
-
     return { loaded, failed, loading };
   },
 });

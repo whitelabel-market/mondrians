@@ -18,17 +18,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, toRaw } from "vue";
 import MintProgress from "@/components/mint/MintProgress.vue";
 import MintSuccess from "@/components/mint/MintSuccess.vue";
 import AppModal from "@/components/app/AppModal.vue";
 import { createAuthInterface } from "@/services/AuthInterface";
 import { useWallet } from "@/composables/useWallet";
 import MondrianInterface from "@/services/MondrianInterface";
-import { getTokensFromBlock } from "@/services/graphql/types";
-import { useQuery, useResult } from "@vue/apollo-composable";
 import { Phase } from "@/composables/useContract";
 import useTask from "@/composables/useTask";
+import { ethers } from "ethers";
+import { MAMO_SUBGRAPH } from "@/utils/constants";
+import { useFetch } from "@vueuse/core";
 
 export default defineComponent({
   components: {
@@ -45,6 +46,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    quantity: {
+      type: Number,
+      required: true,
+    },
     phase: {
       type: String,
       required: true,
@@ -53,9 +58,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props) {
     const { address, provider, signMessage } = useWallet();
-    const enabled = ref(false);
     const tokens: any = ref([]);
-    const block = ref(0);
     const tasks = ref<any[]>([]);
 
     const getMessage = function* (): any {
@@ -70,70 +73,66 @@ export default defineComponent({
       return yield authInterface.getVoucher();
     };
 
-    const { result, refetch } = useQuery(
-      getTokensFromBlock,
-      () => ({
-        address: address.value,
-        block: block.value,
-      }),
-      () => ({
-        enabled: enabled.value,
-        fetchPolicy: "cache-and-network",
-      })
-    );
+    const execMint = function* (signal: any, voucher: string): any {
+      const mondrianInterface = new MondrianInterface(
+        toRaw(provider.value as ethers.providers.Web3Provider)
+      );
+      return yield mondrianInterface.mint(props.quantity, props.price, voucher);
+    };
 
-    const response = useResult(result, null, (data) => data.tokens);
+    const timeout = (time: number) => {
+      return new Promise((resolve) => setTimeout(resolve, time));
+    };
 
-    const mint = async (quantity: number) => {
-      tasks.value = [useTask(getMessage), useTask(getVoucher)];
-      // const phase = props.phase;
-      // const mondrianInterface = provider.value
-      //   ? new MondrianInterface(toRaw(provider.value))
-      //   : null;
-      // if (mondrianInterface) {
-      //   const authInterface = createAuthInterface(address.value);
+    const getToken = function* (
+      signal: any,
+      tx: ethers.ContractTransaction
+    ): any {
+      //const block = tx.blockNumber;
+      while (true) {
+        const { data } = yield useFetch(MAMO_SUBGRAPH)
+          .post(
+            JSON.stringify({
+              query: `query GetTokensFromBlock($address: String = "", $block: Int = 0) {
+              tokens(where: { owner: $address, createdAtBlockNumber: $block }) {
+                id
+                imageURI
+                createdAtTimestamp
+                createdAtBlockNumber
+                transactionHash
+              }
+            }`,
+              variables: {
+                address: "0xe3bbf29f034fa780407fd11dac7a0b3938b1bc6a",
+                block: 12195294,
+              },
+            })
+          )
+          .json();
+        if (data?.value?.data?.tokens?.length > 0) {
+          tokens.value = data.value.data.tokens;
+          break;
+        } else {
+          yield timeout(5000); // wait 5s
+        }
+      }
+      yield tokens;
+    };
 
-      //   try {
-      //     // Whitelist Sale
-      //     if (false) {
-      //       // steps[phase as keyof MintSteps][0].status = Status.PENDING;
-      //       // // Auth
-      //       // const message = await authInterface.login();
-      //       // const signature = await signMessage(message);
-      //       // await authInterface.callback(signature);
-      //       // steps[phase as keyof MintSteps][0].status = Status.SUCCESS;
-      //       // steps[phase as keyof MintSteps][1].status = Status.PENDING;
-      //       // // Voucher
-      //       // const voucher = await authInterface.getVoucher();
-      //       // steps[phase as keyof MintSteps][1].status = Status.SUCCESS;
-      //       // steps[phase as keyof MintSteps][2].status = Status.PENDING;
-      //       // // Whitelist Mint
-      //       // const tx = await mondrianInterface.mint(
-      //       //   quantity,
-      //       //   props.price,
-      //       //   voucher
-      //       // );
-      //       // steps[phase as keyof MintSteps][2].status = Status.SUCCESS;
-      //       // steps[phase as keyof MintSteps][3].status = Status.PENDING;
-      //       // // Load from indexer
-      //       // block.value = tx.blockNumber;
-      //       // enabled.value = true;
-      //       // refetch();
-      //     } else {
-      //       // Public Sale
-      //       tasks.value = [useTask(getMessage)];
-      //       // steps[phase as keyof MintSteps][0].status = Status.PENDING;
-      //       // const tx = await mondrianInterface.mint(quantity, props.price);
-      //       // steps[phase as keyof MintSteps][0].status = Status.SUCCESS;
-      //       // steps[phase as keyof MintSteps][1].status = Status.PENDING;
-      //       // // Load from indexer
-      //       // block.value = tx.blockNumber;
-      //       // enabled.value = true;
-      //       // refetch();
-      //     }
-      //   } catch (e: any) {
-      //     throw new Error(e.toString());
-      //   }
+    const mint = async () => {
+      switch (props.phase) {
+        case Phase[1]:
+          tasks.value = [
+            useTask(getMessage),
+            useTask(getVoucher),
+            useTask(execMint),
+            useTask(getToken),
+          ];
+          break;
+        case Phase[2]:
+          tasks.value = [useTask(getToken)];
+          break;
+      }
     };
 
     return { mint, tokens, tasks };

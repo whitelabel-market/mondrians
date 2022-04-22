@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav
-      class="container flex items-center md:justify-around justify-between mdx:pl-[2.188rem] mdx:pr-[1.625rem] mx-auto pt-6 pb-3"
+      class="container flex items-center md:justify-around justify-between mdx:pl-[2.188rem] mdx:pr-[1.625rem] mx-auto py-6"
     >
       <img
         src="../../assets/images/Logo.png"
@@ -93,37 +93,49 @@
           }}</a>
         </li>
         <li class="md:ml-10">
-          <a href="#"
-            ><img
-              src="../../assets/images/discord.png"
-              alt="discord"
-              width="20px"
-          /></a>
+          <a href="#">
+            <AppImageLoad>
+              <template v-slot:image>
+                <img
+                  src="../../assets/images/discord.png"
+                  alt="discord"
+                  class="w-5 h-5"
+                />
+              </template>
+              <template v-slot:preloader>
+                <AppLoadingSpinner :size="'xs'" />
+              </template>
+            </AppImageLoad>
+          </a>
         </li>
         <li class="md:ml-3">
-          <a href="#"
-            ><img
-              src="../../assets/images/twitter.png"
-              alt="twitter"
-              width="20px"
-          /></a>
+          <a href="#">
+            <AppImageLoad>
+              <template v-slot:image>
+                <img
+                  src="../../assets/images/twitter.png"
+                  alt="twitter"
+                  class="w-5 h-5"
+                />
+              </template>
+              <template v-slot:preloader>
+                <AppLoadingSpinner :size="'xs'" />
+              </template>
+            </AppImageLoad>
+          </a>
         </li>
         <li class="md:ml-4">
-          <button
-            class="flex items-center px-5 py-2 space-x-1 text-xs font-bold text-white rounded-lg cursor-pointer slashed-zero bg-reddish"
+          <AppButton
+            :size="'sm'"
+            :color="'reddish'"
+            :loading="loading"
             @click.prevent="showConnectModal = true"
-            v-if="privateAddress"
           >
-            <UserCircleIcon class="w-5 h-5" />
-            <span>{{ privateAddress }}</span>
-          </button>
-          <button
-            class="px-5 py-2 text-white rounded-lg cursor-pointer bg-reddish"
-            @click.prevent="showConnectModal = true"
-            v-else
-          >
-            Connect Wallet
-          </button>
+            <UserCircleIcon v-if="privateAddress" class="w-5 h-5" />
+            <span>{{
+              privateAddress ? privateAddress : "Connect Wallet"
+            }}</span>
+          </AppButton>
         </li>
       </ul>
     </nav>
@@ -139,6 +151,9 @@ import { useWallet } from "@/composables/useWallet";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { UserCircleIcon } from "@heroicons/vue/outline";
+import AppImageLoad from "@/components/app/AppImageLoad.vue";
+import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
+import AppButton from "@/components/app/AppButton.vue";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -146,9 +161,12 @@ export default defineComponent({
   components: {
     LayoutConnectModal,
     UserCircleIcon,
+    AppImageLoad,
+    AppLoadingSpinner,
+    AppButton,
   },
   setup() {
-    const { privateAddress } = useWallet();
+    const { privateAddress, loading } = useWallet();
     const showConnectModal = ref(false);
 
     enum Section {
@@ -173,7 +191,7 @@ export default defineComponent({
       history.pushState({}, document.title, `/${el}`);
     };
 
-    return { showConnectModal, privateAddress, scrollTo, Section };
+    return { showConnectModal, privateAddress, scrollTo, Section, loading };
   },
 });
 </script>

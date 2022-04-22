@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="border-4 border-gray-200 rounded-full spinner"
-    :class="classes"
-  ></div>
+  <div class="rounded-full spinner" :class="classes"></div>
 </template>
 
 <script lang="ts">
@@ -10,16 +7,17 @@ import { computed, defineComponent } from "vue";
 
 const SpinnerSize: () => { [key: string]: string } = () => {
   return {
-    xs: "h-4 w-4",
-    sm: "h-6 w-6",
-    md: "h-8 w-8",
-    lg: "h-10 w-10",
+    xs: "border-4 h-4 w-4",
+    sm: "border-4 h-6 w-6",
+    md: "border-4 h-8 w-8",
+    lg: "border-4 h-10 w-10",
   };
 };
 
 const SpinnerColor: { [key: string]: string } = {
-  primary: "border-r-blueish",
-  secondary: "border-r-gray-400",
+  primary: "border-r-blueish border-gray-200",
+  secondary: "border-r-gray-400 border-gray-200",
+  white: "border-r-blueish border-white",
 };
 
 export default defineComponent({
@@ -46,9 +44,7 @@ export default defineComponent({
 <style>
 .spinner {
   position: relative;
-  margin: auto;
   animation: 0.66s linear 0s infinite normal none running loader;
-  transform: translateZ(0px);
   user-select: none;
 }
 

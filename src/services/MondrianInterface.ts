@@ -40,8 +40,11 @@ export default class MondrianInterface {
       }
       return await this.publicMint(address, signedContract, quantity, price);
     } catch (e: any) {
-      console.error(e.toString());
-      throw new Error(e.toString());
+      if (e.error.message) {
+        throw new Error(e.error.message);
+      } else {
+        throw new Error("Something went wrong");
+      }
     }
   }
 
@@ -53,16 +56,11 @@ export default class MondrianInterface {
     price: string,
     signature: string
   ) {
-    try {
-      const tx = await contract.whitelistMint(address, quantity, signature, {
-        value: ethers.utils.parseEther(price).mul(quantity),
-      });
+    const tx = await contract.whitelistMint(address, quantity, signature, {
+      value: ethers.utils.parseEther(price).mul(quantity),
+    });
 
-      return await tx.wait();
-    } catch (e: any) {
-      console.error(e.toString());
-      throw new Error(e.toString());
-    }
+    return await tx.wait();
   }
 
   // Internal mint function for Public Sale
@@ -72,16 +70,11 @@ export default class MondrianInterface {
     quantity: number,
     price: string
   ) {
-    try {
-      const tx = await contract.publicSaleMint(address, quantity, {
-        value: ethers.utils.parseEther(price).mul(quantity),
-      });
+    const tx = await contract.publicSaleMint(address, quantity, {
+      value: ethers.utils.parseEther(price).mul(quantity),
+    });
 
-      return await tx.wait();
-    } catch (e: any) {
-      console.error(e.toString());
-      throw new Error(e.toString());
-    }
+    return await tx.wait();
   }
 
   // /**

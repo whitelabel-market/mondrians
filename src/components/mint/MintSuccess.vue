@@ -16,7 +16,7 @@
         @click.prevent="prev"
       />
       <div
-        class="flex items-center w-64 mx-auto overflow-hidden aspect-square"
+        class="flex items-center justify-center w-64 mx-auto overflow-hidden aspect-square"
         v-if="tokens.length > 0"
       >
         <CarouselItem
@@ -50,12 +50,6 @@
       :href="`https://ropsten.etherscan.io/tx/${tokens[currentToken].transactionHash}`"
       target="_blank"
       >View transaction on Etherscan</AppButton
-    >
-    <AppButton
-      :color="'secondary'"
-      :size="'sm'"
-      @click.prevent="$emit('update:modelValue', false)"
-      >Close</AppButton
     >
   </div>
 </template>

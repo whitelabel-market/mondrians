@@ -29,6 +29,7 @@
   <MintModal
     v-model="modelValue"
     :phase="getPhase"
+    :quantity="quantity"
     :price="getPrice"
     ref="mintModal"
   />

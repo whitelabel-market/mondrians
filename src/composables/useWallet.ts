@@ -10,6 +10,7 @@ const WALLET_CONTEXT = Symbol();
 export interface Wallet {
   // state
   address: Ref<string>;
+  loading: Ref<boolean>;
   network: Ref<ethers.providers.Network | undefined>;
   isConnected: Ref<boolean>;
   privateAddress: Ref<string>;
@@ -36,6 +37,7 @@ export function useWalletProvider(options: ConfigurableWindow = {}): void {
 
   // state
   const address = ref<string>("");
+  const loading = ref<boolean>(false);
   const network = ref<ethers.providers.Network | undefined>();
   const isConnected = computed<boolean>(() => !!provider.value);
   const privateAddress = computed<string>(() =>
@@ -55,6 +57,7 @@ export function useWalletProvider(options: ConfigurableWindow = {}): void {
 
   // methods
   const connect = async (providerID: string): Promise<void> => {
+    loading.value = true;
     provider.value = undefined;
     const iProvider: any = providers.find(
       (provider) => provider.id === providerID
@@ -66,6 +69,7 @@ export function useWalletProvider(options: ConfigurableWindow = {}): void {
       if (provider.value)
         walletProvider = useStorage("wallet-provider", providerID);
     } catch (e: any) {
+      loading.value = false;
       throw new Error(e.message);
     }
   };
@@ -144,10 +148,12 @@ export function useWalletProvider(options: ConfigurableWindow = {}): void {
       getAddress(),
       getNetwork(),
     ]);
+    if (address.value) loading.value = false;
   });
 
   const wallet: Wallet = {
     address,
+    loading,
     privateAddress,
     network,
     isConnected,

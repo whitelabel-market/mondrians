@@ -8,7 +8,7 @@
     "
   >
     <template v-slot:button>Logout</template>
-    <AppLoadingSpinner :size="'md'" />
+    <AppLoadingSpinner :size="'md'" class="mx-auto" />
     <h3 class="text-lg font-bold leading-5 text-center">Wrong network</h3>
     <p class="text-sm text-center text-gray-700 fomt-medium w-80">
       Looks like you connected to an unsupported network. Change network to
