@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useFetch } from "@vueuse/core";
 import { getTokensForAccount } from "@/services/graphql/types";
@@ -22,20 +22,28 @@ const tokens = ref([]);
 
 const route = useRoute();
 
-const { data, onFetchResponse } = useFetch(MAMO_SUBGRAPH)
-  .post(
-    JSON.stringify({
-      query: getTokensForAccount,
-      variables: {
-        owner: route.params.id.toLowerCase(),
-      },
-    })
-  )
-  .json();
+const { post, onFetchResponse, data } = useFetch(MAMO_SUBGRAPH, {
+  refetch: true,
+}).json();
 
 onFetchResponse(() => {
   if (data?.value?.data?.tokens) {
     tokens.value = data.value.data.tokens;
   }
 });
+
+watch(
+  route,
+  () => {
+    post(
+      JSON.stringify({
+        query: getTokensForAccount,
+        variables: {
+          owner: route.params.id.toLowerCase(),
+        },
+      })
+    ).execute();
+  },
+  { deep: true, immediate: true }
+);
 </script>

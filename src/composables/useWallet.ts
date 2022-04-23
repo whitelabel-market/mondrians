@@ -133,6 +133,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
 
       window.ethereum.on("accountsChanged", async () => {
         address.value = await getAddress();
+        blockie.value = makeBlockie(address.value);
       });
 
       ethereumProvider.on(

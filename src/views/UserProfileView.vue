@@ -3,12 +3,14 @@
     class="container flex flex-col items-center justify-start flex-1 w-full h-full max-w-6xl pt-10 mx-auto gap-y-6"
   >
     <img
-      :src="blockie"
+      :src="makeBlockie(route.params.id)"
       class="object-cover w-24 h-24 border-4 border-gray-200 rounded-full"
     />
     <div class="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full">
       <EthereumIcon class="w-2" />
-      <span class="text-xs font-medium slashed-zero">{{ privateAddress }}</span>
+      <span class="text-xs font-medium slashed-zero">{{
+        getPrivateAddress
+      }}</span>
     </div>
     <nav
       class="flex justify-center w-full mx-auto space-x-10 border-b-2 border-gray-100"
@@ -49,8 +51,20 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import EthereumIcon from "@/components/icons/EthereumIcon.vue";
-import { useWallet } from "@/composables/useWallet";
-const { blockie, privateAddress } = useWallet();
+import { useRoute } from "vue-router";
+import makeBlockie from "ethereum-blockies-base64";
+
+const route = useRoute();
+
+const getPrivateAddress = computed(() => {
+  const address = route.params.id;
+  return `${address.substring(0, 5)}...${address.substring(
+    address.length - 5,
+    address.length
+  )}`;
+});
+
 const tabs = ["Collected", "Activity"];
 </script>
