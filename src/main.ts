@@ -1,6 +1,5 @@
 import { createApp, provide, h } from "vue";
 import { createWallet, WALLET_CONTEXT } from "./composables/useWallet";
-
 import App from "./App.vue";
 import router from "./router";
 import "@/assets/css/app.css";

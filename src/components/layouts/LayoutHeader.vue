@@ -1,13 +1,11 @@
 <template>
   <header>
     <nav
-      class="container flex items-center md:justify-around justify-between mdx:pl-[2.188rem] mdx:pr-[1.625rem] mx-auto py-6"
+      class="container flex items-center justify-between w-full max-w-6xl py-6 mx-auto"
     >
-      <img
-        src="../../assets/images/Logo.png"
-        alt="logo"
-        class="md:w-[130px] w-[115px]"
-      />
+      <router-link :to="'/'" class="md:w-[130px] w-[115px]">
+        <img src="../../assets/images/Logo.png" alt="logo" />
+      </router-link>
       <svg
         width="24"
         height="24"
@@ -88,9 +86,12 @@
         class="flex items-center text-sm font-semibold mdx:hidden md:space-x-5"
       >
         <li v-for="section in Object.values(Section)" :key="section">
-          <a :href="`#${section}`" @click.prevent="scrollTo(`#${section}`)">{{
-            section
-          }}</a>
+          <a
+            v-if="!route.path.startsWith('/user')"
+            :href="`#${section}`"
+            @click.prevent="scrollTo(`#${section}`)"
+            >{{ section }}</a
+          >
         </li>
         <li class="md:ml-10">
           <a href="#">
@@ -165,10 +166,12 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppButton from "@/components/app/AppButton.vue";
+import { useRoute } from "vue-router";
 
 gsap.registerPlugin(ScrollToPlugin);
 
 const { privateAddress, loading, blockie, isConnected } = useWallet();
+const route = useRoute();
 const showConnectModal = ref(false);
 const showUserModal = ref(false);
 

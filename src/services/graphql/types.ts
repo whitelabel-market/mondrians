@@ -27,6 +27,24 @@ export const getTokensFromBlock = `
   }
 `;
 
+export const getTokensForAccount = `
+  query GetTokensForAccount($owner: String = "") {
+    tokens(where: { owner: $owner }) {
+      id
+      owner {
+        id
+      }
+      contract {
+        id
+      }
+      imageURI
+      createdAtTimestamp
+      createdAtBlockNumber
+      transactionHash
+    }
+  }
+`;
+
 export const getEnsAccount = `
   query GetEnsAccount($address: String = "") {
     account(id: $address) {

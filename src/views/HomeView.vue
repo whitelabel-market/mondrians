@@ -7,11 +7,10 @@
   <HomeInfo />
   <HomeFaq />
   <HomeCta />
-  <WrongNetwork v-model="wrongNetwork" />
 </template>
 
 <script setup lang="ts">
-import { watch, computed } from "vue";
+import { watch } from "vue";
 import HomeHero from "@/components/home/HomeHero.vue";
 import HomeAbout from "@/components/home/HomeAbout.vue";
 import HomeItemGallery from "@/components/home/HomeItemGallery.vue";
@@ -26,11 +25,8 @@ import { getContract } from "@/services/graphql/types";
 import type { Contract } from "@/composables/useContract";
 import useContract from "@/composables/useContract";
 import EthereumInterface from "@/services/EthereumInterface";
-import WrongNetwork from "@/components/error/WrongNetwork.vue";
-import { useWallet } from "@/composables/useWallet";
 
 let { contract } = useContract();
-const { network } = useWallet();
 const ethereumInterface = new EthereumInterface();
 
 const { data, execute } = useFetch(MAMO_SUBGRAPH)
@@ -43,13 +39,6 @@ const { data, execute } = useFetch(MAMO_SUBGRAPH)
     })
   )
   .json();
-
-const wrongNetwork = computed(() => {
-  if (network.value) {
-    return window.ethereum && network.value.name !== "ropsten";
-  }
-  return false;
-});
 
 watch(data, () => {
   if (data?.value?.data?.contract)

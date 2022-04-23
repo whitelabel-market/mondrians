@@ -1,24 +1,36 @@
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="flex flex-col min-h-screen mx-auto">
     <LayoutHeader class="z-50" />
-    <div
+    <!-- <div
       v-if="!contract.name"
       class="fixed z-40 flex items-center justify-center w-full h-screen bg-white"
     >
       <AppLoadingSpinner :size="'lg'" />
-    </div>
+    </div> -->
     <main class="flex flex-col justify-center flex-1 w-full">
       <router-view />
     </main>
     <LayoutFooter />
   </div>
+  <WrongNetwork v-model="wrongNetwork" />
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import LayoutFooter from "@/components/layouts/LayoutFooter.vue";
 import LayoutHeader from "@/components/layouts/LayoutHeader.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
+import WrongNetwork from "@/components/error/WrongNetwork.vue";
 import useContract from "@/composables/useContract";
+import { useWallet } from "@/composables/useWallet";
 
+const { network } = useWallet();
 const { contract } = useContract();
+
+const wrongNetwork = computed(() => {
+  if (network.value) {
+    return window.ethereum && network.value.name !== "ropsten";
+  }
+  return false;
+});
 </script>

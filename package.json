@@ -23,7 +23,6 @@
     "gsap": "^3.10.3",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "vue": "^3.2.13",
-    "vue-concurrency": "^2.3.0",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {

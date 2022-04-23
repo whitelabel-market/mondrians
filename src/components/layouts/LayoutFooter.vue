@@ -1,6 +1,8 @@
 <template>
-  <footer class="md:pt-[4.438rem] md:pb-[3.125rem] p-[2.25rem]">
-    <div class="max-w-[54.875rem] mx-auto">
+  <footer
+    class="max-w-6xl mx-auto w-full md:pt-[4.438rem] md:pb-[3.125rem] py-[2.25rem]"
+  >
+    <div>
       <div class="flex justify-between mdx:flex-col">
         <div class="md:max-w-[22.625rem]">
           <img

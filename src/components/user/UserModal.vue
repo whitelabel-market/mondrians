@@ -12,7 +12,7 @@
               privateAddress
             }}</span>
             <a
-              href="https://app.ens.domains/address/0xe3bbf29f034fA780407Fd11dac7A0B3938b1bc6a"
+              :href="`https://app.ens.domains/address/${address}`"
               class="text-xs font-medium leading-tight text-gray-600 hover:text-blueish"
               >@amrap030.eth</a
             >
@@ -27,7 +27,7 @@
               >View on etherscan</span
             ></a
           >
-          <AppTooltip class="mr-4 group" :copied="copied">
+          <AppTooltip class="mr-4 group" :show="copied">
             <template #element
               ><button
                 class="flex items-center text-xs font-semibold text-gray-500 hover:text-blueish"
@@ -74,8 +74,10 @@
         <div class="flex flex-col gap-2">
           <AppButton
             :size="'sm'"
+            :to="`/user/${address}/collected`"
             :color="'link'"
             class="pl-5 text-gray-700 rounded-xl hover:text-blueish group hover:bg-gray-100"
+            @click.prevent="$emit('update:modelValue', false)"
             ><CollectionIcon class="w-5 h-5" /><span class="pl-2"
               >My mondrians</span
             ></AppButton
@@ -136,6 +138,14 @@ const { copy, copied, isSupported } = useClipboard({ copiedDuring: 2000 });
 const balance = ref<string>("");
 const ethPrice = ref<string>("");
 
+const usdBalance = computed<string>(() => {
+  return (
+    balance.value &&
+    ethPrice.value &&
+    (Number(balance.value) * Number(ethPrice.value)).toFixed(2)
+  );
+});
+
 const { data, execute, onFetchResponse } = useFetch(SUSHISWAP_SUBGRAPH)
   .post(
     JSON.stringify({
@@ -147,14 +157,6 @@ const { data, execute, onFetchResponse } = useFetch(SUSHISWAP_SUBGRAPH)
 const signOut = (): void => {
   setTimeout(disconnect, 500);
 };
-
-const usdBalance = computed<string>(() => {
-  return (
-    balance.value &&
-    ethPrice.value &&
-    (Number(balance.value) * Number(ethPrice.value)).toFixed(2)
-  );
-});
 
 onFetchResponse(() => {
   if (data?.value?.data?.bundle?.ethPrice) {

@@ -86,7 +86,7 @@ const props = defineProps({
     default: false,
   },
   to: {
-    type: Object || String,
+    type: String,
     default: null,
   },
   href: {

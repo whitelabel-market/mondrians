@@ -1,16 +1,17 @@
 <template>
   <div class="relative cursor-pointer">
-    <slot name="element"></slot>
+    <slot name="element" :show="show"></slot>
     <TransitionRoot
       appear
-      :show="copied"
+      :show="show"
       as="template"
-      enter="transform ease-out duration-200 transition origin-bottom delay-75"
+      enter="transform ease-out duration-200 transition origin-bottom"
       enter-from="scale-95 translate-y-0.5 opacity-0"
       enter-to="scale-100 translate-y-0 opacity-100"
-      leave="transition ease-in duration-100"
+      leave="transition ease-in duration-100 delay-0"
       leave-from="opacity-100"
       leave-to="opacity-0"
+      :class="`transition duration-200 delay-${delay}`"
     >
       <span
         class="absolute inset-x-0 bottom-full mb-2.5 justify-center whitespace-nowrap flex"
@@ -42,9 +43,13 @@
 <script setup lang="ts">
 import { TransitionRoot } from "@headlessui/vue";
 defineProps({
-  copied: {
+  show: {
     type: Boolean,
-    required: true,
+    default: false,
+  },
+  delay: {
+    type: Number,
+    default: 0,
   },
 });
 </script>
