@@ -66,3 +66,44 @@ export const getEthToUsd = `
     }
   }
 `;
+
+export const getActivity = `
+  query GetActivity($address: String = "") {
+    account(id: $address) {
+      transfersFrom {
+        id
+        from {
+          id
+        }
+        to {
+          id
+        }
+        token{
+          id
+        }
+        transactionHash
+        createdAtBlockNumber
+        createdAtTimestamp
+        gasPrice
+        value
+      }
+      transfersTo {
+        id
+        token{
+          id
+        }
+        from {
+          id
+        }
+        to {
+          id
+        }
+        transactionHash
+        createdAtBlockNumber
+        createdAtTimestamp
+        gasPrice
+        value
+      }
+    }
+  }
+`;
