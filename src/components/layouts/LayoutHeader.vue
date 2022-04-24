@@ -129,7 +129,7 @@
           <AppButton
             :size="'sm'"
             :color="loading || !isConnected || !blockie ? 'reddish' : 'link'"
-            :loading="loading || !blockie"
+            :loading="loading"
             class="group"
             :class="loading || !isConnected || !blockie ? 'duration-0' : 'px-0'"
             @click.prevent="

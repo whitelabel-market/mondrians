@@ -48,7 +48,7 @@ const ButtonSize: (
       sm: dense ? "p-2 space-x-1 text-xs" : "h-10 py-4 px-4 space-x-2 text-xs",
       md: dense
         ? "py-2 px-4 space-x-2 text-sm"
-        : "h-12 py-4 px-12 space-x-2 text-sm",
+        : "h-12 py-4 px-4 space-x-2 text-sm",
       lg: dense
         ? "py-4 px-8 space-x-2 text-base"
         : "h-14 py-6 px-14 space-x-2 text-base",

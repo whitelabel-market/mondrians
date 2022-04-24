@@ -23,7 +23,7 @@
         <p
           class="text-[0.656rem] md:leading-5 leading-[0.844rem] font-medium mdx:mt-4 mdx:w-[9.938rem]"
         >
-          Built by WhiteLabelSolutions. Powered by Piet Mondrian.
+          Built with &#127829; by WhiteLabelSolutions. Powered by Piet Mondrian.
         </p>
         <div class="flex">
           <a href="#">

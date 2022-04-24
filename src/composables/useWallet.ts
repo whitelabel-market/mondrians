@@ -61,7 +61,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
   const address = ref<string>("");
   const ensAccount = ref<EnsAccount | undefined>();
   const blockie = ref<string>("");
-  const loading = ref<boolean>(true);
+  const loading = ref<boolean>(false);
   const network = ref<ethers.providers.Network | undefined>();
   const isConnected = computed<boolean>(() => !!provider.value);
   const privateAddress = computed<string>(() =>

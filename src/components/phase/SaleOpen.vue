@@ -64,6 +64,7 @@
         :size="'md'"
         :disabled="quantity === 0 || !isConnected"
         :fullWidth="false"
+        class="px-8"
         @click.prevent="$emit('update:modelValue', true)"
       >
         Mint

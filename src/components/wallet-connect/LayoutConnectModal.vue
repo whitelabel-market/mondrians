@@ -20,7 +20,7 @@
           >
             <AppButton
               :size="'md'"
-              class="flex items-center justify-between px-3 space-x-4"
+              class="flex items-center justify-between px-3 space-x-6 text-left"
               @click.prevent="connectTo(p)"
             >
               <span>{{ p.name }}</span>
