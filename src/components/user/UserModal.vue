@@ -124,7 +124,7 @@ const props = defineProps({
 
 const { blockie, privateAddress, address, getBalance, disconnect } =
   useWallet();
-const { copy, copied, isSupported } = useClipboard({ copiedDuring: 2000 });
+const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const balance = ref<string>("");
 const ethPrice = ref<string>("");
 
@@ -136,7 +136,9 @@ const usdBalance = computed<string>(() => {
   );
 });
 
-const { data, execute, onFetchResponse } = useFetch(SUSHISWAP_SUBGRAPH)
+const { data, execute, onFetchResponse } = useFetch(SUSHISWAP_SUBGRAPH, {
+  timeout: 10000,
+})
   .post(
     JSON.stringify({
       query: getEthToUsd,

@@ -36,7 +36,9 @@ export const createAuthInterface = (address: string) => {
 
   const login = async (): Promise<string> => {
     try {
-      const { data, error } = await useFetch("login").post().json();
+      const { data, error } = await useFetch("login", { timeout: 10000 })
+        .post()
+        .json();
       if (error.value) {
         throw unref(data);
       }
@@ -52,7 +54,7 @@ export const createAuthInterface = (address: string) => {
 
   const callback = async (signature: string): Promise<void> => {
     try {
-      const { data, error } = await useFetch("callback")
+      const { data, error } = await useFetch("callback", { timeout: 10000 })
         .post({ signature })
         .json();
       if (error.value) {
@@ -71,7 +73,9 @@ export const createAuthInterface = (address: string) => {
 
   const getVoucher = async (): Promise<string> => {
     try {
-      const { data, error } = await useFetch("api/whitelist/voucher")
+      const { data, error } = await useFetch("api/whitelist/voucher", {
+        timeout: 10000,
+      })
         .get()
         .json();
       if (error.value) {

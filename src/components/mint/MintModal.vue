@@ -82,7 +82,7 @@ const timeout = (time: number) => {
 const getToken = function* (signal: any, tx: ethers.ContractTransaction): any {
   const block = tx.blockNumber;
   while (true) {
-    const { data } = yield useFetch(MAMO_SUBGRAPH)
+    const { data } = yield useFetch(MAMO_SUBGRAPH, { timeout: 10000 })
       .post(
         JSON.stringify({
           query: getTokensFromBlock,
