@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="max-w-6xl mx-auto w-full md:pt-[4.438rem] md:pb-[3.125rem] py-[2.25rem]"
+    class="max-w-6xl mx-auto w-full text-center sm:text-left md:pt-[4.438rem] md:pb-[3.125rem] py-[2.25rem]"
   >
     <div>
       <div class="flex justify-between mdx:flex-col">
@@ -9,7 +9,7 @@
             src="../../assets/images/Logo.png"
             width="126px"
             height="27px"
-            class="mdx:w-[107.33px] mdx:h-[23px]"
+            class="mdx:w-[107.33px] mdx:h-[23px] mx-auto sm:mx-0"
           />
           <p class="mt-4 text-base font-medium">
             A 25 piece custom collection is joining the NFT Space on White Label

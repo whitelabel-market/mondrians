@@ -6,12 +6,20 @@
       :src="makeBlockie(route.params.id)"
       class="object-cover w-24 h-24 border-4 border-gray-200 rounded-full"
     />
-    <div class="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full">
-      <EthereumIcon class="w-2" />
-      <span class="text-xs font-medium slashed-zero">{{
-        getPrivateAddress
-      }}</span>
-    </div>
+    <AppTooltip :show="copied">
+      <template #element
+        ><button
+          class="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200"
+          @click.prevent="copy(route.params.id)"
+        >
+          <EthereumIcon class="w-2" />
+          <span class="text-xs font-medium slashed-zero">{{
+            getPrivateAddress
+          }}</span>
+        </button></template
+      >
+      <template #text>Copied!</template>
+    </AppTooltip>
     <nav
       class="flex justify-center w-full mx-auto space-x-10 border-b-2 border-gray-100"
     >
@@ -52,11 +60,14 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import EthereumIcon from "@/components/icons/EthereumIcon.vue";
 import { useRoute } from "vue-router";
+import { useClipboard } from "@vueuse/core";
 import makeBlockie from "ethereum-blockies-base64";
+import EthereumIcon from "@/components/icons/EthereumIcon.vue";
+import AppTooltip from "@/components/app/AppTooltip.vue";
 
 const route = useRoute();
+const { copy, copied, isSupported } = useClipboard({ copiedDuring: 2000 });
 
 const getPrivateAddress = computed(() => {
   const address = route.params.id;

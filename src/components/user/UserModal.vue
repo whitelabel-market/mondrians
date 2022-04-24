@@ -42,14 +42,6 @@
       </div>
       <div class="flex items-center gap-2">
         <span class="text-sm font-bold">Connected</span>
-        <span class="relative flex w-2 h-2">
-          <span
-            class="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-ping"
-          ></span>
-          <span
-            class="relative inline-flex w-2 h-2 bg-green-500 rounded-full"
-          ></span>
-        </span>
       </div>
       <div
         class="flex items-center justify-between p-3 border-2 bg-gray-50 rounded-xl"
@@ -59,11 +51,9 @@
             <EthereumIcon class="w-6 h-6 inset-1/2" />
           </div>
           <div class="flex flex-col">
-            <a
-              href="https://app.ens.domains/address/0xe3bbf29f034fA780407Fd11dac7A0B3938b1bc6a"
-              class="text-sm font-bold leading-tight slashed-zero"
-              >{{ privateAddress }}</a
-            >
+            <span class="text-sm font-bold leading-tight slashed-zero">{{
+              privateAddress
+            }}</span>
             <span class="text-xs font-bold leading-tight text-gray-700"
               >Ethereum {{ balance }} - ${{ usdBalance }}</span
             >
