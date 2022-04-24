@@ -1,25 +1,26 @@
 <template>
-  <h3 class="text-base font-bold leading-5 text-left w-80">Follow Steps</h3>
-  <div class="pb-2 space-y-6">
-    <MintStep v-for="(task, index) in tasks" :key="index" :index="index">
+  <h3 class="text-lg font-bold leading-5 text-left w-80">Follow Steps</h3>
+  <div class="pt-2 pb-6 space-y-6">
+    <MintStep
+      v-for="(task, index) in tasks"
+      :key="index"
+      :index="index"
+      :status="task.status"
+    >
       <template v-slot:icon>
-        <component
-          :is="
-            task.isRunning
-              ? components['AppLoadingSpinner']
-              : task.isError
-              ? components['ExclamationCircleIcon']
-              : components['CheckIcon']
-          "
-          class="transform"
-          :class="
-            task.isSuccessful
-              ? 'text-blueish translate-x-0.5'
-              : task.isError
-              ? 'text-red-400 translate-x-0.5'
-              : 'text-gray-200 translate-x-0.5'
-          "
-        />
+        <div class="flex items-center justify-center w-10">
+          <component
+            :is="
+              task.isRunning
+                ? components['AppLoadingSpinner']
+                : task.isError
+                ? components['ExclamationCircleIcon']
+                : components['CheckIcon']
+            "
+            class="text-current transform"
+            :class="[!task.isError && 'translate-x-0.5']"
+          />
+        </div>
       </template>
       <template v-slot:name>{{ MINT_TASKS[phase][index].name }}</template>
       <template v-slot:description v-if="!task.isError">{{

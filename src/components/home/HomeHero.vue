@@ -9,7 +9,7 @@
         class="mx-auto lgs:mx-0"
         width="560"
       />
-      <PreSale v-if="getPhase === 'PreSale'" :max-supply="contract.maxSupply" />
+      <PreSale v-if="getPhase === 'PreSale'" />
       <SaleOpen
         v-if="getPhase === 'WhitelistSale' || getPhase === 'PublicSale'"
         :price="getPrice"

@@ -87,7 +87,7 @@ const getToken = function* (signal: any, tx: ethers.ContractTransaction): any {
         JSON.stringify({
           query: getTokensFromBlock,
           variables: {
-            address: address.value,
+            address: address.value.toLowerCase(),
             block,
           },
         })

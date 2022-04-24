@@ -19,6 +19,14 @@ export type DeferredObject<T> = {
   reject: any;
 };
 
+enum TaskStatus {
+  RUNNING = "running",
+  CANCELED = "canceled",
+  CANCELING = "canceling",
+  ERROR = "error",
+  SUCCESS = "success",
+}
+
 export function defer<T>(): DeferredObject<T> {
   const deferredObject: Record<string, any> = {};
   const promise = new Promise((resolve, reject) => {
@@ -39,6 +47,7 @@ export interface Task<T> extends PromiseLike<any> {
   isCanceled: boolean;
   isActive: boolean;
   isError: boolean;
+  status: TaskStatus;
 
   _run: (options: any, params: any[]) => void;
   cancel: (options?: { force: boolean }) => void;
@@ -69,6 +78,17 @@ export default function useTask<T>(cb: any): Task<T> {
     isActive: computed<boolean>(() => task.isRunning && !task.isCanceling),
     isSuccessful: false,
     isError: computed<boolean>(() => !!task.error),
+    status: computed(() => {
+      const t = task;
+      const match = [
+        [t.isRunning, TaskStatus.RUNNING],
+        [t.isCanceled, TaskStatus.CANCELED],
+        [t.isCanceling, TaskStatus.CANCELING],
+        [t.isError, TaskStatus.ERROR],
+        [t.isSuccessful, TaskStatus.SUCCESS],
+      ].find(([cond]) => cond) as [boolean, TaskStatus];
+      return match && match[1];
+    }),
 
     error: null,
     value: null,

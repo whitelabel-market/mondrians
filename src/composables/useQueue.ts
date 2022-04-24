@@ -91,7 +91,7 @@ export default function useQueue<T>(
 
     dequeue(...params: any[]): void {
       // if max pending promises is reached, return
-      queue._nextParams = params;
+      queue._nextParams = params.length ? params : queue._nextParams;
       if (queue._activeInstances.length >= queue._maxConcurrency) {
         return;
       }
@@ -138,9 +138,10 @@ export default function useQueue<T>(
   return queue;
 }
 
-const onTaskInstanceFinish = <T>(queue: Queue<T>, params: any[]): void => {
+const onTaskInstanceFinish = <T>(queue: Queue<T>, ...params: any[]): void => {
   if (queue.size) {
     queue._tasks.shift();
-    queue.dequeue(params);
+    queue._nextParams = params;
+    queue.dequeue();
   }
 };

@@ -1,7 +1,15 @@
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex items-center pt-2 space-x-4">
-      <div class="flex items-center justify-center w-10 h-10">
+      <div
+        class="flex w-10 h-10"
+        :class="[
+          (status === 'running' || !status) && 'text-gray-200',
+          status === 'running' && 'items-center justify-center',
+          status === 'error' && 'text-red-500',
+          status === 'success' && 'text-blueish',
+        ]"
+      >
         <slot name="icon"></slot>
       </div>
       <div class="flex flex-col">
@@ -18,3 +26,12 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+defineProps({
+  status: {
+    type: String,
+    default: "",
+  },
+});
+</script>

@@ -3,16 +3,12 @@
     <div
       class="font-bold md:text-[4.406rem] text-5xl italic relative z-10 text-center"
     >
-      {{
-        contract.phase === "WhitelistSale" ? "Whitelist Sale" : "Public Sale"
-      }}
+      {{ contract.phase == 1 ? "Whitelist Sale" : "Public Sale" }}
       is live
       <span
         class="text-yellowish w-full font-normal tracking-[0.2em] lgs:tracking-[0.1em] text-center font-serif absolute lgs:left-0 left-1/2 lgs:translate-x-0 -translate-x-1/2 top-0 -z-10"
-        >{{
-          contract.phase === "WhitelistSale" ? "Whitelist Sale" : "Public Sale"
-        }}
-        is live</span
+        >{{ contract.phase == 1 ? "Whitelist Sale" : "Public Sale" }} is
+        live</span
       >
     </div>
     <p class="mt-2 font-bold text-center md:text-3xl md:mt-4">

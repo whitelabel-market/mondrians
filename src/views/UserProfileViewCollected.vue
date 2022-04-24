@@ -38,7 +38,7 @@
       <span>
         {{
           isSelf
-            ? "You should consider create one &#128640;"
+            ? "You should consider to create one &#128640;"
             : "You should make some noise to promote the collection &#128172;"
         }}
       </span>
@@ -81,7 +81,9 @@ onFetchResponse(() => {
   }
 });
 
-const isSelf = computed(() => address === route.params.id);
+const isSelf = computed(
+  () => address.value.toLowerCase() === route.params.id.toLowerCase()
+);
 
 watch(
   route,
