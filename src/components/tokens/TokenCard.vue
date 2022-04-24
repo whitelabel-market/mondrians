@@ -13,7 +13,7 @@
             ><AppImageLoad>
               <template v-slot:image>
                 <a
-                  :href="`https://testnets.opensea.io/assets/${token.contract.id}/${token.id}`"
+                  :href="`${OPENSEA_BASE_URL}${token.contract.id}/${token.id}`"
                   target="_blank"
                 >
                   <img
@@ -39,7 +39,7 @@
             ><AppImageLoad>
               <template v-slot:image>
                 <a
-                  :href="`https://etherscan.io/address/${token.owner.id}`"
+                  :href="`${ETHERSCAN_BASE_URL}address/${token.owner.id}`"
                   target="_blank"
                 >
                   <img
@@ -63,10 +63,7 @@
       <AppImageLoad>
         <template v-slot:image>
           <img
-            :src="`https://ipfs.io/ipfs/${token.imageURI.replace(
-              'ipfs://',
-              ''
-            )}`"
+            :src="`${IPFS_BASE_URL}${token.imageURI.replace('ipfs://', '')}`"
           />
         </template>
         <template v-slot:preloader>
@@ -113,6 +110,11 @@ import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppMenu from "@/components/app/AppMenu.vue";
 import EthereumIcon from "@/components/icons/EthereumIcon.vue";
 import makeBlockie from "ethereum-blockies-base64";
+import {
+  ETHERSCAN_BASE_URL,
+  IPFS_BASE_URL,
+  OPENSEA_BASE_URL,
+} from "@/utils/constants";
 
 defineProps({
   token: {

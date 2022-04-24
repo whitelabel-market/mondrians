@@ -10,7 +10,7 @@
       v-if="ensAccount?.name"
       class="-mt-4 -mb-4 hover:text-blueish"
       target="_blank"
-      :href="`https://app.ens.domains/address/${route.params.id}`"
+      :href="`${ENS_BASE_URL}${route.params.id}`"
       >{{ "@" + ensAccount.name }}</a
     >
     <AppTooltip :show="copied">
@@ -69,7 +69,7 @@
 import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useClipboard, useFetch } from "@vueuse/core";
-import { ENS_SUBGRAPH } from "@/utils/constants";
+import { ENS_SUBGRAPH, ENS_BASE_URL } from "@/utils/constants";
 import { getEnsAccount } from "@/services/graphql/types";
 import makeBlockie from "ethereum-blockies-base64";
 import EthereumIcon from "@/components/icons/EthereumIcon.vue";

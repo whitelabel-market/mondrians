@@ -19,13 +19,18 @@
       index === transfers.length - 1 && 'rounded-b-lg',
     ]"
   >
-    <div class="flex items-center space-x-2">
+    <a
+      :href="`${ETHERSCAN_BASE_URL}tx/${transfer.transactionHash}`"
+      target="_blank"
+      class="flex items-center space-x-2"
+    >
       <DocumentAddIcon class="w-5 h-5 text-gray-700" />
       <span class="truncate"> Mint </span>
-    </div>
+    </a>
     <div v-if="transfer" class="flex truncate">
-      <div
-        @click.prevent="$router.push(`/profile/`)"
+      <a
+        :href="`${ETHERSCAN_BASE_URL}address/${transfer.from.id}`"
+        target="_blank"
         class="flex items-center space-x-2 truncate cursor-pointer"
       >
         <img
@@ -35,11 +40,12 @@
         <span class="truncate slashed-zero">{{
           getShortAddress(transfer.from.id)
         }}</span>
-      </div>
+      </a>
     </div>
     <div v-if="transfer" class="flex truncate">
-      <div
-        @click.prevent="$router.push(`/profile/`)"
+      <a
+        :href="`${ETHERSCAN_BASE_URL}address/${transfer.to.id}`"
+        target="_blank"
         class="flex items-center space-x-2 truncate cursor-pointer"
       >
         <img
@@ -49,7 +55,7 @@
         <span class="truncate slashed-zero">{{
           getShortAddress(transfer.to.id)
         }}</span>
-      </div>
+      </a>
     </div>
     <div class="flex items-center gap-2">
       <span class="truncate">{{
@@ -76,8 +82,9 @@ import EthereumIcon from "@/components/icons/EthereumIcon.vue";
 import makeBlockie from "ethereum-blockies-base64";
 import { ethers } from "ethers";
 import { DocumentAddIcon } from "@heroicons/vue/outline";
+import { ETHERSCAN_BASE_URL } from "@/utils/constants";
 
-const props = defineProps({
+defineProps({
   transfers: {
     type: Array,
     required: true,

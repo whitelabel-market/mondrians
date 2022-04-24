@@ -13,7 +13,7 @@
             }}</span>
             <a
               v-if="ensAccount?.name"
-              :href="`https://app.ens.domains/address/${address}`"
+              :href="`${ENS_BASE_URL}${address}`"
               class="text-xs font-medium leading-tight text-gray-600 hover:text-blueish"
               >{{ "@" + ensAccount.name }}</a
             >
@@ -21,7 +21,7 @@
         </div>
         <div class="flex items-center justify-center w-full gap-4">
           <a
-            :href="`https://etherscan.io/address/${address}`"
+            :href="`${ETHERSCAN_BASE_URL}address/${address}`"
             target="_blank"
             class="flex items-center text-xs font-semibold text-gray-500 hover:text-blueish"
             ><ExternalLinkIcon class="w-4 h-4 mr-1" /><span
@@ -75,10 +75,12 @@
           >
           <AppButton
             :size="'sm'"
+            :to="`/user/${address}/activity`"
             :color="'link'"
             class="pl-5 text-gray-700 rounded-xl hover:text-blueish hover:bg-gray-100"
+            @click.prevent="$emit('update:modelValue', false)"
             ><SwitchVerticalIcon class="w-5 h-5" /><span class="pl-2"
-              >My transactions</span
+              >My activity</span
             ></AppButton
           >
         </div>
@@ -111,7 +113,11 @@ import {
 } from "@heroicons/vue/outline";
 import { useFetch } from "@vueuse/core";
 import { getEthToUsd } from "@/services/graphql/types";
-import { SUSHISWAP_SUBGRAPH } from "@/utils/constants";
+import {
+  SUSHISWAP_SUBGRAPH,
+  ETHERSCAN_BASE_URL,
+  ENS_BASE_URL,
+} from "@/utils/constants";
 import { useClipboard } from "@vueuse/core";
 
 defineEmits(["update:modelValue"]);

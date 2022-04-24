@@ -47,7 +47,7 @@
     >
     <AppButton
       :size="'sm'"
-      :href="`https://ropsten.etherscan.io/tx/${tokens[currentToken].transactionHash}`"
+      :href="`${ETHERSCAN_BASE_URL}tx/${tokens[currentToken].transactionHash}`"
       target="_blank"
       >View transaction on Etherscan</AppButton
     >
@@ -59,6 +59,7 @@ import { ref } from "vue";
 import { ChevronLeftIcon } from "@heroicons/vue/solid";
 import AppButton from "@/components/app/AppButton.vue";
 import CarouselItem from "@/components/carousel/CarouselItem.vue";
+import { ETHERSCAN_BASE_URL } from "@/utils/constants";
 
 defineProps({
   tokens: {

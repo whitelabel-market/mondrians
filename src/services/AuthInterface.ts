@@ -1,6 +1,7 @@
 import { createFetch } from "@vueuse/core";
 import type { BeforeFetchContext } from "@vueuse/core";
 import { unref } from "vue";
+import { API } from "@/utils/constants";
 
 export const createAuthInterface = (address: string) => {
   const xVieverAddress = address;
@@ -9,7 +10,7 @@ export const createAuthInterface = (address: string) => {
   let bearerToken = "";
 
   const useFetch = createFetch({
-    baseUrl: "https://localhost:3000",
+    baseUrl: API,
     options: {
       async beforeFetch({ options }: BeforeFetchContext) {
         options.headers = {

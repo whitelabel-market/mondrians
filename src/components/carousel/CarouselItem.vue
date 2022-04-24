@@ -2,7 +2,7 @@
   <AppImageLoad>
     <template v-slot:image>
       <img
-        :src="`https://ipfs.io/ipfs/${token.imageURI.replace('ipfs://', '')}`"
+        :src="`${IPFS_BASE_URL}${token.imageURI.replace('ipfs://', '')}`"
         class="object-contain"
         v-show="currentToken === index"
       />
@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
+import { IPFS_BASE_URL } from "@/utils/constants";
 
 defineProps({
   token: {
