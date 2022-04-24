@@ -1,16 +1,35 @@
 import { inject, computed, ref, watch, shallowRef } from "vue";
 import type { Ref, ShallowRef } from "vue";
 import type { ConfigurableWindow } from "@vueuse/core";
-import { defaultWindow, useStorage, RemovableRef } from "@vueuse/core";
+import {
+  defaultWindow,
+  useStorage,
+  RemovableRef,
+  useFetch,
+} from "@vueuse/core";
 import Connector from "@/libs/@walletConnector";
 import { ethers } from "ethers";
 import makeBlockie from "ethereum-blockies-base64";
+import { ENS_SUBGRAPH } from "@/utils/constants";
+import { getEnsAccount } from "@/services/graphql/types";
 
 export const WALLET_CONTEXT = Symbol();
 
+export type EnsAccount = {
+  name: string;
+  labelName: string;
+  labelhash: string;
+  createdAt: string;
+};
+
+const { post, onFetchResponse, data } = useFetch(ENS_SUBGRAPH, {
+  timeout: 10000,
+  immediate: false,
+}).json();
 export interface Wallet {
   // state
   address: Ref<string>;
+  ensAccount: Ref<EnsAccount | undefined>;
   blockie: Ref<string>;
   loading: Ref<boolean>;
   network: Ref<ethers.providers.Network | undefined>;
@@ -40,8 +59,9 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
 
   // state
   const address = ref<string>("");
+  const ensAccount = ref<EnsAccount | undefined>();
   const blockie = ref<string>("");
-  const loading = ref<boolean>(false);
+  const loading = ref<boolean>(true);
   const network = ref<ethers.providers.Network | undefined>();
   const isConnected = computed<boolean>(() => !!provider.value);
   const privateAddress = computed<string>(() =>
@@ -138,13 +158,18 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
 
       ethereumProvider.on(
         "network",
-        async (
-          newNetwork: ethers.providers.Network,
-          oldNetwork: ethers.providers.Network
-        ) => {
+        async (newNetwork: ethers.providers.Network) => {
           if (provider.value) network.value = newNetwork;
         }
       );
+    }
+
+    if (window.localStorage.getItem("ens-account")) {
+      const storedEnsAccount = JSON.parse(
+        window.localStorage.getItem("ens-account") as string
+      );
+      if (data?.value?.data?.account?.domains.length > 0)
+        ensAccount.value = storedEnsAccount?.domains[0];
     }
 
     if (window.localStorage.getItem("wallet-provider")) {
@@ -152,10 +177,16 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
         (provider) =>
           provider.id === window.localStorage.getItem("wallet-provider")
       );
-
       if (index > -1) connect(providers[index].id);
     }
   }
+
+  onFetchResponse(() => {
+    if (data?.value?.data?.account?.domains.length > 0) {
+      ensAccount.value = data.value.data.account.domains[0];
+      useStorage("ens-account", data.value.data.account);
+    }
+  });
 
   // reload address and network on connect
   watch(provider, async () => {
@@ -165,12 +196,22 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
     ]);
     if (address.value) {
       blockie.value = makeBlockie(address.value);
-      loading.value = false;
+      if (!ensAccount.value)
+        post(
+          JSON.stringify({
+            query: getEnsAccount,
+            variables: {
+              address: address.value.toLowerCase(),
+            },
+          })
+        ).execute();
     }
+    loading.value = false;
   });
 
   const wallet: Wallet = {
     address,
+    ensAccount,
     blockie,
     loading,
     privateAddress,

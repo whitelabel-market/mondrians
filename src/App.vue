@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen mx-auto">
+  <div class="flex flex-col min-h-screen mx-auto select-none">
     <LayoutHeader class="z-50" />
     <div
       v-if="!loaded"

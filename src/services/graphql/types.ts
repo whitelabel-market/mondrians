@@ -54,12 +54,6 @@ export const getEnsAccount = `
         labelName
         labelhash
         createdAt
-        events {
-          id
-          transactionID
-          blockNumber
-        }
-        isMigrated
       }
     }
   }

@@ -28,19 +28,37 @@
     <div
       class="flex flex-col items-center text-base font-medium leading-tight text-gray-600"
     >
-      <span>It seems you have not minted any of the rare Mondrians. </span>
-      <span> You should consider to do so &#128640; </span>
+      <span
+        >{{
+          isSelf
+            ? "It seems you have none of the rare Mondrians."
+            : "It seems this address has none of the rare Mondrians."
+        }}
+      </span>
+      <span>
+        {{
+          isSelf
+            ? "You should consider create one &#128640;"
+            : "You should make some noise to promote the collection &#128172;"
+        }}
+      </span>
     </div>
-    <AppButton :to="'/'" :size="'md'" :fullWidth="false" class="px-4"
+    <AppButton
+      v-if="isSelf"
+      :to="'/'"
+      :size="'md'"
+      :fullWidth="false"
+      class="px-4"
       >Create Mondrian</AppButton
     >
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useFetch } from "@vueuse/core";
+import { useWallet } from "@/composables/useWallet";
 import { getTokensForAccount } from "@/services/graphql/types";
 import { MAMO_SUBGRAPH } from "@/utils/constants";
 import TokenCard from "@/components/tokens/TokenCard.vue";
@@ -50,6 +68,7 @@ import AppButton from "@/components/app/AppButton.vue";
 const tokens = ref([]);
 
 const route = useRoute();
+const { address } = useWallet();
 
 const { post, onFetchResponse, data, isFetching, isFinished } = useFetch(
   MAMO_SUBGRAPH,
@@ -61,6 +80,8 @@ onFetchResponse(() => {
     tokens.value = data.value.data.tokens;
   }
 });
+
+const isSelf = computed(() => address === route.params.id);
 
 watch(
   route,

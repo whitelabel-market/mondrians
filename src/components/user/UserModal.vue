@@ -12,9 +12,10 @@
               privateAddress
             }}</span>
             <a
+              v-if="ensAccount?.name"
               :href="`https://app.ens.domains/address/${address}`"
               class="text-xs font-medium leading-tight text-gray-600 hover:text-blueish"
-              >@amrap030.eth</a
+              >{{ "@" + ensAccount.name }}</a
             >
           </div>
         </div>
@@ -122,7 +123,7 @@ const props = defineProps({
   },
 });
 
-const { blockie, privateAddress, address, getBalance, disconnect } =
+const { blockie, privateAddress, address, getBalance, disconnect, ensAccount } =
   useWallet();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const balance = ref<string>("");

@@ -144,7 +144,9 @@
               class="flex items-center h-10 gap-2 text-sm font-semibold slashed-zero"
             >
               <img :src="blockie" class="object-cover w-6 h-6 rounded-full" />
-              <span class="group-hover:text-blueish">{{ privateAddress }}</span>
+              <span class="group-hover:text-blueish">{{
+                ensAccount?.name || privateAddress
+              }}</span>
             </div>
           </AppButton>
         </li>
@@ -170,7 +172,8 @@ import { useRoute } from "vue-router";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-const { privateAddress, loading, blockie, isConnected } = useWallet();
+const { privateAddress, loading, blockie, isConnected, ensAccount } =
+  useWallet();
 const route = useRoute();
 const showConnectModal = ref(false);
 const showUserModal = ref(false);

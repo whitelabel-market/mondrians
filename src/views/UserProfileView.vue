@@ -6,6 +6,13 @@
       :src="makeBlockie(route.params.id)"
       class="object-cover w-24 h-24 border-4 border-gray-200 rounded-full"
     />
+    <a
+      v-if="ensAccount?.name"
+      class="-mt-4 -mb-4 hover:text-blueish"
+      target="_blank"
+      :href="`https://app.ens.domains/address/${route.params.id}`"
+      >{{ "@" + ensAccount.name }}</a
+    >
     <AppTooltip :show="copied">
       <template #element
         ><button
@@ -59,15 +66,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useClipboard } from "@vueuse/core";
+import { useClipboard, useFetch } from "@vueuse/core";
+import { ENS_SUBGRAPH } from "@/utils/constants";
+import { getEnsAccount } from "@/services/graphql/types";
 import makeBlockie from "ethereum-blockies-base64";
 import EthereumIcon from "@/components/icons/EthereumIcon.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 
+const emits = defineEmits(["loaded"]);
+emits("loaded");
+
+const ensAccount = ref();
 const route = useRoute();
-const { copy, copied, isSupported } = useClipboard({ copiedDuring: 2000 });
+const { copy, copied } = useClipboard({ copiedDuring: 2000 });
+const { post, onFetchResponse, data } = useFetch(ENS_SUBGRAPH, {
+  timeout: 10000,
+  immediate: false,
+}).json();
 
 const getPrivateAddress = computed(() => {
   const address = route.params.id;
@@ -76,6 +93,28 @@ const getPrivateAddress = computed(() => {
     address.length
   )}`;
 });
+
+onFetchResponse(() => {
+  if (data?.value?.data?.account?.domains.length > 0) {
+    ensAccount.value = data.value.data.account.domains[0];
+  }
+});
+
+watch(
+  route,
+  () => {
+    if (route?.params?.id)
+      post(
+        JSON.stringify({
+          query: getEnsAccount,
+          variables: {
+            address: route.params.id.toLowerCase(),
+          },
+        })
+      ).execute();
+  },
+  { deep: true, immediate: true }
+);
 
 const tabs = ["Collected", "Activity"];
 </script>

@@ -2,7 +2,7 @@ import { reactive } from "vue";
 import { computed, onBeforeUnmount, effectScope } from "vue";
 import type { Task } from "@/composables/useTask";
 
-export type Queue<T> = {
+export interface Queue<T> {
   // lifecycle state
   isIdle: boolean;
   isRunning: boolean;
@@ -35,7 +35,7 @@ export type Queue<T> = {
   // other
   _scope: any;
   _nextParams: any[];
-};
+}
 
 export default function useQueue<T>(
   options = { cancelOnUnmount: true }
