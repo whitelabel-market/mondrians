@@ -5,11 +5,6 @@
     >
       {{ contract.phase == 1 ? "Whitelist Sale" : "Public Sale" }}
       is live
-      <span
-        class="text-yellowish w-full font-normal tracking-[0.2em] lgs:tracking-[0.1em] text-center font-serif absolute lgs:left-0 left-1/2 lgs:translate-x-0 -translate-x-1/2 top-0 -z-10"
-        >{{ contract.phase == 1 ? "Whitelist Sale" : "Public Sale" }} is
-        live</span
-      >
     </div>
     <p class="mt-2 font-bold text-center md:text-3xl md:mt-4">
       {{ contract.totalSupply }} of {{ contract.maxSupply }}
@@ -58,10 +53,14 @@
     <div class="flex items-center justify-center mt-4">
       <AppButton
         :size="'md'"
-        :disabled="quantity === 0 || !isConnected"
+        :disabled="quantity === 0"
         :fullWidth="false"
         class="px-8"
-        @click.prevent="$emit('update:modelValue', true)"
+        @click.prevent="
+          !isConnected
+            ? $emit('update:showConnectModal', true)
+            : $emit('update:modelValue', true)
+        "
       >
         Mint
       </AppButton>
@@ -73,7 +72,12 @@
 import EthereumIcon from "../icons/EthereumIcon.vue";
 import AppButton from "@/components/app/AppButton.vue";
 
-defineEmits(["increase", "decrease", "update:modelValue"]);
+defineEmits([
+  "increase",
+  "decrease",
+  "update:modelValue",
+  "update:showConnectModal",
+]);
 
 defineProps({
   price: {

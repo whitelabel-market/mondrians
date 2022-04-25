@@ -4,7 +4,7 @@ import { unref } from "vue";
 import { API } from "@/utils/constants";
 
 export const createAuthInterface = (address: string) => {
-  const xVieverAddress = address;
+  const xViewerAddress = address;
   const xCsrf = "1";
   let xCsrfToken = "";
   let bearerToken = "";
@@ -15,7 +15,7 @@ export const createAuthInterface = (address: string) => {
       async beforeFetch({ options }: BeforeFetchContext) {
         options.headers = {
           ["x-csrf"]: xCsrf,
-          ["x-viewer-address"]: xVieverAddress,
+          ["x-viewer-address"]: xViewerAddress,
           Accept: "application/json",
           "Content-Type": "application/json",
         };
@@ -44,6 +44,7 @@ export const createAuthInterface = (address: string) => {
         throw unref(data);
       }
       const message = unref(data).message;
+      xCsrfToken = unref(data).csrfToken;
       if (message) {
         return message;
       }

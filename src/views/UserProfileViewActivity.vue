@@ -11,25 +11,17 @@
     >
       <span
         >{{
-          isSelf
-            ? "It seems there is no activity in this collection for your account."
-            : "It seems there is no activity in this collection for this account."
+          `It seems there is no activity in this collection for ${
+            isSelf ? "your" : "this"
+          } account.`
         }}
       </span>
       <span>
-        {{
-          isSelf
-            ? "You should consider to create a Mondrian &#128640;"
-            : "You should make some noise to promote the collection &#128172;"
-        }}
+        You should consider to create a Mondrian &#128640; and make some noise
+        to promote the collection &#128172;
       </span>
     </div>
-    <AppButton
-      v-if="isSelf"
-      :to="'/'"
-      :size="'md'"
-      :fullWidth="false"
-      class="px-4"
+    <AppButton :to="'/'" :size="'md'" :fullWidth="false" class="px-4"
       >Create Mondrian</AppButton
     >
   </div>

@@ -21,6 +21,7 @@
         @increase="quantity++"
         @decrease="quantity--"
         @update:modelValue="modelValue = true"
+        @update:showConnectModal="showConnectModal = true"
       />
     </div>
   </section>
@@ -30,21 +31,34 @@
     :quantity="quantity"
     :price="getPrice"
   />
+  <LayoutConnectModal
+    v-model="showConnectModal"
+    @connected="connected = true"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import PreSale from "@/components/phase/PreSale.vue";
 import SaleOpen from "@/components/phase/SaleOpen.vue";
 import MintModal from "@/components/mint/MintModal.vue";
+import LayoutConnectModal from "@/components/wallet-connect/LayoutConnectModal.vue";
 import useContract from "@/composables/useContract";
 import { useWallet } from "@/composables/useWallet";
 
 const modelValue = ref(false);
+const showConnectModal = ref(false);
+const connected = ref(false);
 const quantity = ref(1);
 const { getPrice, getPhase, contract } = useContract();
-const { isConnected } = useWallet();
+const { isConnected, address } = useWallet();
 
 const canDecrease = computed(() => quantity.value > 0);
 const canIncrease = computed(() => quantity.value < contract.value.maxMint);
+
+watch(address, () => {
+  if (connected.value) {
+    modelValue.value = true;
+  }
+});
 </script>

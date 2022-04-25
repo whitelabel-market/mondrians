@@ -52,7 +52,7 @@ import AppButton from "@/components/app/AppButton.vue";
 import LoadingWallet from "@/components/wallet-connect/LoadingWallet.vue";
 import { useWallet } from "@/composables/useWallet";
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "connected"]);
 
 defineProps({
   modelValue: {
@@ -76,5 +76,6 @@ const providersCollapsed = ref(false);
 const connectTo = async (provider: any) => {
   await connect(provider.id);
   emits("update:modelValue", false);
+  emits("connected");
 };
 </script>
