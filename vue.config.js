@@ -12,9 +12,5 @@ module.exports = defineConfig({
         chunks: "all",
       },
     },
-    // remove comments from build
-    output: {
-      pathinfo: false,
-    },
   },
 });
