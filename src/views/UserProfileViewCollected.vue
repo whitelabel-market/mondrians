@@ -62,14 +62,18 @@ const tokens = ref([]);
 const route = useRoute();
 const { address } = useWallet();
 
+const emits = defineEmits(["makeSign"]);
+
 const { post, onFetchResponse, data, isFetching, isFinished } = useFetch(
   MAMO_SUBGRAPH,
   { timeout: 10000 }
 ).json();
 
 onFetchResponse(() => {
-  if (data?.value?.data?.tokens) {
+  if (data?.value?.data?.tokens.length) {
     tokens.value = data.value.data.tokens;
+  } else {
+    emits("makeSign");
   }
 });
 

@@ -61,7 +61,15 @@
       <span class="truncate">{{
         ethers.utils.formatEther(transfer.value)
       }}</span
-      ><EthereumIcon class="w-3" />
+      ><EthereumIcon class="w-3" />&#126;
+      <span v-if="tokenHourDatas.length"
+        >{{
+          Number(
+            getPrice(transfer.createdAtTimestamp) *
+              ethers.utils.formatEther(transfer.value)
+          ).toFixed(2)
+        }}$</span
+      >
     </div>
     <div class="flex items-center gap-2">
       <span class="truncate">{{
@@ -84,12 +92,22 @@ import { ethers } from "ethers";
 import { DocumentAddIcon } from "@heroicons/vue/outline";
 import { ETHERSCAN_BASE_URL } from "@/utils/constants";
 
-defineProps({
+const props = defineProps({
   transfers: {
     type: Array,
     required: true,
   },
+  tokenHourDatas: {
+    type: Array,
+  },
 });
+
+const getPrice = (timestamp) => {
+  const hourData = props.tokenHourDatas.find(
+    (data) => data.periodStartUnix >= Number(timestamp)
+  );
+  return hourData.close;
+};
 
 const getShortAddress = (address: string) => {
   if (parseInt(address) === 0) return "Null address";

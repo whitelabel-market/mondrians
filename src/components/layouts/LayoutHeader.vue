@@ -154,7 +154,12 @@
     </nav>
 
     <LayoutConnectModal v-model="showConnectModal" />
-    <UserModal v-model="showUserModal" />
+    <UserModal
+      v-model="showUserModal"
+      :privateAddress="privateAddress"
+      :blockie="blockie"
+      :ensAccount="ensAccount"
+    />
   </header>
 </template>
 

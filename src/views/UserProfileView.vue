@@ -27,6 +27,32 @@
       >
       <template #text>Copied!</template>
     </AppTooltip>
+    <div class="flex items-center gap-2">
+      <span class="relative inline-flex">
+        <button
+          class="flex items-center justify-center p-2 text-gray-700 border border-gray-200 rounded-full"
+        >
+          <UploadIcon class="w-5 h-5" />
+        </button>
+        <span
+          v-if="signVisible"
+          class="absolute top-0 right-0 flex w-2 h-2 mt-0.5 mr-0.5"
+        >
+          <span
+            class="absolute inline-flex w-full h-full bg-red-400 rounded-full opacity-75 animate-ping"
+          ></span>
+          <span
+            class="relative inline-flex w-2 h-2 bg-red-500 rounded-full"
+          ></span>
+        </span>
+      </span>
+
+      <button
+        class="flex items-center justify-center p-2 text-gray-700 border border-gray-200 rounded-full"
+      >
+        <DotsHorizontalIcon class="w-5 h-5" />
+      </button>
+    </div>
     <nav
       class="flex justify-center w-full mx-auto space-x-10 border-b-2 border-gray-100"
     >
@@ -46,7 +72,7 @@
           ]"
         >
           <div
-            class="pt-4 pb-2 font-semibold capitalize transition duration-150 ease-in-out hover:text-blueish"
+            class="pb-2 font-semibold capitalize transition duration-150 ease-in-out hover:text-blueish"
             :class="isExactActive ? 'text-blueish' : 'text-gray-300'"
           >
             {{ title }}
@@ -60,7 +86,7 @@
       </router-link>
     </nav>
     <div class="w-full">
-      <router-view></router-view>
+      <router-view @makeSign="signVisible = true"></router-view>
     </div>
   </div>
 </template>
@@ -74,11 +100,14 @@ import { getEnsAccount } from "@/services/graphql/types";
 import makeBlockie from "ethereum-blockies-base64";
 import EthereumIcon from "@/components/icons/EthereumIcon.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
+import { DotsHorizontalIcon } from "@heroicons/vue/solid";
+import { UploadIcon } from "@heroicons/vue/outline";
 
 const emits = defineEmits(["loaded"]);
 emits("loaded");
 
 const ensAccount = ref();
+const signVisible = ref(false);
 const route = useRoute();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const { post, onFetchResponse, data } = useFetch(ENS_SUBGRAPH, {

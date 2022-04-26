@@ -93,10 +93,13 @@
         <span class="text-xs font-semibold text-gray-500 truncate"
           >Buy in
         </span>
-        <span
-          class="text-xs font-semibold text-transparent truncate bg-clip-text bg-gradient-to-r to-cyan-500 from-blueish"
-          >0.25
-        </span>
+        <div class="flex items-center">
+          <span
+            class="text-xs font-semibold text-transparent truncate bg-clip-text bg-gradient-to-r to-cyan-500 from-blueish"
+            >{{ 0.25 }}
+          </span>
+          <EthereumIcon class="w-3 h-3 transform translate-x-0.5" />
+        </div>
       </div>
     </div>
   </div>

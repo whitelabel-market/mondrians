@@ -5,6 +5,8 @@ export const ENS_SUBGRAPH =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ens";
 export const SUSHISWAP_SUBGRAPH =
   "https://api.thegraph.com/subgraphs/name/sushiswap/exchange";
+export const UNISWAP_SUBGRAPH =
+  "https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph";
 export const API = process.env.VUE_APP_API || "";
 export const INFURA_WSS = process.env.VUE_APP_INFURA_WSS || "";
 export const NETWORK_NAME = "ropsten";

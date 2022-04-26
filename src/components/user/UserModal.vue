@@ -127,10 +127,21 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  privateAddress: {
+    type: String,
+    default: "",
+  },
+  blockie: {
+    type: String,
+    default: "",
+  },
+  ensAccount: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
-const { blockie, privateAddress, address, getBalance, disconnect, ensAccount } =
-  useWallet();
+const { address, getBalance, disconnect } = useWallet();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const balance = ref<string>("");
 const ethPrice = ref<string>("");

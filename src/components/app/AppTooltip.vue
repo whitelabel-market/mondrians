@@ -11,7 +11,7 @@
       leave="transition ease-in duration-100 delay-0"
       leave-from="opacity-100"
       leave-to="opacity-0"
-      :class="`transition duration-200 delay-${delay}`"
+      :class="[delay && `delay-${delay}`]"
     >
       <span
         class="absolute inset-x-0 bottom-full mb-2.5 justify-center whitespace-nowrap flex"
