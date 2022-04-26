@@ -24,10 +24,6 @@ export const createAuthInterface = (address: string) => {
         if (xCsrfToken) options.headers["x-csrf-token"] = xCsrfToken;
         return { options };
       },
-      afterFetch(ctx) {
-        if (ctx.data.csrfToken) xCsrfToken = ctx.data.csrfToken;
-        return ctx;
-      },
     },
     fetchOptions: {
       mode: "cors",

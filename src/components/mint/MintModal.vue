@@ -34,6 +34,7 @@ import { getTokensFromBlock } from "@/services/graphql/types";
 
 defineEmits(["update:modelValue"]);
 
+let authInterface;
 const { address, provider, signMessage } = useWallet();
 const tokens: any = ref([]);
 const tasks = ref<any[]>([]);
@@ -57,14 +58,13 @@ const props = defineProps({
 });
 
 const getMessage = function* (): any {
-  const authInterface = createAuthInterface(address.value);
+  authInterface = createAuthInterface(address.value);
   const message = yield authInterface.login();
   const signature = yield signMessage(message);
   return yield authInterface.callback(signature);
 };
 
 const getVoucher = function* (): any {
-  const authInterface = createAuthInterface(address.value);
   return yield authInterface.getVoucher();
 };
 
