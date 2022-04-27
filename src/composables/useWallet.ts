@@ -9,6 +9,7 @@ import {
 } from "@vueuse/core";
 import Connector from "@/libs/@walletConnector";
 import { ethers } from "ethers";
+import { getShortAddress, weiToEth } from "@/utils/ethereum";
 import makeBlockie from "ethereum-blockies-base64";
 import { ENS_SUBGRAPH } from "@/utils/constants";
 import { getEnsAccount } from "@/services/graphql/types";
@@ -64,14 +65,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
   const loading = ref<boolean>(false);
   const network = ref<ethers.providers.Network | undefined>();
   const isConnected = computed<boolean>(() => !!provider.value);
-  const privateAddress = computed<string>(() =>
-    address.value
-      ? `${address.value.substring(0, 5)}...${address.value.substring(
-          address.value.length - 5,
-          address.value.length
-        )}`
-      : ""
-  );
+  const privateAddress = computed<string>(() => getShortAddress(address.value));
 
   // useful instances
   const provider = shallowRef<ethers.providers.Web3Provider | undefined>();
@@ -124,7 +118,9 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
   const getBalance = async (): Promise<string> => {
     try {
       return signer.value
-        ? ethers.utils.formatEther(await signer.value.getBalance())
+        ? weiToEth(
+            await (await signer.value.getBalance()).toString()
+          ).toString()
         : "";
     } catch (e: any) {
       throw new Error(e.toString());
@@ -143,7 +139,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
 
   const { window = defaultWindow } = options;
 
-  // automatically detect wallet
+  // automatically detect wallet (only working for injected)
   if (window) {
     if (window.ethereum) {
       const ethereumProvider = new ethers.providers.Web3Provider(

@@ -66,6 +66,7 @@
           <AppButton
             :size="'sm'"
             :to="`/user/${address}/collected`"
+            :center="false"
             :color="'link'"
             class="pl-5 text-gray-700 rounded-xl hover:text-blueish group hover:bg-gray-100"
             @click.prevent="$emit('update:modelValue', false)"
@@ -77,6 +78,7 @@
             :size="'sm'"
             :to="`/user/${address}/activity`"
             :color="'link'"
+            :center="false"
             class="pl-5 text-gray-700 rounded-xl hover:text-blueish hover:bg-gray-100"
             @click.prevent="$emit('update:modelValue', false)"
             ><SwitchVerticalIcon class="w-5 h-5" /><span class="pl-2"

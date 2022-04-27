@@ -1,5 +1,5 @@
 import { computed, isRef, ref } from "vue";
-import { ethers } from "ethers";
+import { weiToEth } from "@/utils/ethereum";
 import { MaybeRef } from "@vueuse/core";
 
 export type Contract = {
@@ -48,9 +48,10 @@ export default function useContract() {
   });
 
   const isPaused = computed<boolean>(() => !!fullContract.value.paused);
-  const getPrice = computed<string>(() => {
-    return ethers.utils.formatEther(contract.value.cost);
-  });
+  const getPrice = computed<string>(() =>
+    weiToEth(contract.value.cost).toString()
+  );
+
   const getPhase = computed<string>(() => Phase[contract.value.phase]);
 
   return {

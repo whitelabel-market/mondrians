@@ -58,23 +58,18 @@
       </a>
     </div>
     <div class="flex items-center gap-2">
-      <span class="truncate">{{
-        ethers.utils.formatEther(transfer.value)
-      }}</span
+      <span class="truncate">{{ weiToEth(transfer.value) }}</span
       ><EthereumIcon class="w-3" />&#126;
       <span v-if="tokenHourDatas.length"
         >{{
-          Number(
-            getPrice(transfer.createdAtTimestamp) *
-              ethers.utils.formatEther(transfer.value)
+          (
+            getPrice(transfer.createdAtTimestamp) * weiToEth(transfer.value)
           ).toFixed(2)
         }}$</span
       >
     </div>
     <div class="flex items-center gap-2">
-      <span class="truncate">{{
-        Number(ethers.utils.formatUnits(transfer.gasPrice, "gwei")).toFixed(2)
-      }}</span
+      <span class="truncate">{{ weiToGwei(transfer.gasPrice).toFixed(2) }}</span
       ><EthereumIcon class="w-3" /><span>(gwei)</span>
     </div>
     <div class="flex items-center">
@@ -88,7 +83,7 @@
 <script setup lang="ts">
 import EthereumIcon from "@/components/icons/EthereumIcon.vue";
 import makeBlockie from "ethereum-blockies-base64";
-import { ethers } from "ethers";
+import { getShortAddress, weiToGwei, weiToEth } from "@/utils/ethereum";
 import { DocumentAddIcon } from "@heroicons/vue/outline";
 import { ETHERSCAN_BASE_URL } from "@/utils/constants";
 
@@ -106,14 +101,6 @@ const getPrice = (timestamp) => {
   const hourData = props.tokenHourDatas.find(
     (data) => data.periodStartUnix >= Number(timestamp)
   );
-  return hourData.close;
-};
-
-const getShortAddress = (address: string) => {
-  if (parseInt(address) === 0) return "Null address";
-  return `${address.substring(0, 5)}...${address.substring(
-    address.length - 5,
-    address.length
-  )}`;
+  return Number(hourData.close);
 };
 </script>

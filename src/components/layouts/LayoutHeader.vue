@@ -103,9 +103,6 @@
                   class="w-5 h-5"
                 />
               </template>
-              <template v-slot:preloader>
-                <AppLoadingSpinner :size="'xs'" />
-              </template>
             </AppImageLoad>
           </a>
         </li>
@@ -119,15 +116,12 @@
                   class="w-5 h-5"
                 />
               </template>
-              <template v-slot:preloader>
-                <AppLoadingSpinner :size="'xs'" />
-              </template>
             </AppImageLoad>
           </a>
         </li>
         <li class="md:ml-4">
           <AppButton
-            :size="'sm'"
+            size="sm"
             :color="loading || !isConnected || !blockie ? 'reddish' : 'link'"
             :loading="loading"
             class="group"
@@ -171,7 +165,6 @@ import { useWallet } from "@/composables/useWallet";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
-import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { useRoute } from "vue-router";
 

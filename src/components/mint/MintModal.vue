@@ -31,13 +31,16 @@ import { ethers } from "ethers";
 import { MAMO_SUBGRAPH } from "@/utils/constants";
 import { useFetch } from "@vueuse/core";
 import { getTokensFromBlock } from "@/services/graphql/types";
+import type { Token } from "@/utils/types";
+import type { Task } from "@/composables/useTask";
 
 defineEmits(["update:modelValue"]);
 
 let authInterface;
 const { address, provider, signMessage } = useWallet();
-const tokens: any = ref([]);
-const tasks = ref<any[]>([]);
+const tokens = ref<Token[] | []>([]);
+const tasks = ref<Task[] | []>([]);
+
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -57,19 +60,22 @@ const props = defineProps({
   },
 });
 
+// job to get message to be signed
 const getMessage = function* (): any {
   authInterface = createAuthInterface(address.value);
-  const message = yield authInterface.login();
-  const signature = yield signMessage(message);
+  const message: string = yield authInterface.login();
+  const signature: string = yield signMessage(message);
   return yield authInterface.callback(signature);
 };
 
+// job to generate voucher (whitelist sale)
 const getVoucher = function* (): any {
-  return yield authInterface.getVoucher();
+  return yield authInterface.getVoucher() as string;
 };
 
+// job to execute minting (whitelist sale or public sale)
 const execMint = function* (signal: any, voucher: string): any {
-  const mondrianInterface = new MondrianInterface(
+  const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
   return yield mondrianInterface.mint(props.quantity, props.price, voucher);
@@ -79,6 +85,7 @@ const timeout = (time: number) => {
   return new Promise((resolve) => setTimeout(resolve, time));
 };
 
+// job to receive tokens from indexer
 const getToken = function* (signal: any, tx: ethers.ContractTransaction): any {
   const block = tx.blockNumber;
   while (true) {

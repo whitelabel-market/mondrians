@@ -5,13 +5,12 @@
       appear
       :show="show"
       as="template"
-      enter="transform ease-out duration-200 transition origin-bottom"
+      :enter="`transition transform ease-out duration-200 origin-bottom delay-${delay}`"
       enter-from="scale-95 translate-y-0.5 opacity-0"
       enter-to="scale-100 translate-y-0 opacity-100"
       leave="transition ease-in duration-100 delay-0"
       leave-from="opacity-100"
       leave-to="opacity-0"
-      :class="[delay && `delay-${delay}`]"
     >
       <span
         class="absolute inset-x-0 bottom-full mb-2.5 justify-center whitespace-nowrap flex"
@@ -42,14 +41,15 @@
 
 <script setup lang="ts">
 import { TransitionRoot } from "@headlessui/vue";
+
 defineProps({
   show: {
     type: Boolean,
     default: false,
   },
   delay: {
-    type: Number,
-    default: 0,
+    type: [String as () => "0" | "200" | "500", Number as () => 0 | 200 | 500],
+    default: "0",
   },
 });
 </script>

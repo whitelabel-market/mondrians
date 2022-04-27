@@ -7,12 +7,13 @@
         <AppTooltip
           class="mr-4 duration-100 ease-out transform hover:-translate-y-1 hover:z-50"
           :show="hoverCollection"
-          :delay="500"
+          delay="500"
         >
           <template v-slot:element
-            ><AppImageLoad>
+            ><AppImageLoad size="md">
               <template v-slot:image>
                 <a
+                  class="w-6 h-6"
                   :href="`${OPENSEA_BASE_URL}${token.contract.id}/${token.id}`"
                   target="_blank"
                 >
@@ -22,10 +23,8 @@
                     loading="lazy"
                     @mouseenter="hoverCollection = true"
                     @mouseleave="hoverCollection = false"
-                /></a>
-              </template>
-              <template v-slot:preloader>
-                <AppLoadingSpinner :size="'md'" />
+                  />
+                </a>
               </template> </AppImageLoad
           ></template>
           <template #text>View on opensea</template>
@@ -33,10 +32,10 @@
         <AppTooltip
           class="mr-4 duration-100 ease-out transform hover:-translate-y-1 hover:z-50"
           :show="hoverOwner"
-          :delay="500"
+          delay="500"
         >
           <template v-slot:element
-            ><AppImageLoad>
+            ><AppImageLoad size="md">
               <template v-slot:image>
                 <a
                   :href="`${ETHERSCAN_BASE_URL}address/${token.owner.id}`"
@@ -49,9 +48,6 @@
                     @mouseenter="hoverOwner = true"
                     @mouseleave="hoverOwner = false"
                 /></a>
-              </template>
-              <template v-slot:preloader>
-                <AppLoadingSpinner :size="'md'" />
               </template> </AppImageLoad
           ></template>
           <template #text>View on etherscan</template>
@@ -60,14 +56,11 @@
       <AppMenu :token="token" />
     </div>
     <div class="flex items-center justify-center w-full aspect-square">
-      <AppImageLoad>
+      <AppImageLoad size="md">
         <template v-slot:image>
           <img
             :src="`${IPFS_BASE_URL}${token.imageURI.replace('ipfs://', '')}`"
           />
-        </template>
-        <template v-slot:preloader>
-          <AppLoadingSpinner :size="'md'" />
         </template>
       </AppImageLoad>
     </div>
@@ -108,7 +101,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
-import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppMenu from "@/components/app/AppMenu.vue";
 import EthereumIcon from "@/components/icons/EthereumIcon.vue";

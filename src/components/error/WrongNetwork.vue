@@ -7,7 +7,6 @@
       disconnect();
     "
   >
-    <template v-slot:button>Logout</template>
     <AppLoadingSpinner :size="'md'" class="mx-auto" />
     <h3 class="text-lg font-bold leading-5 text-center">Wrong network</h3>
     <p class="text-sm font-medium text-center text-gray-700 w-80">
@@ -17,6 +16,7 @@
     <AppButton :size="'sm'" @click.prevent="changeNetwork()"
       >Change network</AppButton
     >
+    <template v-slot:button>Logout</template>
   </AppModal>
 </template>
 

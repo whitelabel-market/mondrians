@@ -31,6 +31,7 @@
       <span class="relative inline-flex">
         <button
           class="flex items-center justify-center p-2 text-gray-700 border border-gray-200 rounded-full"
+          @click.prevent="addToken()"
         >
           <UploadIcon class="w-5 h-5" />
         </button>
@@ -129,9 +130,42 @@ onFetchResponse(() => {
   }
 });
 
+const addToken = async () => {
+  const tokenAddress = "0xbd775bc3577596d416bf15e9827e9039cd7b02d6";
+  const tokenSymbol = "MAMO";
+  const tokenDecimals = 0;
+  const tokenImage =
+    "https://ipfs.io/ipfs/bafybeibiq6ecljwluh3t4cfvhb3ljj6ziygj5twyabrusl2f2z5qewctom/1.svg";
+
+  try {
+    // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+    const wasAdded = await window.ethereum.request({
+      method: "wallet_watchAsset",
+      params: {
+        type: "ERC20", // Initially only supports ERC20, but eventually more!
+        options: {
+          address: tokenAddress, // The address that the token is at.
+          symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+          decimals: tokenDecimals, // The number of decimals in the token
+          image: tokenImage, // A string url of the token logo
+        },
+      },
+    });
+
+    if (wasAdded) {
+      console.log("Thanks for your interest!");
+    } else {
+      console.log("Your loss!");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 watch(
   route,
   () => {
+    signVisible.value = false;
     if (route?.params?.id)
       post(
         JSON.stringify({
