@@ -1,7 +1,8 @@
-import { ref, onMounted, reactive, toRefs, inject } from "vue";
+import { ref, onMounted, reactive, toRefs, inject, watch } from "vue";
 import type { Ref } from "vue";
 import { UnleashClient } from "unleash-proxy-client";
 import { UNLEASH_URL, UNLEASH_CLIENT_KEY } from "@/utils/constants";
+import { useWindowActive } from "@/composables/useWindowActive";
 
 export const TOGGLE_CONTEXT = Symbol();
 
@@ -21,12 +22,14 @@ export function createToggles(unleashClient?: UnleashClient): ToggleInterface {
   const client = ref<UnleashClient | undefined>(unleashClient);
   const flagsReady = ref<boolean>(false);
   const flagsError = ref<null | any>(null);
+  const active = useWindowActive();
 
   client.value = new UnleashClient({
     url: UNLEASH_URL,
     clientKey: UNLEASH_CLIENT_KEY,
     appName: "mondrians",
     environment: "production",
+    disableMetrics: true,
   });
 
   client.value?.on("ready", (): void => {
@@ -36,7 +39,22 @@ export function createToggles(unleashClient?: UnleashClient): ToggleInterface {
     flagsError.value = e;
   });
 
-  onMounted(() => client.value?.start());
+  onMounted(() => {
+    watch(
+      active,
+      (isActive) => {
+        console.log(isActive);
+        if (isActive) {
+          console.log("start");
+          client.value?.start();
+        } else {
+          console.log("stop");
+          client.value?.stop();
+        }
+      },
+      { immediate: true }
+    );
+  });
 
   const isEnabled = (name: string) => client.value?.isEnabled(name);
 
