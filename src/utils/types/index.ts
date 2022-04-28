@@ -4,15 +4,14 @@ export type Account = {
 
 export type Contract = {
   id: string;
-  cost: number;
-  maxMint: number;
   name: string;
-  paused: boolean;
-  phase: number;
   symbol: string;
+  paused: boolean;
+  supportsMetadata: boolean;
   maxSupply: number;
   maxReserved: number;
   totalSupply: number;
+  tokens?: Token[];
 };
 
 export type Token = {

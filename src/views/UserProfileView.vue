@@ -19,7 +19,7 @@
           class="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200"
           @click.prevent="copy(route.params.id)"
         >
-          <EthereumIcon class="w-2" />
+          <PolygonIcon class="w-2" />
           <span class="text-xs font-medium slashed-zero">{{
             getPrivateAddress
           }}</span>
@@ -96,10 +96,14 @@
 import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useClipboard, useFetch } from "@vueuse/core";
-import { ENS_SUBGRAPH, ENS_BASE_URL } from "@/utils/constants";
+import {
+  ENS_SUBGRAPH,
+  ENS_BASE_URL,
+  CONTRACT_ADDRESS,
+} from "@/utils/constants";
 import { getEnsAccount } from "@/services/graphql/types";
 import makeBlockie from "ethereum-blockies-base64";
-import EthereumIcon from "@/components/icons/EthereumIcon.vue";
+import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import { DotsHorizontalIcon } from "@heroicons/vue/solid";
 import { UploadIcon } from "@heroicons/vue/outline";
@@ -131,11 +135,11 @@ onFetchResponse(() => {
 });
 
 const addToken = async () => {
-  const tokenAddress = "0xbd775bc3577596d416bf15e9827e9039cd7b02d6";
+  const tokenAddress = CONTRACT_ADDRESS;
   const tokenSymbol = "MAMO";
   const tokenDecimals = 0;
   const tokenImage =
-    "https://ipfs.io/ipfs/bafybeibiq6ecljwluh3t4cfvhb3ljj6ziygj5twyabrusl2f2z5qewctom/1.svg";
+    "https://ipfs.io/ipfs/bafybeid7fmhgs7roxyctc5k2ciut3wgznpnhtx2tawhl2pf47s7e554cim/1.png";
 
   try {
     // wasAdded is a boolean. Like any RPC method, an error may be thrown.

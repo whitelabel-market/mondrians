@@ -39,7 +39,6 @@
           </button>
         </div>
       </div>
-      <LoadingWallet v-else />
     </div>
   </AppModal>
 </template>
@@ -49,7 +48,6 @@ import { ref } from "vue";
 import AppModal from "@/components/app/AppModal.vue";
 import Connector from "@/libs/@walletConnector";
 import AppButton from "@/components/app/AppButton.vue";
-import LoadingWallet from "@/components/wallet-connect/LoadingWallet.vue";
 import { useWallet } from "@/composables/useWallet";
 
 const emits = defineEmits(["update:modelValue", "connected"]);

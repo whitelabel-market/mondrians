@@ -21,11 +21,11 @@
         </div>
         <div class="flex items-center justify-center w-full gap-4">
           <a
-            :href="`${ETHERSCAN_BASE_URL}address/${address}`"
+            :href="`${EXPLORER_BASE_URL}address/${address}`"
             target="_blank"
             class="flex items-center text-xs font-semibold text-gray-500 hover:text-blueish"
             ><ExternalLinkIcon class="w-4 h-4 mr-1" /><span
-              >View on etherscan</span
+              >View on Polygonscan</span
             ></a
           >
           <AppTooltip class="mr-4 group" :show="copied">
@@ -49,14 +49,14 @@
       >
         <div class="flex items-center space-x-2">
           <div class="p-1 rounded-full bg-gray-50">
-            <EthereumIcon class="w-6 h-6 inset-1/2" />
+            <PolygonIcon class="w-6 h-6 inset-1/2" />
           </div>
           <div class="flex flex-col">
             <span class="text-sm font-bold leading-tight slashed-zero">{{
               privateAddress
             }}</span>
             <span class="text-xs font-bold leading-tight text-gray-700"
-              >Ethereum {{ balance }} - ${{ usdBalance }}</span
+              >Matic {{ balance }} - ${{ usdBalance }}</span
             >
           </div>
         </div>
@@ -105,7 +105,7 @@ import { ref, computed, watch } from "vue";
 import AppModal from "@/components/app/AppModal.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppButton from "@/components/app/AppButton.vue";
-import EthereumIcon from "@/components/icons/EthereumIcon.vue";
+import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import { useWallet } from "@/composables/useWallet";
 import { SwitchVerticalIcon } from "@heroicons/vue/solid";
 import {
@@ -114,10 +114,10 @@ import {
   ExternalLinkIcon,
 } from "@heroicons/vue/outline";
 import { useFetch } from "@vueuse/core";
-import { getEthToUsd } from "@/services/graphql/types";
+import { getTokenHourData } from "@/services/graphql/types";
 import {
-  SUSHISWAP_SUBGRAPH,
-  ETHERSCAN_BASE_URL,
+  UNISWAP_SUBGRAPH_POLYGON,
+  EXPLORER_BASE_URL,
   ENS_BASE_URL,
 } from "@/utils/constants";
 import { useClipboard } from "@vueuse/core";
@@ -146,22 +146,22 @@ const props = defineProps({
 const { address, getBalance, disconnect } = useWallet();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const balance = ref<string>("");
-const ethPrice = ref<string>("");
+const maticPrice = ref<string>("");
 
 const usdBalance = computed<string>(() => {
   return (
     balance.value &&
-    ethPrice.value &&
-    (Number(balance.value) * Number(ethPrice.value)).toFixed(2)
+    maticPrice.value &&
+    (Number(balance.value) * Number(maticPrice.value)).toFixed(2)
   );
 });
 
-const { data, execute, onFetchResponse } = useFetch(SUSHISWAP_SUBGRAPH, {
+const { data, execute, onFetchResponse } = useFetch(UNISWAP_SUBGRAPH_POLYGON, {
   timeout: 10000,
 })
   .post(
     JSON.stringify({
-      query: getEthToUsd,
+      query: getTokenHourData,
     })
   )
   .json();
@@ -171,8 +171,8 @@ const signOut = (): void => {
 };
 
 onFetchResponse(() => {
-  if (data?.value?.data?.bundle?.ethPrice) {
-    ethPrice.value = data.value.data.bundle.ethPrice;
+  if (data?.value?.data?.tokenHourDatas?.length) {
+    maticPrice.value = data.value.data.tokenHourDatas[0].close;
   }
 });
 

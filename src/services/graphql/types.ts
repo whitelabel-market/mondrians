@@ -1,12 +1,9 @@
 export const getContract = `
   query GetContract($id: String = "") {
     contract(id: $id) {
-      cost
       id
-      maxMint
       name
       paused
-      phase
       symbol
       maxSupply
       maxReserved
@@ -67,13 +64,30 @@ export const getEthToUsd = `
   }
 `;
 
+// For eth
+// query tokenHourDatas($startTime: Int!, $skip: Int! = 0, $address: Bytes! = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2") {
+//   tokenHourDatas(first: 100, skip: $skip, where: {token: $address, periodStartUnix_gt: $startTime}, orderBy: periodStartUnix, orderDirection: asc) {
+//     periodStartUnix,
+//     high,
+//     low,
+//     open,
+//     close
+//   }
+// }
+
 export const getTokenHourData = `
-  query tokenHourDatas($startTime: Int!, $skip: Int! = 0, $address: Bytes! = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2") {
-    tokenHourDatas(first: 100, skip: $skip, where: {token: $address, periodStartUnix_gt: $startTime}, orderBy: periodStartUnix, orderDirection: asc) {
-      periodStartUnix,
-      high,
-      low,
-      open,
+  query tokenHourDatas($first: Int! = 1, $skip: Int! = 0, $address: Bytes! = "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270") {
+    tokenHourDatas(
+      first: $first,
+      where: { token: $address },
+      skip: $skip,
+      orderBy: periodStartUnix,
+      orderDirection: desc
+    ) {
+      periodStartUnix
+      high
+      low
+      open
       close
     }
   }

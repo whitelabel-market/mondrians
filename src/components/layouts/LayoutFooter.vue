@@ -12,8 +12,8 @@
             class="mdx:w-[107.33px] mdx:h-[23px] mx-auto sm:mx-0"
           />
           <p class="mt-4 text-base font-medium">
-            A 25 piece custom collection is joining the NFT Space on White Label
-            Market
+            A 1000 piece custom collection is joining the NFT Space on White
+            Label Market
           </p>
         </div>
       </div>

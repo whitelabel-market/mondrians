@@ -3,7 +3,7 @@
     <div
       class="font-bold md:text-[4.406rem] text-5xl italic relative z-10 text-center"
     >
-      {{ contract.phase == 1 ? "Whitelist Sale" : "Public Sale" }}
+      {{ whitelistEnabled ? "Whitelist Sale" : "Public Sale" }}
       is live
     </div>
     <p class="mt-2 font-bold text-center md:text-3xl md:mt-4">
@@ -48,7 +48,7 @@
       class="flex items-center justify-center mt-4 space-x-1 text-sm font-semibold"
     >
       <span>Price: {{ price * quantity }} </span>
-      <EthereumIcon class="w-2.5" />
+      <PolygonIcon class="w-2.5" />
     </p>
     <div class="flex items-center justify-center mt-4">
       <AppButton
@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import EthereumIcon from "../icons/EthereumIcon.vue";
+import PolygonIcon from "../icons/PolygonIcon.vue";
 import AppButton from "@/components/app/AppButton.vue";
 
 defineEmits([
@@ -86,6 +86,14 @@ defineProps({
   },
   quantity: {
     type: Number,
+    required: true,
+  },
+  whitelistEnabled: {
+    type: Boolean,
+    required: true,
+  },
+  publicsaleEnabled: {
+    type: Boolean,
     required: true,
   },
   canDecrease: {

@@ -37,7 +37,7 @@ import { useRoute } from "vue-router";
 import { useFetch } from "@vueuse/core";
 import { useWallet } from "@/composables/useWallet";
 import { getActivity, getTokenHourData } from "@/services/graphql/types";
-import { MAMO_SUBGRAPH, UNISWAP_SUBGRAPH } from "@/utils/constants";
+import { MAMO_SUBGRAPH, UNISWAP_SUBGRAPH_POLYGON } from "@/utils/constants";
 import AppButton from "@/components/app/AppButton.vue";
 import Activity from "@/components/activity/Activity.vue";
 import ActivitySkeleton from "@/components/activity/ActivitySkeleton.vue";
@@ -56,7 +56,7 @@ const { post, onFetchResponse, data, isFinished } = useFetch(MAMO_SUBGRAPH, {
 
 const getHourData = () => {
   const { data: hourDatas, onFetchResponse: onHourDataResponse } = useFetch(
-    UNISWAP_SUBGRAPH,
+    UNISWAP_SUBGRAPH_POLYGON,
     {
       timeout: 10000,
     }

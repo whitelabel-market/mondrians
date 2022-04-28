@@ -47,9 +47,9 @@
     >
     <AppButton
       :size="'sm'"
-      :href="`${ETHERSCAN_BASE_URL}tx/${tokens[currentToken].transactionHash}`"
+      :href="`${EXPLORER_BASE_URL}tx/${tokens[currentToken].transactionHash}`"
       target="_blank"
-      >View transaction on Etherscan</AppButton
+      >View transaction on Polygonscan</AppButton
     >
   </div>
 </template>
@@ -59,7 +59,7 @@ import { ref } from "vue";
 import { ChevronLeftIcon } from "@heroicons/vue/solid";
 import AppButton from "@/components/app/AppButton.vue";
 import CarouselItem from "@/components/carousel/CarouselItem.vue";
-import { ETHERSCAN_BASE_URL } from "@/utils/constants";
+import { EXPLORER_BASE_URL } from "@/utils/constants";
 
 defineProps({
   tokens: {

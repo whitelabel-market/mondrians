@@ -22,9 +22,15 @@
           />
         </div>
       </template>
-      <template v-slot:name>{{ MINT_TASKS[phase][index].name }}</template>
+      <template v-slot:name>{{
+        MINT_TASKS[whitelistEnabled ? Phase.WhitelistSale : Phase.PublicSale][
+          index
+        ].name
+      }}</template>
       <template v-slot:description v-if="!task.isError">{{
-        MINT_TASKS[phase][index].description
+        MINT_TASKS[whitelistEnabled ? Phase.WhitelistSale : Phase.PublicSale][
+          index
+        ].description
       }}</template>
       <template v-slot:error v-else>{{ task.error }}</template>
     </MintStep>
@@ -43,6 +49,7 @@ import AppButton from "@/components/app/AppButton.vue";
 import MintStep from "@/components/mint/MintStep.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import useQueue from "@/composables/useQueue";
+import { Phase } from "@/composables/useContract";
 import type { Task } from "@/composables/useTask";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/vue/outline";
 import { MINT_TASKS } from "@/utils/constants";
@@ -54,8 +61,8 @@ const components = {
 };
 
 const props = defineProps({
-  phase: {
-    type: String,
+  whitelistEnabled: {
+    type: Boolean,
     required: true,
   },
   tasks: {

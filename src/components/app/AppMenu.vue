@@ -1,6 +1,6 @@
 <template>
-  <div class="absolute right-0">
-    <Menu as="div">
+  <div class="absolute right-0 z-50">
+    <Menu as="div" class="z-50">
       <div>
         <MenuButton
           class="p-2 rounded-full group hover:bg-gray-100 focus:outline-none"

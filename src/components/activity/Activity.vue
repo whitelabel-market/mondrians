@@ -20,7 +20,7 @@
     ]"
   >
     <a
-      :href="`${ETHERSCAN_BASE_URL}tx/${transfer.transactionHash}`"
+      :href="`${EXPLORER_BASE_URL}tx/${transfer.transactionHash}`"
       target="_blank"
       class="flex items-center space-x-2"
     >
@@ -29,7 +29,7 @@
     </a>
     <div v-if="transfer" class="flex truncate">
       <a
-        :href="`${ETHERSCAN_BASE_URL}address/${transfer.from.id}`"
+        :href="`${EXPLORER_BASE_URL}address/${transfer.from.id}`"
         target="_blank"
         class="flex items-center space-x-2 truncate cursor-pointer"
       >
@@ -44,7 +44,7 @@
     </div>
     <div v-if="transfer" class="flex truncate">
       <a
-        :href="`${ETHERSCAN_BASE_URL}address/${transfer.to.id}`"
+        :href="`${EXPLORER_BASE_URL}address/${transfer.to.id}`"
         target="_blank"
         class="flex items-center space-x-2 truncate cursor-pointer"
       >
@@ -59,7 +59,7 @@
     </div>
     <div class="flex items-center gap-2">
       <span class="truncate">{{ weiToEth(transfer.value) }}</span
-      ><EthereumIcon class="w-3" />&#126;
+      ><PolygonIcon class="w-3" />&#126;
       <span v-if="tokenHourDatas.length"
         >{{
           (
@@ -70,7 +70,7 @@
     </div>
     <div class="flex items-center gap-2">
       <span class="truncate">{{ weiToGwei(transfer.gasPrice).toFixed(2) }}</span
-      ><EthereumIcon class="w-3" /><span>(gwei)</span>
+      ><PolygonIcon class="w-3" /><span>(gwei)</span>
     </div>
     <div class="flex items-center">
       <a class="truncate" target="_blank">{{
@@ -81,11 +81,11 @@
 </template>
 
 <script setup lang="ts">
-import EthereumIcon from "@/components/icons/EthereumIcon.vue";
+import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import makeBlockie from "ethereum-blockies-base64";
 import { getShortAddress, weiToGwei, weiToEth } from "@/utils/ethereum";
 import { DocumentAddIcon } from "@heroicons/vue/outline";
-import { ETHERSCAN_BASE_URL } from "@/utils/constants";
+import { EXPLORER_BASE_URL } from "@/utils/constants";
 
 const props = defineProps({
   transfers: {

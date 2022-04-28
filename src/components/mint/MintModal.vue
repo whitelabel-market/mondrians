@@ -5,8 +5,8 @@
   >
     <MintProgress
       v-if="!tokens.length"
-      :phase="phase"
       :tasks="tasks"
+      :whitelistEnabled="whitelistEnabled"
       @update:modelValue="$emit('update:modelValue', $event)"
     />
     <MintSuccess
@@ -26,20 +26,17 @@ import MondrianInterface from "@/services/MondrianInterface";
 import useTask from "@/composables/useTask";
 import { createAuthInterface } from "@/services/AuthInterface";
 import { useWallet } from "@/composables/useWallet";
-import { Phase } from "@/composables/useContract";
 import { ethers } from "ethers";
 import { MAMO_SUBGRAPH } from "@/utils/constants";
 import { useFetch } from "@vueuse/core";
 import { getTokensFromBlock } from "@/services/graphql/types";
-import type { Token } from "@/utils/types";
-import type { Task } from "@/composables/useTask";
 
 defineEmits(["update:modelValue"]);
 
 let authInterface;
 const { address, provider, signMessage } = useWallet();
-const tokens = ref<Token[] | []>([]);
-const tasks = ref<Task[] | []>([]);
+const tokens = ref([]);
+const tasks = ref([]);
 
 const props = defineProps({
   modelValue: {
@@ -54,8 +51,8 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  phase: {
-    type: String,
+  whitelistEnabled: {
+    type: Boolean,
     required: true,
   },
 });
@@ -114,8 +111,8 @@ watch(
   props,
   () => {
     if (props.modelValue === true)
-      switch (props.phase) {
-        case Phase[1]:
+      switch (props.whitelistEnabled) {
+        case true:
           tasks.value = [
             useTask(getMessage),
             useTask(getVoucher),
@@ -123,7 +120,7 @@ watch(
             useTask(getToken),
           ];
           break;
-        case Phase[2]:
+        case false:
           tasks.value = [useTask(execMint), useTask(getToken)];
           break;
       }

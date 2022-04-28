@@ -22,13 +22,14 @@ import LayoutHeader from "@/components/layouts/LayoutHeader.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import WrongNetwork from "@/components/error/WrongNetwork.vue";
 import { useWallet } from "@/composables/useWallet";
+import { NETWORK_NAME } from "@/utils/constants";
 
 const { network } = useWallet();
 const loaded = ref(false);
 
 const wrongNetwork = computed(() => {
   if (network.value) {
-    return window.ethereum && network.value.name !== "ropsten";
+    return window.ethereum && network.value.name !== NETWORK_NAME;
   }
   return false;
 });

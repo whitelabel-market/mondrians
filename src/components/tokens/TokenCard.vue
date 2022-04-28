@@ -38,7 +38,7 @@
             ><AppImageLoad size="md">
               <template v-slot:image>
                 <a
-                  :href="`${ETHERSCAN_BASE_URL}address/${token.owner.id}`"
+                  :href="`${EXPLORER_BASE_URL}address/${token.owner.id}`"
                   target="_blank"
                 >
                   <img
@@ -50,7 +50,7 @@
                 /></a>
               </template> </AppImageLoad
           ></template>
-          <template #text>View on etherscan</template>
+          <template #text>View on Polygonscan</template>
         </AppTooltip>
       </dd>
       <AppMenu :token="token" />
@@ -69,7 +69,7 @@
         >#{{ ("00" + token.id).substr(token.id.toString().length) }}
       </span>
       <div class="p-1 rounded-full bg-gray-50">
-        <EthereumIcon class="w-4 h-4 inset-1/2" />
+        <PolygonIcon class="w-4 h-4 inset-1/2" />
       </div>
     </div>
     <div class="flex items-center justify-between">
@@ -91,7 +91,7 @@
             class="text-xs font-semibold text-transparent truncate bg-clip-text bg-gradient-to-r to-cyan-500 from-blueish"
             >{{ 0.25 }}
           </span>
-          <EthereumIcon class="w-3 h-3 transform translate-x-0.5" />
+          <PolygonIcon class="w-3 h-3 transform translate-x-0.5" />
         </div>
       </div>
     </div>
@@ -103,10 +103,10 @@ import { ref } from "vue";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppMenu from "@/components/app/AppMenu.vue";
-import EthereumIcon from "@/components/icons/EthereumIcon.vue";
+import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import makeBlockie from "ethereum-blockies-base64";
 import {
-  ETHERSCAN_BASE_URL,
+  EXPLORER_BASE_URL,
   IPFS_BASE_URL,
   OPENSEA_BASE_URL,
 } from "@/utils/constants";

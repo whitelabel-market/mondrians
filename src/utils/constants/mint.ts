@@ -4,12 +4,12 @@ type Step = {
 };
 
 type MintSteps = {
-  WhitelistSale: Array<Step>;
-  PublicSale: Array<Step>;
+  whitelistsale: Array<Step>;
+  publicsale: Array<Step>;
 };
 
 export const MINT_TASKS: MintSteps = {
-  WhitelistSale: [
+  whitelistsale: [
     {
       name: "Authenticate",
       description: "Ensuring authenticity of your eth account address",
@@ -28,7 +28,7 @@ export const MINT_TASKS: MintSteps = {
       description: "Receiving your minted NFT's",
     },
   ],
-  PublicSale: [
+  publicsale: [
     {
       name: "Mint",
       description: "Create your own Magic Mondrian NFT's",

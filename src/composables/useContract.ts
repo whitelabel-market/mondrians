@@ -1,63 +1,52 @@
-import { computed, isRef, ref } from "vue";
-import { weiToEth } from "@/utils/ethereum";
+import { computed, isRef, readonly, ref } from "vue";
+import { useFlag } from "@/composables/useFlags";
 import { MaybeRef } from "@vueuse/core";
-
-export type Contract = {
-  cost: number;
-  id: string;
-  supportsMetadata: boolean;
-  maxMint: number;
-  maxSupply: number;
-  maxReserved: number;
-  totalSupply: number;
-  name: string;
-  paused: boolean;
-  phase: number;
-  symbol: string;
-};
+import type { Contract } from "@/utils/types";
 
 export enum Phase {
-  PreSale = 0,
-  WhitelistSale = 1,
-  PublicSale = 2,
-  Reveal = 3,
+  PreSale = "presale",
+  WhitelistSale = "whitelistsale",
+  PublicSale = "publicsale",
+  Reveal = "reveal",
 }
 
 const contract = ref<Contract>({
-  cost: 0,
   id: "",
-  maxMint: 0,
   maxSupply: 0,
   totalSupply: 0,
   maxReserved: 0,
   supportsMetadata: false,
   name: "",
   paused: false,
-  phase: 0,
   symbol: "",
 });
 
 export default function useContract() {
-  const fullContract = computed<Contract>({
-    get() {
-      return contract.value;
-    },
-    set(v: MaybeRef<Contract>) {
-      contract.value = isRef(v) ? v.value : v;
-    },
-  });
+  const presaleEnabled = useFlag(Phase.PreSale);
+  const whitelistEnabled = useFlag(Phase.WhitelistSale);
+  const publicsaleEnabled = useFlag(Phase.PublicSale);
+  const revealEnabled = useFlag(Phase.Reveal);
 
-  const isPaused = computed<boolean>(() => !!fullContract.value.paused);
+  const isPaused = computed<boolean>(() => !!contract.value.paused);
+
   const getPrice = computed<string>(() =>
-    weiToEth(contract.value.cost).toString()
+    whitelistEnabled.value ? "0.00025" : "0.005"
   );
+  const getMaxMint = computed<number>(() => (whitelistEnabled.value ? 5 : 10));
 
-  const getPhase = computed<string>(() => Phase[contract.value.phase]);
+  const setContract = (v: MaybeRef<Contract>) => {
+    contract.value = isRef(v) ? v.value : v;
+  };
 
   return {
-    contract: fullContract,
+    contract: readonly(contract),
+    presaleEnabled,
+    whitelistEnabled,
+    publicsaleEnabled,
+    revealEnabled,
     isPaused,
     getPrice,
-    getPhase,
+    getMaxMint,
+    setContract,
   };
 }

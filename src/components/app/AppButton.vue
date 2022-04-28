@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="props.as && props.as"
+    :is="is && is"
     :type="!to && type"
     class="relative flex items-center font-bold transition-all duration-100 ease-in-out transform cursor-pointer active:scale-[0.98]"
     :class="[...classes, center && 'justify-center']"
@@ -135,7 +135,5 @@ const classes = computed(() => [
   props.rounded && `rounded-${props.rounded}`,
 ]);
 
-console.log(props.as);
-//const is = !props.to ? (!props.href ? "button" : "a") : "router-link";
-//const is = ref(props.as);
+const is = !props.to ? (!props.href ? "button" : "a") : "router-link";
 </script>

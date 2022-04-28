@@ -9,10 +9,12 @@
         class="mx-auto lgs:mx-0"
         width="560"
       />
-      <PreSale v-if="getPhase === 'PreSale'" />
+      <PreSale v-if="presaleEnabled" />
       <SaleOpen
-        v-if="getPhase === 'WhitelistSale' || getPhase === 'PublicSale'"
+        v-if="whitelistEnabled || publicsaleEnabled"
         :price="getPrice"
+        :whitelistEnabled="whitelistEnabled"
+        :publicsaleEnabled="publicsaleEnabled"
         :quantity="quantity"
         :can-decrease="canDecrease"
         :can-increase="canIncrease"
@@ -27,7 +29,7 @@
   </section>
   <MintModal
     v-model="modelValue"
-    :phase="getPhase"
+    :whitelistEnabled="whitelistEnabled"
     :quantity="quantity"
     :price="getPrice"
   />
@@ -50,11 +52,18 @@ const modelValue = ref(false);
 const showConnectModal = ref(false);
 const connected = ref(false);
 const quantity = ref(1);
-const { getPrice, getPhase, contract } = useContract();
+const {
+  presaleEnabled,
+  whitelistEnabled,
+  publicsaleEnabled,
+  getPrice,
+  contract,
+  getMaxMint,
+} = useContract();
 const { isConnected, address } = useWallet();
 
 const canDecrease = computed(() => quantity.value > 0);
-const canIncrease = computed(() => quantity.value < contract.value.maxMint);
+const canIncrease = computed(() => quantity.value < getMaxMint.value);
 
 watch(address, () => {
   if (connected.value) {

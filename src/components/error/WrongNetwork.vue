@@ -25,7 +25,7 @@ import AppModal from "@/components/app/AppModal.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { useWallet } from "@/composables/useWallet";
-import { NETWORK_NAME } from "@/utils/constants";
+import { NETWORK_NAME, CHAIN_ID } from "@/utils/constants";
 
 defineEmits(["update:modelValue"]);
 
@@ -44,7 +44,7 @@ const changeNetwork = async () => {
       // check if the chain to connect to is installed
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x3" }],
+        params: [{ chainId: "0x" + CHAIN_ID.toString(16) }],
       });
     } catch (error: any) {
       // This error code indicates that the chain has not been added to MetaMask
@@ -52,11 +52,19 @@ const changeNetwork = async () => {
       if (error.code === 4902) {
         try {
           await window.ethereum.request({
+            jsonrpc: "2.0",
             method: "wallet_addEthereumChain",
             params: [
               {
-                chainId: "0x3",
-                rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+                chainId: "0x" + CHAIN_ID.toString(16),
+                rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
+                chainName: "Mumbai",
+                nativeCurrency: {
+                  name: "MATIC",
+                  symbol: "MATIC", // 2-6 characters long
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://mumbai.polygonscan.com"],
               },
             ],
           });

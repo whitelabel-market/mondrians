@@ -27,7 +27,7 @@ import EthereumInterface from "@/services/EthereumInterface";
 
 const emits = defineEmits(["loaded"]);
 
-let { contract } = useContract();
+let { setContract } = useContract();
 const ethereumInterface = new EthereumInterface();
 
 const { onFetchResponse, data, execute, isFinished } = useFetch(MAMO_SUBGRAPH, {
@@ -44,7 +44,7 @@ const { onFetchResponse, data, execute, isFinished } = useFetch(MAMO_SUBGRAPH, {
   .json();
 
 onFetchResponse(() => {
-  if (data?.value?.data?.contract) contract.value = data?.value?.data?.contract;
+  if (data?.value?.data?.contract) setContract(data.value.data.contract);
 });
 
 watch(isFinished, () => {
