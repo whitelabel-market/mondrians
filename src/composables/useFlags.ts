@@ -43,12 +43,9 @@ export function createToggles(unleashClient?: UnleashClient): ToggleInterface {
     watch(
       active,
       (isActive) => {
-        console.log(isActive);
         if (isActive) {
-          console.log("start");
           client.value?.start();
         } else {
-          console.log("stop");
           client.value?.stop();
         }
       },

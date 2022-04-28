@@ -20,16 +20,20 @@ class EthereumInterface {
     );
   }
 
-  public async subscribeToNewBlock(callback: CallbackFunction) {
+  public async subscribeToNewBlock(callback: CallbackFunction): Promise<void> {
     this.provider.on("block", () => {
       callback();
     });
   }
 
-  public async subscribeToTransfer(callback: CallbackFunction) {
+  public async subscribeToTransfer(callback: CallbackFunction): Promise<void> {
     this.contract.on("Transfer", () => {
       callback();
     });
+  }
+
+  public async unsubscribe(): Promise<void> {
+    this.provider.removeAllListeners();
   }
 }
 
