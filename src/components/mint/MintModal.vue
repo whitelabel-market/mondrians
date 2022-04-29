@@ -1,18 +1,27 @@
 <template>
   <AppModal
     :model-value="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    @update:modelValue="
+      $emit('update:modelValue', $event);
+      reset();
+    "
   >
     <MintProgress
       v-if="!tokens.length"
       :tasks="tasks"
       :whitelistEnabled="whitelistEnabled"
-      @update:modelValue="$emit('update:modelValue', $event)"
+      @update:modelValue="
+        $emit('update:modelValue', $event);
+        reset();
+      "
     />
     <MintSuccess
       v-else
       :tokens="tokens"
-      @update:modelValue="$emit('update:modelValue', $event)"
+      @update:modelValue="
+        $emit('update:modelValue', $event);
+        reset();
+      "
     />
   </AppModal>
 </template>
@@ -127,4 +136,11 @@ watch(
   },
   { deep: true }
 );
+
+const reset = () => {
+  setTimeout(() => {
+    tokens.value = [];
+    tasks.value = [];
+  }, 500);
+};
 </script>

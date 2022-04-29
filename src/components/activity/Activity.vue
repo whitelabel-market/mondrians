@@ -60,7 +60,7 @@
     <div class="flex items-center gap-2">
       <span class="truncate">{{ weiToEth(transfer.value) }}</span
       ><PolygonIcon class="w-3" />&#126;
-      <span v-if="tokenHourDatas.length"
+      <span v-if="tokenDayDatas.length"
         >{{
           (
             getPrice(transfer.createdAtTimestamp) * weiToEth(transfer.value)
@@ -92,14 +92,14 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  tokenHourDatas: {
+  tokenDayDatas: {
     type: Array,
   },
 });
 
 const getPrice = (timestamp) => {
-  const hourData = props.tokenHourDatas.find(
-    (data) => data.periodStartUnix >= Number(timestamp)
+  const hourData = props.tokenDayDatas.find(
+    (data) => data.date >= Number(timestamp)
   );
   return Number(hourData.close);
 };

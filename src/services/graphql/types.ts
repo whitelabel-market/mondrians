@@ -93,6 +93,23 @@ export const getTokenHourData = `
   }
 `;
 
+export const getTokenDayData = `
+  query tokenDayDatas($first: Int, $startTime: Int!, $address: Bytes! = "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270") {
+    tokenDayDatas(
+      first: $first
+      where: {token: $address, date_gte: $startTime}
+      orderBy: date
+      orderDirection: desc
+    ) {
+      date
+      high
+      low
+      open
+      close
+    }
+  }
+`;
+
 export const getEthToUsdForBlock = `
   query GetEthToUsdForBlock($block: Int = 0) {
     bundles(block: {number: $block}) {

@@ -3,7 +3,7 @@
   <Activity
     v-if="isFinished && transfers.length"
     :transfers="transfers"
-    :tokenHourDatas="tokenHourDatas"
+    :tokenDayDatas="tokenDayDatas"
   />
   <div
     v-if="isFinished && !transfers.length"
@@ -36,14 +36,14 @@ import { ref, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useFetch } from "@vueuse/core";
 import { useWallet } from "@/composables/useWallet";
-import { getActivity, getTokenHourData } from "@/services/graphql/types";
+import { getActivity, getTokenDayData } from "@/services/graphql/types";
 import { MAMO_SUBGRAPH, UNISWAP_SUBGRAPH_POLYGON } from "@/utils/constants";
 import AppButton from "@/components/app/AppButton.vue";
 import Activity from "@/components/activity/Activity.vue";
 import ActivitySkeleton from "@/components/activity/ActivitySkeleton.vue";
 
 const transfers = ref([]);
-const tokenHourDatas = ref([]);
+const tokenDayDatas = ref([]);
 
 const route = useRoute();
 const { address } = useWallet();
@@ -54,8 +54,8 @@ const { post, onFetchResponse, data, isFinished } = useFetch(MAMO_SUBGRAPH, {
   timeout: 10000,
 }).json();
 
-const getHourData = () => {
-  const { data: hourDatas, onFetchResponse: onHourDataResponse } = useFetch(
+const getDayData = () => {
+  const { data: dayDatas, onFetchResponse: onDayDataResponse } = useFetch(
     UNISWAP_SUBGRAPH_POLYGON,
     {
       timeout: 10000,
@@ -63,7 +63,7 @@ const getHourData = () => {
   )
     .post(
       JSON.stringify({
-        query: getTokenHourData,
+        query: getTokenDayData,
         variables: {
           startTime: Number(transfers.value[0].createdAtTimestamp),
         },
@@ -71,9 +71,9 @@ const getHourData = () => {
     )
     .json();
 
-  onHourDataResponse(() => {
-    if (hourDatas?.value?.data?.tokenHourDatas?.length) {
-      tokenHourDatas.value = hourDatas.value.data.tokenHourDatas;
+  onDayDataResponse(() => {
+    if (dayDatas?.value?.data?.tokenDayDatas?.length) {
+      tokenDayDatas.value = dayDatas.value.data.tokenDayDatas;
     }
   });
 };
@@ -84,7 +84,7 @@ onFetchResponse(() => {
       ...data.value.data.account.transfersFrom,
       ...data.value.data.account.transfersTo,
     ];
-    getHourData();
+    getDayData();
   } else {
     emits("makeSign");
   }
