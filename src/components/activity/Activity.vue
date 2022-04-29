@@ -98,9 +98,9 @@ const props = defineProps({
 });
 
 const getPrice = (timestamp) => {
-  const hourData = props.tokenDayDatas.find(
+  const { close, high, low, open } = props.tokenDayDatas.find(
     (data) => data.date >= Number(timestamp)
   );
-  return Number(hourData.close);
+  return [close, high, low, open].reduce((a, b) => Number(a) + Number(b)) / 4;
 };
 </script>
