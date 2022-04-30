@@ -1,13 +1,18 @@
 <template>
   <component
     :is="is && is"
+    :hover="hover"
     :type="!to && type"
     class="relative flex items-center font-bold transition-all duration-100 ease-in-out transform cursor-pointer active:scale-[0.98]"
     :class="[...classes, center && 'justify-center']"
     :to="to && to"
     :href="href && href"
     :disabled="props.disabled"
-    @click="!(props.loading || props.disabled) && $emit('click', $event)"
+    @mouseenter="hover = true"
+    @mouseleave="hover = false"
+    @click.prevent="
+      !(props.loading || props.disabled) && $emit('clicked', $event)
+    "
   >
     <AppLoadingSpinner
       v-if="loading"
@@ -19,10 +24,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 
-defineEmits(["click"]);
+defineEmits(["clicked"]);
+const hover = ref(false);
 
 const ButtonColor: { [key: string]: string } = {
   link: "bg-transparent text-current border-transparent",
@@ -69,7 +75,8 @@ const props = defineProps({
       | "primary"
       | "secondary"
       | "reddish"
-      | "disabled",
+      | "disabled"
+      | "custom",
     default: "primary",
   },
   rounded: {
@@ -126,14 +133,18 @@ const props = defineProps({
   },
 });
 
-const classes = computed(() => [
-  !props.disabled ? ButtonColor[props.color] : ButtonColor["disabled"],
-  ButtonSize(props.onlyIcon, props.dense)[props.size],
-  props.fullWidth && "w-full",
-  props.loading &&
-    "active:scale-100 cursor-default hover:opacity-100 hover:border-2",
-  props.rounded && `rounded-${props.rounded}`,
-]);
+const classes = computed(() =>
+  props.color === "custom"
+    ? []
+    : [
+        !props.disabled ? ButtonColor[props.color] : ButtonColor["disabled"],
+        ButtonSize(props.onlyIcon, props.dense)[props.size],
+        props.fullWidth && "w-full",
+        props.loading &&
+          "active:scale-100 cursor-default hover:opacity-100 hover:border-2",
+        props.rounded && `rounded-${props.rounded}`,
+      ]
+);
 
 const is = !props.to ? (!props.href ? "button" : "a") : "router-link";
 </script>

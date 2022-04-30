@@ -89,7 +89,7 @@
         <div class="flex items-center">
           <span
             class="text-xs font-semibold text-transparent truncate bg-clip-text bg-gradient-to-r to-cyan-500 from-blueish"
-            >{{ 0.25 }}
+            >0.25
           </span>
           <PolygonIcon class="w-3 h-3 transform translate-x-0.5" />
         </div>

@@ -28,31 +28,7 @@
       <template #text>Copied!</template>
     </AppTooltip>
     <div class="flex items-center gap-2">
-      <span class="relative inline-flex">
-        <button
-          class="flex items-center justify-center p-2 text-gray-700 border border-gray-200 rounded-full"
-          @click.prevent="addToken()"
-        >
-          <UploadIcon class="w-5 h-5" />
-        </button>
-        <span
-          v-if="signVisible"
-          class="absolute top-0 right-0 flex w-2 h-2 mt-0.5 mr-0.5"
-        >
-          <span
-            class="absolute inline-flex w-full h-full bg-red-400 rounded-full opacity-75 animate-ping"
-          ></span>
-          <span
-            class="relative inline-flex w-2 h-2 bg-red-500 rounded-full"
-          ></span>
-        </span>
-      </span>
-
-      <button
-        class="flex items-center justify-center p-2 text-gray-700 border border-gray-200 rounded-full"
-      >
-        <DotsHorizontalIcon class="w-5 h-5" />
-      </button>
+      <ShareButtons :address="route.params.id" />
     </div>
     <nav
       class="flex justify-center w-full mx-auto space-x-10 border-b-2 border-gray-100"
@@ -96,17 +72,12 @@
 import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useClipboard, useFetch } from "@vueuse/core";
-import {
-  ENS_SUBGRAPH,
-  ENS_BASE_URL,
-  CONTRACT_ADDRESS,
-} from "@/utils/constants";
+import { ENS_SUBGRAPH, ENS_BASE_URL } from "@/utils/constants";
 import { getEnsAccount } from "@/services/graphql/types";
 import makeBlockie from "ethereum-blockies-base64";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
-import { DotsHorizontalIcon } from "@heroicons/vue/solid";
-import { UploadIcon } from "@heroicons/vue/outline";
+import ShareButtons from "@/components/share/ShareButtons.vue";
 
 const emits = defineEmits(["loaded"]);
 emits("loaded");
@@ -133,38 +104,6 @@ onFetchResponse(() => {
     ensAccount.value = data.value.data.account.domains[0];
   }
 });
-
-const addToken = async () => {
-  const tokenAddress = CONTRACT_ADDRESS;
-  const tokenSymbol = "MAMO";
-  const tokenDecimals = 0;
-  const tokenImage =
-    "https://ipfs.io/ipfs/bafybeid7fmhgs7roxyctc5k2ciut3wgznpnhtx2tawhl2pf47s7e554cim/1.png";
-
-  try {
-    // wasAdded is a boolean. Like any RPC method, an error may be thrown.
-    const wasAdded = await window.ethereum.request({
-      method: "wallet_watchAsset",
-      params: {
-        type: "ERC20", // Initially only supports ERC20, but eventually more!
-        options: {
-          address: tokenAddress, // The address that the token is at.
-          symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
-          decimals: tokenDecimals, // The number of decimals in the token
-          image: tokenImage, // A string url of the token logo
-        },
-      },
-    });
-
-    if (wasAdded) {
-      console.log("Thanks for your interest!");
-    } else {
-      console.log("Your loss!");
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 watch(
   route,

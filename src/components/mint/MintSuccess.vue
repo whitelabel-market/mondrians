@@ -45,6 +45,12 @@
       }}
       was successfully created.</span
     >
+    <span class="max-w-xs font-bold leading-tight text-center text-md"
+      >Let's show-off a little!</span
+    >
+    <div class="flex items-center gap-2">
+      <ShareButtons :address="address" />
+    </div>
     <AppButton
       :size="'sm'"
       :href="`${EXPLORER_BASE_URL}tx/${tokens[currentToken].transactionHash}`"
@@ -60,6 +66,10 @@ import { ChevronLeftIcon } from "@heroicons/vue/solid";
 import AppButton from "@/components/app/AppButton.vue";
 import CarouselItem from "@/components/carousel/CarouselItem.vue";
 import { EXPLORER_BASE_URL } from "@/utils/constants";
+import ShareButtons from "@/components/share/ShareButtons.vue";
+import { useWallet } from "@/composables/useWallet";
+
+const { address } = useWallet();
 
 defineProps({
   tokens: {
