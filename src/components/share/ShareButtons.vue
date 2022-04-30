@@ -53,6 +53,15 @@ const items = [
   {
     tooltip: "Share via mail",
     icon: "MailIcon",
+    content: {
+      baseUrl: "mailto:?",
+      queryParams: {
+        subject: "Look at this collection!",
+        body:
+          text +
+          `\n\nhttps://magic-mondrian.netlify.app/user/${props.address}/collected`,
+      },
+    },
   },
   {
     tooltip: "Add to wallet",
