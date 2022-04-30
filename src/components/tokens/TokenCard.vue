@@ -14,7 +14,7 @@
               <template v-slot:image>
                 <a
                   class="w-6 h-6"
-                  :href="`${OPENSEA_BASE_URL}${token.contract.id}/${token.id}`"
+                  :href="`${OPENSEA_BASE_URL}/${token.id}`"
                   target="_blank"
                 >
                   <img

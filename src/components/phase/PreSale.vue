@@ -14,10 +14,25 @@
     >
       A 1000 piece custom collection is joining the NFT Space.
     </p>
+    <p
+      v-if="revealEnabled"
+      class="md:text-xl text-2xl font-bold md:mt-4 mt-2 mdx:px-[1.813rem] text-center text-red-500"
+    >
+      Sold out
+    </p>
     <div
       class="font-semibold bg-yellowish mx-auto text-center md:py-1.5 pt-2 pb-[0.625rem] md:w-[10.5rem] w-[13.313rem] md:text-sm text-lg rounded-lg md:mt-11 mt-6 cursor-pointer"
     >
-      View on WLM
+      View on Opensea
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+defineProps({
+  revealEnabled: {
+    type: Boolean,
+    required: true,
+  },
+});
+</script>

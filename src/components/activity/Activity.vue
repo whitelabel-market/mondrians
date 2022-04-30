@@ -97,7 +97,7 @@ const props = defineProps({
   },
 });
 
-const getPrice = (timestamp) => {
+const getPrice = (timestamp: string) => {
   const { close, high, low, open } = props.tokenDayDatas.find(
     (data) => data.date >= Number(timestamp)
   );

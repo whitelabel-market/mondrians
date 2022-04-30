@@ -45,7 +45,7 @@
                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-900',
                   'cursor-pointer group flex rounded-md w-full items-center px-2 py-2 text-sm font-medium',
                 ]"
-                :href="`${OPENSEA_BASE_URL}${token.contract.id}/${token.id}`"
+                :href="`${OPENSEA_BASE_URL}/${token.id}`"
                 target="_blank"
               >
                 View on opensea

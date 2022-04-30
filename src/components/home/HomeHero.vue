@@ -9,7 +9,10 @@
         class="mx-auto lgs:mx-0"
         width="560"
       />
-      <PreSale v-if="presaleEnabled" />
+      <PreSale
+        v-if="presaleEnabled || revealEnabled"
+        :revealEnabled="revealEnabled"
+      />
       <SaleOpen
         v-if="whitelistEnabled || publicsaleEnabled"
         :price="getPrice"
@@ -56,6 +59,7 @@ const {
   presaleEnabled,
   whitelistEnabled,
   publicsaleEnabled,
+  revealEnabled,
   getPrice,
   contract,
   getMaxMint,
