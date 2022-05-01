@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useFetch } from "@vueuse/core";
 import { useWallet } from "@/composables/useWallet";
@@ -45,14 +45,49 @@ import ActivitySkeleton from "@/components/activity/ActivitySkeleton.vue";
 const transfers = ref([]);
 const tokenDayDatas = ref([]);
 
+defineProps({
+  address: {
+    type: String,
+    required: true,
+  },
+});
+
 const route = useRoute();
 const { address } = useWallet();
 
-const emits = defineEmits(["makeSign"]);
+const emits = defineEmits(["showHint"]);
 
 const { post, onFetchResponse, data, isFinished } = useFetch(MAMO_SUBGRAPH, {
   timeout: 10000,
 }).json();
+
+watch(
+  route,
+  () => {
+    if (route?.params?.id)
+      post(
+        JSON.stringify({
+          query: getActivity,
+          variables: {
+            address: route.params.id.toLowerCase(),
+          },
+        })
+      ).execute();
+  },
+  { deep: true, immediate: true }
+);
+
+onFetchResponse(() => {
+  if (data?.value?.data?.account) {
+    transfers.value = [
+      ...data.value.data.account.transfersFrom,
+      ...data.value.data.account.transfersTo,
+    ];
+    getDayData();
+  } else {
+    emits("showHint");
+  }
+});
 
 const getDayData = () => {
   const { data: dayDatas, onFetchResponse: onDayDataResponse } = useFetch(
@@ -78,35 +113,5 @@ const getDayData = () => {
   });
 };
 
-onFetchResponse(() => {
-  if (data?.value?.data?.account) {
-    transfers.value = [
-      ...data.value.data.account.transfersFrom,
-      ...data.value.data.account.transfersTo,
-    ];
-    getDayData();
-  } else {
-    emits("makeSign");
-  }
-});
-
-const isSelf = computed(
-  () => address.value.toLowerCase() === route.params.id.toLowerCase()
-);
-
-watch(
-  route,
-  () => {
-    if (route?.params?.id)
-      post(
-        JSON.stringify({
-          query: getActivity,
-          variables: {
-            address: route.params.id.toLowerCase(),
-          },
-        })
-      ).execute();
-  },
-  { deep: true, immediate: true }
-);
+const isSelf = address.value.toLowerCase() === route.params.id.toLowerCase();
 </script>

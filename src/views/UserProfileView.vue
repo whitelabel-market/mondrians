@@ -7,13 +7,16 @@
       class="object-cover w-24 h-24 border-4 border-gray-200 rounded-full"
     />
     <a
-      v-if="ensAccount?.name"
+      v-if="ensAccount"
       class="-mt-4 -mb-4 hover:text-blueish"
       target="_blank"
-      :href="`${ENS_BASE_URL}${route.params.id}`"
-      >{{ "@" + ensAccount.name }}</a
+      :href="`${ENS_BASE_URL}${ensAccount.id}`"
+      >{{ "@" + ensAccount.domains[0].name }}</a
     >
-    <AppTooltip :show="copied">
+    <AppTooltip
+      :show="copied"
+      v-if="ensAccount ||(/^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string))"
+    >
       <template #element
         ><button
           class="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200"
@@ -21,14 +24,19 @@
         >
           <PolygonIcon class="w-2" />
           <span class="text-xs font-medium slashed-zero">{{
-            getPrivateAddress
+            getShortAddress(ensAccount?.id || route.params.id)
           }}</span>
         </button></template
       >
-      <template #text>Copied!</template>
     </AppTooltip>
+
+    <span
+      v-else
+      class="px-3 py-2 text-xs font-medium bg-gray-100 rounded-full hover:bg-gray-200 slashed-zero"
+      >Not found</span
+    >
     <div class="flex items-center gap-2">
-      <ShareButtons :address="route.params.id" />
+      <ShareButtons :address="route.params.id" :hintVisible="hintVisible" />
     </div>
     <nav
       class="flex justify-center w-full mx-auto space-x-10 border-b-2 border-gray-100"
@@ -63,17 +71,18 @@
       </router-link>
     </nav>
     <div class="w-full">
-      <router-view @makeSign="signVisible = true"></router-view>
+      <router-view @showHint="hintVisible = true"></router-view>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useClipboard, useFetch } from "@vueuse/core";
 import { ENS_SUBGRAPH, ENS_BASE_URL } from "@/utils/constants";
-import { getEnsAccount } from "@/services/graphql/types";
+import { getEnsAccount, getEnsAccountReverse } from "@/services/graphql/types";
+import { getShortAddress } from "@/utils/ethereum";
 import makeBlockie from "ethereum-blockies-base64";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
@@ -82,39 +91,42 @@ import ShareButtons from "@/components/share/ShareButtons.vue";
 const emits = defineEmits(["loaded"]);
 emits("loaded");
 
-const ensAccount = ref();
-const signVisible = ref(false);
+const hintVisible = ref(false);
 const route = useRoute();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
+
+// ens handling
+const ensAccount = ref();
+
 const { post, onFetchResponse, data } = useFetch(ENS_SUBGRAPH, {
   timeout: 10000,
   immediate: false,
 }).json();
 
-const getPrivateAddress = computed(() => {
-  const address = route.params.id;
-  return `${address.substring(0, 5)}...${address.substring(
-    address.length - 5,
-    address.length
-  )}`;
-});
-
 onFetchResponse(() => {
   if (data?.value?.data?.account?.domains.length > 0) {
-    ensAccount.value = data.value.data.account.domains[0];
+    ensAccount.value = data.value.data.account;
+  }
+  if (data?.value?.data?.domains[0]?.owner?.domains.length > 0) {
+    ensAccount.value = data.value.data.domains[0].owner;
   }
 });
 
 watch(
   route,
   () => {
-    signVisible.value = false;
+    hintVisible.value = false;
+    ensAccount.value = undefined;
     if (route?.params?.id)
       post(
         JSON.stringify({
-          query: getEnsAccount,
+          query: /^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string)
+            ? getEnsAccount
+            : getEnsAccountReverse,
           variables: {
-            address: route.params.id.toLowerCase(),
+            address: /^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string)
+              ? (route.params.id as string).toLowerCase()
+              : (route.params.id as string).toLowerCase() + ".eth",
           },
         })
       ).execute();

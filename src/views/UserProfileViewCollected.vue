@@ -62,7 +62,7 @@ const tokens = ref([]);
 const route = useRoute();
 const { address } = useWallet();
 
-const emits = defineEmits(["makeSign"]);
+const emits = defineEmits(["showHint"]);
 
 const { post, onFetchResponse, data, isFetching, isFinished } = useFetch(
   MAMO_SUBGRAPH,
@@ -73,7 +73,7 @@ onFetchResponse(() => {
   if (data?.value?.data?.tokens.length) {
     tokens.value = data.value.data.tokens;
   } else {
-    emits("makeSign");
+    emits("showHint");
   }
 });
 

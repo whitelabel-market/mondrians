@@ -3,6 +3,8 @@
     v-for="(item, index) in items"
     :key="index"
     :item="item"
+    :index="index"
+    :hintVisible="hintVisible"
     @clicked="shareItem"
   />
 </template>
@@ -17,6 +19,10 @@ import { useMediaQuery } from "@vueuse/core";
 const props = defineProps({
   address: {
     type: String,
+    required: true,
+  },
+  hintVisible: {
+    type: Boolean,
     required: true,
   },
 });

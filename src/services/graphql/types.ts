@@ -56,6 +56,22 @@ export const getEnsAccount = `
   }
 `;
 
+export const getEnsAccountReverse = `
+  query GetEnsAccountReverse($address: String = "") {
+    domains(where: { name: $address }) {
+      owner {
+        id
+        domains {
+          name
+          labelName
+          labelhash
+          createdAt
+        }
+      }
+    }
+  }
+`;
+
 export const getEthToUsd = `
   query GetEthToUsd {
     bundle(id: 1) {
