@@ -8,9 +8,11 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, reactive } from "vue";
 import ShareButton from "@/components/share/ShareButton.vue";
 import { CONTRACT_ADDRESS } from "@/utils/constants";
 import { useWallet } from "@/composables/useWallet";
+import { useMediaQuery } from "@vueuse/core";
 
 const props = defineProps({
   address: {
@@ -19,13 +21,13 @@ const props = defineProps({
   },
 });
 
-const { address: self } = useWallet();
+const { address: self, provider } = useWallet();
 
 const text = `Look at ${
   props.address === self.value ? "my" : "this"
 } super rare Magic Mondrian collectibles. Don't miss getting one to receive some unique vouchers!`;
 
-const items = [
+const items = reactive([
   {
     tooltip: "Share on facebook",
     icon: "FacebookIcon",
@@ -63,11 +65,20 @@ const items = [
       },
     },
   },
-  {
-    tooltip: "Add to wallet",
-    icon: "PlusIcon",
-  },
-];
+]);
+
+// detect mobile devices
+const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
+
+onMounted(() => {
+  const isMetamask = provider.value?.connection.url === "metamask";
+  if (canHover.value && isMetamask) {
+    items.push({
+      tooltip: "Add to wallet",
+      icon: "PlusIcon",
+    } as any);
+  }
+});
 
 type ShareContent = {
   baseUrl: string;

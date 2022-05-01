@@ -1,9 +1,9 @@
 <template>
   <div class="relative cursor-pointer">
-    <slot name="element" :show="show"></slot>
+    <slot name="element" :show="show && !disabled"></slot>
     <TransitionRoot
       appear
-      :show="show"
+      :show="show && !disabled"
       as="template"
       :enter="`transition duration-200 ease-out origin-bottom transform delay-${delay}`"
       enter-from="scale-95 translate-y-0.5 opacity-0"
@@ -40,7 +40,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import { TransitionRoot } from "@headlessui/vue";
+import { useMediaQuery } from "@vueuse/core";
 
 defineProps({
   show: {
@@ -51,5 +53,12 @@ defineProps({
     type: [String as () => "0" | "200" | "500", Number as () => 0 | 200 | 500],
     default: "0",
   },
+});
+
+const disabled = ref(false);
+const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
+
+onMounted(() => {
+  if (!canHover.value) disabled.value = true;
 });
 </script>
