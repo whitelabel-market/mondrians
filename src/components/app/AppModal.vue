@@ -12,9 +12,7 @@
             leave-from="opacity-100"
             leave-to="opacity-0"
           >
-            <DialogOverlay
-              class="fixed inset-0 filter backdrop-blur-[5px] bg-[rgb(0,0,0,0.4)]"
-            />
+            <DialogOverlay class="fixed inset-0 bg-black/50" />
           </TransitionChild>
 
           <TransitionChild
@@ -27,7 +25,7 @@
             leave-to="opacity-0 translate-y-12"
           >
             <div
-              class="relative flex flex-col items-stretch max-w-lg max-h-full p-6 space-y-2 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
+              class="relative flex flex-col items-stretch max-h-full w-full max-w-md p-6 space-y-4 transition-all transform bg-white shadow-xl bg-background rounded-2xl"
             >
               <slot />
               <AppButton

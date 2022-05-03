@@ -7,13 +7,19 @@ import {
   RemovableRef,
   useFetch,
 } from "@vueuse/core";
-import Connector from "@/libs/@walletConnector";
+import {
+  Connector,
+  Providers,
+  IProvider,
+} from "@whitelabel-solutions/wallet-connector";
 import { ethers } from "ethers";
 import { getShortAddress, weiToEth } from "@/utils/ethereum";
 import makeBlockie from "ethereum-blockies-base64";
-import { ENS_SUBGRAPH } from "@/utils/constants";
+import { ENS_SUBGRAPH, INFURA_ID } from "@/utils/constants";
 import { getEnsAccount } from "@/services/graphql/types";
 
+const { MetaMaskProvider, WalletLinkProvider, WalletConnectProvider } =
+  Providers;
 export const WALLET_CONTEXT = Symbol();
 
 export type EnsAccount = {
@@ -36,6 +42,7 @@ export interface Wallet {
   network: Ref<ethers.providers.Network | undefined>;
   isConnected: Ref<boolean>;
   privateAddress: Ref<string>;
+  providers: IProvider[];
 
   // shortcuts to useful instances
   provider: ShallowRef<ethers.providers.Web3Provider | undefined>;
@@ -48,12 +55,15 @@ export interface Wallet {
   getBalance: () => Promise<string>;
 }
 
-const providers = Connector.init({
-  appName: "Magic Mondrian",
-  infuraId: "",
-  authereum: { key: "" },
-  fortmatic: { key: "" },
-}).providers;
+const connector = Connector.init(
+  {
+    appName: "Magic Mondrian",
+    infuraId: INFURA_ID,
+    authereum: { key: "" }, // Yet required (but unused) in ConnectorUserOptions type
+    fortmatic: { key: "" }, // Yet required (but unused) in ConnectorUserOptions type
+  },
+  [MetaMaskProvider, WalletLinkProvider, WalletConnectProvider]
+);
 
 export function createWallet(options: ConfigurableWindow = {}): Wallet {
   let walletProvider: RemovableRef<string | null>;
@@ -66,6 +76,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
   const network = ref<ethers.providers.Network | undefined>();
   const isConnected = computed<boolean>(() => !!provider.value);
   const privateAddress = computed<string>(() => getShortAddress(address.value));
+  const { providers } = connector;
 
   // useful instances
   const provider = shallowRef<ethers.providers.Web3Provider | undefined>();
@@ -143,6 +154,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
   if (window) {
     if (window.ethereum) {
       const ethereumProvider = new ethers.providers.Web3Provider(
+        // @ts-ignore
         window.ethereum,
         "any"
       );
@@ -211,6 +223,7 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
     blockie,
     loading,
     privateAddress,
+    providers,
     network,
     isConnected,
     provider,

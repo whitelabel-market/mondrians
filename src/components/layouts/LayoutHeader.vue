@@ -1,11 +1,9 @@
 <template>
-  <header>
+  <header class="fixed top-0 left-0 bg-white w-full">
     <nav
-      class="container flex items-center justify-between w-full max-w-6xl py-6 mx-auto"
+      class="container flex items-center justify-between w-full max-w-6xl h-20 mx-auto"
     >
-      <router-link :to="'/'" class="md:w-[130px] w-[115px]">
-        <img src="../../assets/images/Logo.png" alt="logo" />
-      </router-link>
+      <router-link :to="'/'" class="inline-block"> <LogoIcon /> </router-link>
       <svg
         width="24"
         height="24"
@@ -167,6 +165,7 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { useRoute } from "vue-router";
+import LogoIcon from "@/components/icons/LogoIcon.vue";
 
 gsap.registerPlugin(ScrollToPlugin);
 

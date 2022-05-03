@@ -3,7 +3,7 @@
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
   >
-    <div class="flex flex-col gap-4 w-80">
+    <div class="flex flex-col space-y-4">
       <div class="flex flex-col items-center gap-4">
         <div class="flex items-center gap-2">
           <img :src="blockie" class="object-cover rounded-full w-9 h-9" />

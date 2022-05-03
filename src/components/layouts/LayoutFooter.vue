@@ -5,12 +5,9 @@
     <div>
       <div class="flex justify-between mdx:flex-col">
         <div class="md:max-w-[22.625rem]">
-          <img
-            src="../../assets/images/Logo.png"
-            width="126px"
-            height="27px"
-            class="mdx:w-[107.33px] mdx:h-[23px] mx-auto sm:mx-0"
-          />
+          <router-link :to="'/'" class="inline-block">
+            <LogoIcon />
+          </router-link>
           <p class="mt-4 text-base font-medium">
             A 1000 piece custom collection is joining the NFT Space on White
             Label Market
@@ -23,7 +20,8 @@
         <p
           class="text-[0.656rem] md:leading-5 leading-[0.844rem] font-medium mdx:mt-4 mdx:w-[9.938rem]"
         >
-          Built with &#127829; by WhiteLabelSolutions. Powered by Piet Mondrian.
+          Built with &#127829; by WhiteLabel Solutions. Powered by Piet
+          Mondrian.
         </p>
         <div class="flex">
           <a href="#">
@@ -45,3 +43,9 @@
     </div>
   </footer>
 </template>
+<script>
+import LogoIcon from "@/components/icons/LogoIcon";
+export default {
+  components: { LogoIcon },
+};
+</script>
