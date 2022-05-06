@@ -4,14 +4,11 @@
       class="container max-w-4xl mx-auto px-8 grid md:grid-cols-2 gap-4 md:gap-20 items-center"
     >
       <div class="space-y-4">
-        <div class="relative z-10 text-5xl font-bold gs_reveal">
+        <h2 class="text-5xl md:text-6xl font-serif font-bold gs_reveal">
           Creator
-          <span
-            class="text-yellowish text-[2.5rem] font-normal tracking-[0.16em] font-serif absolute -left-2 top-0 -z-10"
-            >Creator</span
-          >
-        </div>
-        <div>
+        </h2>
+
+        <div class="space-y-2">
           <p class="gs_reveal">
             I’m Piet Mondrian, a full time painter and art theoretician who is
             regarded as one of the greatest artists of the 20th century. I have
@@ -20,7 +17,7 @@
           <p class="gs_reveal">
             When I’m not creating, you can either catch me experimenting with
             colors, eating cheese or on my
-            <a href="">private Discord</a>.
+            <a class="font-serif text-yellowish" href="">private Discord</a>.
           </p>
         </div>
         <AppButton class="gs_reveal" :fullWidth="false">

@@ -18,8 +18,8 @@ module.exports = {
         100: "100",
       },
       fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
-        serif: ["Birthstone Bounce", ...defaultTheme.fontFamily.serif],
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        serif: ["Optician Sans", ...defaultTheme.fontFamily.serif],
       },
       screens: {
         mdx: { max: "767px" },

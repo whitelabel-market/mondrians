@@ -10,9 +10,9 @@
       <div
         class="relative p-8 border-8 border-black w-full max-w-lg h-64 mx-auto translate-y-20 flex flex-col items-center justify-end text-center z-50 bg-white rounded-t-full"
       >
-        <div class="w-2/3 space-y-4">
-          <h2 class="gs_reveal text-3xl font-semibold">
-            Get your Mondrian's NFT now
+        <div class="w-2/3 space-y-2">
+          <h2 class="gs_reveal text-xl md:text-3xl font-black uppercase">
+            Get your Magic Mondrian NFT now
           </h2>
 
           <AppButton class="gs_reveal mx-auto" :fullWidth="false"

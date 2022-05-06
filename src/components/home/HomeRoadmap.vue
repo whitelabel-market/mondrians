@@ -3,13 +3,9 @@
     <div class="container px-8 mx-auto grid gap-4 lgs:grid-cols-3 items-center">
       <div class="lgs:col-span-2 grid md:grid-cols-3 items-stretch gap-4">
         <div class="md:col-span-3 space-y-2 max-w-xl">
-          <div class="relative z-10 text-5xl font-bold gs_reveal">
+          <h2 class="text-5xl md:text-8xl font-serif font-bold gs_reveal">
             Roadmap
-            <span
-              class="text-[#AC0C11] text-[2.5rem] font-normal tracking-[0.25em] font-serif absolute -left-4 top-0 -z-10"
-              >Roadmap</span
-            >
-          </div>
+          </h2>
           <p class="gs_reveal">
             This roadmap outlines our goals and where we want to take
             Mondrian’s. We have a lot of idead and concepts that we are working

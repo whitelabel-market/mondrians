@@ -4,19 +4,13 @@
       class="grid md:grid-cols-2 gap-4 md:gap-20 items-center container max-w-4xl mx-auto px-8"
     >
       <div class="space-y-4">
-        <div class="relative text-5xl font-bold gs_reveal">
-          What are the<br />
-          <span class="relative z-10 italic">
-            Mondrian`s?<span
-              class="text-yellowish text-[2.5rem] font-normal tracking-[0.12em] font-serif absolute -left-2 top-0 -z-10"
-              >Mondrian’s</span
-            >
-          </span>
-        </div>
+        <h2 class="text-5xl md:text-6xl font-serif font-bold gs_reveal">
+          What are the Mondrians?
+        </h2>
         <p class="gs_reveal">
           Mondrians is a drop of custom digital paintings, created by
-          <span class="italic text-yellowish">PIET MONDRIAN</span>, aiming to
-          express culture, uniqueness and creativity. Through size, shape and
+          <span class="font-serif text-yellowish">PIET MONDRIAN</span>, aiming
+          to express culture, uniqueness and creativity. Through size, shape and
           color Mondrian’s embraces what it means to be on the common ground but
           having a sense of uniqueness.
         </p>

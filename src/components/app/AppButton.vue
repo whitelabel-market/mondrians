@@ -3,7 +3,7 @@
     :is="is && is"
     :hover="hover"
     :type="!to && type"
-    class="relative flex items-center font-bold transition-all duration-300 ease-in-out transform cursor-pointer active:scale-95"
+    class="relative flex items-center font-semibold font-serif transition-all duration-300 ease-in-out transform cursor-pointer active:scale-95"
     :class="[...classes, center && 'justify-center']"
     :to="to && to"
     :href="href && href"
@@ -46,9 +46,9 @@ const ButtonSize: (
   if (icon) {
     return {
       xs: "w-6 h-6 text-xs",
-      sm: "w-20 h-20 text-xs",
-      md: "w-12 h-12 text-sm",
-      lg: "w-14 h-14 text-lg",
+      sm: "w-20 h-20 text-sm",
+      md: "w-12 h-12 text-lg",
+      lg: "w-14 h-14 text-xl",
     };
   } else {
     return {
@@ -89,7 +89,7 @@ const props = defineProps({
       | "2xl"
       | "3xl"
       | "full",
-    default: "xl",
+    default: "none",
   },
   size: {
     type: String as () => "xs" | "sm" | "md" | "lg",

@@ -1,7 +1,9 @@
 <template>
   <section id="Faq" class="bg-yellowish mondrian-border-bottom">
     <div class="container mx-auto max-w-4xl px-8 space-y-8">
-      <h2 class="gs_reveal text-center font-bold text-5xl">
+      <h2
+        class="text-5xl md:text-6xl font-serif text-center font-bold gs_reveal"
+      >
         Frequently Asked Questions
       </h2>
 
@@ -19,7 +21,7 @@
             <DisclosureButton
               class="w-full p-4 flex items-center justify-between cursor-pointer"
             >
-              <span class="font-bold">{{ question }}</span>
+              <span class="font-serif text-lg">{{ question }}</span>
               <ChevronDownIcon
                 class="w-6 h-6 transition duration-150 ease-in-out"
                 :class="open ? 'transform rotate-180' : ''"

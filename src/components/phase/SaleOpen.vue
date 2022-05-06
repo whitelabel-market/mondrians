@@ -1,8 +1,6 @@
 <template>
   <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
-    <div
-      class="font-bold md:text-[4.406rem] text-5xl italic relative z-10 text-center"
-    >
+    <div class="font-bold text-7xl font-serif relative z-10 text-center">
       {{ whitelistEnabled ? "Whitelist Sale" : "Public Sale" }}
       is live
     </div>
