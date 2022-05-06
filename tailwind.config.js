@@ -10,6 +10,13 @@ module.exports = {
         blueish: "#268AEE",
         dropdown: "#F1F8FF",
       },
+      zIndex: {
+        60: "60",
+        70: "70",
+        80: "80",
+        90: "90",
+        100: "100",
+      },
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
         serif: ["Birthstone Bounce", ...defaultTheme.fontFamily.serif],

@@ -1,6 +1,6 @@
 <template>
-  <section id="Faq" class="my-0 py-20 bg-yellowish">
-    <div class="container mx-auto max-w-4xl px-4 space-y-8">
+  <section id="Faq" class="bg-yellowish mondrian-border-bottom">
+    <div class="container mx-auto max-w-4xl px-8 space-y-8">
       <h2 class="gs_reveal text-center font-bold text-5xl">
         Frequently Asked Questions
       </h2>
@@ -14,7 +14,7 @@
           <Disclosure
             as="div"
             v-slot="{ open }"
-            class="w-full bg-white border-b-8 border-black"
+            class="w-full border-8 border-black bg-yellow-100"
           >
             <DisclosureButton
               class="w-full p-4 flex items-center justify-between cursor-pointer"

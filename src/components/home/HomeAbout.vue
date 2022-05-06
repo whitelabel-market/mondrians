@@ -1,7 +1,7 @@
 <template>
-  <section id="About" class="bg-reddish text-white">
+  <section id="About" class="bg-reddish text-white mondrian-border-bottom">
     <div
-      class="grid md:grid-cols-2 gap-4 items-center container max-w-4xl mx-auto px-4"
+      class="grid md:grid-cols-2 gap-4 md:gap-20 items-center container max-w-4xl mx-auto px-8"
     >
       <div class="space-y-4">
         <div class="relative text-5xl font-bold gs_reveal">

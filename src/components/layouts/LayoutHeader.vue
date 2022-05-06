@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="h-20"></div>
-    <header class="fixed top-0 left-0 bg-white w-full border-b-8 border-black">
+    <div class="h-24"></div>
+    <header class="fixed top-0 left-0 bg-white w-full mondrian-border-bottom">
       <nav
-        class="container flex items-center justify-between w-full max-w-6xl px-4 h-20 mx-auto"
+        class="container flex items-center justify-between w-full max-w-6xl px-4 h-24 mx-auto"
       >
         <router-link :to="'/'" class="inline-block"> <LogoIcon /> </router-link>
         <MenuIcon class="md:hidden menu-burger" />

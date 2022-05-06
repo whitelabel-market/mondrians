@@ -1,6 +1,6 @@
 <template>
-  <section id="Roadmap" class="bg-blueish text-white">
-    <div class="container px-4 mx-auto grid gap-4 lgs:grid-cols-3 items-center">
+  <section id="Roadmap" class="bg-blueish text-white mondrian-border-bottom">
+    <div class="container px-8 mx-auto grid gap-4 lgs:grid-cols-3 items-center">
       <div class="lgs:col-span-2 grid md:grid-cols-3 items-stretch gap-4">
         <div class="md:col-span-3 space-y-2 max-w-xl">
           <div class="relative z-10 text-5xl font-bold gs_reveal">
@@ -18,7 +18,7 @@
         </div>
 
         <div
-          class="gs_reveal border-b-8 border-black p-4 md:p-8 space-y-2 bg-white text-black"
+          class="gs_reveal border-8 border-black p-4 md:p-8 space-y-2 bg-blue-300 text-black"
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
           :key="step.title"

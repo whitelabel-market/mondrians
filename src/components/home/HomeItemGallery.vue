@@ -1,6 +1,6 @@
 <template>
-  <section id="Gallery" class="">
-    <div class="px-4 overflow-hidden">
+  <section id="Gallery" class="mondrian-border-bottom">
+    <div class="px-8 overflow-hidden">
       <div class="md:hidden space-y-4">
         <div
           class="flex space-x-4"

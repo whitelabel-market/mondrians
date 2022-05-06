@@ -1,7 +1,7 @@
 <template>
-  <header>
+  <header class="mondrian-border-bottom">
     <div
-      class="relative min-h-screen grid lgs:grid-cols-2 items-center max-w-6xl mx-auto py-20 -my-10"
+      class="relative min-h-screen grid lgs:grid-cols-2 items-center max-w-6xl mx-auto py-20 -my-12"
     >
       <img src="@/assets/images/image-1.png" alt="Magic Mondrian" class="" />
       <PreSale
