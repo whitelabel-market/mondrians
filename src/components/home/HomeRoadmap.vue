@@ -1,5 +1,5 @@
 <template>
-  <section id="Roadmap" class="bg-blueish text-white mondrian-border-bottom">
+  <section id="Roadmap" class="bg-blueish text-white mondrian-border-b">
     <div class="container px-8 mx-auto grid gap-4 lgs:grid-cols-3 items-center">
       <div class="lgs:col-span-2 grid md:grid-cols-3 items-stretch gap-4">
         <div class="md:col-span-3 space-y-2 max-w-xl">

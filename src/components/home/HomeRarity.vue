@@ -1,5 +1,5 @@
 <template>
-  <section id="Rarity" class="mondrian-border-bottom">
+  <section id="Rarity" class="mondrian-border-b">
     <div
       class="container max-w-4xl mx-auto px-8 grid md:grid-cols-2 gap-4 md:gap-20 items-center"
     >

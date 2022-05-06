@@ -1,5 +1,5 @@
 <template>
-  <header class="mondrian-border-bottom">
+  <header class="mondrian-border-b">
     <div
       class="relative min-h-screen grid lgs:grid-cols-2 items-center max-w-6xl mx-auto py-20 -my-12"
     >

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="h-24"></div>
-    <header class="fixed top-0 left-0 bg-white w-full mondrian-border-bottom">
+    <header class="fixed top-0 left-0 bg-white w-full mondrian-border-b">
       <nav
         class="container flex items-center justify-between w-full max-w-6xl px-8 h-24 mx-auto"
       >
@@ -82,51 +82,28 @@
               >{{ section }}</a
             >
           </li>
-          <li class="md:ml-10">
-            <a href="#">
-              <AppImageLoad>
-                <template v-slot:image>
-                  <img
-                    src="../../assets/images/discord.png"
-                    alt="discord"
-                    class="w-5 h-5"
-                  />
-                </template>
-              </AppImageLoad>
-            </a>
-          </li>
-          <li class="md:ml-3">
-            <a href="#">
-              <TwitterIcon />
-            </a>
-          </li>
           <li class="md:ml-4">
             <AppButton
+              v-if="!isConnected || !blockie"
               size="sm"
-              :color="loading || !isConnected || !blockie ? 'reddish' : 'link'"
+              :color="!blockie ? 'reddish' : 'link'"
               :loading="loading"
-              class="group"
-              :class="
-                loading || !isConnected || !blockie ? 'duration-0' : 'px-0'
-              "
-              @click.prevent="
-                !isConnected
-                  ? (showConnectModal = true)
-                  : (showUserModal = true)
-              "
+              :class="loading || !blockie ? 'duration-0' : 'px-0'"
+              @click.prevent="showConnectModal = true"
             >
-              <span v-if="loading || !isConnected || !blockie"
-                >Connect Wallet</span
-              >
-              <div
-                v-else
-                class="flex items-center h-10 gap-2 text-sm font-semibold slashed-zero"
-              >
-                <img :src="blockie" class="object-cover w-6 h-6 rounded-full" />
-                <span class="group-hover:text-blueish">{{
-                  ensAccount?.name || privateAddress
-                }}</span>
-              </div>
+              Connect Wallet
+            </AppButton>
+
+            <AppButton
+              :loading="loading"
+              v-else
+              @click.prevent="showUserModal = true"
+              color="link"
+            >
+              <img :src="blockie" class="object-cover w-6 h-6 rounded-full" />
+              <span class="font-sans font-black text-xs slashed-zero">{{
+                ensAccount?.name || privateAddress
+              }}</span>
             </AppButton>
           </li>
         </ul>
@@ -156,6 +133,7 @@ import { useRoute } from "vue-router";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MenuIcon from "@/components/icons/MenuIcon.vue";
 import TwitterIcon from "@/components/icons/TwitterIcon.vue";
+import DiscordIcon from "@/components/icons/DiscordIcon.vue";
 
 gsap.registerPlugin(ScrollToPlugin);
 

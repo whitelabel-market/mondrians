@@ -1,5 +1,5 @@
 <template>
-  <section id="Faq" class="bg-yellowish mondrian-border-bottom">
+  <section id="Faq" class="bg-yellowish mondrian-border-b">
     <div class="container mx-auto max-w-4xl px-8 space-y-8">
       <h2
         class="text-5xl md:text-6xl font-serif text-center font-bold gs_reveal"

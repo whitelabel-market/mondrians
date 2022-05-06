@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col min-h-screen mx-auto select-none relative">
-    <div class="fixed z-100 h-screen w-full top-0 left-0 mondrian-border"></div>
+    <LayoutFrame class="z-90" />
     <LayoutHeader class="z-80" />
     <div
       v-if="!loaded"
@@ -24,6 +24,7 @@ import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import WrongNetwork from "@/components/error/WrongNetwork.vue";
 import { useWallet } from "@/composables/useWallet";
 import { NETWORK_NAME } from "@/utils/constants";
+import LayoutFrame from "@/components/layouts/LayoutFrame.vue";
 
 const { network } = useWallet();
 const loaded = ref(false);

@@ -7,7 +7,7 @@
     @apply py-40;
   }
 
-  .mondrian-border, .mondrian-border-bottom {
+  .mondrian-border, .mondrian-border-b {
     @apply relative after:block after:absolute after:border-black;
   }
 
@@ -15,7 +15,7 @@
     @apply pointer-events-none after:border-8 after:inset-0
   }
 
-  .mondrian-border-bottom {
+  .mondrian-border-b {
     @apply after:border-b-8 after:bottom-0 after:left-0 after:w-full after:h-0
   }
 

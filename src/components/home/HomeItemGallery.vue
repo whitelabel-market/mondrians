@@ -1,5 +1,5 @@
 <template>
-  <section id="Gallery" class="mondrian-border-bottom">
+  <section id="Gallery" class="mondrian-border-b">
     <div class="px-8 overflow-hidden">
       <div class="md:hidden space-y-4">
         <div
