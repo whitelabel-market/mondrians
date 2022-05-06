@@ -3,7 +3,7 @@
     :is="is && is"
     :hover="hover"
     :type="!to && type"
-    class="relative flex items-center font-bold transition-all duration-100 ease-in-out transform cursor-pointer active:scale-[0.98]"
+    class="relative flex items-center font-bold transition-all duration-300 ease-in-out transform cursor-pointer active:scale-95"
     :class="[...classes, center && 'justify-center']"
     :to="to && to"
     :href="href && href"

@@ -1,9 +1,12 @@
 <template>
-  <div class="flex flex-col min-h-screen mx-auto select-none">
-    <LayoutHeader class="z-50" />
+  <div class="flex flex-col min-h-screen mx-auto select-none relative">
+    <!--
+    <div class="!fixed z-50 h-screen w-full top-0 left-0 mondrian-border"></div>
+-->
+    <LayoutHeader class="z-40" />
     <div
       v-if="!loaded"
-      class="fixed z-40 flex items-center justify-center w-full h-screen bg-white"
+      class="fixed z-30 flex items-center justify-center w-full h-screen bg-white"
     >
       <AppLoadingSpinner :size="'lg'" />
     </div>

@@ -1,14 +1,9 @@
 <template>
-  <section class="pt-12 pb-16 md:py-24">
+  <header>
     <div
-      class="lgs:flex items-center max-w-[61rem] mx-auto relative lgs:-left-[2.625rem]"
+      class="relative min-h-screen grid lgs:grid-cols-2 items-center max-w-6xl mx-auto py-20 -my-10"
     >
-      <img
-        src="../../assets/images/image-1.png"
-        alt=""
-        class="mx-auto lgs:mx-0"
-        width="560"
-      />
+      <img src="@/assets/images/image-1.png" alt="Magic Mondrian" class="" />
       <PreSale
         v-if="presaleEnabled || revealEnabled"
         :revealEnabled="revealEnabled"
@@ -29,7 +24,7 @@
         @update:showConnectModal="showConnectModal = true"
       />
     </div>
-  </section>
+  </header>
   <MintModal
     v-model="modelValue"
     :whitelistEnabled="whitelistEnabled"

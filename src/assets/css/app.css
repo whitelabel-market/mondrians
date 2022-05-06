@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  section {
+    @apply py-20;
+  }
+  section:first-of-type {
+    @apply py-20;
+  }
+
+  .mondrian-border {
+    @apply block pointer-events-none relative after:absolute after:block after:inset-0 after:bg-transparent after:pointer-events-none after:border-8 after:border-black
+  }
+  .mondrian-border-bottom {
+    @apply block pointer-events-none relative after:absolute after:block after:inset-0 after:bg-transparent after:pointer-events-none after:border-b-8 after:border-black
+  }
+
+}
