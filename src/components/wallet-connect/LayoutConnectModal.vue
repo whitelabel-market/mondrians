@@ -4,11 +4,11 @@
     @update:modelValue="$emit('update:modelValue', $event)"
   >
     <div>
-      <div v-if="!loading" class="flex flex-col w-full space-y-4">
-        <div class="text-lg font-bold text-center leading-5">
+      <div v-if="!loading" class="flex flex-col w-full space-y-8">
+        <div class="text-xl uppercase font-black text-center leading-5">
           Select a wallet
         </div>
-        <ul class="grid grid-cols-1 gap-4 overflow-y-auto border-b pb-4">
+        <ul class="space-y-4 border-b pb-4">
           <li
             v-for="(p, i) of providers.slice(
               0,
@@ -17,7 +17,7 @@
             :key="i"
           >
             <AppButton
-              full-width
+              :fullWidth="true"
               class="justify-between space-x-6 text-left"
               @click.prevent="connectTo(p)"
             >

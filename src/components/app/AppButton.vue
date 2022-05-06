@@ -3,23 +3,35 @@
     :is="is && is"
     :hover="hover"
     :type="!to && type"
-    class="relative flex items-center font-semibold font-serif transition-all duration-300 ease-in-out transform cursor-pointer active:scale-95"
-    :class="[...classes, center && 'justify-center']"
+    class="relative block cursor-pointer group transition duration-200 ease-out-circ transform translate-x-0.5 translate-y-0.5"
     :to="to && to"
     :href="href && href"
-    :disabled="props.disabled"
+    :disabled="disabled"
     @mouseenter="hover = true"
     @mouseleave="hover = false"
-    @click.prevent="
-      !(props.loading || props.disabled) && $emit('clicked', $event)
-    "
+    @click.prevent="!(loading || disabled) && $emit('clicked', $event)"
+    :class="[!disabled && 'active:scale-95', fullWidth && 'w-full']"
   >
-    <AppLoadingSpinner
-      v-if="loading"
-      :size="'xs'"
-      :color="'white'"
-    ></AppLoadingSpinner>
-    <slot></slot>
+    <span
+      class="flex items-center border font-semibold font-serif transform transition duration-200 ease-out-circ group-hover:translate-x-0 group-hover:translate-y-0"
+      :class="[
+        ...classes,
+        center && 'justify-center',
+        !disabled && '-translate-x-0.5 -translate-y-0.5',
+      ]"
+    >
+      <AppLoadingSpinner
+        v-if="loading"
+        :size="'xs'"
+        :color="'white'"
+      ></AppLoadingSpinner>
+
+      <slot></slot>
+    </span>
+    <span
+      class="block absolute bottom-0 right-0 block -z-10 !bg-white !w-full !h-full border"
+      :class="[...classes]"
+    ></span>
   </component>
 </template>
 
@@ -32,11 +44,10 @@ const hover = ref(false);
 
 const ButtonColor: { [key: string]: string } = {
   link: "bg-transparent text-current border-transparent",
-  primary: "bg-yellowish text-gray-900 hover:bg-yellowish/75",
-  secondary: "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-900",
-  reddish: "bg-reddish text-white hover:bg-reddish/75",
-  disabled:
-    "disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed",
+  primary: "bg-yellowish text-black border-black",
+  secondary: "bg-gray-100 text-gray-500 border-black",
+  reddish: "bg-reddish text-white border-black",
+  disabled: "cursor-default border-black",
 };
 
 const ButtonSize: (
@@ -46,7 +57,7 @@ const ButtonSize: (
   if (icon) {
     return {
       xs: "w-6 h-6 text-xs",
-      sm: "w-20 h-20 text-sm",
+      sm: "w-10 h-10 text-sm",
       md: "w-12 h-12 text-lg",
       lg: "w-14 h-14 text-xl",
     };
@@ -97,7 +108,7 @@ const props = defineProps({
   },
   fullWidth: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   dense: {
     type: Boolean,
@@ -140,8 +151,7 @@ const classes = computed(() =>
         !props.disabled ? ButtonColor[props.color] : ButtonColor["disabled"],
         ButtonSize(props.onlyIcon, props.dense)[props.size],
         props.fullWidth && "w-full",
-        props.loading &&
-          "active:scale-100 cursor-default hover:opacity-100 hover:border-2",
+        props.loading && "active:scale-100 cursor-default",
         props.rounded && `rounded-${props.rounded}`,
       ]
 );

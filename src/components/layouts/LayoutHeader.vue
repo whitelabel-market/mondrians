@@ -3,7 +3,7 @@
     <div class="h-24"></div>
     <header class="fixed top-0 left-0 bg-white w-full mondrian-border-bottom">
       <nav
-        class="container flex items-center justify-between w-full max-w-6xl px-4 h-24 mx-auto"
+        class="container flex items-center justify-between w-full max-w-6xl px-8 h-24 mx-auto"
       >
         <router-link :to="'/'" class="inline-block"> <LogoIcon /> </router-link>
         <MenuIcon class="md:hidden menu-burger" />
@@ -63,7 +63,7 @@
                   <div
                     class="p-2 border-[#EBF3FD] border-[1px] rounded-lg cursor-pointer"
                   >
-                    <img src="../../assets/images/twitter.png" width="21px" />
+                    <TwitterIcon />
                   </div>
                 </a>
               </div>
@@ -75,6 +75,7 @@
         >
           <li v-for="section in Object.values(Section)" :key="section">
             <a
+              class="font-black uppercase text-xs"
               v-if="!route.path.startsWith('/user')"
               :href="`#${section}`"
               @click.prevent="scrollTo(`#${section}`)"
@@ -96,15 +97,7 @@
           </li>
           <li class="md:ml-3">
             <a href="#">
-              <AppImageLoad>
-                <template v-slot:image>
-                  <img
-                    src="../../assets/images/twitter.png"
-                    alt="twitter"
-                    class="w-5 h-5"
-                  />
-                </template>
-              </AppImageLoad>
+              <TwitterIcon />
             </a>
           </li>
           <li class="md:ml-4">
@@ -162,6 +155,7 @@ import AppButton from "@/components/app/AppButton.vue";
 import { useRoute } from "vue-router";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MenuIcon from "@/components/icons/MenuIcon.vue";
+import TwitterIcon from "@/components/icons/TwitterIcon.vue";
 
 gsap.registerPlugin(ScrollToPlugin);
 

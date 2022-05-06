@@ -40,9 +40,7 @@
         promote the collection &#128172;
       </span>
     </div>
-    <AppButton :to="'/'" :size="'md'" :fullWidth="false" class="px-4"
-      >Create Mondrian</AppButton
-    >
+    <AppButton :to="'/'">Create Mondrian</AppButton>
   </div>
 </template>
 

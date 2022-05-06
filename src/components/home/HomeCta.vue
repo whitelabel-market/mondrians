@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-blueish py-20 relative mondrian-border-bottom">
+  <section class="bg-blueish py-20 relative">
     <div class="container px-8 mx-auto max-w-4xl">
       <img
         src="@/assets/images/image-6.png"
@@ -8,11 +8,11 @@
       />
 
       <div
-        class="relative p-8 border-8 border-black w-full max-w-lg h-64 mx-auto translate-y-20 flex flex-col items-center justify-end text-center z-50 bg-white rounded-t-full"
+        class="relative p-8 w-full max-w-lg h-72 mx-auto translate-y-20 flex flex-col items-center justify-end text-center z-50 bg-white rounded-t-full"
       >
-        <div class="w-2/3 space-y-2">
+        <div class="w-2/3 space-y-8">
           <h2 class="gs_reveal text-xl md:text-3xl font-black uppercase">
-            Get your Magic Mondrian NFT now
+            Get your <LogoIcon class="!text-xl md:!text-3xl" /> NFT now
           </h2>
 
           <AppButton class="gs_reveal mx-auto" :fullWidth="false"
@@ -27,5 +27,6 @@
 <script setup lang="ts">
 import useTransition from "@/composables/useTransition";
 import AppButton from "@/components/app/AppButton.vue";
+import LogoIcon from "@/components/icons/LogoIcon.vue";
 useTransition();
 </script>

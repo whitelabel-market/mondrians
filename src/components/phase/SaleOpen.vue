@@ -1,6 +1,8 @@
 <template>
   <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
-    <div class="font-bold text-7xl font-serif relative z-10 text-center">
+    <div
+      class="font-bold text-5xl md:text-7xl font-serif relative z-10 text-center"
+    >
       {{ whitelistEnabled ? "Whitelist Sale" : "Public Sale" }}
       is live
     </div>
@@ -8,18 +10,16 @@
       {{ contract.totalSupply }} of {{ contract.maxSupply }}
     </p>
     <div class="flex items-center justify-center w-full mt-4 space-x-4">
-      <button
-        class="w-10 h-10 transition-all duration-200 ease-in-out transform rounded-full active:scale-95"
-        :class="
-          canDecrease
-            ? 'bg-yellowish ease-in text-gray-900'
-            : 'bg-gray-200 ease-out text-gray-400 cursor-not-allowed'
-        "
+      <AppButton
+        only-icon
         :disabled="!canDecrease"
         @click.prevent="$emit('decrease')"
+        size="sm"
+        rounded="full"
       >
-        -
-      </button>
+        <MinusSmIcon class="w-4 h-4" />
+      </AppButton>
+
       <input
         :value="quantity"
         readonly
@@ -29,18 +29,16 @@
         class="block w-20 mx-auto text-center placeholder-gray-500 border-2 border-gray-700 rounded-full cursor-not-allowed focus:outline-none"
         :placeholder="quantity.toString()"
       />
-      <button
-        class="w-10 h-10 transition-all duration-200 ease-in-out transform rounded-full active:scale-95"
-        :class="
-          canIncrease
-            ? 'bg-yellowish ease-in text-gray-900'
-            : 'bg-gray-200 ease-out text-gray-400 cursor-not-allowed'
-        "
+
+      <AppButton
+        only-icon
         :disabled="!canIncrease"
         @click.prevent="$emit('increase')"
+        size="sm"
+        rounded="full"
       >
-        +
-      </button>
+        <PlusSmIcon class="w-4 h-4" />
+      </AppButton>
     </div>
     <p
       class="flex items-center justify-center mt-4 space-x-1 text-sm font-semibold"
@@ -50,17 +48,14 @@
     </p>
     <div class="flex items-center justify-center mt-4">
       <AppButton
-        :size="'md'"
         :disabled="quantity === 0"
-        :fullWidth="false"
-        class="px-8"
         @click.prevent="
           !isConnected
             ? $emit('update:showConnectModal', true)
             : $emit('update:modelValue', true)
         "
       >
-        Mint
+        <span class="px-8"> Mint </span>
       </AppButton>
     </div>
   </div>
@@ -69,6 +64,7 @@
 <script setup lang="ts">
 import PolygonIcon from "../icons/PolygonIcon.vue";
 import AppButton from "@/components/app/AppButton.vue";
+import { PlusSmIcon, MinusSmIcon } from "@heroicons/vue/solid";
 
 defineEmits([
   "increase",

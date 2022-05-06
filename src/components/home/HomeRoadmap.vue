@@ -6,7 +6,7 @@
           <h2 class="text-5xl md:text-8xl font-serif font-bold gs_reveal">
             Roadmap
           </h2>
-          <p class="gs_reveal">
+          <p class="gs_reveal pb-4">
             This roadmap outlines our goals and where we want to take
             Mondrian’s. We have a lot of idead and concepts that we are working
             on.
@@ -14,7 +14,7 @@
         </div>
 
         <div
-          class="gs_reveal border-8 border-black p-4 md:p-8 space-y-2 bg-blue-300 text-black"
+          class="gs_reveal border-8 border-black p-4 md:p-8 space-y-2 bg-blue-100 text-black"
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
           :key="step.title"

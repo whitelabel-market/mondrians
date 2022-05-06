@@ -17,8 +17,8 @@
       :show="copied"
       v-if="ensAccount ||(/^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string))"
     >
-      <template #element
-        ><button
+      <template #element>
+        <button
           class="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200"
           @click.prevent="copy(route.params.id)"
         >
@@ -35,7 +35,7 @@
       class="px-3 py-2 text-xs font-medium bg-gray-100 rounded-full hover:bg-gray-200 slashed-zero"
       >Not found</span
     >
-    <div class="flex items-center gap-2">
+    <div class="flex items-center space-x-4">
       <ShareButtons :address="route.params.id" :hintVisible="hintVisible" />
     </div>
     <nav
@@ -87,6 +87,7 @@ import makeBlockie from "ethereum-blockies-base64";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import ShareButtons from "@/components/share/ShareButtons.vue";
+import AppButton from "@/components/app/AppButton.vue";
 
 const emits = defineEmits(["loaded"]);
 emits("loaded");

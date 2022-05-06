@@ -3,11 +3,12 @@
     <template v-slot:element>
       <span class="relative inline-flex">
         <AppButton
-          class="p-2 text-gray-700 border border-gray-200 rounded-full active:scale-[0.95] hover:text-blueish"
-          :color="'custom'"
           @clicked="$emit('clicked', item.content)"
           @mouseenter="show = true"
           @mouseleave="show = false"
+          only-icon
+          size="sm"
+          rounded="full"
         >
           <component :is="components[item.icon]" class="w-5 h-5" />
         </AppButton>
