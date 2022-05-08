@@ -10,10 +10,10 @@
     @mouseenter="hover = true"
     @mouseleave="hover = false"
     @click.prevent="!(loading || disabled) && $emit('clicked', $event)"
-    :class="[!disabled && 'active:scale-95', fullWidth && 'w-full']"
+    :class="[!disabled && 'active:scale-[0.98]', fullWidth && 'w-full']"
   >
     <span
-      class="flex items-center border font-semibold font-serif transform transition duration-200 ease-out-circ group-hover:translate-x-0 group-hover:translate-y-0"
+      class="flex items-center border font-semibold uppercase transform transition duration-200 ease-out-circ group-hover:translate-x-0 group-hover:translate-y-0"
       :class="[
         ...classes,
         center && 'justify-center',
@@ -57,9 +57,9 @@ const ButtonSize: (
   if (icon) {
     return {
       xs: "w-6 h-6 text-xs",
-      sm: "w-10 h-10 text-sm",
-      md: "w-12 h-12 text-lg",
-      lg: "w-14 h-14 text-xl",
+      sm: "w-10 h-10 text-xs",
+      md: "w-12 h-12 text-xs",
+      lg: "w-14 h-14 text-sm",
     };
   } else {
     return {

@@ -19,4 +19,7 @@
     @apply after:border-b-8 after:bottom-0 after:left-0 after:w-full after:h-0
   }
 
+  .link {
+    @apply relative font-black
+  }
   }

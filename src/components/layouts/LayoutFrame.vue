@@ -1,6 +1,8 @@
 <template>
-  <div class="fixed h-screen w-full top-0 left-0 pointer-events-none">
-    <div class="hidden md:block absolute inset-0 mondrian-border"></div>
+  <div
+    class="hidden md:block fixed h-screen w-full top-0 left-0 pointer-events-none"
+  >
+    <div class="absolute inset-0 mondrian-border"></div>
     <ul class="absolute text-white top-24 right-0 pointer-events-auto">
       <li>
         <a href="#" class="block bg-black p-4">

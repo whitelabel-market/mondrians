@@ -73,14 +73,10 @@
         <ul
           class="flex items-center text-sm font-semibold mdx:hidden md:space-x-5"
         >
-          <li v-for="section in Object.values(Section)" :key="section">
-            <a
-              class="font-black uppercase text-xs"
-              v-if="!route.path.startsWith('/user')"
-              :href="`#${section}`"
-              @click.prevent="scrollTo(`#${section}`)"
-              >{{ section }}</a
-            >
+          <li v-for="(to, name) in homeRoutes" :key="to">
+            <router-link class="font-black uppercase text-xs" :to="to">{{
+              name
+            }}</router-link>
           </li>
           <li class="md:ml-4">
             <AppButton
@@ -139,29 +135,15 @@ gsap.registerPlugin(ScrollToPlugin);
 
 const { privateAddress, loading, blockie, isConnected, ensAccount } =
   useWallet();
-const route = useRoute();
 const showConnectModal = ref(false);
 const showUserModal = ref(false);
 
-enum Section {
-  About = "About",
-  Gallery = "Gallery",
-  Roadmap = "Roadmap",
-  Rarity = "Rarity",
-  Creator = "Creator",
-  Faq = "Faq",
-}
-
-const scrollTo = (el: string) => {
-  gsap.to(window, {
-    scrollTo: el,
-    duration:
-      0.5 +
-      Object.values(Section)
-        .map((section) => section.toLowerCase())
-        .indexOf(el.slice(1).toLowerCase()) *
-        0.2,
-  });
-  history.pushState({}, document.title, `/${el}`);
+const homeRoutes = {
+  About: "/#About",
+  Gallery: "/#Gallery",
+  Roadmap: "/#Roadmap",
+  Rarity: "/#Rarity",
+  Creator: "/#Creator",
+  Faq: "/#Faq",
 };
 </script>
