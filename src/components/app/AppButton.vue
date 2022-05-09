@@ -3,7 +3,7 @@
     :is="is && is"
     :hover="hover"
     :type="!to && type"
-    class="relative block cursor-pointer group transition duration-200 ease-out-circ transform translate-x-0.5 translate-y-0.5"
+    class="relative block cursor-pointer group transition duration-200 ease-out-circ transform translate-x-1 translate-y-1"
     :to="to && to"
     :href="href && href"
     :disabled="disabled"
@@ -17,7 +17,7 @@
       :class="[
         ...classes,
         center && 'justify-center',
-        !disabled && '-translate-x-0.5 -translate-y-0.5',
+        !disabled && '-translate-x-1 -translate-y-1',
       ]"
     >
       <AppLoadingSpinner
@@ -64,10 +64,10 @@ const ButtonSize: (
   } else {
     return {
       xs: dense ? "p-1 space-x-1 text-xs" : "h-8 py-2 px-4 space-x-1 text-xs",
-      sm: dense ? "p-2 space-x-1 text-xs" : "h-10 py-4 px-4 space-x-2 text-xs",
+      sm: dense ? "p-2 space-x-1 text-xs" : "h-10 py-4 px-6 space-x-2 text-xs",
       md: dense
         ? "py-2 px-4 space-x-2 text-sm"
-        : "h-12 py-4 px-4 space-x-2 text-sm",
+        : "h-12 py-4 px-8 space-x-2 text-sm",
       lg: dense
         ? "py-4 px-8 space-x-2 text-base"
         : "h-14 py-6 px-14 space-x-2 text-base",
