@@ -20,10 +20,6 @@
 
       <slot></slot>
     </span>
-    <span
-      class="block absolute bottom-0 right-0 block -z-10 !bg-white !w-full !h-full border"
-      :class="[...classesPseudo]"
-    ></span>
   </component>
 </template>
 
@@ -127,6 +123,7 @@ const ButtonSpacing = {
 
 const classesWrapper = computed(() => [
   `relative flex items-stretch justify-stretch transition duration-200 ease-out-circ`,
+  `after:block after:absolute after:bottom-0 after:right-0 after:bg-white after:w-full after:h-full after:border after:border-black after:-z-10`,
   props.disabled && props.loading
     ? "cursor-default"
     : "cursor-pointer group transform translate-x-1 translate-y-1 active:scale-[0.98]",
@@ -134,7 +131,7 @@ const classesWrapper = computed(() => [
     ? ButtonWrapperSizeIcon[props.size]
     : ButtonWrapperSizeDefault[props.size],
   props.fullWidth && "w-full",
-  props.rounded && `rounded-${props.rounded}`,
+  props.rounded && `rounded-${props.rounded} after:rounded-${props.rounded}`,
 ]);
 
 const classesContent = computed(() => [
@@ -143,11 +140,6 @@ const classesContent = computed(() => [
   !props.onlyIcon && ButtonSpacing[props.size],
   !props.disabled && "-translate-x-1 -translate-y-1",
   props.center || props.onlyIcon ? "justify-center" : "justify-between",
-  props.rounded && `rounded-${props.rounded}`,
-]);
-
-const classesPseudo = computed(() => [
-  "block absolute bottom-0 right-0 block bg-white w-full h-full border border-black -z-10",
   props.rounded && `rounded-${props.rounded}`,
 ]);
 
