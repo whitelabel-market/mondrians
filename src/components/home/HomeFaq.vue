@@ -1,18 +1,12 @@
 <template>
   <section id="Faq" class="bg-yellowish mondrian-border-b">
     <div class="container mx-auto max-w-4xl px-8 space-y-8">
-      <h2
-        class="text-5xl md:text-6xl font-serif text-center font-bold gs_reveal"
-      >
+      <h2 class="section-title text-center" v-animate>
         Frequently Asked Questions
       </h2>
 
       <ul class="space-y-4">
-        <li
-          class="gs_reveal"
-          v-for="(question, index) in questions"
-          :key="index"
-        >
+        <li v-animate v-for="(question, index) in questions" :key="index">
           <Disclosure
             as="div"
             v-slot="{ open }"
@@ -39,11 +33,9 @@
 </template>
 
 <script setup lang="ts">
-import useTransition from "@/composables/useTransition";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 
-useTransition();
 const questions = [
   "When is the mint date?",
   "What’s an NFT?",

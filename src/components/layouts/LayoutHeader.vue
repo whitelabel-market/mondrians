@@ -28,20 +28,10 @@
                 />
               </svg>
             </li>
-            <li class="mt-[4.923rem]">
-              <div
-                @click.prevent="
-                  gsap.to(window, { duration: 2, scrollTo: '#About' })
-                "
-              >
-                ABOUT
-              </div>
-            </li>
-            <li class="mt-[0.625rem]">
-              <a href="#Roadmap">ROADMAP</a>
-            </li>
-            <li class="mt-[0.625rem]">
-              <a href="#Rarity">RARITY</a>
+            <li v-for="(to, name) in homeRoutes" :key="to">
+              <router-link class="font-black uppercase text-xs" :to="to">{{
+                name
+              }}</router-link>
             </li>
             <li class="mt-4">
               <div
@@ -121,17 +111,10 @@ import { ref } from "vue";
 import LayoutConnectModal from "@/components/wallet-connect/LayoutConnectModal.vue";
 import UserModal from "@/components/user/UserModal.vue";
 import { useWallet } from "@/composables/useWallet";
-import { gsap } from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppButton from "@/components/app/AppButton.vue";
-import { useRoute } from "vue-router";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MenuIcon from "@/components/icons/MenuIcon.vue";
 import TwitterIcon from "@/components/icons/TwitterIcon.vue";
-import DiscordIcon from "@/components/icons/DiscordIcon.vue";
-
-gsap.registerPlugin(ScrollToPlugin);
 
 const { privateAddress, loading, blockie, isConnected, ensAccount } =
   useWallet();

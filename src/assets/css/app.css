@@ -7,6 +7,10 @@
     @apply py-40;
   }
 
+  .section-title {
+    @apply text-5xl md:text-6xl font-serif font-bold
+  }
+
   .mondrian-border, .mondrian-border-b {
     @apply relative after:block after:absolute after:border-black;
   }

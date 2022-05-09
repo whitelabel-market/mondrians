@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen mx-auto select-none relative">
+  <div class="flex flex-col min-h-screen mx-auto relative">
     <LayoutFrame class="z-90" />
     <LayoutHeader class="z-80" />
     <div

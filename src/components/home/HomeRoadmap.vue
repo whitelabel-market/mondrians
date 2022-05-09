@@ -3,18 +3,17 @@
     <div class="container px-8 mx-auto grid gap-4 lgs:grid-cols-3 items-center">
       <div class="lgs:col-span-2 grid md:grid-cols-3 items-stretch gap-4">
         <div class="md:col-span-3 space-y-2 max-w-xl">
-          <h2 class="text-5xl md:text-8xl font-serif font-bold gs_reveal">
-            Roadmap
-          </h2>
-          <p class="gs_reveal pb-4">
+          <h2 class="section-title" v-animate>Roadmap</h2>
+          <p class="pb-4" v-animate>
             This roadmap outlines our goals and where we want to take
-            Mondrian’s. We have a lot of idead and concepts that we are working
+            Mondrian’s. We have a lot of ideas and concepts that we are working
             on.
           </p>
         </div>
 
         <div
-          class="gs_reveal border-8 border-black p-4 md:p-8 space-y-2 bg-blue-100 text-black"
+          class="border-8 border-black p-4 md:p-8 space-y-2 bg-blue-100 text-black"
+          v-animate
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
           :key="step.title"
@@ -38,16 +37,14 @@
       <img
         src="@/assets/images/image-2.png"
         alt="Roadmap"
-        class="gs_reveal gs_reveal_fromLeft order-first max-w-sm w-full lgs:order-none"
+        class="order-first max-w-sm w-full lgs:order-none"
+        v-animate
       />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import useTransition from "@/composables/useTransition";
-useTransition();
-
 const steps = [
   {
     title: "Launch",

@@ -5,6 +5,11 @@ import App from "./App.vue";
 import router from "./router";
 import "@/assets/css/app.css";
 import "@/assets/css/fonts.css";
+import animateDirective from "@/directives/animate";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const app = createApp({
   setup() {
@@ -13,5 +18,8 @@ const app = createApp({
   },
   render: () => h(App),
 });
+
+app.directive("animate", animateDirective);
+
 app.use(router);
 app.mount("#app");
