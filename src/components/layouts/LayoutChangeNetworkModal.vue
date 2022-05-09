@@ -1,19 +1,18 @@
 <template>
   <AppModal
     :modelValue="modelValue"
-    class="flex flex-col gap-4"
     @update:modelValue="
       $emit('update:modelValue', $event);
       disconnect();
     "
   >
-    <AppLoadingSpinner :size="'md'" class="mx-auto" />
-    <h3 class="text-lg font-bold leading-5 text-center">Wrong network</h3>
-    <p class="text-sm font-medium text-center text-gray-700 w-80">
+    <AppLoadingSpinner :size="'sm'" class="mx-auto" />
+    <h3 class="font-serif text-2xl font-bold text-center">Wrong network</h3>
+    <p class="text-center">
       Looks like you connected to an unsupported network. Change network to
       {{ NETWORK_NAME[0].toUpperCase() + NETWORK_NAME.slice(1) }}.
     </p>
-    <AppButton :size="'sm'" @click.prevent="changeNetwork()"
+    <AppButton size="sm" :fullWidth="true" @click.prevent="changeNetwork()"
       >Change network</AppButton
     >
     <template v-slot:button>Logout</template>

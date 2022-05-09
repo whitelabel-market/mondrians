@@ -108,7 +108,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import LayoutConnectModal from "@/components/wallet-connect/LayoutConnectModal.vue";
+import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
 import UserModal from "@/components/user/UserModal.vue";
 import { useWallet } from "@/composables/useWallet";
 import AppButton from "@/components/app/AppButton.vue";
