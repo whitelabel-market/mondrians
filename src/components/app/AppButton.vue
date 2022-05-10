@@ -88,8 +88,8 @@ export default defineComponent({
     const ButtonWrapperSizeIcon: Indexable<string> = {
       xs: "w-6 h-6 text-xs",
       sm: "w-7 h-7 text-xs",
-      md: "w-12 h-12 text-sm",
-      lg: "w-14 h-14 text-base",
+      md: "w-10 h-10 text-sm",
+      lg: "w-12 h-12 text-base",
     };
 
     const ButtonWrapperSizeDefault: Indexable<string> = {

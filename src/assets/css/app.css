@@ -24,6 +24,6 @@
   }
 
   .link {
-    @apply relative font-black uppercase
+    @apply relative font-black text-xs uppercase
   }
   }

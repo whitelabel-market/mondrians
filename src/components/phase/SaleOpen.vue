@@ -14,7 +14,6 @@
         only-icon
         :disabled="!canDecrease"
         @click.prevent="$emit('decrease')"
-        size="sm"
         rounded="full"
       >
         <MinusSmIcon class="w-4 h-4" />
@@ -34,7 +33,6 @@
         only-icon
         :disabled="!canIncrease"
         @click.prevent="$emit('increase')"
-        size="sm"
         rounded="full"
       >
         <PlusSmIcon class="w-4 h-4" />
