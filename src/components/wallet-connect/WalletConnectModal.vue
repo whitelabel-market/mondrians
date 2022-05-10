@@ -21,7 +21,7 @@
               @click.prevent="connectTo(p)"
               :center="false"
             >
-              <span class="block text-left">{{ p.name }}</span>
+              <span class="block font-semibold text-left">{{ p.name }}</span>
               <img :src="p.logo" class="w-6 h-6" />
             </AppButton>
           </li>

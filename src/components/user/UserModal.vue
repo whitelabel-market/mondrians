@@ -3,98 +3,101 @@
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
   >
-    <div class="flex flex-col space-y-4">
-      <div class="flex flex-col items-center gap-4">
-        <div class="flex items-center gap-2">
-          <img :src="blockie" class="object-cover rounded-full w-9 h-9" />
-          <div class="flex flex-col">
-            <span class="font-bold leading-tight text-md slashed-zero">{{
-              privateAddress
-            }}</span>
+    <div class="flex flex-col space-y-8">
+      <div class="flex flex-col items-center space-y-4">
+        <div class="flex items-center space-x-2">
+          <img :src="blockie" class="object-cover w-8 h-8" />
+          <div>
+            <h4 class="text-xl font-serif font-bold slashed-zero">
+              {{ privateAddress }}
+            </h4>
             <a
               v-if="ensAccount?.name"
               :href="`${ENS_BASE_URL}${address}`"
-              class="text-xs font-medium leading-tight text-gray-600 hover:text-blueish"
+              class="text-xs font-semibold"
               >{{ "@" + ensAccount.name }}</a
             >
           </div>
         </div>
-        <div class="flex items-center justify-center w-full gap-4">
+
+        <div class="flex items-center justify-center w-full space-x-4">
           <a
             :href="`${EXPLORER_BASE_URL}address/${address}`"
             target="_blank"
-            class="flex items-center text-xs font-semibold text-gray-500 hover:text-blueish"
-            ><ExternalLinkIcon class="w-4 h-4 mr-1" /><span
-              >View on Polygonscan</span
-            ></a
-          >
-          <AppTooltip class="mr-4 group" :show="copied">
+            class="flex items-center space-x-1 text-xs font-semibold"
+            ><span>View on Polygonscan</span> <ExternalLinkIcon class="w-3 h-3"
+          /></a>
+
+          <AppTooltip class="group" :show="copied">
             <template #element
               ><button
-                class="flex items-center text-xs font-semibold text-gray-500 hover:text-blueish"
+                class="flex items-center text-xs font-semibold space-x-1"
                 @click.prevent="copy(address)"
               >
                 <span>Copy address</span
-                ><ClipboardCopyIcon class="w-4 h-4 ml-1" /></button
+                ><ClipboardCopyIcon class="w-3 h-3" /></button
             ></template>
-            <template #text>Copied!</template>
+            <template #text>Copied</template>
           </AppTooltip>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-bold">Connected</span>
-      </div>
-      <div
-        class="flex items-center justify-between p-3 border-2 bg-gray-50 rounded-xl"
-      >
-        <div class="flex items-center space-x-2">
-          <div class="p-1 rounded-full bg-gray-50">
-            <PolygonIcon class="w-6 h-6 inset-1/2" />
-          </div>
-          <div class="flex flex-col">
-            <span class="text-sm font-bold leading-tight slashed-zero">{{
-              privateAddress
-            }}</span>
-            <span class="text-xs font-bold leading-tight text-gray-700"
-              >Matic {{ balance }} - ${{ usdBalance }}</span
+
+      <div>
+        <h5 class="font-serif font-bold">Connected</h5>
+
+        <ul
+          class="flex flex-col w-full space-y-2 mt-2 pt-4 border-t-8 border-black"
+        >
+          <li
+            class="flex items-center justify-start h-14 space-x-4 p-4 bg-neutral-100"
+          >
+            <PolygonIcon class="block w-6 h-6" />
+
+            <div class="text-sm font-semibold">
+              <span class="block slashed-zero">{{ privateAddress }}</span>
+              <span class=""
+                >Matic
+                <span class="italic"
+                  >{{ balance }} - ${{ usdBalance }}</span
+                ></span
+              >
+            </div>
+          </li>
+
+          <li class="flex bg-neutral-100">
+            <router-link
+              class="flex w-full items-center justify-start h-14 space-x-4 p-4"
+              :to="`/user/${address}/collected`"
+              @click.prevent="$emit('update:modelValue', false)"
             >
-          </div>
-        </div>
+              <CollectionIcon class="w-4 h-4"></CollectionIcon>
+              <span class="block text-sm font-semibold">My Mondrians</span>
+            </router-link>
+          </li>
+
+          <li class="flex bg-neutral-100">
+            <router-link
+              class="flex w-full items-center justify-start h-14 space-x-4 p-4"
+              :to="`/user/${address}/collected`"
+              @click.prevent="$emit('update:modelValue', false)"
+            >
+              <SwitchVerticalIcon class="w-4 h-4"></SwitchVerticalIcon>
+              <span class="block text-sm tracking-wide font-semibold"
+                >My activity</span
+              >
+            </router-link>
+          </li>
+        </ul>
       </div>
-      <div class="flex flex-col justify-between gap-2 -mt-2">
-        <div class="flex flex-col gap-2">
-          <AppButton
-            :to="`/user/${address}/collected`"
-            :center="false"
-            flat
-            rounded="xl"
-            :color="'link'"
-            @click.prevent="$emit('update:modelValue', false)"
-            ><CollectionIcon class="w-5 h-5" /><span
-              >My Mondrians</span
-            ></AppButton
-          >
-          <AppButton
-            :to="`/user/${address}/activity`"
-            :color="'link'"
-            :center="false"
-            rounded="xl"
-            flat
-            @click.prevent="$emit('update:modelValue', false)"
-            ><SwitchVerticalIcon class="w-5 h-5" /><span
-              >My activity</span
-            ></AppButton
-          >
-        </div>
-        <AppButton
-          @click.prevent="
-            $emit('update:modelValue', false);
-            signOut();
-          "
-        >
-          Sign out</AppButton
-        >
-      </div>
+
+      <AppButton
+        @click.prevent="
+          $emit('update:modelValue', false);
+          signOut();
+        "
+      >
+        Sign out</AppButton
+      >
     </div>
   </AppModal>
 </template>
@@ -151,7 +154,7 @@ const usdBalance = computed<string>(() => {
   return (
     balance.value &&
     maticPrice.value &&
-    (Number(balance.value) * Number(maticPrice.value)).toFixed(2)
+    (Number(balance.value) * Number(maticPrice.value) || 0).toFixed(2)
   );
 });
 
@@ -181,7 +184,7 @@ watch(
     if (props.modelValue) {
       execute();
       const amount = await getBalance();
-      balance.value = Number(amount).toFixed(4);
+      balance.value = Number(amount || 0).toFixed(4);
     }
   }
 );

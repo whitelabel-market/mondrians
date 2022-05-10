@@ -93,9 +93,9 @@ export default defineComponent({
     };
 
     const ButtonWrapperSizeDefault: Indexable<string> = {
-      xs: "h-7 text-xs",
-      sm: "h-9 text-xs",
-      md: "h-11 text-sm",
+      xs: "h-7 text-[0.5rem]",
+      sm: "h-9 text-[0.675rem]",
+      md: "h-11 text-xs",
       lg: "h-14 text-base",
     };
 
@@ -109,15 +109,15 @@ export default defineComponent({
     const ButtonTranslate: Indexable<string> = {
       xs: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
       sm: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
-      md: "transform group-hover:translate-x-1 group-hover:translate-y-1",
-      lg: "transform group-hover:translate-x-1 group-hover:translate-y-1",
+      md: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
+      lg: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
     };
 
     const ButtonAfterTranslate: Indexable<string> = {
       xs: "after:transform after:translate-x-0.5 after:translate-y-0.5",
       sm: "after:transform after:translate-x-0.5 after:translate-y-0.5",
-      md: "after:transform after:translate-x-1 after:translate-y-1",
-      lg: "after:transform after:translate-x-1 after:translate-y-1",
+      md: "after:transform after:translate-x-0.5 after:translate-y-0.5",
+      lg: "after:transform after:translate-x-0.5 after:translate-y-0.5",
     };
 
     const ButtonRounded: Indexable<string> = {
@@ -133,7 +133,7 @@ export default defineComponent({
     };
 
     const classesWrapper = computed(() => [
-      `relative flex items-stretch justify-stretch font-semibold uppercase transition duration-200 ease-out-circ`,
+      `relative flex items-stretch justify-stretch font-semibold tracking-wider uppercase transition duration-200 ease-out-circ`,
       ButtonRounded[props.rounded],
       !props.flat &&
         `after:block after:absolute after:bottom-0 after:right-0 after:bg-white after:w-full after:h-full after:border after:border-black after:-z-10`,
