@@ -28,12 +28,15 @@
               class="relative flex flex-col items-stretch max-h-full w-full max-w-md p-8 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl"
             >
               <slot />
-              <AppButton
-                :color="'secondary'"
-                :size="'sm'"
-                @click.prevent="$emit('update:modelValue', false)"
-                ><slot name="button">Close</slot></AppButton
-              >
+              <div class="">
+                <AppButton
+                  color="gray"
+                  size="sm"
+                  full-width
+                  @click.prevent="$emit('update:modelValue', false)"
+                  ><slot name="button">Close</slot></AppButton
+                >
+              </div>
             </div>
           </TransitionChild>
         </div>

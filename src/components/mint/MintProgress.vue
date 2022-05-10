@@ -1,5 +1,6 @@
 <template>
-  <h3 class="text-lg font-bold leading-5 text-left w-80">Follow Steps</h3>
+  <h3 class="text-2xl font-serif font-bold text-center">Follow Steps</h3>
+
   <div class="pt-2 pb-6 space-y-6">
     <MintStep
       v-for="(task, index) in tasks"
@@ -35,11 +36,7 @@
       <template v-slot:error v-else>{{ task.error }}</template>
     </MintStep>
   </div>
-  <AppButton
-    :color="'primary'"
-    :size="'sm'"
-    @click.prevent="queue.dequeue()"
-    v-if="queue.isError"
+  <AppButton full-width @click.prevent="queue.dequeue()" v-if="queue.isError"
     >Try again</AppButton
   >
 </template>

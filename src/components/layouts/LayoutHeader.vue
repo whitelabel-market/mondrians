@@ -61,33 +61,39 @@
           </ul>
         </div>
         <ul
-          class="flex items-center text-sm font-semibold mdx:hidden md:space-x-5"
+          class="flex items-center text-sm font-semibold mdx:hidden space-x-6"
         >
           <li v-for="(to, name) in homeRoutes" :key="to">
             <router-link class="font-black uppercase text-xs" :to="to">{{
               name
             }}</router-link>
           </li>
-          <li class="md:ml-4">
+          <li>
             <AppButton
-              v-if="!isConnected || !blockie"
+              v-if="!isConnected"
               size="sm"
-              :color="!blockie ? 'reddish' : 'link'"
+              color="reddish"
               :loading="loading"
-              :class="loading || !blockie ? 'duration-0' : 'px-0'"
               @click.prevent="showConnectModal = true"
             >
               Connect Wallet
             </AppButton>
 
             <AppButton
-              :loading="loading"
               v-else
+              :center="false"
+              size="sm"
+              :loading="loading"
               @click.prevent="showUserModal = true"
-              color="link"
+              color="blank"
+              flat
             >
-              <img :src="blockie" class="object-cover w-6 h-6 rounded-full" />
-              <span class="font-sans font-black text-xs slashed-zero">{{
+              <img
+                v-if="blockie"
+                :src="blockie"
+                class="object-cover w-6 h-6 rounded-full"
+              />
+              <span class="slashed-zero font-black">{{
                 ensAccount?.name || privateAddress
               }}</span>
             </AppButton>

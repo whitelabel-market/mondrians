@@ -1,32 +1,22 @@
 <template>
-  <AppTooltip :show="show">
-    <template v-slot:element>
-      <span class="relative inline-flex">
-        <AppButton
-          @clicked="$emit('clicked', item.content)"
-          @mouseenter="show = true"
-          @mouseleave="show = false"
-          only-icon
-          size="sm"
-          rounded="full"
-        >
-          <component :is="components[item.icon]" class="w-5 h-5" />
-        </AppButton>
-        <span
-          v-if="hintVisible && index !== 3"
-          class="absolute top-0 right-0 flex w-3 h-3"
-        >
-          <span
-            class="absolute inline-flex w-full h-full bg-red-400 rounded-full opacity-75 animate-ping"
-          ></span>
-          <span
-            class="relative inline-flex w-3 h-3 bg-red-500 rounded-full"
-          ></span>
-        </span>
-      </span>
-    </template>
-    <template #text>{{ item.tooltip }}</template>
-  </AppTooltip>
+  <AppButton
+    @clicked="$emit('clicked', item.content)"
+    :tooltip="item.tooltip"
+    only-icon
+    size="sm"
+    rounded="full"
+  >
+    <component :is="components[item.icon]" class="w-4 h-4" />
+    <span
+      v-if="hintVisible && index !== 3"
+      class="absolute top-0 right-0 flex w-2 h-2"
+    >
+      <span
+        class="absolute inline-flex w-full h-full bg-reddish rounded-full opacity-75 animate-ping"
+      ></span>
+      <span class="relative inline-flex w-2 h-2 bg-red-500 rounded-xl"></span>
+    </span>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

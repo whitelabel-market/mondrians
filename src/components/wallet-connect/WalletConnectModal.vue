@@ -5,10 +5,10 @@
   >
     <div>
       <div v-if="!loading" class="flex flex-col w-full space-y-8">
-        <div class="text-xl uppercase font-black text-center leading-5">
+        <h3 class="text-2xl font-serif font-bold text-center">
           Select a wallet
-        </div>
-        <ul class="space-y-4 border-b pb-4">
+        </h3>
+        <ul class="space-y-4">
           <li
             v-for="(p, i) of providers.slice(
               0,
@@ -18,10 +18,10 @@
           >
             <AppButton
               :fullWidth="true"
-              class="justify-between space-x-6 text-left"
               @click.prevent="connectTo(p)"
+              :center="false"
             >
-              <span class="block">{{ p.name }}</span>
+              <span class="block text-left">{{ p.name }}</span>
               <img :src="p.logo" class="w-6 h-6" />
             </AppButton>
           </li>

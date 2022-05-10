@@ -12,7 +12,7 @@
       Looks like you connected to an unsupported network. Change network to
       {{ NETWORK_NAME[0].toUpperCase() + NETWORK_NAME.slice(1) }}.
     </p>
-    <AppButton size="sm" :fullWidth="true" @click.prevent="changeNetwork()"
+    <AppButton :fullWidth="true" @click.prevent="changeNetwork()"
       >Change network</AppButton
     >
     <template v-slot:button>Logout</template>

@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, useSlots } from "vue";
 import { TransitionRoot } from "@headlessui/vue";
 import { useMediaQuery } from "@vueuse/core";
 

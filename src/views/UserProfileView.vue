@@ -1,78 +1,70 @@
 <template>
-  <div
-    class="container flex flex-col items-center justify-start flex-1 w-full h-full max-w-6xl pt-10 mx-auto gap-y-6"
-  >
-    <img
-      :src="makeBlockie(route.params.id)"
-      class="object-cover w-24 h-24 border-4 border-gray-200 rounded-full"
-    />
-    <a
-      v-if="ensAccount"
-      class="-mt-4 -mb-4 hover:text-blueish"
-      target="_blank"
-      :href="`${ENS_BASE_URL}${ensAccount.id}`"
-      >{{ "@" + ensAccount.domains[0].name }}</a
-    >
-    <AppTooltip
-      :show="copied"
-      v-if="ensAccount ||(/^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string))"
-    >
-      <template #element>
-        <button
-          class="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full hover:bg-gray-200"
-          @click.prevent="copy(route.params.id)"
-        >
-          <PolygonIcon class="w-2" />
-          <span class="text-xs font-medium slashed-zero">{{
-            getShortAddress(ensAccount?.id || route.params.id)
-          }}</span>
-        </button></template
+  <div>
+    <header class="bg-yellowish pt-20 mondrian-border-b">
+      <div
+        class="container flex flex-col items-center justify-start flex-1 w-full h-full mx-auto space-y-12"
       >
-    </AppTooltip>
+        <img
+          :src="makeBlockie(route.params.id)"
+          class="object-cover w-24 h-24 border-8 border-black"
+        />
 
-    <span
-      v-else
-      class="px-3 py-2 text-xs font-medium bg-gray-100 rounded-full hover:bg-gray-200 slashed-zero"
-      >Not found</span
-    >
-    <div class="flex items-center space-x-4">
-      <ShareButtons :address="route.params.id" :hintVisible="hintVisible" />
-    </div>
-    <nav
-      class="flex justify-center w-full mx-auto space-x-10 border-b-2 border-gray-100"
-    >
-      <router-link
-        v-for="title in tabs"
-        :key="title"
-        :to="title.toLowerCase()"
-        v-slot="{ isExactActive }"
-      >
-        <div
-          :class="[
-            'relative flex items-center',
-            title === 'certified' &&
-              (user.role !== 'certifier' ||
-                user.address !== route.params.address) &&
-              'cursor-not-allowed',
-          ]"
-        >
+        <div class="space-y-4 text-center">
           <div
-            class="pb-2 font-semibold capitalize transition duration-150 ease-in-out hover:text-blueish"
-            :class="isExactActive ? 'text-blueish' : 'text-gray-300'"
+            class="flex items-center space-x-2"
+            v-if="ensAccount ||(/^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string))"
+          >
+            <h1 class="font-serif text-4xl slashed-zero">
+              {{ getShortAddress(ensAccount?.id || route.params.id) }}
+            </h1>
+            <AppButton
+              only-icon
+              size="sm"
+              flat
+              color="blank"
+              :tooltip="copied ? 'Copied' : 'Copy'"
+              @click.prevent="copy(ensAccount?.id || route.params.id)"
+            >
+              <ClipboardCopyIcon class="w-4 h-4"></ClipboardCopyIcon>
+            </AppButton>
+          </div>
+
+          <a
+            v-if="ensAccount"
+            class="block mx-auto"
+            target="_blank"
+            :href="`${ENS_BASE_URL}${ensAccount.id}`"
+            >{{ "@" + ensAccount.domains[0].name }}</a
+          >
+        </div>
+
+        <nav
+          class="relative flex items-center justify-center h-16 space-x-8 w-full"
+        >
+          <router-link
+            v-for="title in tabs"
+            :key="title"
+            :to="title.toLowerCase()"
+            class="flex items-center relative font-black text-xs uppercase transition duration-200 ease-in-out"
           >
             {{ title }}
+          </router-link>
+          <div
+            class="space-x-4 flex items-center justify-start transform -translate-x-0.5 -translate-y-0.5"
+          >
+            <ShareButtons
+              :address="route.params.id"
+              :hintVisible="hintVisible"
+            />
           </div>
-          <span
-            aria-hidden="true"
-            class="absolute w-full h-0.5 -bottom-0.5 left-0 transition duration-150 ease-in-out"
-            :class="isExactActive ? 'bg-blueish' : 'bg-transparent'"
-          ></span>
-        </div>
-      </router-link>
-    </nav>
-    <div class="w-full">
-      <router-view @showHint="hintVisible = true"></router-view>
-    </div>
+        </nav>
+      </div>
+    </header>
+    <section>
+      <div class="container px-8 mx-auto">
+        <router-view @showHint="hintVisible = true"></router-view>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -88,6 +80,7 @@ import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import ShareButtons from "@/components/share/ShareButtons.vue";
 import AppButton from "@/components/app/AppButton.vue";
+import { ClipboardCopyIcon } from "@heroicons/vue/solid";
 
 const emits = defineEmits(["loaded"]);
 emits("loaded");

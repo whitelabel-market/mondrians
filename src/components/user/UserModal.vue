@@ -64,30 +64,29 @@
       <div class="flex flex-col justify-between gap-2 -mt-2">
         <div class="flex flex-col gap-2">
           <AppButton
-            :size="'sm'"
             :to="`/user/${address}/collected`"
             :center="false"
+            flat
+            rounded="xl"
             :color="'link'"
-            class="pl-5 text-gray-700 rounded-xl hover:text-blueish group hover:bg-gray-100"
             @click.prevent="$emit('update:modelValue', false)"
-            ><CollectionIcon class="w-5 h-5" /><span class="pl-2"
-              >My mondrians</span
+            ><CollectionIcon class="w-5 h-5" /><span
+              >My Mondrians</span
             ></AppButton
           >
           <AppButton
-            :size="'sm'"
             :to="`/user/${address}/activity`"
             :color="'link'"
             :center="false"
-            class="pl-5 text-gray-700 rounded-xl hover:text-blueish hover:bg-gray-100"
+            rounded="xl"
+            flat
             @click.prevent="$emit('update:modelValue', false)"
-            ><SwitchVerticalIcon class="w-5 h-5" /><span class="pl-2"
+            ><SwitchVerticalIcon class="w-5 h-5" /><span
               >My activity</span
             ></AppButton
           >
         </div>
         <AppButton
-          :size="'sm'"
           @click.prevent="
             $emit('update:modelValue', false);
             signOut();

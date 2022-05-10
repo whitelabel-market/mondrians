@@ -1,151 +1,227 @@
-<template>
-  <component
-    :is="is"
-    :hover="hover"
-    :type="!isRouterOrAnchorLink && type"
-    :to="isRouterLink && to"
-    :href="isAnchorLink && href"
-    :disabled="disabled"
-    @mouseenter="hover = true"
-    @mouseleave="hover = false"
-    @click.prevent="!(loading || disabled) && $emit('clicked', $event)"
-    :class="classesWrapper"
-  >
-    <span :class="classesContent">
-      <AppLoadingSpinner
-        v-if="loading"
-        :size="'xs'"
-        :color="'white'"
-      ></AppLoadingSpinner>
-
-      <slot></slot>
-    </span>
-  </component>
-</template>
-
-<script setup lang="ts">
-import { computed, ref } from "vue";
+<script lang="ts">
+import { computed, defineComponent, h, ref } from "vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
+import AppTooltip from "@/components/app/AppTooltip.vue";
+import { RouterLink } from "vue-router";
 
-defineEmits(["clicked"]);
-const props = defineProps({
-  type: {
-    type: String,
-    default: "button",
+type Indexable<T = any> = {
+  [key: string]: T;
+};
+
+export default defineComponent({
+  emits: ["clicked"],
+  props: {
+    type: {
+      type: String,
+      default: "button",
+    },
+    color: {
+      type: String as () =>
+        | "blank"
+        | "link"
+        | "gray"
+        | "yellowish"
+        | "reddish"
+        | "blueish"
+        | "disabled"
+        | "custom",
+      default: "yellowish",
+    },
+    flat: {
+      type: Boolean,
+      default: false,
+    },
+    rounded: {
+      type: String as () => "full" | "xl" | "none",
+      default: "none",
+    },
+    size: {
+      type: String as () => "xs" | "sm" | "md" | "lg",
+      default: "md",
+    },
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    },
+    center: {
+      type: Boolean,
+      default: true,
+    },
+    onlyIcon: {
+      type: Boolean,
+      default: false,
+    },
+    to: {
+      type: String,
+      default: null,
+    },
+    href: {
+      type: String,
+      default: null,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    tooltip: {
+      type: String,
+      default: null,
+    },
   },
-  color: {
-    type: String as () =>
-      | "link"
-      | "primary"
-      | "secondary"
-      | "reddish"
-      | "disabled"
-      | "custom",
-    default: "primary",
-  },
-  rounded: {
-    type: String as () =>
-      | "none"
-      | "sm"
-      | "md"
-      | "lg"
-      | "xl"
-      | "2xl"
-      | "3xl"
-      | "full",
-    default: "none",
-  },
-  size: {
-    type: String as () => "xs" | "sm" | "md" | "lg",
-    default: "md",
-  },
-  fullWidth: {
-    type: Boolean,
-    default: false,
-  },
-  center: {
-    type: Boolean,
-    default: true,
-  },
-  onlyIcon: {
-    type: Boolean,
-    default: false,
-  },
-  to: {
-    type: String,
-    default: null,
-  },
-  href: {
-    type: String,
-    default: null,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
+  setup(props, { emit, slots }) {
+    const hover = ref(false);
+
+    const ButtonColor: Indexable<string> = {
+      blank: "bg-transparent text-current border-transparent",
+      gray: "bg-neutral-100 text-gray-800 border-gray-800",
+      link: "bg-gray-100 text-gray-700 border-gray-200 hover:text-blueish",
+      reddish: "bg-reddish text-white border-black",
+      yellowish: "bg-yellowish text-black border-black",
+      blueish: "bg-blueish text-white border-black",
+      disabled: "border-black",
+    };
+
+    const ButtonWrapperSizeIcon: Indexable<string> = {
+      xs: "w-6 h-6 text-xs",
+      sm: "w-7 h-7 text-xs",
+      md: "w-12 h-12 text-sm",
+      lg: "w-14 h-14 text-base",
+    };
+
+    const ButtonWrapperSizeDefault: Indexable<string> = {
+      xs: "h-7 text-xs",
+      sm: "h-9 text-xs",
+      md: "h-11 text-sm",
+      lg: "h-14 text-base",
+    };
+
+    const ButtonSpacing: Indexable<string> = {
+      xs: "py-1 px-4 space-x-1",
+      sm: "py-2 px-6 space-x-2",
+      md: "py-3 px-8 space-x-2",
+      lg: "py-6 px-14 space-x-2",
+    };
+
+    const ButtonTranslate: Indexable<string> = {
+      xs: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
+      sm: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
+      md: "transform group-hover:translate-x-1 group-hover:translate-y-1",
+      lg: "transform group-hover:translate-x-1 group-hover:translate-y-1",
+    };
+
+    const ButtonAfterTranslate: Indexable<string> = {
+      xs: "after:transform after:translate-x-0.5 after:translate-y-0.5",
+      sm: "after:transform after:translate-x-0.5 after:translate-y-0.5",
+      md: "after:transform after:translate-x-1 after:translate-y-1",
+      lg: "after:transform after:translate-x-1 after:translate-y-1",
+    };
+
+    const ButtonRounded: Indexable<string> = {
+      none: "rounded-none",
+      xl: "rounded-xl",
+      full: "rounded-full",
+    };
+
+    const ButtonAfterRounded: Indexable<string> = {
+      none: "after:rounded-none",
+      xl: "after:rounded-xl",
+      full: "after:rounded-full",
+    };
+
+    const classesWrapper = computed(() => [
+      `relative flex items-stretch justify-stretch font-semibold uppercase transition duration-200 ease-out-circ`,
+      ButtonRounded[props.rounded],
+      !props.flat &&
+        `after:block after:absolute after:bottom-0 after:right-0 after:bg-white after:w-full after:h-full after:border after:border-black after:-z-10`,
+      !props.flat && ButtonAfterRounded[props.rounded],
+      !(props.disabled || props.loading)
+        ? "cursor-pointer group transform active:scale-95"
+        : "cursor-default",
+      !(props.disabled || props.flat) && ButtonAfterTranslate[props.size],
+      props.onlyIcon
+        ? ButtonWrapperSizeIcon[props.size]
+        : ButtonWrapperSizeDefault[props.size],
+      props.fullWidth && "w-full",
+    ]);
+
+    const classesContent = computed(() => [
+      `flex w-full items-center border transition duration-200 ease-out-circ `,
+      ButtonRounded[props.rounded],
+      props.flat ? "hover:bg-opacity-50" : ButtonTranslate[props.size],
+      ButtonColor[props.disabled ? "disabled" : props.color],
+      !props.onlyIcon && ButtonSpacing[props.size],
+      props.onlyIcon || props.center ? "justify-center" : "justify-between",
+    ]);
+
+    const classesLoader = computed(() => [
+      `absolute inset-0 w-full h-full z-10 flex items-center justify-center transition duration-200 ease-out-circ`,
+      props.loading ? "block" : "hidden",
+      ButtonRounded[props.rounded],
+      ButtonColor[props.color],
+    ]);
+
+    const isRouterLink = !!props.to;
+    const isAnchorLink = !!props.href;
+    const isRouterOrAnchorLink = isRouterLink || isAnchorLink;
+
+    const tag: any = isAnchorLink ? "a" : isRouterLink ? RouterLink : "button";
+    const loadingNode = () =>
+      h(
+        "span",
+        { class: classesLoader.value },
+        h(AppLoadingSpinner, { size: "xs", color: "white" })
+      );
+
+    const buttonNode = () =>
+      h(
+        tag,
+        {
+          hover: hover.value,
+          type: !isRouterOrAnchorLink ? props.type : null,
+          to: isRouterLink ? props.to : null,
+          href: isAnchorLink ? props.href : null,
+          disabled: props.disabled,
+          class: classesWrapper.value,
+          onMouseenter: () => {
+            hover.value = true;
+          },
+          onMouseleave: () => {
+            hover.value = false;
+          },
+          onClick: (e: Event) => {
+            e.preventDefault();
+            if (!(props.disabled || props.loading)) {
+              emit("clicked", e);
+            }
+          },
+        },
+        [
+          h(
+            "span",
+            { class: classesContent.value },
+            slots.default && slots.default()
+          ),
+          props.loading && loadingNode(),
+        ]
+      );
+
+    const buttonNodeWithTooltip = () =>
+      h(
+        AppTooltip,
+        {
+          show: hover.value,
+        },
+        {
+          element: buttonNode,
+          text: () => props.tooltip,
+        }
+      );
+
+    return props.tooltip ? buttonNodeWithTooltip : buttonNode;
   },
 });
-
-const hover = ref(false);
-
-const ButtonColor: { [key: string]: string } = {
-  blank: "bg-transparent text-current border-transparent",
-  link: "bg-transparent text-current border-transparent",
-  primary: "bg-yellowish text-black border-black",
-  secondary: "bg-gray-100 text-gray-500 border-black",
-  reddish: "bg-reddish text-white border-black",
-  disabled: "border-black",
-};
-
-const ButtonWrapperSizeIcon = {
-  xs: "w-6 h-6 text-xs",
-  sm: "w-10 h-10 text-xs",
-  md: "w-12 h-12 text-sm",
-  lg: "w-14 h-14 text-base",
-};
-
-const ButtonWrapperSizeDefault = {
-  xs: "h-8 text-xs",
-  sm: "h-10 text-xs",
-  md: "h-12 text-sm",
-  lg: "h-14 text-base",
-};
-
-const ButtonSpacing = {
-  xs: "py-2 px-4 space-x-1",
-  sm: "py-4 px-6 space-x-2",
-  md: "py-4 px-8 space-x-2",
-  lg: "py-6 px-14 space-x-2",
-};
-
-const classesWrapper = computed(() => [
-  `relative flex items-stretch justify-stretch transition duration-200 ease-out-circ`,
-  `after:block after:absolute after:bottom-0 after:right-0 after:bg-white after:w-full after:h-full after:border after:border-black after:-z-10`,
-  props.disabled && props.loading
-    ? "cursor-default"
-    : "cursor-pointer group transform translate-x-1 translate-y-1 active:scale-[0.98]",
-  props.onlyIcon
-    ? ButtonWrapperSizeIcon[props.size]
-    : ButtonWrapperSizeDefault[props.size],
-  props.fullWidth && "w-full",
-  props.rounded && `rounded-${props.rounded} after:rounded-${props.rounded}`,
-]);
-
-const classesContent = computed(() => [
-  `flex w-full items-center border font-semibold uppercase transform group-hover:translate-x-0 group-hover:translate-y-0 transition duration-200 ease-out-circ`,
-  ButtonColor[props.disabled ? "disabled" : props.color],
-  !props.onlyIcon && ButtonSpacing[props.size],
-  !props.disabled && "-translate-x-1 -translate-y-1",
-  props.center || props.onlyIcon ? "justify-center" : "justify-between",
-  props.rounded && `rounded-${props.rounded}`,
-]);
-
-const isRouterLink = !!props.to;
-const isAnchorLink = !!props.href;
-const isRouterOrAnchorLink = isRouterLink || isAnchorLink;
-
-const is = (isAnchorLink && "a") || (isRouterLink && "router-link") || "button";
 </script>

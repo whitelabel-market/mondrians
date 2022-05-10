@@ -6,26 +6,25 @@
     :tokenDayDatas="tokenDayDatas"
   />
   <div
+    class="flex flex-col items-center text-center space-y-8 mx-auto flex-0"
     v-if="isFinished && !transfers.length"
-    class="flex flex-col items-center gap-4 py-32 mx-auto flex-0"
   >
-    <h3 class="text-lg font-bold text-gray-900">No activity</h3>
-    <div
-      class="flex flex-col items-center text-base font-medium leading-tight text-gray-600"
-    >
-      <span
-        >{{
+    <h3 class="text-2xl font-serif font-bold">No activity</h3>
+    <div>
+      <p>
+        {{
           `It seems there is no activity in this collection for ${
             isSelf ? "your" : "this"
           } account.`
         }}
-      </span>
-      <span>
+      </p>
+      <p>
         You should consider to create a Mondrian &#128640; and make some noise
         to promote the collection &#128172;
-      </span>
+      </p>
     </div>
-    <AppButton :to="'/'">Create Mondrian</AppButton>
+
+    <AppButton color="reddish" :to="'/'">Create Mondrian</AppButton>
   </div>
 </template>
 

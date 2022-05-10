@@ -1,25 +1,24 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="flex items-center pt-2 space-x-4">
+  <div class="flex flex-col" :class="[!status && 'opacity-25 cursor-default']">
+    <div class="flex items-center space-x-4">
       <div
-        class="flex w-10 h-10"
+        class="flex w-8 h-8 items-center justify-center"
         :class="[
-          (status === 'running' || !status) && 'text-gray-200',
-          status === 'running' && 'items-center justify-center',
+          (status === 'running' || !status) && 'text-neutral-200',
           status === 'error' && 'text-red-500',
-          status === 'success' && 'text-blueish',
+          status === 'success' && 'text-green-500',
         ]"
       >
         <slot name="icon"></slot>
       </div>
-      <div class="flex flex-col">
-        <span class="text-base font-bold leading-5">
+      <div class="flex flex-col justify-start">
+        <span class="text-sm uppercase font-black">
           <slot name="name"></slot>
         </span>
-        <span class="text-sm font-medium text-left">
+        <span class="text-xs">
           <slot name="description"></slot>
         </span>
-        <span class="text-sm font-medium text-left text-red-500">
+        <span class="text-xs text-red-500">
           <slot name="error"></slot>
         </span>
       </div>

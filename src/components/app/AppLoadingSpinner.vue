@@ -7,15 +7,15 @@ import { computed } from "vue";
 
 const SpinnerSize: () => { [key: string]: string } = () => {
   return {
-    xs: "border-[3px] h-4 w-4",
-    sm: "border-4 h-6 w-6",
-    md: "border-4 h-8 w-8",
+    xs: "border-px h-4 w-4",
+    sm: "border-1 h-6 w-6",
+    md: "border-2 h-8 w-8",
     lg: "border-4 h-10 w-10",
   };
 };
 
 const SpinnerColor: { [key: string]: string } = {
-  primary: "border-r-blueish border-gray-200",
+  primary: "border-r-black border-white",
   secondary: "border-r-gray-400 border-gray-200",
   white: "border-r-blueish border-white",
 };

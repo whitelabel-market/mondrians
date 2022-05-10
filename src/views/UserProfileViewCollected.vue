@@ -21,26 +21,25 @@
     </div>
   </div>
   <div
-    class="flex flex-col items-center gap-4 py-32 mx-auto flex-0"
+    class="flex flex-col items-center text-center space-y-8 mx-auto flex-0"
     v-if="isFinished && !tokens.length"
   >
-    <h3 class="text-lg font-bold text-gray-900">No tokens found</h3>
-    <div
-      class="flex flex-col items-center text-base font-medium leading-tight text-gray-600"
-    >
-      <span
-        >{{
-          `It seems ${
+    <h3 class="text-2xl font-serif font-bold">No tokens found</h3>
+    <div>
+      <p>
+        {{
+          `It seems like ${
             isSelf ? "you have" : "this address has"
           } none of the rare Mondrians.`
         }}
-      </span>
-      <span>
+      </p>
+      <p>
         You should consider to create one &#128640; and make some noise to
         promote the collection &#128172;
-      </span>
+      </p>
     </div>
-    <AppButton :to="'/'">Create Mondrian</AppButton>
+
+    <AppButton color="reddish" :to="'/'">Create Mondrian</AppButton>
   </div>
 </template>
 

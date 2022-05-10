@@ -1,9 +1,9 @@
 <template>
-  <section id="About" class="bg-reddish text-white mondrian-border-b">
+  <section id="About" class="bg-reddish/90 text-white mondrian-border-b">
     <div
       class="grid md:grid-cols-2 gap-4 md:gap-20 items-center container max-w-4xl mx-auto px-8"
     >
-      <div class="space-y-4">
+      <div class="space-y-8">
         <h2 class="section-title" v-animate>What are the Mondrians?</h2>
         <p v-animate>
           Mondrians is a drop of custom digital paintings, created by
@@ -13,7 +13,7 @@
           having a sense of uniqueness.
         </p>
         <div v-animate>
-          <AppButton :fullWidth="false">Get Yours Now</AppButton>
+          <AppButton>Get Yours Now</AppButton>
         </div>
       </div>
       <img
