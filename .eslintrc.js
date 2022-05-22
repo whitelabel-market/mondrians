@@ -19,5 +19,11 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": ["off"],
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        ignores: ["Activity"],
+      },
+    ],
   },
 };
