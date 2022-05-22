@@ -1,6 +1,6 @@
 <template>
-  <section class="bg-blueish py-20 relative">
-    <div class="container px-8 mx-auto max-w-4xl">
+  <section class="relative py-20 bg-blueish mondrian-border-b">
+    <div class="container max-w-4xl px-8 mx-auto">
       <img
         src="@/assets/images/image-6.png"
         alt="Get your Mondrian's NFT now"
@@ -8,10 +8,10 @@
       />
 
       <div
-        class="relative p-8 w-full max-w-lg h-72 mx-auto translate-y-20 flex flex-col items-center justify-end text-center z-50 bg-white rounded-t-full"
+        class="relative z-50 flex flex-col items-center justify-end w-full max-w-lg p-8 mx-auto text-center translate-y-20 bg-white rounded-t-full h-72"
       >
         <div class="w-2/3 space-y-8">
-          <h2 class="text-xl md:text-3xl font-black uppercase" v-animate>
+          <h2 class="text-xl font-black uppercase md:text-3xl" v-animate>
             Get your <LogoIcon class="!text-xl md:!text-3xl" /> NFT now
           </h2>
 

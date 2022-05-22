@@ -1,38 +1,61 @@
 <template>
-  <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
+  <div
+    class="flex flex-col items-start gap-4 lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]"
+  >
     <div
-      class="font-bold md:text-[4.406rem] text-5xl italic relative z-10 lgs:text-left text-center"
+      class="px-4 mx-auto text-5xl font-black text-center text-transparent md:text-6xl"
     >
-      Mondrian`s
       <span
-        class="text-yellowish font-normal tracking-[0.2em] font-serif absolute lgs:left-0 left-1/2 lgs:translate-x-0 -translate-x-1/2 top-0 -z-10"
-        >Mondrian’s</span
+        class="text-transparent bg-clip-text bg-gradient-to-r from-blueish via-yellowish to-reddish"
+        >Magic Mondrian</span
       >
     </div>
-    <p
-      class="md:text-xl text-base font-bold md:mt-4 mt-2 md:pl-6 mdx:px-[1.813rem] text-center"
-    >
-      A 1000 piece custom collection is joining the NFT Space.
+    <p class="w-full px-4 text-base font-bold text-center md:text-xl">
+      A
+      <span
+        id="nft-counter"
+        class="text-transparent truncate bg-clip-text bg-gradient-to-r from-reddish via-yellowish to-blueish"
+        >100</span
+      >
+      piece custom collection is joining the NFT Space.
     </p>
     <p
       v-if="revealEnabled"
-      class="md:text-xl text-2xl font-bold md:mt-4 mt-2 mdx:px-[1.813rem] text-center text-red-500"
+      class="md:text-xl text-2xl font-bold mdx:px-[1.813rem] text-center text-red-500"
     >
       Sold out
     </p>
-    <div
-      class="font-semibold bg-yellowish mx-auto text-center md:py-1.5 pt-2 pb-[0.625rem] md:w-[10.5rem] w-[13.313rem] md:text-sm text-lg rounded-lg md:mt-11 mt-6 cursor-pointer"
-    >
-      View on Opensea
-    </div>
+    <AppButton class="mx-auto"> View on Opensea </AppButton>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps({
+import AppButton from "@/components/app/AppButton.vue";
+import { gsap } from "gsap";
+import { watch } from "vue";
+
+const props = defineProps({
   revealEnabled: {
     type: Boolean,
     required: true,
   },
+  loaded: {
+    type: Boolean,
+    required: true,
+  },
 });
+
+watch(
+  () => props.loaded,
+  () => {
+    gsap.to("#nft-counter", {
+      innerText: 1000,
+      duration: 3,
+      ease: "power2.inOut",
+      snap: {
+        innerText: 10,
+      },
+    });
+  }
+);
 </script>

@@ -1,4 +1,4 @@
-import { inject, computed, ref, watch, shallowRef } from "vue";
+import { inject, computed, ref, watch, shallowRef, toRaw } from "vue";
 import type { Ref, ShallowRef } from "vue";
 import type { ConfigurableWindow } from "@vueuse/core";
 import {
@@ -59,6 +59,7 @@ const connector = Connector.init(
   {
     appName: "Magic Mondrian",
     infuraId: INFURA_ID,
+    chainId: 80001,
     authereum: { key: "" }, // Yet required (but unused) in ConnectorUserOptions type
     fortmatic: { key: "" }, // Yet required (but unused) in ConnectorUserOptions type
   },
@@ -86,18 +87,23 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
 
   // methods
   const connect = async (providerID: string): Promise<void> => {
+    console.log(providerID);
     loading.value = true;
     provider.value = undefined;
     const iProvider: any = providers.find(
       (provider) => provider.id === providerID
     );
+    console.log(iProvider);
     try {
+      console.log(toRaw(await iProvider.connect()));
       provider.value = iProvider
-        ? new ethers.providers.Web3Provider(await iProvider.connect())
+        ? new ethers.providers.Web3Provider(toRaw(await iProvider.connect()))
         : undefined;
+      console.log(provider.value);
       if (provider.value)
         walletProvider = useStorage("wallet-provider", providerID);
     } catch (e: any) {
+      console.log(e);
       loading.value = false;
       throw new Error(e.message);
     }
@@ -152,14 +158,14 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
 
   // automatically detect wallet (only working for injected)
   if (window) {
-    if (window.ethereum) {
+    if ((window as any).ethereum) {
       const ethereumProvider = new ethers.providers.Web3Provider(
         // @ts-ignore
         window.ethereum,
         "any"
       );
 
-      window.ethereum.on("accountsChanged", async () => {
+      (window as any).ethereum.on("accountsChanged", async () => {
         address.value = await getAddress();
         blockie.value = makeBlockie(address.value);
       });

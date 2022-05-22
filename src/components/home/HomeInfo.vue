@@ -1,10 +1,10 @@
 <template>
-  <section id="Creator" class="bg-reddish text-white mondrian-border-b">
+  <section id="Creator" class="text-white bg-reddish mondrian-border-b">
     <div
-      class="container max-w-4xl mx-auto px-8 grid md:grid-cols-2 gap-4 md:gap-20 items-center"
+      class="container grid items-center max-w-4xl gap-12 px-8 mx-auto md:grid-cols-2 md:gap-20"
     >
       <div class="space-y-8">
-        <h2 class="section-title" v-animate>Creator</h2>
+        <div class="-translate-x-0.5 section-title" v-animate>Creator</div>
 
         <div class="space-y-2">
           <p v-animate>
@@ -15,7 +15,7 @@
           <p v-animate>
             When I’m not creating, you can either catch me experimenting with
             colors, eating cheese or on my
-            <a class="font-serif text-yellowish" href="">private Discord</a>.
+            <a class="font-medium text-yellowish" href="">private Discord</a>.
           </p>
         </div>
         <AppButton v-animate> Follow on Twitter </AppButton>

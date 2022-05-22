@@ -33,7 +33,7 @@ export default defineComponent({
     },
     rounded: {
       type: String as () => "full" | "xl" | "none",
-      default: "none",
+      default: "xl",
     },
     size: {
       type: String as () => "xs" | "sm" | "md" | "lg",
@@ -77,12 +77,12 @@ export default defineComponent({
 
     const ButtonColor: Indexable<string> = {
       blank: "bg-transparent text-current border-transparent",
-      gray: "bg-neutral-100 text-gray-800 border-gray-800",
+      gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-gray-300",
       link: "bg-gray-100 text-gray-700 border-gray-200 hover:text-blueish",
-      reddish: "bg-reddish text-white border-black",
-      yellowish: "bg-yellowish text-black border-black",
-      blueish: "bg-blueish text-white border-black",
-      disabled: "border-black",
+      reddish: "bg-reddish text-white border-2 border-black",
+      yellowish: "bg-yellowish text-black border-2 border-black",
+      blueish: "bg-blueish text-white border-2 border-black",
+      disabled: "border-2 border-gray-500",
     };
 
     const ButtonWrapperSizeIcon: Indexable<string> = {
@@ -107,17 +107,17 @@ export default defineComponent({
     };
 
     const ButtonTranslate: Indexable<string> = {
-      xs: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
-      sm: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
-      md: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
-      lg: "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5",
+      xs: "transform group-hover:translate-x-1 group-hover:translate-y-1",
+      sm: "transform group-hover:translate-x-1 group-hover:translate-y-1",
+      md: "transform group-hover:translate-x-1 group-hover:translate-y-1",
+      lg: "transform group-hover:translate-x-1 group-hover:translate-y-1",
     };
 
     const ButtonAfterTranslate: Indexable<string> = {
-      xs: "after:transform after:translate-x-0.5 after:translate-y-0.5",
-      sm: "after:transform after:translate-x-0.5 after:translate-y-0.5",
-      md: "after:transform after:translate-x-0.5 after:translate-y-0.5",
-      lg: "after:transform after:translate-x-0.5 after:translate-y-0.5",
+      xs: "after:transform after:translate-x-1 after:translate-y-1",
+      sm: "after:transform after:translate-x-1 after:translate-y-1",
+      md: "after:transform after:translate-x-1 after:translate-y-1",
+      lg: "after:transform after:translate-x-1 after:translate-y-1",
     };
 
     const ButtonRounded: Indexable<string> = {
@@ -136,7 +136,8 @@ export default defineComponent({
       `relative flex items-stretch justify-stretch font-semibold tracking-wider uppercase transition duration-200 ease-out-circ`,
       ButtonRounded[props.rounded],
       !props.flat &&
-        `after:block after:absolute after:bottom-0 after:right-0 after:bg-white after:w-full after:h-full after:border after:border-black after:-z-10`,
+        `after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-black after:-z-10`,
+      props.color === "gray" ? "after:bg-gray-300" : "after:bg-black",
       !props.flat && ButtonAfterRounded[props.rounded],
       !(props.disabled || props.loading)
         ? "cursor-pointer group transform active:scale-95"
@@ -149,7 +150,7 @@ export default defineComponent({
     ]);
 
     const classesContent = computed(() => [
-      `flex w-full items-center border transition duration-200 ease-out-circ `,
+      `flex w-full items-center transition duration-200 ease-out-circ`,
       ButtonRounded[props.rounded],
       props.flat ? "hover:bg-opacity-50" : ButtonTranslate[props.size],
       ButtonColor[props.disabled ? "disabled" : props.color],
@@ -182,6 +183,7 @@ export default defineComponent({
         {
           hover: hover.value,
           type: !isRouterOrAnchorLink ? props.type : null,
+          "aria-disabled": props.disabled === true ? true : undefined,
           to: isRouterLink ? props.to : null,
           href: isAnchorLink ? props.href : null,
           disabled: props.disabled,

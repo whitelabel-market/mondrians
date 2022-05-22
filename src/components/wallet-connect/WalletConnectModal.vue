@@ -5,9 +5,7 @@
   >
     <div>
       <div v-if="!loading" class="flex flex-col w-full space-y-8">
-        <h3 class="text-2xl font-serif font-bold text-center">
-          Select a wallet
-        </h3>
+        <h3 class="text-2xl font-bold text-center">Select a wallet</h3>
         <ul class="space-y-4">
           <li
             v-for="(p, i) of providers.slice(

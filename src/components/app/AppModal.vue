@@ -1,7 +1,7 @@
 <template>
   <TransitionRoot appear :show="modelValue" as="template">
     <Dialog as="div" @close="$emit('update:modelValue', false)">
-      <div class="fixed inset-0 z-100 overflow-y-auto">
+      <div class="fixed inset-0 overflow-y-auto z-100">
         <div class="flex items-center justify-center h-screen p-8">
           <TransitionChild
             as="template"
@@ -25,7 +25,7 @@
             leave-to="opacity-0 translate-y-12"
           >
             <div
-              class="relative flex flex-col items-stretch max-h-full w-full max-w-md p-8 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl"
+              class="relative flex flex-col items-stretch w-full max-w-md max-h-full p-8 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl rounded-xl"
             >
               <slot />
               <div class="">

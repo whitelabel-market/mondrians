@@ -1,7 +1,7 @@
 <template>
   <section id="Rarity" class="mondrian-border-b">
     <div
-      class="container max-w-4xl mx-auto px-8 grid md:grid-cols-2 gap-4 md:gap-20 items-center"
+      class="container grid items-center max-w-4xl gap-4 px-8 mx-auto md:grid-cols-2 md:gap-20"
     >
       <div class="space-y-4">
         <h2 class="section-title" v-animate>Rarity</h2>
@@ -13,9 +13,9 @@
         </p>
         <ul>
           <li
-            class="p-2 flex justify-between w-full border-8 border-black border-t-0"
+            class="flex justify-between w-full p-2 border-4 border-t-0 border-black"
             v-animate
-            :class="[index === 0 && 'border-t-8', rarity.classes]"
+            :class="[index === 0 && 'border-t-4', rarity.classes]"
             v-for="(rarity, index) in rarities"
             :key="rarity.type"
           >

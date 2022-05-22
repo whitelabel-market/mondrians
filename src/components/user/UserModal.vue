@@ -8,7 +8,7 @@
         <div class="flex items-center space-x-2">
           <img :src="blockie" class="object-cover w-8 h-8" />
           <div>
-            <h4 class="text-xl font-serif font-bold slashed-zero">
+            <h4 class="font-serif text-xl font-bold slashed-zero">
               {{ privateAddress }}
             </h4>
             <a
@@ -25,17 +25,17 @@
             :href="`${EXPLORER_BASE_URL}address/${address}`"
             target="_blank"
             class="flex items-center space-x-1 text-xs font-semibold"
-            ><span>View on Polygonscan</span> <ExternalLinkIcon class="w-3 h-3"
+            ><span>View on Polygonscan</span> <ExternalLinkIcon class="w-4 h-4"
           /></a>
 
           <AppTooltip class="group" :show="copied">
             <template #element
               ><button
-                class="flex items-center text-xs font-semibold space-x-1"
+                class="flex items-center space-x-1 text-xs font-semibold"
                 @click.prevent="copy(address)"
               >
                 <span>Copy address</span
-                ><ClipboardCopyIcon class="w-3 h-3" /></button
+                ><ClipboardCopyIcon class="w-4 h-4" /></button
             ></template>
             <template #text>Copied</template>
           </AppTooltip>
@@ -46,14 +46,14 @@
         <h5 class="font-serif font-bold">Connected</h5>
 
         <ul
-          class="flex flex-col w-full space-y-2 mt-2 pt-4 border-t-8 border-black"
+          class="flex flex-col w-full pt-4 mt-2 space-y-2 border-t-8 border-black"
         >
           <li
-            class="flex items-center justify-start h-14 space-x-4 p-4 bg-neutral-100"
+            class="relative flex items-center justify-start p-4 space-x-4 h-14 bg-neutral-100"
           >
-            <PolygonIcon class="block w-6 h-6" />
+            <PolygonIcon class="block w-6 h-6 -translate-x-1" />
 
-            <div class="text-sm font-semibold">
+            <div class="absolute text-sm font-semibold left-8">
               <span class="block slashed-zero">{{ privateAddress }}</span>
               <span class=""
                 >Matic
@@ -64,25 +64,28 @@
             </div>
           </li>
 
-          <li class="flex bg-neutral-100">
+          <li class="relative flex bg-neutral-100">
             <router-link
-              class="flex w-full items-center justify-start h-14 space-x-4 p-4"
+              class="flex items-center justify-start w-full p-4 space-x-4 h-14"
               :to="`/user/${address}/collected`"
               @click.prevent="$emit('update:modelValue', false)"
             >
               <CollectionIcon class="w-4 h-4"></CollectionIcon>
-              <span class="block text-sm font-semibold">My Mondrians</span>
+              <span class="absolute block text-sm font-semibold left-8"
+                >My Collection</span
+              >
             </router-link>
           </li>
 
-          <li class="flex bg-neutral-100">
+          <li class="relative flex bg-neutral-100">
             <router-link
-              class="flex w-full items-center justify-start h-14 space-x-4 p-4"
+              class="flex items-center justify-start w-full p-4 space-x-4 h-14"
               :to="`/user/${address}/collected`"
               @click.prevent="$emit('update:modelValue', false)"
             >
               <SwitchVerticalIcon class="w-4 h-4"></SwitchVerticalIcon>
-              <span class="block text-sm tracking-wide font-semibold"
+              <span
+                class="absolute block text-sm font-semibold tracking-wide left-8"
                 >My activity</span
               >
             </router-link>

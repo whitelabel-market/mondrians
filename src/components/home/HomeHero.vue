@@ -1,12 +1,13 @@
 <template>
-  <header class="mondrian-border-b">
+  <section class="mondrian-border-b">
     <div
-      class="relative min-h-screen grid lgs:grid-cols-2 items-center max-w-6xl mx-auto py-20 -my-12"
+      class="relative grid items-center max-w-6xl mx-auto -mt-10 md:-mt-0 lgs:grid-cols-2"
     >
       <img src="@/assets/images/image-1.png" alt="Magic Mondrian" class="" />
       <PreSale
         v-if="presaleEnabled || revealEnabled"
         :revealEnabled="revealEnabled"
+        :loaded="loaded"
       />
       <SaleOpen
         v-if="whitelistEnabled || publicsaleEnabled"
@@ -24,7 +25,7 @@
         @update:showConnectModal="showConnectModal = true"
       />
     </div>
-  </header>
+  </section>
   <MintModal
     v-model="modelValue"
     :whitelistEnabled="whitelistEnabled"
@@ -45,6 +46,13 @@ import MintModal from "@/components/mint/MintModal.vue";
 import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
 import useContract from "@/composables/useContract";
 import { useWallet } from "@/composables/useWallet";
+
+defineProps({
+  loaded: {
+    type: Boolean,
+    required: true,
+  },
+});
 
 const modelValue = ref(false);
 const showConnectModal = ref(false);

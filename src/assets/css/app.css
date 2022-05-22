@@ -4,11 +4,11 @@
 
 @layer base {
   section {
-    @apply py-40;
+    @apply py-20 md:py-40;
   }
 
   .section-title {
-    @apply text-5xl md:text-6xl font-serif font-bold;
+    @apply text-5xl md:text-6xl font-black;
   }
 
   .mondrian-border,

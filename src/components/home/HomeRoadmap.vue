@@ -1,8 +1,8 @@
 <template>
-  <section id="Roadmap" class="bg-blueish text-white mondrian-border-b">
-    <div class="container px-8 mx-auto grid gap-4 lgs:grid-cols-3 items-center">
-      <div class="lgs:col-span-2 grid md:grid-cols-3 items-stretch gap-4">
-        <div class="md:col-span-3 space-y-2 max-w-xl">
+  <section id="Roadmap" class="text-white bg-blueish mondrian-border-b">
+    <div class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-3">
+      <div class="grid items-stretch gap-4 lgs:col-span-2 md:grid-cols-3">
+        <div class="max-w-xl space-y-2 md:col-span-3">
           <h2 class="section-title" v-animate>Roadmap</h2>
           <p class="pb-4" v-animate>
             This roadmap outlines our goals and where we want to take
@@ -12,7 +12,7 @@
         </div>
 
         <div
-          class="border-8 border-black p-4 md:p-8 space-y-2 bg-blue-100 text-black"
+          class="p-4 space-y-2 text-black bg-blue-100 border-4 border-black rounded-xl md:p-8"
           v-animate
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
@@ -20,7 +20,7 @@
         >
           <div class="flex items-start space-x-2">
             <div
-              class="inline-flex w-6 h-6 rounded-full font-bold bg-black text-white items-center justify-center text-sm flex-shrink-0 flex-grow-0"
+              class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-bold text-white bg-black rounded-full"
             >
               <span class="block">{{ index + 1 }}</span>
             </div>
@@ -37,7 +37,7 @@
       <img
         src="@/assets/images/image-2.png"
         alt="Roadmap"
-        class="order-first max-w-sm w-full lgs:order-none"
+        class="order-first w-full max-w-sm mx-auto lgs:order-none"
         v-animate
       />
     </div>

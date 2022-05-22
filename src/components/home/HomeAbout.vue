@@ -1,15 +1,15 @@
 <template>
-  <section id="About" class="bg-reddish/90 text-white mondrian-border-b">
+  <section id="About" class="text-white bg-reddish/90 mondrian-border-b">
     <div
-      class="grid md:grid-cols-2 gap-4 md:gap-20 items-center container max-w-4xl mx-auto px-8"
+      class="container grid items-center max-w-4xl gap-4 px-8 mx-auto md:grid-cols-2 md:gap-20"
     >
       <div class="space-y-8">
         <h2 class="section-title" v-animate>What are the Mondrians?</h2>
         <p v-animate>
           Mondrians is a drop of custom digital paintings, created by
-          <span class="font-serif text-yellowish">PIET MONDRIAN</span>, aiming
+          <span class="font-medium text-yellowish">PIET MONDRIAN</span>, aiming
           to express culture, uniqueness and creativity. Through size, shape and
-          color Mondrian’s embraces what it means to be on the common ground but
+          color Mondrian's embraces what it means to be on the common ground but
           having a sense of uniqueness.
         </p>
         <div v-animate>
@@ -20,7 +20,7 @@
         v-animate
         src="@/assets/images/image-5.png"
         alt="What are the Mondrian's?"
-        class="mdx:mx-auto order-first md:order-none"
+        class="order-first mdx:mx-auto md:order-none"
       />
     </div>
   </section>

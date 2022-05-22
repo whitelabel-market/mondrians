@@ -1,5 +1,5 @@
 <template>
-  <HomeHero />
+  <HomeHero :loaded="isFinished" />
   <HomeAbout />
   <HomeItemGallery />
   <HomeRoadmap />

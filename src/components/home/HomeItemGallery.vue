@@ -1,7 +1,7 @@
 <template>
   <section id="Gallery" class="mondrian-border-b">
     <div class="px-8 overflow-hidden">
-      <div class="md:hidden space-y-4">
+      <div class="space-y-4 md:hidden">
         <div
           class="flex space-x-4"
           v-for="(row, index) in [0, 6, 4]"
@@ -11,7 +11,7 @@
           :key="'mobile ' + index"
         >
           <div
-            class="border-8 border-black shadow-xl flex-shrink-0 flex-grow-0"
+            class="flex-grow-0 flex-shrink-0 border-4 border-black shadow-xl"
             v-for="col in 5"
             :key="'mobile ' + col + index"
           >
@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="mdx:hidden space-y-4">
+      <div class="space-y-4 mdx:hidden">
         <div
           class="flex space-x-4"
           v-for="(row, index) in [0, 5]"
@@ -33,7 +33,7 @@
           :key="'desktop ' + index"
         >
           <div
-            class="border-8 border-black shadow-xl flex-shrink-0 flex-grow-0"
+            class="flex-grow-0 flex-shrink-0 border-4 border-black shadow-xl"
             v-for="col in 7"
             :key="'desktop ' + col + index"
           >
