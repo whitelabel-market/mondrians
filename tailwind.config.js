@@ -17,15 +17,15 @@ module.exports = {
         90: "90",
         100: "100",
       },
-      fontFamily: {
-        sans: ["Inter", ...defaultTheme.fontFamily.sans],
-        serif: ["Optician Sans", ...defaultTheme.fontFamily.serif],
-      },
       screens: {
         mdx: { max: "767px" },
         fix: { min: "1100px" },
         lgs: { min: "974px" },
       },
+    },
+    fontFamily: {
+      sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+      serif: ["Optician Sans", ...defaultTheme.fontFamily.serif],
     },
     transitionTimingFunction: {
       "out-circ": "cubic-bezier(0,0.55,0.45,1)",
