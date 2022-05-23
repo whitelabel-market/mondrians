@@ -8,19 +8,20 @@
         alt="Magic Mondrian"
         class="animate"
       />
-      <PreSale
-        v-if="presaleEnabled || revealEnabled"
-        :revealEnabled="revealEnabled"
+      <SaleClosed
+        v-if="currentPhase === Phase.PreSale || currentPhase == Phase.Reveal"
+        :revealEnabled="currentPhase === Phase.Reveal"
         :loaded="loaded"
       />
       <SaleOpen
-        v-if="whitelistEnabled || publicsaleEnabled"
-        :price="getPrice"
-        :whitelistEnabled="whitelistEnabled"
-        :publicsaleEnabled="publicsaleEnabled"
+        v-if="
+          currentPhase === Phase.WhitelistSale ||
+          currentPhase == Phase.PublicSale
+        "
+        :price="currentPhase === Phase.WhitelistSale ? '0.00025' : '0.005'"
+        :whitelistEnabled="currentPhase === Phase.WhitelistSale"
+        :publicsaleEnabled="currentPhase === Phase.PublicSale"
         :quantity="quantity"
-        :can-decrease="canDecrease"
-        :can-increase="canIncrease"
         :contract="contract"
         :is-connected="isConnected"
         @increase="quantity++"
@@ -34,7 +35,7 @@
     v-model="modelValue"
     :whitelistEnabled="whitelistEnabled"
     :quantity="quantity"
-    :price="getPrice"
+    :price="currentPhase === Phase.WhitelistSale ? '0.00025' : '0.005'"
   />
   <LayoutConnectModal
     v-model="showConnectModal"
@@ -44,12 +45,13 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import PreSale from "@/components/phase/PreSale.vue";
+import SaleClosed from "@/components/phase/SaleClosed.vue";
 import SaleOpen from "@/components/phase/SaleOpen.vue";
 import MintModal from "@/components/mint/MintModal.vue";
 import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
 import useContract from "@/composables/useContract";
 import { useWallet } from "@/composables/useWallet";
+import { useFlag } from "@/composables/useFlags";
 
 defineProps({
   loaded: {
@@ -58,27 +60,40 @@ defineProps({
   },
 });
 
+// modal handling
+
 const modelValue = ref(false);
 const showConnectModal = ref(false);
 const connected = ref(false);
 const quantity = ref(1);
-const {
-  presaleEnabled,
-  whitelistEnabled,
-  publicsaleEnabled,
-  revealEnabled,
-  getPrice,
-  contract,
-  getMaxMint,
-} = useContract();
+const { contract } = useContract();
 const { isConnected, address } = useWallet();
-
-const canDecrease = computed(() => quantity.value > 0);
-const canIncrease = computed(() => quantity.value < getMaxMint.value);
 
 watch(address, () => {
   if (connected.value) {
     modelValue.value = true;
   }
+});
+
+// phase handling
+
+enum Phase {
+  PreSale = "presale",
+  WhitelistSale = "whitelistsale",
+  PublicSale = "publicsale",
+  Reveal = "reveal",
+}
+
+const presaleEnabled = useFlag(Phase.PreSale);
+const whitelistEnabled = useFlag(Phase.WhitelistSale);
+const publicsaleEnabled = useFlag(Phase.PublicSale);
+const revealEnabled = useFlag(Phase.Reveal);
+
+const currentPhase = computed(() => {
+  if (revealEnabled.value) return Phase.Reveal;
+  if (publicsaleEnabled.value) return Phase.PublicSale;
+  if (whitelistEnabled.value) return Phase.WhitelistSale;
+  if (presaleEnabled.value) return Phase.PreSale;
+  return "";
 });
 </script>
