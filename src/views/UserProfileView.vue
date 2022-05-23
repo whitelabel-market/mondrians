@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="pt-20 bg-yellowish mondrian-border-b">
+    <header class="pt-20 bg-yellowish mondrian-border-b bg-hero-pattern">
       <div
         class="container flex flex-col items-center justify-start flex-1 w-full h-full mx-auto space-y-12"
       >
