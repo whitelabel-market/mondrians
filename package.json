@@ -11,7 +11,7 @@
     "@headlessui/vue": "^0.0.0-insiders.591b328",
     "@heroicons/vue": "^1.0.6",
     "@vueuse/core": "^8.2.5",
-    "@whitelabel-solutions/wallet-connector": "^0.0.5",
+    "@whitelabel-solutions/wallet-connector": "^1.0.1",
     "authereum": "^0.1.14",
     "caf": "^15.0.0-preB",
     "core-js": "^3.8.3",
