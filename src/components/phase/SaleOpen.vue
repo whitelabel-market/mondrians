@@ -1,10 +1,16 @@
 <template>
   <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
     <div
-      class="font-bold text-5xl md:text-7xl font-serif relative z-10 text-center"
+      class="mx-auto text-5xl font-black text-center text-transparent md:text-6xl"
     >
-      {{ whitelistEnabled ? "Whitelist Sale" : "Public Sale" }}
-      is live
+      <span
+        class="text-transparent outline outline-1 bg-clip-text bg-gradient-to-r from-blueish via-yellowish to-reddish"
+      >
+        <span>
+          {{ whitelistEnabled ? "Whitelist Sale" : "Public Sale" }}
+        </span>
+        <span class="inline-block"> is live </span>
+      </span>
     </div>
     <p class="mt-2 font-bold text-center md:text-3xl md:mt-4">
       {{ contract.totalSupply }} of {{ contract.maxSupply }}
@@ -13,6 +19,7 @@
       <AppButton
         only-icon
         :disabled="!canDecrease"
+        size="md"
         @click.prevent="$emit('decrease')"
         rounded="full"
       >
@@ -41,7 +48,7 @@
     <p
       class="flex items-center justify-center mt-4 space-x-1 text-sm font-semibold"
     >
-      <span>Price: {{ price * quantity }} </span>
+      <span>Price: {{ Number(price) * quantity }} </span>
       <PolygonIcon class="w-2.5" />
     </p>
     <div class="flex items-center justify-center mt-4">
@@ -63,6 +70,7 @@
 import PolygonIcon from "../icons/PolygonIcon.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { PlusSmIcon, MinusSmIcon } from "@heroicons/vue/solid";
+import { computed } from "vue";
 
 defineEmits([
   "increase",
@@ -71,7 +79,7 @@ defineEmits([
   "update:showConnectModal",
 ]);
 
-defineProps({
+const props = defineProps({
   price: {
     type: String,
     required: true,
@@ -88,14 +96,6 @@ defineProps({
     type: Boolean,
     required: true,
   },
-  canDecrease: {
-    type: Boolean,
-    required: true,
-  },
-  canIncrease: {
-    type: Boolean,
-    required: true,
-  },
   contract: {
     type: Object,
     required: true,
@@ -105,4 +105,9 @@ defineProps({
     required: true,
   },
 });
+
+const canDecrease = computed(() => props.quantity > 0);
+const canIncrease = computed(
+  () => props.quantity < (props.whitelistEnabled ? 5 : 10)
+);
 </script>

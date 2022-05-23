@@ -18,7 +18,9 @@
             <a class="font-medium text-yellowish" href="">private Discord</a>.
           </p>
         </div>
-        <AppButton v-animate> Follow on Twitter </AppButton>
+        <div v-animate>
+          <AppButton> Follow on Twitter </AppButton>
+        </div>
       </div>
       <img
         src="@/assets/images/image-3.png"

@@ -15,16 +15,16 @@
     <div
       v-for="token of tokens"
       :key="token.id"
-      class="block w-full border-2 border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blueish"
+      class="block w-full focus:outline-none focus:ring-2 focus:ring-blueish"
     >
       <TokenCard :token="token" />
     </div>
   </div>
   <div
-    class="flex flex-col items-center text-center space-y-8 mx-auto flex-0"
+    class="flex flex-col items-center mx-auto space-y-8 text-center flex-0"
     v-if="isFinished && !tokens.length"
   >
-    <h3 class="text-2xl font-serif font-bold">No tokens found</h3>
+    <h3 class="font-serif text-2xl font-bold">No tokens found</h3>
     <div>
       <p>
         {{

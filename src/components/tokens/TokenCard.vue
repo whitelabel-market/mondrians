@@ -1,5 +1,7 @@
 <template>
-  <div class="flex flex-col justify-between h-full gap-3 p-4 select-none">
+  <div
+    class="flex flex-col justify-between h-full gap-3 p-4 border-4 border-black select-none rounded-xl bg-hero-pattern-token"
+  >
     <div class="relative flex items-center justify-between">
       <dd
         class="flex justify-end -space-x-6 sm:justify-start lg:justify-end xl:justify-start"

@@ -25,7 +25,7 @@
             leave-to="opacity-0 translate-y-12"
           >
             <div
-              class="relative flex flex-col items-stretch w-full max-w-md max-h-full p-8 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl bg- bg-hero-pattern rounded-xl"
+              class="relative flex flex-col items-stretch w-full max-w-md max-h-full p-8 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl bg- bg-hero-pattern-charlie rounded-xl"
             >
               <slot />
               <div class="">

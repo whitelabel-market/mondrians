@@ -1,12 +1,15 @@
 <template>
   <div>
-    <header class="pt-20 bg-yellowish mondrian-border-b bg-hero-pattern">
+    <header
+      class="pt-20 bg-yellowish mondrian-border-b bg-hero-pattern-charlie"
+    >
       <div
         class="container flex flex-col items-center justify-start flex-1 w-full h-full mx-auto space-y-12"
       >
         <img
+          v-if="route?.params?.id"
           :src="makeBlockie(route.params.id)"
-          class="object-cover w-24 h-24 border-8 border-black rounded-xl"
+          class="object-cover w-24 h-24 border-4 border-black rounded-xl"
         />
 
         <div class="flex flex-col items-center gap-4">
@@ -26,7 +29,7 @@
                 :tooltip="copied ? 'Copied' : 'Copy'"
                 @click.prevent="copy(ensAccount?.id || route.params.id)"
               >
-                <ClipboardCopyIcon class="w-4 h-4"></ClipboardCopyIcon>
+                <ClipboardCopyIcon class="w-6 h-6"></ClipboardCopyIcon>
               </AppButton>
             </div>
 
@@ -41,6 +44,7 @@
 
           <div
             class="space-x-4 flex items-center justify-start transform -translate-x-0.5 -translate-y-0.5"
+            v-if="route?.params?.id"
           >
             <ShareButtons
               :address="route.params.id"
@@ -50,15 +54,24 @@
         </div>
 
         <nav
-          class="relative flex items-center justify-center w-full h-16 space-x-8"
+          class="relative flex items-center justify-center w-full space-x-4 h-11"
         >
           <router-link
             v-for="title in tabs"
             :key="title"
             :to="title.toLowerCase()"
-            class="relative flex items-center text-xs font-black uppercase transition duration-200 ease-in-out"
+            v-slot="{ isActive, isExactActive }"
           >
-            {{ title }}
+            <span
+              class="relative flex items-center justify-center w-32 px-4 text-xs font-black uppercase transition duration-200 ease-in-out border-4 h-11 hover:-translate-y-1 rounded-t-xl"
+              :class="[
+                isActive && isExactActive
+                  ? '-translate-y-1 bg-white border-black'
+                  : 'bg-neutral-200 text-neutral-800 border-neutral-600',
+              ]"
+            >
+              {{ title }}
+            </span>
           </router-link>
         </nav>
       </div>
@@ -81,7 +94,7 @@ import { getShortAddress } from "@/utils/ethereum";
 import makeBlockie from "ethereum-blockies-base64";
 import ShareButtons from "@/components/share/ShareButtons.vue";
 import AppButton from "@/components/app/AppButton.vue";
-import { ClipboardCopyIcon } from "@heroicons/vue/solid";
+import { ClipboardCopyIcon } from "@heroicons/vue/outline";
 
 const emits = defineEmits(["loaded"]);
 emits("loaded");

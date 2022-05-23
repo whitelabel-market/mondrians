@@ -108,14 +108,20 @@ export default defineComponent({
 
     const ButtonTranslate: Indexable<string> = {
       xs: "transform group-hover:translate-x-1 group-hover:translate-y-1",
-      sm: "transform group-hover:translate-x-1 group-hover:translate-y-1",
+      sm:
+        props.rounded === "full"
+          ? "transform group-hover:translate-x-0.5 group-hover:translate-y-0.5"
+          : "transform group-hover:translate-x-1 group-hover:translate-y-1",
       md: "transform group-hover:translate-x-1 group-hover:translate-y-1",
       lg: "transform group-hover:translate-x-1 group-hover:translate-y-1",
     };
 
     const ButtonAfterTranslate: Indexable<string> = {
       xs: "after:transform after:translate-x-1 after:translate-y-1",
-      sm: "after:transform after:translate-x-1 after:translate-y-1",
+      sm:
+        props.rounded === "full"
+          ? "after:transform after:translate-x-0.5 after:translate-y-0.5"
+          : "after:transform after:translate-x-1 after:translate-y-1",
       md: "after:transform after:translate-x-1 after:translate-y-1",
       lg: "after:transform after:translate-x-1 after:translate-y-1",
     };
@@ -184,9 +190,9 @@ export default defineComponent({
           hover: hover.value,
           type: !isRouterOrAnchorLink ? props.type : null,
           "aria-disabled": props.disabled === true ? true : undefined,
+          disabled: props.disabled,
           to: isRouterLink ? props.to : null,
           href: isAnchorLink ? props.href : null,
-          disabled: props.disabled,
           class: classesWrapper.value,
           onMouseenter: () => {
             hover.value = true;

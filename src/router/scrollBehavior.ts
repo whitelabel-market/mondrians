@@ -1,6 +1,6 @@
 import { RouterScrollBehavior } from "vue-router";
 
-export default (function (to, from, savedPosition) {
+export default (function (to) {
   if (to.hash) {
     return { el: to.hash, behavior: "smooth" };
   } else {

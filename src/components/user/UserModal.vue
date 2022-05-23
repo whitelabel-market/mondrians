@@ -105,7 +105,6 @@ import AppModal from "@/components/app/AppModal.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
-import HeroPattern from "@/components/icons/HeroPattern.vue";
 import { useWallet } from "@/composables/useWallet";
 import { SwitchVerticalIcon } from "@heroicons/vue/solid";
 import {

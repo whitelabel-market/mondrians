@@ -87,15 +87,12 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
 
   // methods
   const connect = async (providerID: string): Promise<void> => {
-    console.log(providerID);
     loading.value = true;
     provider.value = undefined;
     const iProvider: any = providers.find(
       (provider) => provider.id === providerID
     );
-    console.log(iProvider);
     try {
-      console.log(toRaw(await iProvider.connect()));
       provider.value = iProvider
         ? new ethers.providers.Web3Provider(toRaw(await iProvider.connect()))
         : undefined;
@@ -103,7 +100,6 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
       if (provider.value)
         walletProvider = useStorage("wallet-provider", providerID);
     } catch (e: any) {
-      console.log(e);
       loading.value = false;
       throw new Error(e.message);
     }

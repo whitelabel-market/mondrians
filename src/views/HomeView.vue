@@ -31,7 +31,7 @@ const emits = defineEmits(["loaded"]);
 let { setContract } = useContract();
 const active = useWindowActive();
 
-const ethereumInterface = new EthereumInterface();
+//const ethereumInterface = new EthereumInterface();
 
 const { onFetchResponse, data, execute, isFinished } = useFetch(MAMO_SUBGRAPH, {
   timeout: 10000,
@@ -57,12 +57,12 @@ watch(isFinished, () => {
 watch(
   active,
   (isActive) => {
-    if (isActive) {
-      ethereumInterface.subscribeToNewBlock(execute);
-      ethereumInterface.subscribeToTransfer(execute);
-    } else {
-      ethereumInterface.unsubscribe();
-    }
+    // if (isActive) {
+    //   ethereumInterface.subscribeToNewBlock(execute);
+    //   ethereumInterface.subscribeToTransfer(execute);
+    // } else {
+    //   ethereumInterface.unsubscribe();
+    // }
   },
   { immediate: true }
 );

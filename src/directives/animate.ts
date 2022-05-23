@@ -5,7 +5,7 @@ const from = { y: 50, autoAlpha: 0 };
 const duration = 1;
 
 export default {
-  mounted(el, binding, vnode) {
+  mounted(el, binding) {
     const els = binding?.value || el;
 
     gsap.from(els, {
