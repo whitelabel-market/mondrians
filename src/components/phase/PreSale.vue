@@ -3,14 +3,14 @@
     class="flex flex-col items-start gap-4 lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]"
   >
     <div
-      class="px-4 mx-auto text-5xl font-black text-center text-transparent md:text-6xl"
+      class="px-4 mx-auto text-5xl font-black text-center text-transparent animate md:text-6xl"
     >
       <span
-        class="text-transparent bg-clip-text bg-gradient-to-r from-blueish via-yellowish to-reddish"
+        class="text-transparent outline outline-1 bg-clip-text bg-gradient-to-r from-blueish via-yellowish to-reddish"
         >Magic Mondrian</span
       >
     </div>
-    <p class="w-full px-4 text-base font-bold text-center md:text-xl">
+    <p class="w-full px-6 text-base font-bold text-center animate md:text-xl">
       A
       <span
         id="nft-counter"
@@ -25,14 +25,14 @@
     >
       Sold out
     </p>
-    <AppButton class="mx-auto"> View on Opensea </AppButton>
+    <AppButton class="mx-auto animate"> View on Opensea </AppButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import { gsap } from "gsap";
-import { watch } from "vue";
+import { onMounted, watch } from "vue";
 
 const props = defineProps({
   revealEnabled: {
@@ -45,9 +45,25 @@ const props = defineProps({
   },
 });
 
+const from = { y: 20, autoAlpha: 0 };
+const duration = 0.4;
+
+onMounted(() => {
+  gsap.set(".animate", { opacity: 0 });
+});
+
 watch(
   () => props.loaded,
   () => {
+    gsap.set(".animate", { opacity: 1 });
+    gsap.from(".animate", {
+      ...from,
+      stagger: {
+        amount: duration,
+      },
+      duration,
+      ease: "power2.inOut",
+    });
     gsap.to("#nft-counter", {
       innerText: 1000,
       duration: 3,

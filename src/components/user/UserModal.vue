@@ -8,7 +8,7 @@
         <div class="flex items-center space-x-2">
           <img :src="blockie" class="object-cover w-8 h-8" />
           <div>
-            <h4 class="font-serif text-xl font-bold slashed-zero">
+            <h4 class="text-lg font-bold slashed-zero">
               {{ privateAddress }}
             </h4>
             <a
@@ -42,56 +42,50 @@
         </div>
       </div>
 
-      <div>
-        <h5 class="font-serif font-bold">Connected</h5>
-
-        <ul
-          class="flex flex-col w-full pt-4 mt-2 space-y-2 border-t-8 border-black"
+      <ul class="flex flex-col w-full space-y-2">
+        <li
+          class="relative flex items-center justify-start p-4 space-x-4 bg-white border-2 border-black h-14 rounded-xl"
         >
-          <li
-            class="relative flex items-center justify-start p-4 space-x-4 h-14 bg-neutral-100"
+          <PolygonIcon class="block w-6 h-6 -translate-x-1" />
+
+          <div class="absolute text-sm font-semibold left-8">
+            <span class="block slashed-zero">{{ privateAddress }}</span>
+            <span class=""
+              >Matic
+              <span class="italic"
+                >{{ balance }} - ${{ usdBalance }}</span
+              ></span
+            >
+          </div>
+        </li>
+
+        <li class="relative flex bg-white border-2 border-black rounded-xl">
+          <router-link
+            class="flex items-center justify-start w-full p-4 space-x-4 h-14"
+            :to="`/user/${address}/collected`"
+            @click.prevent="$emit('update:modelValue', false)"
           >
-            <PolygonIcon class="block w-6 h-6 -translate-x-1" />
-
-            <div class="absolute text-sm font-semibold left-8">
-              <span class="block slashed-zero">{{ privateAddress }}</span>
-              <span class=""
-                >Matic
-                <span class="italic"
-                  >{{ balance }} - ${{ usdBalance }}</span
-                ></span
-              >
-            </div>
-          </li>
-
-          <li class="relative flex bg-neutral-100">
-            <router-link
-              class="flex items-center justify-start w-full p-4 space-x-4 h-14"
-              :to="`/user/${address}/collected`"
-              @click.prevent="$emit('update:modelValue', false)"
+            <CollectionIcon class="w-4 h-4"></CollectionIcon>
+            <span class="absolute block text-sm font-semibold left-8"
+              >My Collection</span
             >
-              <CollectionIcon class="w-4 h-4"></CollectionIcon>
-              <span class="absolute block text-sm font-semibold left-8"
-                >My Collection</span
-              >
-            </router-link>
-          </li>
+          </router-link>
+        </li>
 
-          <li class="relative flex bg-neutral-100">
-            <router-link
-              class="flex items-center justify-start w-full p-4 space-x-4 h-14"
-              :to="`/user/${address}/collected`"
-              @click.prevent="$emit('update:modelValue', false)"
+        <li class="relative flex bg-white border-2 border-black rounded-xl">
+          <router-link
+            class="flex items-center justify-start w-full p-4 space-x-4 h-14"
+            :to="`/user/${address}/collected`"
+            @click.prevent="$emit('update:modelValue', false)"
+          >
+            <SwitchVerticalIcon class="w-4 h-4"></SwitchVerticalIcon>
+            <span
+              class="absolute block text-sm font-semibold tracking-wide left-8"
+              >My activity</span
             >
-              <SwitchVerticalIcon class="w-4 h-4"></SwitchVerticalIcon>
-              <span
-                class="absolute block text-sm font-semibold tracking-wide left-8"
-                >My activity</span
-              >
-            </router-link>
-          </li>
-        </ul>
-      </div>
+          </router-link>
+        </li>
+      </ul>
 
       <AppButton
         @click.prevent="
@@ -111,6 +105,7 @@ import AppModal from "@/components/app/AppModal.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
+import HeroPattern from "@/components/icons/HeroPattern.vue";
 import { useWallet } from "@/composables/useWallet";
 import { SwitchVerticalIcon } from "@heroicons/vue/solid";
 import {

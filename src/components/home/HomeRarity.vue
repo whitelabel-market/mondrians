@@ -15,7 +15,11 @@
           <li
             class="flex justify-between w-full p-2 border-4 border-t-0 border-black"
             v-animate
-            :class="[index === 0 && 'border-t-4', rarity.classes]"
+            :class="[
+              index === 0 && 'border-t-4 rounded-t-xl',
+              index === rarities.length - 1 && 'rounded-b-xl',
+              rarity.classes,
+            ]"
             v-for="(rarity, index) in rarities"
             :key="rarity.type"
           >

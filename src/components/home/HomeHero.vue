@@ -3,7 +3,11 @@
     <div
       class="relative grid items-center max-w-6xl mx-auto -mt-10 md:-mt-0 lgs:grid-cols-2"
     >
-      <img src="@/assets/images/image-1.png" alt="Magic Mondrian" class="" />
+      <img
+        src="@/assets/images/image-1.png"
+        alt="Magic Mondrian"
+        class="animate"
+      />
       <PreSale
         v-if="presaleEnabled || revealEnabled"
         :revealEnabled="revealEnabled"

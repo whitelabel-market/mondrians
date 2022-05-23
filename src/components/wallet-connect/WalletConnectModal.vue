@@ -18,9 +18,10 @@
               :fullWidth="true"
               @click.prevent="connectTo(p)"
               :center="false"
+              class="flex items-center justify-between"
             >
               <span class="block font-semibold text-left">{{ p.name }}</span>
-              <img :src="p.logo" class="w-6 h-6" />
+              <g v-html="p.logo" id="logo"></g>
             </AppButton>
           </li>
         </ul>
@@ -69,3 +70,9 @@ const connectTo = async (provider: IProvider) => {
   emits("connected");
 };
 </script>
+
+<style>
+#logo svg {
+  @apply w-6 h-6;
+}
+</style>
