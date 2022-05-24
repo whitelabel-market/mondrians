@@ -15,7 +15,8 @@ const SpinnerSize: () => { [key: string]: string } = () => {
 };
 
 const SpinnerColor: { [key: string]: string } = {
-  primary: "border-r-black border-white",
+  primary:
+    "border-r-black border-white dark:border-r-white dark:border-neutral-900",
   secondary: "border-r-gray-400 border-gray-200",
   white: "border-r-blueish border-white",
 };

@@ -11,13 +11,18 @@
         class="relative z-50 flex flex-col items-center justify-end w-full max-w-lg p-8 mx-auto text-center translate-y-20 bg-white rounded-t-full h-72"
       >
         <div class="w-2/3 space-y-8">
-          <h2 class="text-xl font-black uppercase md:text-3xl" v-animate>
-            Get your <LogoIcon class="!text-xl md:!text-3xl" /> NFT now
+          <h2
+            class="text-xl font-black uppercase md:text-3xl text-neutral-900"
+            v-animate
+          >
+            Get your
+            <LogoIcon class="!text-xl md:!text-3xl text-neutral-900" /> NFT now
           </h2>
-
-          <AppButton class="mx-auto" :fullWidth="false" v-animate
-            >View on Opensea
-          </AppButton>
+          <div v-animate>
+            <AppButton class="mx-auto" :fullWidth="false"
+              >View on Opensea
+            </AppButton>
+          </div>
         </div>
       </div>
     </div>

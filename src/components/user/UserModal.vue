@@ -5,8 +5,10 @@
   >
     <div class="flex flex-col space-y-8">
       <div class="flex flex-col items-center space-y-4">
-        <div class="flex items-center space-x-2">
-          <img :src="blockie" class="object-cover w-8 h-8" />
+        <div
+          class="flex items-center space-x-2 text-neutral-900 dark:text-neutral-200"
+        >
+          <img :src="blockie" class="object-cover w-8 h-8 rounded-md" />
           <div>
             <h4 class="text-lg font-bold slashed-zero">
               {{ privateAddress }}
@@ -24,14 +26,14 @@
           <a
             :href="`${EXPLORER_BASE_URL}address/${address}`"
             target="_blank"
-            class="flex items-center space-x-1 text-xs font-semibold"
+            class="flex items-center space-x-1 text-xs font-semibold text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200"
             ><span>View on Polygonscan</span> <ExternalLinkIcon class="w-4 h-4"
           /></a>
 
           <AppTooltip class="group" :show="copied">
             <template #element
               ><button
-                class="flex items-center space-x-1 text-xs font-semibold"
+                class="flex items-center space-x-1 text-xs font-semibold text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200"
                 @click.prevent="copy(address)"
               >
                 <span>Copy address</span
@@ -44,7 +46,7 @@
 
       <ul class="flex flex-col w-full space-y-2">
         <li
-          class="relative flex items-center justify-start p-4 space-x-4 bg-white border-2 border-black h-14 rounded-xl"
+          class="relative flex items-center justify-start p-4 space-x-4 bg-white text-neutral-900 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 h-14 rounded-xl"
         >
           <PolygonIcon class="block w-6 h-6 -translate-x-1" />
 
@@ -59,7 +61,9 @@
           </div>
         </li>
 
-        <li class="relative flex bg-white border-2 border-black rounded-xl">
+        <li
+          class="relative flex bg-white text-neutral-900 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl"
+        >
           <router-link
             class="flex items-center justify-start w-full p-4 space-x-4 h-14"
             :to="`/user/${address}/collected`"
@@ -72,7 +76,9 @@
           </router-link>
         </li>
 
-        <li class="relative flex bg-white border-2 border-black rounded-xl">
+        <li
+          class="relative flex bg-white text-neutral-900 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl"
+        >
           <router-link
             class="flex items-center justify-start w-full p-4 space-x-4 h-14"
             :to="`/user/${address}/collected`"

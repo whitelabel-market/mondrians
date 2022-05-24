@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-black after:-z-10 after:bg-black after:rounded-xl after:translate-x-1 after:translate-y-1"
+    class="hover:-translate-y-2 transition duration-150 ease-out-circ relative after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-black after:-z-10 after:bg-black after:rounded-xl after:translate-x-1 after:translate-y-1"
   >
     <div
       class="flex flex-col justify-between h-full gap-4 p-4 bg-white border border-black select-none rounded-xl bg-hero-pattern-token"

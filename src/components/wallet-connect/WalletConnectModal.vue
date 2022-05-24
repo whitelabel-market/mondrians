@@ -5,7 +5,11 @@
   >
     <div>
       <div v-if="!loading" class="flex flex-col w-full space-y-8">
-        <h3 class="text-2xl font-bold text-center">Select a wallet</h3>
+        <h3
+          class="text-2xl font-bold text-center text-neutral-900 dark:text-neutral-200"
+        >
+          Select a wallet
+        </h3>
         <ul class="space-y-4">
           <li
             v-for="(p, i) of providers.slice(
@@ -25,19 +29,6 @@
             </AppButton>
           </li>
         </ul>
-        <div
-          class="flex items-center justify-center w-full"
-          v-if="providers.length > 3"
-        >
-          <button
-            class="text-xs font-medium leading-4 text-gray-500 text-secondary hover:text-gray-900 rounded-xl"
-            @click.prevent="providersCollapsed = !providersCollapsed"
-          >
-            {{
-              providersCollapsed ? "Show fewer options" : "Show more options"
-            }}
-          </button>
-        </div>
       </div>
     </div>
   </AppModal>

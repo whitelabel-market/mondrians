@@ -1,11 +1,17 @@
 <template>
-  <div>
+  <div class="bg-white dark:bg-neutral-900 transition-colors duration-300">
     <div class="h-24"></div>
-    <header class="fixed top-0 left-0 bg-white w-full mondrian-border-b">
+    <header
+      class="fixed top-0 left-0 w-full mondrian-border-b bg-opacity-50 backdrop-blur backdrop-filter"
+    >
       <nav
-        class="container flex items-center justify-between w-full max-w-6xl px-8 h-24 mx-auto"
+        class="container flex items-center justify-between w-full max-w-6xl px-8 h-24 mx-auto dark:text-neutral-200 transition-colors duration-300"
       >
-        <router-link :to="'/'" class="inline-block"> <LogoIcon /> </router-link>
+        <router-link :to="'/'" class="inline-block">
+          <LogoIcon
+            class="text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+          />
+        </router-link>
         <AppButton
           class="md:hidden"
           flat
@@ -24,6 +30,9 @@
             <router-link class="font-black uppercase text-xs" :to="to">{{
               name
             }}</router-link>
+          </li>
+          <li>
+            <AppToggleDark />
           </li>
           <li>
             <AppButton
@@ -78,6 +87,7 @@ import WalletConnectModal from "@/components/wallet-connect/WalletConnectModal.v
 import UserModal from "@/components/user/UserModal.vue";
 import { useWallet } from "@/composables/useWallet";
 import AppButton from "@/components/app/AppButton.vue";
+import AppToggleDark from "@/components/app/AppToggleDark.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MobileMenu from "@/components/layouts/MobileMenu.vue";
 import { MenuAlt1Icon } from "@heroicons/vue/solid";

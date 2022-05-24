@@ -1,6 +1,8 @@
 <template>
   <footer class="container w-full max-w-4xl px-8 py-24 mx-auto">
-    <div class="grid max-w-xl grid-cols-2 gap-4 py-16 md:grid-cols-3 md:gap-20">
+    <div
+      class="grid max-w-xl grid-cols-2 gap-4 py-16 md:grid-cols-3 md:gap-20 text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+    >
       <div>
         <span class="block mb-8">Home</span>
         <ul class="space-y-4 text-sm">

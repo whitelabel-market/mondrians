@@ -1,5 +1,5 @@
 <template>
-  <section id="Faq" class="bg-yellowish mondrian-border-b">
+  <section id="Faq" class="bg-yellowish mondrian-border-b text-neutral-900">
     <div class="container max-w-4xl px-8 mx-auto space-y-8">
       <h2 class="text-center section-title" v-animate>FAQ</h2>
 
@@ -8,19 +8,16 @@
           <Disclosure
             as="div"
             v-slot="{ open }"
-            class="w-full bg-yellow-100 border-4 border-black rounded-xl"
+            class="w-full bg-yellow-100 border-4 border-neutral-800 rounded-xl"
           >
             <DisclosureButton
-              class="flex items-center justify-between w-full p-4 cursor-pointer"
+              class="flex items-center justify-between w-full p-4 cursor-pointer after:block after:absolute after:bottom-0 after:right-0 after:-z-10 after:!w-full after:!h-full after:translate-x-1 after:translate-y-1 after:bg-neutral-800 after:rounded-xl"
             >
               <span class="text-lg font-bold">{{ question }}</span>
               <ChevronDownIcon
                 class="w-6 h-6 transition duration-150 ease-in-out"
                 :class="open ? 'transform rotate-180' : ''"
               />
-              <span
-                class="block absolute bottom-0 right-0 -z-10 !w-full !h-full translate-x-1 translate-y-1 bg-black rounded-xl"
-              ></span>
             </DisclosureButton>
             <DisclosurePanel class="p-4 pt-0">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

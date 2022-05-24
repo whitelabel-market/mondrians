@@ -80,11 +80,11 @@ export default defineComponent({
 
     const ButtonColor: Indexable<string> = {
       blank: "bg-transparent text-current border-transparent",
-      gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-gray-300",
+      gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-gray-300 dark:bg-neutral-600 dark:border-neutral-800 dark:text-neutral-800",
       link: "bg-gray-100 text-gray-700 border-gray-200 hover:text-blueish",
-      reddish: "bg-reddish text-white border-2 border-black",
-      yellowish: "bg-yellowish text-black border-2 border-black",
-      blueish: "bg-blueish text-white border-2 border-black",
+      reddish: "bg-reddish text-white border-2 border-neutral-800",
+      yellowish: "bg-yellowish text-neutral-900 border-2 border-neutral-800",
+      blueish: "bg-blueish text-white border-2 border-neutral-800",
       disabled: "border-2 border-gray-500",
     };
 
@@ -145,8 +145,10 @@ export default defineComponent({
       `relative flex items-stretch justify-stretch font-semibold tracking-wider uppercase transition duration-200 ease-out-circ`,
       ButtonRounded[props.rounded],
       !props.flat &&
-        `after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-black after:-z-10`,
-      props.color === "gray" ? "after:bg-gray-300" : "after:bg-black",
+        `after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10`,
+      props.color === "gray"
+        ? "after:bg-gray-300 dark:after:bg-neutral-800"
+        : "after:bg-neutral-800",
       !props.flat && ButtonAfterRounded[props.rounded],
       !(props.disabled || props.loading)
         ? "cursor-pointer group transform active:scale-95"

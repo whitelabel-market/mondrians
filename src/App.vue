@@ -7,14 +7,18 @@
       <LayoutHeader class="z-80" />
       <div
         v-if="!loaded"
-        class="fixed z-30 flex items-center justify-center w-full h-screen bg-white"
+        class="fixed z-30 flex items-center justify-center w-full h-screen bg-white dark:bg-neutral-900 transition-colors duration-300"
       >
         <AppLoadingSpinner :size="'lg'" />
       </div>
-      <main class="flex flex-col justify-center flex-1 w-full">
+      <main
+        class="flex flex-col justify-center flex-1 w-full bg-white dark:bg-neutral-900 transition-colors duration-300"
+      >
         <router-view @loaded="loaded = true" />
       </main>
-      <LayoutFooter />
+      <div class="bg-white dark:bg-neutral-900 transition-colors duration-300">
+        <LayoutFooter />
+      </div>
     </div>
   </div>
 </template>

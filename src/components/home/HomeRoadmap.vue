@@ -12,7 +12,7 @@
         </div>
 
         <div
-          class="p-4 space-y-2 text-black bg-blue-100 border-4 border-black rounded-xl md:p-8"
+          class="p-4 space-y-2 text-neutral-900 bg-blue-100 border-4 border-neutral-800 rounded-xl md:p-8"
           v-animate
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
@@ -20,7 +20,7 @@
         >
           <div class="flex items-start space-x-2">
             <div
-              class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-bold text-white bg-black rounded-full"
+              class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-bold text-neutral-200 bg-neutral-800 rounded-full"
             >
               <span class="block">{{ index + 1 }}</span>
             </div>
