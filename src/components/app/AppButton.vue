@@ -71,6 +71,9 @@ export default defineComponent({
       type: String,
       default: null,
     },
+    delay: {
+      type: String as () => "100" | "200" | "300" | "400" | "500",
+    },
   },
   setup(props, { emit, slots }) {
     const hover = ref(false);
@@ -136,6 +139,14 @@ export default defineComponent({
       none: "after:rounded-none",
       xl: "after:rounded-xl",
       full: "after:rounded-full",
+    };
+
+    const TooltipDelay: Indexable<string> = {
+      100: "delay-100",
+      200: "delay-200",
+      300: "delay-300",
+      400: "delay-400",
+      500: "delay-500",
     };
 
     const classesWrapper = computed(() => [

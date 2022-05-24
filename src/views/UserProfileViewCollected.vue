@@ -1,5 +1,8 @@
 <template>
-  <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-5" v-if="isFetching">
+  <div
+    class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+    v-if="isFetching"
+  >
     <div
       v-for="i of 5"
       :key="i"
@@ -9,7 +12,7 @@
     </div>
   </div>
   <div
-    class="grid w-full grid-cols-1 gap-4 sm:grid-cols-5"
+    class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
     v-if="isFinished && tokens.length"
   >
     <div

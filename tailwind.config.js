@@ -6,6 +6,15 @@ module.exports = {
   },
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      sm: "640px",
+      mdx: { max: "767px" },
+      md: "768px",
+      lgs: { min: "974px" },
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
         reddish: "#E40E16",
@@ -20,10 +29,8 @@ module.exports = {
         90: "90",
         100: "100",
       },
-      screens: {
-        mdx: { max: "767px" },
-        fix: { min: "1100px" },
-        lgs: { min: "974px" },
+      fontSize: {
+        xxs: ".6rem",
       },
       backgroundImage: {
         "hero-pattern-charlie":

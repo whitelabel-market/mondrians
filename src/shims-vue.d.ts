@@ -12,3 +12,4 @@ declare module "*.svg" {
 
 declare module "caf";
 declare module "eth-provider";
+declare module "qrcode";

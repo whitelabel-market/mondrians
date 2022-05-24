@@ -1,16 +1,16 @@
 <template>
   <div
-    class="hidden md:block fixed h-screen w-full top-0 left-0 pointer-events-none"
+    class="fixed top-0 left-0 hidden w-full h-screen pointer-events-none md:block"
   >
     <div class="absolute inset-0 mondrian-border"></div>
-    <ul class="absolute text-white top-24 right-0 pointer-events-auto">
+    <ul class="absolute right-0 text-white pointer-events-auto top-24">
       <li>
-        <a href="#" class="block bg-black p-4">
+        <a href="#" class="block p-4 bg-black">
           <DiscordIcon class="w-5 h-5"
         /></a>
       </li>
       <li>
-        <a class="block bg-black p-4" href="#">
+        <a class="block p-4 bg-black" href="#">
           <TwitterIcon class="w-5 h-5" />
         </a>
       </li>
@@ -18,9 +18,7 @@
   </div>
 </template>
 
-<script setup>
-import TwitterIcon from "@/components/icons/TwitterIcon";
-import DiscordIcon from "@/components/icons/DiscordIcon";
+<script setup lang="ts">
+import TwitterIcon from "@/components/icons/TwitterIcon.vue";
+import DiscordIcon from "@/components/icons/DiscordIcon.vue";
 </script>
-
-<style scoped></style>

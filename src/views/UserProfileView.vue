@@ -63,12 +63,8 @@
             v-slot="{ isActive, isExactActive }"
           >
             <span
-              class="relative flex items-center justify-center w-32 px-4 text-xs font-black uppercase transition duration-200 ease-in-out border-4 h-11 hover:-translate-y-1 rounded-t-xl"
-              :class="[
-                isActive && isExactActive
-                  ? '-translate-y-1 bg-white border-black'
-                  : 'bg-neutral-200 text-neutral-800 border-neutral-600',
-              ]"
+              class="relative flex items-center bg-white border-black justify-center w-32 px-4 text-xs font-black uppercase transition duration-200 ease-in-out border-4 h-11 hover:-translate-y-1 rounded-t-xl"
+              :class="[isActive && isExactActive && '-translate-y-1']"
             >
               {{ title }}
             </span>
@@ -76,10 +72,8 @@
         </nav>
       </div>
     </header>
-    <section>
-      <div class="container px-8 mx-auto">
-        <router-view @showHint="hintVisible = true"></router-view>
-      </div>
+    <section class="container justify-center px-8 sm:px-4 mx-auto">
+      <router-view @showHint="hintVisible = true"></router-view>
     </section>
   </div>
 </template>
