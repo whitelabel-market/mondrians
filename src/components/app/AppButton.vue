@@ -194,6 +194,7 @@ export default defineComponent({
           type: !isRouterOrAnchorLink ? props.type : null,
           "aria-disabled": props.disabled === true ? true : undefined,
           disabled: props.disabled,
+          target: isAnchorLink ? "_blank" : null,
           to: isRouterLink ? props.to : null,
           href: isAnchorLink ? props.href : null,
           class: classesWrapper.value,
@@ -204,7 +205,7 @@ export default defineComponent({
             hover.value = false;
           },
           onClick: (e: Event) => {
-            e.preventDefault();
+            !isAnchorLink && e.preventDefault();
             if (!(props.disabled || props.loading)) {
               emit("clicked", e);
             }
