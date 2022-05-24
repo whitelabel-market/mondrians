@@ -53,11 +53,12 @@ import { useFetch } from "@vueuse/core";
 import { useWallet } from "@/composables/useWallet";
 import { getTokensForAccount } from "@/services/graphql/types";
 import { MAMO_SUBGRAPH } from "@/utils/constants";
+import type { Token } from "@/utils/types";
 import TokenCard from "@/components/tokens/TokenCard.vue";
 import TokenCardSkeleton from "@/components/tokens/TokenCardSkeleton.vue";
 import AppButton from "@/components/app/AppButton.vue";
 
-const tokens = ref([]);
+const tokens = ref<Token[]>([]);
 
 const route = useRoute();
 const { address } = useWallet();
@@ -78,7 +79,8 @@ onFetchResponse(() => {
 });
 
 const isSelf = computed(
-  () => address.value.toLowerCase() === route.params.id.toLowerCase()
+  () =>
+    address.value.toLowerCase() === (route.params.id as string).toLowerCase()
 );
 
 watch(
@@ -89,7 +91,7 @@ watch(
         JSON.stringify({
           query: getTokensForAccount,
           variables: {
-            owner: route.params.id.toLowerCase(),
+            owner: (route.params.id as string).toLowerCase(),
           },
         })
       ).execute();

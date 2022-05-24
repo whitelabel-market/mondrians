@@ -23,7 +23,6 @@ const props = defineProps({
   },
   hintVisible: {
     type: Boolean,
-    required: true,
   },
 });
 

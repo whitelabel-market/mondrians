@@ -8,7 +8,7 @@
       >
         <img
           v-if="route?.params?.id"
-          :src="makeBlockie(route.params.id)"
+          :src="makeBlockie(route.params.id as string)"
           class="object-cover w-24 h-24 border-4 border-black rounded-xl"
         />
 
@@ -47,7 +47,7 @@
             v-if="route?.params?.id"
           >
             <ShareButtons
-              :address="route.params.id"
+              :address="(route.params.id as string)"
               :hintVisible="hintVisible"
             />
           </div>
