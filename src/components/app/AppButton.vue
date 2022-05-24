@@ -141,14 +141,6 @@ export default defineComponent({
       full: "after:rounded-full",
     };
 
-    const TooltipDelay: Indexable<string> = {
-      100: "delay-100",
-      200: "delay-200",
-      300: "delay-300",
-      400: "delay-400",
-      500: "delay-500",
-    };
-
     const classesWrapper = computed(() => [
       `relative flex items-stretch justify-stretch font-semibold tracking-wider uppercase transition duration-200 ease-out-circ`,
       ButtonRounded[props.rounded],

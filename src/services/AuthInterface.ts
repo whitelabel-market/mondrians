@@ -3,6 +3,12 @@ import type { BeforeFetchContext } from "@vueuse/core";
 import { unref } from "vue";
 import { API } from "@/utils/constants";
 
+export interface AuthInterface {
+  login: () => Promise<string>;
+  callback: (signature: string) => Promise<void>;
+  getVoucher: () => Promise<string>;
+}
+
 export const createAuthInterface = (address: string) => {
   const xViewerAddress = address;
   const xCsrf = "1";

@@ -20,7 +20,7 @@
         v-if="tokens.length > 0"
       >
         <CarouselItem
-          v-for="(token, index) in tokens"
+          v-for="(token, index) in (tokens as Token[])"
           :key="token.id"
           :token="token"
           :index="index"
@@ -41,7 +41,7 @@
     </div>
     <span class="max-w-xs leading-tight text-center text-md"
       ><span class="font-semibold">Congratulations!</span> Your Mondrian #{{
-        tokens[currentToken].id
+        (tokens[currentToken] as Token).id
       }}
       was successfully created.</span
     >
@@ -53,7 +53,7 @@
     </div>
     <AppButton
       :size="'sm'"
-      :href="`${EXPLORER_BASE_URL}tx/${tokens[currentToken].transactionHash}`"
+      :href="`${EXPLORER_BASE_URL}tx/${(tokens[currentToken] as Token).transactionHash}`"
       target="_blank"
       >View transaction on Polygonscan</AppButton
     >
@@ -68,6 +68,7 @@ import CarouselItem from "@/components/carousel/CarouselItem.vue";
 import { EXPLORER_BASE_URL } from "@/utils/constants";
 import ShareButtons from "@/components/share/ShareButtons.vue";
 import { useWallet } from "@/composables/useWallet";
+import type { Token } from "@/utils/types";
 
 const { address } = useWallet();
 

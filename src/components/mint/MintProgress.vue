@@ -3,7 +3,7 @@
 
   <div class="pt-2 pb-6 space-y-6">
     <MintStep
-      v-for="(task, index) in tasks"
+      v-for="(task, index) in (tasks as Task<any>[])"
       :key="index"
       :index="index"
       :status="task.status"
@@ -46,10 +46,16 @@ import AppButton from "@/components/app/AppButton.vue";
 import MintStep from "@/components/mint/MintStep.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import useQueue from "@/composables/useQueue";
-import { Phase } from "@/composables/useContract";
 import type { Task } from "@/composables/useTask";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/vue/outline";
 import { MINT_TASKS } from "@/utils/constants";
+
+enum Phase {
+  PreSale = "presale",
+  WhitelistSale = "whitelistsale",
+  PublicSale = "publicsale",
+  Reveal = "reveal",
+}
 
 const components = {
   AppLoadingSpinner,

@@ -34,18 +34,20 @@ import AppModal from "@/components/app/AppModal.vue";
 import MondrianInterface from "@/services/MondrianInterface";
 import useTask from "@/composables/useTask";
 import { createAuthInterface } from "@/services/AuthInterface";
+import type { AuthInterface } from "@/services/AuthInterface";
 import { useWallet } from "@/composables/useWallet";
 import { ethers } from "ethers";
 import { MAMO_SUBGRAPH } from "@/utils/constants";
 import { useFetch } from "@vueuse/core";
 import { getTokensFromBlock } from "@/services/graphql/types";
+import type { Task } from "@/composables/useTask";
 
 defineEmits(["update:modelValue"]);
 
-let authInterface;
+let authInterface: AuthInterface;
 const { address, provider, signMessage } = useWallet();
 const tokens = ref([]);
-const tasks = ref([]);
+const tasks = ref<Task<any>[]>([]);
 
 const props = defineProps({
   modelValue: {
@@ -76,7 +78,7 @@ const getMessage = function* (): any {
 
 // job to generate voucher (whitelist sale)
 const getVoucher = function* (): any {
-  return yield authInterface.getVoucher() as string;
+  return yield authInterface.getVoucher();
 };
 
 // job to execute minting (whitelist sale or public sale)
