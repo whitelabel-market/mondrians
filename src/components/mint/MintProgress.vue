@@ -1,5 +1,9 @@
 <template>
-  <h3 class="text-2xl font-serif font-bold text-center">Follow Steps</h3>
+  <h3
+    class="text-2xl font-bold text-center text-gray-900 dark:text-neutral-200"
+  >
+    Follow Steps
+  </h3>
 
   <div class="pt-2 pb-6 space-y-6">
     <MintStep

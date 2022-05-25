@@ -85,7 +85,8 @@ export default defineComponent({
       reddish: "bg-reddish text-white border-2 border-neutral-800",
       yellowish: "bg-yellowish text-neutral-900 border-2 border-neutral-800",
       blueish: "bg-blueish text-white border-2 border-neutral-800",
-      disabled: "border-2 border-gray-500",
+      disabled:
+        "border-2 border-gray-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed",
     };
 
     const ButtonWrapperSizeIcon: Indexable<string> = {
@@ -145,8 +146,9 @@ export default defineComponent({
       `relative flex items-stretch justify-stretch font-semibold tracking-wider uppercase transition duration-200 ease-out-circ`,
       ButtonRounded[props.rounded],
       !props.flat &&
+        !props.disabled &&
         `after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10`,
-      props.color === "gray"
+      props.color === "gray" && !props.disabled
         ? "after:bg-gray-300 dark:after:bg-neutral-800"
         : "after:bg-neutral-800",
       !props.flat && ButtonAfterRounded[props.rounded],

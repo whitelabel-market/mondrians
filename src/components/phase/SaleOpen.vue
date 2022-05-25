@@ -12,7 +12,7 @@
       </span>
     </div>
     <p
-      class="mt-2 font-bold text-center md:text-3xl md:mt-4 dark:text-neutral-200 transition-colors duration-300"
+      class="mt-2 font-bold text-center transition-colors duration-300 md:text-3xl md:mt-4 dark:text-neutral-200"
     >
       {{ contract.totalSupply }} of {{ contract.maxSupply }}
     </p>
@@ -33,7 +33,8 @@
         type="text"
         id="mint"
         name="mint"
-        class="block w-20 mx-auto text-center placeholder-neutral-500 dark:text-neutral-200 border-2 dark:bg-neutral-800 border-black dark:border-neutral-800 rounded-full cursor-not-allowed focus:outline-none transition-colors duration-300"
+        disabled
+        class="block w-20 mx-auto text-center transition-colors duration-300 border-2 border-black rounded-full cursor-not-allowed placeholder-neutral-500 dark:text-neutral-200 dark:bg-neutral-800 dark:border-neutral-800 focus:outline-none"
         :placeholder="quantity.toString()"
       />
 
@@ -47,7 +48,7 @@
       </AppButton>
     </div>
     <p
-      class="flex items-center justify-center mt-4 space-x-1 text-sm font-semibold dark:text-neutral-200 transition-colors duration-300"
+      class="flex items-center justify-center mt-4 space-x-1 text-sm font-semibold transition-colors duration-300 dark:text-neutral-200"
     >
       <span>Price: {{ Number(price) * quantity }} </span>
       <PolygonIcon class="w-2.5" />

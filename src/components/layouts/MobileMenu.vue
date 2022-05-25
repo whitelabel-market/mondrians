@@ -11,16 +11,16 @@
         leave-to="translate-x-full"
       >
         <div
-          class="lg:hidden fixed left-0 top-0 w-full h-screen flex flex-col z-80 mt-24"
+          class="fixed top-0 left-0 flex flex-col w-full h-screen mt-24 lg:hidden z-80"
         >
           <div
-            class="p-8 flex-1 space-y-8 overflow-y-auto mondrian-border-b bg-white text-neutral-900 dark:bg-neutral-900 transition-colors duration-300"
+            class="flex-1 p-8 space-y-8 overflow-y-auto transition-colors duration-300 bg-white mondrian-border-b text-neutral-900 dark:bg-neutral-900"
           >
             <ul class="flex flex-col gap-6 font-sans font-bold mobile-controls">
               <li
                 v-for="(to, name) in routes"
                 :key="to"
-                class="font-bold text-xl text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+                class="text-xl font-bold transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
               >
                 <router-link
                   class="block outline-none focus:outline-none"
@@ -32,13 +32,13 @@
             </ul>
             <div class="flex flex-col gap-4">
               <div
-                class="relative p-4 flex items-center justify-between bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl transition-colors duration-300"
+                class="relative flex items-center justify-between p-4 transition-colors duration-300 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl"
               >
                 <span
-                  class="text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+                  class="transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
                   >Appearence</span
                 >
-                <AppToggleDarkVue />
+                <AppToggleDark />
               </div>
               <AppButton
                 v-if="!isConnected"
@@ -61,9 +61,8 @@
 import { useWallet } from "@/composables/useWallet";
 import AppButton from "@/components/app/AppButton.vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
-import AppToggleDarkVue from "@/components/app/AppToggleDark.vue";
+import AppToggleDark from "@/components/app/AppToggleDark.vue";
 
-const { loading, isConnected } = useWallet();
 const emit = defineEmits(["update:modelValue", "connect"]);
 
 defineProps({
@@ -72,6 +71,8 @@ defineProps({
     required: true,
   },
 });
+
+const { loading, isConnected } = useWallet();
 
 const routes = {
   About: "/#About",

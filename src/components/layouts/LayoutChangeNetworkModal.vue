@@ -6,13 +6,20 @@
       disconnect();
     "
   >
-    <AppLoadingSpinner :size="'sm'" class="mx-auto" />
-    <h3 class="font-serif text-2xl font-bold text-center">Wrong network</h3>
-    <p class="text-center">
+    <AppLoadingSpinner class="mx-auto" />
+    <h3
+      class="text-2xl font-bold text-center text-neutral-900 dark:text-neutral-200"
+    >
+      Wrong network
+    </h3>
+    <p class="leading-tight text-center text-neutral-900 dark:text-neutral-200">
       Looks like you connected to an unsupported network. Change network to
       {{ NETWORK_NAME[0].toUpperCase() + NETWORK_NAME.slice(1) }}.
     </p>
-    <AppButton :fullWidth="true" @click.prevent="changeNetwork()"
+    <AppButton
+      :fullWidth="true"
+      @click.prevent="changeNetwork()"
+      class="outline-none focus:outline-none"
       >Change network</AppButton
     >
     <template v-slot:button>Logout</template>
@@ -38,10 +45,10 @@ defineProps({
 const { disconnect } = useWallet();
 
 const changeNetwork = async () => {
-  if (window.ethereum) {
+  if ((window as any).ethereum) {
     try {
       // check if the chain to connect to is installed
-      await window.ethereum.request({
+      await (window as any).ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x" + CHAIN_ID.toString(16) }],
       });
@@ -50,7 +57,7 @@ const changeNetwork = async () => {
       // if it is not, then install it into the user MetaMask
       if (error.code === 4902) {
         try {
-          await window.ethereum.request({
+          await (window as any).ethereum.request({
             jsonrpc: "2.0",
             method: "wallet_addEthereumChain",
             params: [

@@ -1,8 +1,7 @@
 <template>
   <div>
     <LayoutChangeNetworkModal v-model="wrongNetwork" />
-
-    <div class="flex flex-col min-h-screen mx-auto relative">
+    <div class="relative flex flex-col min-h-screen mx-auto">
       <LayoutFrame class="z-90" />
       <LayoutHeader class="z-80" />
       <div
@@ -37,7 +36,7 @@ const loaded = ref(false);
 
 const wrongNetwork = computed(() => {
   if (network.value) {
-    return window.ethereum && network.value.name !== NETWORK_NAME;
+    return network.value.name !== NETWORK_NAME;
   }
   return false;
 });

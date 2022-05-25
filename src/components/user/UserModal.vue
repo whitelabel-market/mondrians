@@ -62,7 +62,7 @@
         </li>
 
         <li
-          class="relative flex bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl dark:hover:text-neutral-200 transition-colors duration-200"
+          class="relative flex bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors duration-200"
         >
           <router-link
             class="flex items-center justify-start w-full p-4 space-x-4 h-14"
@@ -77,7 +77,7 @@
         </li>
 
         <li
-          class="relative flex bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl dark:hover:text-neutral-200 transition-colors duration-200"
+          class="relative flex bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors duration-200"
         >
           <router-link
             class="flex items-center justify-start w-full p-4 space-x-4 h-14"

@@ -10,9 +10,8 @@
             on.
           </p>
         </div>
-
         <div
-          class="p-4 space-y-2 text-neutral-900 bg-blue-100 border-4 border-neutral-800 rounded-xl md:p-8"
+          class="p-4 space-y-2 bg-blue-100 border-4 text-neutral-900 border-neutral-800 rounded-xl md:p-8"
           v-animate
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
@@ -20,7 +19,7 @@
         >
           <div class="flex items-start space-x-2">
             <div
-              class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-bold text-neutral-200 bg-neutral-800 rounded-full"
+              class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-bold rounded-full text-neutral-200 bg-neutral-800"
             >
               <span class="block">{{ index + 1 }}</span>
             </div>
@@ -28,7 +27,6 @@
               {{ step.title }}
             </h6>
           </div>
-
           <p class="text-sm">
             {{ step.description }}
           </p>

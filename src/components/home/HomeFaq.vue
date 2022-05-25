@@ -2,7 +2,6 @@
   <section id="Faq" class="bg-yellowish mondrian-border-b text-neutral-900">
     <div class="container max-w-4xl px-8 mx-auto space-y-8">
       <h2 class="text-center section-title" v-animate>FAQ</h2>
-
       <ul class="space-y-4">
         <li v-animate v-for="(question, index) in questions" :key="index">
           <Disclosure

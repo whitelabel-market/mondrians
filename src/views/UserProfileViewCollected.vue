@@ -27,7 +27,7 @@
     class="flex flex-col items-center mx-auto space-y-8 text-center flex-0"
     v-if="isFinished && !tokens.length"
   >
-    <h3 class="font-serif text-2xl font-bold">No tokens found</h3>
+    <h3 class="text-2xl font-bold">No tokens found</h3>
     <div>
       <p>
         {{

@@ -6,10 +6,10 @@
     :tokenDayDatas="tokenDayDatas"
   />
   <div
-    class="flex flex-col items-center text-center space-y-8 mx-auto flex-0"
+    class="flex flex-col items-center mx-auto space-y-8 text-center flex-0"
     v-if="isFinished && !transfers.length"
   >
-    <h3 class="text-2xl font-serif font-bold">No activity</h3>
+    <h3 class="text-2xl font-bold">No activity</h3>
     <div>
       <p>
         {{
@@ -39,7 +39,7 @@ import AppButton from "@/components/app/AppButton.vue";
 import Activity from "@/components/activity/Activity.vue";
 import ActivitySkeleton from "@/components/activity/ActivitySkeleton.vue";
 
-const transfers = ref([]);
+const transfers = ref<any[]>([]);
 const tokenDayDatas = ref([]);
 
 defineProps({
@@ -66,7 +66,7 @@ watch(
         JSON.stringify({
           query: getActivity,
           variables: {
-            address: route.params.id.toLowerCase(),
+            address: (route.params.id as string).toLowerCase(),
           },
         })
       ).execute();
@@ -110,5 +110,6 @@ const getDayData = () => {
   });
 };
 
-const isSelf = address.value.toLowerCase() === route.params.id.toLowerCase();
+const isSelf =
+  address.value.toLowerCase() === (route.params.id as string).toLowerCase();
 </script>

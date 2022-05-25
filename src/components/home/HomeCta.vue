@@ -6,7 +6,6 @@
         alt="Get your Mondrian's NFT now"
         class="absolute -z-0 top-0 left-0 h-full w-full object-[90%_0%] object-contain"
       />
-
       <div
         class="relative z-50 flex flex-col items-center justify-end w-full max-w-lg p-8 mx-auto text-center translate-y-20 bg-white rounded-t-full mondrian-border-b h-72"
       >
