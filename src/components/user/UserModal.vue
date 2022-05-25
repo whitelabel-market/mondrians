@@ -22,9 +22,7 @@
           </div>
         </div>
 
-        <div
-          class="flex flex-col items-center justify-center w-full gap-4 md:flex-row"
-        >
+        <div class="flex items-center justify-center w-full gap-4">
           <a
             :href="`${EXPLORER_BASE_URL}address/${address}`"
             target="_blank"
@@ -46,7 +44,7 @@
         </div>
       </div>
 
-      <ul class="flex flex-col w-full space-y-2">
+      <ul class="flex flex-col w-full gap-4">
         <li
           class="relative flex items-center justify-start p-4 space-x-4 bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 h-14 rounded-xl"
         >
@@ -63,35 +61,32 @@
           </div>
         </li>
 
-        <li
-          class="relative flex transition-colors duration-200 bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl hover:text-neutral-900 dark:hover:text-neutral-200"
-        >
-          <router-link
-            class="flex items-center justify-start w-full p-4 space-x-4 h-14"
+        <li>
+          <AppButton
             :to="`/user/${address}/collected`"
+            :fullWidth="false"
+            color="blueish"
             @click.prevent="$emit('update:modelValue', false)"
           >
-            <CollectionIcon class="w-4 h-4"></CollectionIcon>
-            <span class="absolute block text-sm font-semibold left-8"
+            <CollectionIcon class="w-5 h-5"></CollectionIcon>
+            <span class="font-semibold tracking-wider uppercase"
               >My Collection</span
             >
-          </router-link>
+          </AppButton>
         </li>
 
-        <li
-          class="relative flex transition-colors duration-200 bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl hover:text-neutral-900 dark:hover:text-neutral-200"
-        >
-          <router-link
-            class="flex items-center justify-start w-full p-4 space-x-4 h-14"
+        <li>
+          <AppButton
             :to="`/user/${address}/collected`"
+            :fullWidth="false"
+            color="blueish"
             @click.prevent="$emit('update:modelValue', false)"
           >
-            <SwitchVerticalIcon class="w-4 h-4"></SwitchVerticalIcon>
-            <span
-              class="absolute block text-sm font-semibold tracking-wide left-8"
+            <SwitchVerticalIcon class="w-5 h-5"></SwitchVerticalIcon>
+            <span class="font-semibold tracking-wider uppercase"
               >My activity</span
             >
-          </router-link>
+          </AppButton>
         </li>
       </ul>
 
