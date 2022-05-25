@@ -12,7 +12,7 @@
       </span>
     </div>
     <p
-      class="mt-2 font-bold text-center transition-colors duration-300 md:text-3xl md:mt-4 dark:text-neutral-200"
+      class="mt-2 text-2xl font-bold text-center transition-colors duration-300 md:text-3xl md:mt-4 dark:text-neutral-200"
     >
       {{ contract.totalSupply }} of {{ contract.maxSupply }}
     </p>

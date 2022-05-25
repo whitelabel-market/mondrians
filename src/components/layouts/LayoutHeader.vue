@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="relative transition-colors duration-300 bg-white dark:bg-neutral-900"
-  >
+  <div class="relative">
     <div class="h-24"></div>
     <header
       class="fixed top-0 left-0 w-full bg-opacity-50 mondrian-border-b backdrop-blur backdrop-filter"
@@ -9,7 +7,11 @@
       <nav
         class="container flex items-center justify-between w-full h-24 max-w-6xl px-8 mx-auto transition-colors duration-300 dark:text-neutral-200"
       >
-        <router-link :to="'/'" class="inline-block">
+        <router-link
+          :to="'/'"
+          @click.prevent="scrollToTop()"
+          class="inline-block"
+        >
           <LogoIcon
             class="transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
           />
@@ -67,7 +69,14 @@
         :ensAccount="ensAccount"
       />
     </header>
-    <MobileMenu v-model="showMobileMenu" @connect="showConnectModal = true" />
+    <MobileMenu
+      v-model="showMobileMenu"
+      :privateAddress="privateAddress"
+      :blockie="blockie"
+      :ensAccount="ensAccount"
+      @connect="showConnectModal = true"
+      @clicked="showUserModal = true"
+    />
   </div>
 </template>
 
@@ -88,6 +97,14 @@ const showMobileMenu = ref(false);
 
 const { privateAddress, loading, blockie, isConnected, ensAccount } =
   useWallet();
+
+const scrollToTop = () => {
+  window.scroll({
+    top: 0,
+    left: 0,
+    behavior: "smooth",
+  });
+};
 
 const routes = {
   About: "/#About",

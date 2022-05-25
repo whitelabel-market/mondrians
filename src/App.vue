@@ -3,14 +3,18 @@
     <LayoutChangeNetworkModal v-model="wrongNetwork" />
     <div class="relative flex flex-col min-h-screen mx-auto">
       <LayoutFrame class="z-90" />
-      <LayoutHeader class="z-80" />
+      <LayoutHeader
+        class="transition-colors duration-300 bg-white z-80 dark:bg-neutral-900"
+      />
       <div
         v-if="!loaded"
         class="fixed z-30 flex items-center justify-center w-full h-screen bg-white dark:bg-neutral-900"
       >
         <AppLoadingSpinner :size="'lg'" />
       </div>
-      <main class="flex flex-col justify-center flex-1 w-full">
+      <main
+        class="flex flex-col justify-center flex-1 w-full transition-colors duration-300 bg-white dark:bg-neutral-900"
+      >
         <router-view @loaded="loaded = $event" />
       </main>
       <div>

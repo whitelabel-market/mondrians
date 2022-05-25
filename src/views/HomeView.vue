@@ -6,7 +6,7 @@
   <HomeRarity />
   <HomeInfo />
   <HomeFaq />
-  <HomeCta />
+  <!-- <HomeCta /> -->
 </template>
 
 <script setup lang="ts">
@@ -17,7 +17,7 @@ import HomeRoadmap from "@/components/home/HomeRoadmap.vue";
 import HomeRarity from "@/components/home/HomeRarity.vue";
 import HomeInfo from "@/components/home/HomeInfo.vue";
 import HomeFaq from "@/components/home/HomeFaq.vue";
-import HomeCta from "@/components/home/HomeCta.vue";
+//import HomeCta from "@/components/home/HomeCta.vue";
 import { onMounted, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import { CONTRACT_ADDRESS, MAMO_SUBGRAPH } from "@/utils/constants";

@@ -104,10 +104,10 @@ export default defineComponent({
     };
 
     const ButtonSpacing: Indexable<string> = {
-      xs: "py-1 px-4 space-x-1",
-      sm: "py-2 px-6 space-x-2",
-      md: "py-3 px-8 space-x-2",
-      lg: "py-6 px-14 space-x-2",
+      xs: props.color === "blank" ? "py-1 space-x-1" : "py-1 px-4 space-x-1",
+      sm: props.color === "blank" ? "py-2 space-x-2" : "py-2 px-6 space-x-2",
+      md: props.color === "blank" ? "py-3 space-x-2" : "py-3 px-8 space-x-2",
+      lg: props.color === "blank" ? "py-6 space-x-2" : "py-6 px-14 space-x-2",
     };
 
     const ButtonTranslate: Indexable<string> = {

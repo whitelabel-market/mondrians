@@ -31,15 +31,6 @@
               </li>
             </ul>
             <div class="flex flex-col gap-4">
-              <div
-                class="relative flex items-center justify-between p-4 transition-colors duration-300 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl"
-              >
-                <span
-                  class="transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
-                  >Appearence</span
-                >
-                <AppToggleDark />
-              </div>
               <AppButton
                 v-if="!isConnected"
                 full-width
@@ -49,6 +40,36 @@
               >
                 Connect Wallet
               </AppButton>
+              <AppButton
+                v-else
+                :center="false"
+                size="sm"
+                :loading="loading"
+                @click.prevent="$emit('clicked')"
+                color="blank"
+                flat
+              >
+                <div class="flex items-center w-full gap-4">
+                  <img
+                    v-if="blockie"
+                    :src="blockie"
+                    class="object-cover w-8 h-8 rounded-full"
+                  />
+                  <span
+                    class="text-sm font-black lowercase transition-colors duration-300 text-neutral-800 dark:text-neutral-200 slashed-zero"
+                    >{{ ensAccount?.name || privateAddress }}</span
+                  >
+                </div>
+              </AppButton>
+              <div
+                class="relative flex items-center justify-between p-4 transition-colors duration-300 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl"
+              >
+                <span
+                  class="transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
+                  >Appearence</span
+                >
+                <AppToggleDark />
+              </div>
             </div>
           </div>
         </div>
@@ -63,12 +84,23 @@ import AppButton from "@/components/app/AppButton.vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";
 
-const emit = defineEmits(["update:modelValue", "connect"]);
+const emit = defineEmits(["update:modelValue", "connect", "clicked"]);
 
 defineProps({
   modelValue: {
     type: Boolean,
     required: true,
+  },
+  blockie: {
+    type: String,
+    required: true,
+  },
+  privateAddress: {
+    type: String,
+    required: true,
+  },
+  ensAccount: {
+    type: Object,
   },
 });
 
