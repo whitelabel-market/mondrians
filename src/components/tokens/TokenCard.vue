@@ -1,9 +1,9 @@
 <template>
   <div
-    class="relative after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 transition-colors duration-300 after:bg-neutral-800 dark:after:bg-black after:rounded-xl after:translate-x-1 after:translate-y-1 after:transition-colors after:duration-300"
+    class="relative z-10 transition-colors duration-300 after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 dark:after:bg-black after:rounded-xl after:translate-x-1 after:translate-y-1 after:transition-colors after:duration-300"
   >
     <div
-      class="flex flex-col justify-between h-full gap-4 p-4 bg-neutral-50 dark:bg-neutral-800 border border-neutral-800 select-none rounded-xl bg-hero-pattern-token dark:bg-dark-hero-pattern-token transition-all duration-300"
+      class="flex flex-col justify-between h-full gap-4 p-4 transition-all duration-300 border select-none bg-neutral-50 dark:bg-neutral-800 border-neutral-800 rounded-xl bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
     >
       <div class="flex items-center justify-between">
         <dd class="flex justify-end -space-x-6">
@@ -30,7 +30,7 @@
             tooltip="View on polygonscan"
             flat
             onlyIcon
-            class="translate-x-4 duration-100 ease-out hover:-translate-y-1 hover:z-50"
+            class="duration-100 ease-out translate-x-4 hover:-translate-y-1 hover:z-50"
             :href="`${EXPLORER_BASE_URL}address/${token.owner.id}`"
           >
             <img
@@ -43,7 +43,7 @@
         <PolygonAlternative class="w-6 h-6 rounded-full" />
       </div>
       <div
-        class="group relative flex items-center justify-center w-full aspect-square cursor-pointer"
+        class="relative flex items-center justify-center w-full cursor-pointer group aspect-square"
       >
         <AppImageLoad size="md">
           <template v-slot:image>
@@ -54,7 +54,7 @@
         </AppImageLoad>
       </div>
       <div
-        class="flex items-center justify-between text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+        class="flex items-center justify-between transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
       >
         <span class="font-bold truncate">&laquo; Magic Mondrian &raquo; </span>
         <span class="font-bold truncate"
@@ -62,7 +62,7 @@
         </span>
       </div>
       <div
-        class="flex items-end justify-between text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+        class="flex items-end justify-between transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
       >
         <div class="flex flex-col items-start">
           <span class="font-medium leading-tight uppercase text-xxs"
