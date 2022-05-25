@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-white dark:bg-neutral-900 transition-colors duration-300">
+  <div
+    class="relative bg-white dark:bg-neutral-900 transition-colors duration-300"
+  >
     <div class="h-24"></div>
     <header
       class="fixed top-0 left-0 w-full mondrian-border-b bg-opacity-50 backdrop-blur backdrop-filter"
@@ -12,20 +14,20 @@
             class="text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
           />
         </router-link>
-        <AppButton
-          class="md:hidden"
-          flat
-          color="blank"
-          size="sm"
-          only-icon
-          @click="showMobileMenu = true"
+        <button
+          id="mobile-control"
+          class="relative w-10 h-7 pointer-events-auto transition-all lg:hidden"
+          aria-label="mobile navigation"
+          :aria-expanded="showMobileMenu"
+          aria-controls="mobile-controls"
+          :class="{ 'menu-active': showMobileMenu }"
+          @click="showMobileMenu = !showMobileMenu"
         >
-          <MenuAlt1Icon class="w-8 h-8" />
-        </AppButton>
-
-        <ul
-          class="flex items-center text-sm font-semibold mdx:hidden space-x-6"
-        >
+          <span></span>
+          <span></span>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+        <ul class="items-center text-sm font-semibold hidden lg:flex space-x-6">
           <li v-for="(to, name) in routes" :key="to">
             <router-link class="font-black uppercase text-xs" :to="to">{{
               name
@@ -67,8 +69,6 @@
         </ul>
       </nav>
 
-      <MobileMenu v-model="showMobileMenu" @connect="showConnectModal = true" />
-
       <WalletConnectModal v-model="showConnectModal" />
 
       <UserModal
@@ -78,6 +78,7 @@
         :ensAccount="ensAccount"
       />
     </header>
+    <MobileMenu v-model="showMobileMenu" @connect="showConnectModal = true" />
   </div>
 </template>
 
@@ -90,7 +91,6 @@ import AppButton from "@/components/app/AppButton.vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MobileMenu from "@/components/layouts/MobileMenu.vue";
-import { MenuAlt1Icon } from "@heroicons/vue/solid";
 
 const { privateAddress, loading, blockie, isConnected, ensAccount } =
   useWallet();
@@ -108,3 +108,24 @@ const routes = {
   Faq: "/#Faq",
 };
 </script>
+
+<style scoped>
+#mobile-control span {
+  @apply absolute block h-[0.2rem] rounded-full left-2 right-2 bg-neutral-900 dark:bg-neutral-200 duration-500;
+}
+#mobile-control span:nth-child(1) {
+  @apply top-2;
+}
+#mobile-control span:nth-child(2) {
+  @apply bottom-2;
+}
+#mobile-control.menu-active span {
+  @apply transform;
+}
+#mobile-control.menu-active span:nth-child(1) {
+  @apply rotate-45 top-1/2 -translate-y-1/2;
+}
+#mobile-control.menu-active span:nth-child(2) {
+  @apply -rotate-45 bottom-1/2 translate-y-1/2;
+}
+</style>

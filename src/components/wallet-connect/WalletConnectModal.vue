@@ -22,7 +22,7 @@
               :fullWidth="true"
               @click.prevent="connectTo(p)"
               :center="false"
-              class="flex items-center justify-between"
+              class="flex items-center justify-between outline-none focus:outline-none"
             >
               <span class="block font-semibold text-left">{{ p.name }}</span>
               <g v-html="p.logo" id="logo"></g>

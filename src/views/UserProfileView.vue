@@ -9,11 +9,11 @@
         <img
           v-if="route?.params?.id"
           :src="makeBlockie(route.params.id as string)"
-          class="object-cover w-24 h-24 border-4 border-black rounded-xl"
+          class="object-cover w-24 h-24 border-4 border-neutral-800 rounded-xl"
         />
 
         <div class="flex flex-col items-center gap-4">
-          <div class="text-center">
+          <div class="text-center text-neutral-900">
             <div
               class="flex items-center space-x-2"
               v-if="ensAccount ||(/^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string))"
@@ -63,7 +63,7 @@
             v-slot="{ isActive, isExactActive }"
           >
             <span
-              class="relative flex items-center bg-white border-black justify-center w-32 px-4 text-xs font-black uppercase transition duration-200 ease-in-out border-4 h-11 hover:-translate-y-1 rounded-t-xl"
+              class="relative flex items-center bg-white border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 transition-colors duration-300 justify-center w-32 px-4 text-neutral-900 text-xs font-black uppercase transition ease-in-out border-4 h-11 hover:-translate-y-1 rounded-t-xl"
               :class="[isActive && isExactActive && '-translate-y-1']"
             >
               {{ title }}
@@ -91,7 +91,7 @@ import AppButton from "@/components/app/AppButton.vue";
 import { ClipboardCopyIcon } from "@heroicons/vue/outline";
 
 const emits = defineEmits(["loaded"]);
-emits("loaded");
+emits("loaded", true);
 
 const hintVisible = ref(false);
 const route = useRoute();

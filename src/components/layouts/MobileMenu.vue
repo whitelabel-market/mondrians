@@ -11,49 +11,45 @@
         leave-to="translate-x-full"
       >
         <div
-          class="md:hidden fixed left-0 top-0 w-full h-screen bg-white text-black flex flex-col z-80"
+          class="lg:hidden fixed left-0 top-0 w-full h-screen flex flex-col z-80 mt-24"
         >
           <div
-            class="h-24 flex items-center justify-between px-8 mondrian-border-b"
+            class="p-8 flex-1 space-y-8 overflow-y-auto mondrian-border-b bg-white text-neutral-900 dark:bg-neutral-900 transition-colors duration-300"
           >
-            <LogoIcon />
-            <AppButton
-              flat
-              color="blank"
-              size="sm"
-              only-icon
-              @click="emit('update:modelValue', false)"
-            >
-              <XIcon class="w-8 h-8"></XIcon>
-            </AppButton>
-          </div>
-
-          <div class="p-8 flex-1 overflow-y-auto mondrian-border-b">
-            <ul class="flex flex-col font-sans font-bold">
+            <ul class="flex flex-col gap-6 font-sans font-bold mobile-controls">
               <li
                 v-for="(to, name) in routes"
                 :key="to"
-                class="font-serif font-bold text-2xl"
+                class="font-bold text-xl text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
               >
                 <router-link
-                  class="block py-4"
+                  class="block outline-none focus:outline-none"
                   :to="to"
                   @click="emit('update:modelValue', false)"
                   >{{ name }}</router-link
                 >
               </li>
             </ul>
-          </div>
-          <div class="p-8">
-            <AppButton
-              v-if="!isConnected"
-              full-width
-              color="reddish"
-              :loading="loading"
-              @click.prevent="emit('connect', true)"
-            >
-              Connect Wallet
-            </AppButton>
+            <div class="flex flex-col gap-4">
+              <div
+                class="relative p-4 flex items-center justify-between bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl transition-colors duration-300"
+              >
+                <span
+                  class="text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+                  >Appearence</span
+                >
+                <AppToggleDarkVue />
+              </div>
+              <AppButton
+                v-if="!isConnected"
+                full-width
+                color="reddish"
+                :loading="loading"
+                @click.prevent="emit('connect', true)"
+              >
+                Connect Wallet
+              </AppButton>
+            </div>
           </div>
         </div>
       </TransitionChild>
@@ -65,8 +61,7 @@
 import { useWallet } from "@/composables/useWallet";
 import AppButton from "@/components/app/AppButton.vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
-import { XIcon } from "@heroicons/vue/solid";
-import LogoIcon from "@/components/icons/LogoIcon.vue";
+import AppToggleDarkVue from "@/components/app/AppToggleDark.vue";
 
 const { loading, isConnected } = useWallet();
 const emit = defineEmits(["update:modelValue", "connect"]);
@@ -84,6 +79,6 @@ const routes = {
   Roadmap: "/#Roadmap",
   Rarity: "/#Rarity",
   Creator: "/#Creator",
-  Faq: "/#Faq",
+  FAQ: "/#Faq",
 };
 </script>

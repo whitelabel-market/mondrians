@@ -1,9 +1,9 @@
 <template>
   <div
-    class="hover:-translate-y-2 transition duration-150 ease-out-circ relative after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-black after:-z-10 after:bg-black after:rounded-xl after:translate-x-1 after:translate-y-1"
+    class="relative after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 transition-colors duration-300 after:bg-neutral-800 dark:after:bg-black after:rounded-xl after:translate-x-1 after:translate-y-1 after:transition-colors after:duration-300"
   >
     <div
-      class="flex flex-col justify-between h-full gap-4 p-4 bg-white border border-black select-none rounded-xl bg-hero-pattern-token"
+      class="flex flex-col justify-between h-full gap-4 p-4 bg-neutral-50 dark:bg-neutral-800 border border-neutral-800 select-none rounded-xl bg-hero-pattern-token dark:bg-dark-hero-pattern-token transition-all duration-300"
     >
       <div class="flex items-center justify-between">
         <dd class="flex justify-end -space-x-6">
@@ -53,15 +53,17 @@
           </template>
         </AppImageLoad>
       </div>
-      <div class="flex items-center justify-between">
-        <span class="font-bold text-gray-900 truncate"
-          >&laquo; Magic Mondrian &raquo;
-        </span>
-        <span class="font-bold text-gray-900 truncate"
+      <div
+        class="flex items-center justify-between text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+      >
+        <span class="font-bold truncate">&laquo; Magic Mondrian &raquo; </span>
+        <span class="font-bold truncate"
           >#{{ ("0000" + token.id).substr(token.id.toString().length) }}
         </span>
       </div>
-      <div class="flex items-end justify-between">
+      <div
+        class="flex items-end justify-between text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+      >
         <div class="flex flex-col items-start">
           <span class="font-medium leading-tight uppercase text-xxs"
             >1000 versions only</span

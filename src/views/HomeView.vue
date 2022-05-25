@@ -18,7 +18,7 @@ import HomeRarity from "@/components/home/HomeRarity.vue";
 import HomeInfo from "@/components/home/HomeInfo.vue";
 import HomeFaq from "@/components/home/HomeFaq.vue";
 import HomeCta from "@/components/home/HomeCta.vue";
-import { watch } from "vue";
+import { onMounted, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import { CONTRACT_ADDRESS, MAMO_SUBGRAPH } from "@/utils/constants";
 import { getContract } from "@/services/graphql/types";
@@ -27,6 +27,8 @@ import useContract from "@/composables/useContract";
 import EthereumInterface from "@/services/EthereumInterface";
 
 const emits = defineEmits(["loaded"]);
+
+onMounted(() => emits("loaded", false));
 
 let { setContract } = useContract();
 const active = useWindowActive();
@@ -51,7 +53,7 @@ onFetchResponse(() => {
 });
 
 watch(isFinished, () => {
-  if (isFinished) emits("loaded");
+  if (isFinished) emits("loaded", true);
 });
 
 watch(

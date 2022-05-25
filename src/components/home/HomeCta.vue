@@ -1,5 +1,5 @@
 <template>
-  <section class="relative py-20 bg-blueish">
+  <section class="relative py-20 bg-blueish mondrian-border-b">
     <div class="container max-w-4xl px-8 mx-auto">
       <img
         src="@/assets/images/image-6.png"
@@ -8,7 +8,7 @@
       />
 
       <div
-        class="relative z-50 flex flex-col items-center justify-end w-full max-w-lg p-8 mx-auto text-center translate-y-20 bg-white rounded-t-full h-72"
+        class="relative z-50 flex flex-col items-center justify-end w-full max-w-lg p-8 mx-auto text-center translate-y-20 bg-white rounded-t-full mondrian-border-b h-72"
       >
         <div class="w-2/3 space-y-8">
           <h2

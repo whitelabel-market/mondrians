@@ -16,7 +16,7 @@
         class="absolute inset-x-0 bottom-full mb-2.5 justify-center whitespace-nowrap flex"
       >
         <span
-          class="px-3 py-1 text-xs font-medium text-white bg-gray-900 rounded-md filter drop-shadow-md"
+          class="px-3 py-1 text-xs font-medium text-neutral-200 bg-neutral-900 rounded-md filter drop-shadow-md"
         >
           <svg
             aria-hidden="true"

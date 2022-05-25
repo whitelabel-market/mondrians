@@ -1,8 +1,6 @@
 <template>
-  <div
-    class="flex flex-col items-start gap-4 lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]"
-  >
-    <div v-if="!revealEnabled" class="flex flex-col items-start gap-4">
+  <div class="flex flex-col items-start gap-4 lgs:max-w-[454px]">
+    <div v-if="!revealEnabled" class="flex flex-col items-start gap-4 w-full">
       <div
         class="px-4 mx-auto text-5xl font-black text-center text-transparent animate md:text-6xl"
       >
@@ -11,7 +9,9 @@
           >Magic Mondrian</span
         >
       </div>
-      <p class="w-full px-6 text-base font-bold text-center animate md:text-xl">
+      <p
+        class="w-full px-6 text-base font-bold text-center animate md:text-xl text-neutral-900 dark:text-neutral-200 transition-colors duration-300"
+      >
         A
         <span
           id="nft-counter"

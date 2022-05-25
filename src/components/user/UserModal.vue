@@ -46,7 +46,7 @@
 
       <ul class="flex flex-col w-full space-y-2">
         <li
-          class="relative flex items-center justify-start p-4 space-x-4 bg-white text-neutral-900 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 h-14 rounded-xl"
+          class="relative flex items-center justify-start p-4 space-x-4 bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 h-14 rounded-xl"
         >
           <PolygonIcon class="block w-6 h-6 -translate-x-1" />
 
@@ -62,7 +62,7 @@
         </li>
 
         <li
-          class="relative flex bg-white text-neutral-900 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl"
+          class="relative flex bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl dark:hover:text-neutral-200 transition-colors duration-200"
         >
           <router-link
             class="flex items-center justify-start w-full p-4 space-x-4 h-14"
@@ -77,7 +77,7 @@
         </li>
 
         <li
-          class="relative flex bg-white text-neutral-900 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl"
+          class="relative flex bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl dark:hover:text-neutral-200 transition-colors duration-200"
         >
           <router-link
             class="flex items-center justify-start w-full p-4 space-x-4 h-14"
