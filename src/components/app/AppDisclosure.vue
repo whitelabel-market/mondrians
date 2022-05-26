@@ -13,7 +13,19 @@
         :class="open ? 'transform rotate-180' : ''"
       />
     </DisclosureButton>
-    <DisclosurePanel class="p-4 pt-0"> <slot name="answer" /> </DisclosurePanel>
+
+    <transition
+      enter-from-class="max-h-0"
+      enter-to-class="max-h-32"
+      leave-from-class="max-h-32"
+      leave-to-class="max-h-0"
+    >
+      <DisclosurePanel
+        class="p-4 pt-0 transition-[max-height] duration-75 ease-out overflow-hidden"
+      >
+        <slot name="answer" />
+      </DisclosurePanel>
+    </transition>
   </Disclosure>
 </template>
 
