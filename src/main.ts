@@ -8,8 +8,10 @@ import "@/assets/css/fonts.css";
 import animateDirective from "@/directives/animate";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollToPlugin);
 
 const app = createApp({
   setup() {

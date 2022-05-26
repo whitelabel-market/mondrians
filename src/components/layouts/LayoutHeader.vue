@@ -90,6 +90,7 @@ import AppButton from "@/components/app/AppButton.vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MobileMenu from "@/components/layouts/MobileMenu.vue";
+import { gsap } from "gsap";
 
 const showConnectModal = ref(false);
 const showUserModal = ref(false);
@@ -99,10 +100,9 @@ const { privateAddress, loading, blockie, isConnected, ensAccount } =
   useWallet();
 
 const scrollToTop = () => {
-  window.scroll({
-    top: 0,
-    left: 0,
-    behavior: "smooth",
+  gsap.to(window, {
+    duration: 1,
+    scrollTo: { y: 0 },
   });
 };
 
