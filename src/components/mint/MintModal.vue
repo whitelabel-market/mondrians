@@ -2,8 +2,10 @@
   <AppModal
     :model-value="modelValue"
     @update:modelValue="
-      $emit('update:modelValue', $event);
-      reset();
+      ($event) => {
+        $emit('update:modelValue', $event);
+        reset();
+      }
     "
   >
     <MintProgress
@@ -11,16 +13,20 @@
       :tasks="tasks"
       :whitelistEnabled="whitelistEnabled"
       @update:modelValue="
-        $emit('update:modelValue', $event);
-        reset();
+        ($event) => {
+          $emit('update:modelValue', $event);
+          reset();
+        }
       "
     />
     <MintSuccess
       v-else
       :tokens="tokens"
       @update:modelValue="
-        $emit('update:modelValue', $event);
-        reset();
+        ($event) => {
+          $emit('update:modelValue', $event);
+          reset();
+        }
       "
     />
   </AppModal>

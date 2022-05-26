@@ -93,9 +93,11 @@
       </ul>
 
       <AppButton
-        @click.prevent="
-          $emit('update:modelValue', false);
-          signOut();
+        @clicked="
+          () => {
+            $emit('update:modelValue', false);
+            signOut();
+          }
         "
       >
         Sign out</AppButton

@@ -2,8 +2,10 @@
   <AppModal
     :modelValue="modelValue"
     @update:modelValue="
-      $emit('update:modelValue', $event);
-      disconnect();
+      ($event) => {
+        $emit('update:modelValue', $event);
+        disconnect();
+      }
     "
   >
     <AppLoadingSpinner class="mx-auto" />
