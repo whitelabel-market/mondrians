@@ -17,7 +17,7 @@
       >
         <router-view @loaded="loaded = $event" />
       </main>
-      <div>
+      <div class="transition-colors duration-300 bg-white dark:bg-neutral-900">
         <LayoutFooter />
       </div>
     </div>

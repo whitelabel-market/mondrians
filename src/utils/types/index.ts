@@ -23,3 +23,17 @@ export type Token = {
   owner?: Account;
   contract?: Contract;
 };
+
+export type EnsDomain = {
+  name: string;
+  labelName: string;
+  labelhash: string;
+  createdAt: string;
+};
+
+export type EnsAccount = {
+  id: string;
+  domains: EnsDomain[];
+};
+
+export const ENS_ACCOUNT = Symbol();

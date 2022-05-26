@@ -19,7 +19,7 @@
               v-if="ensAccount ||(/^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string))"
             >
               <h1 class="text-2xl font-bold slashed-zero">
-                {{ getShortAddress(ensAccount?.id || route.params.id) }}
+                {{ getShortAddress(ensAccount?.id || (route.params.id as string)) }}
               </h1>
               <AppButton
                 only-icon
@@ -27,14 +27,14 @@
                 flat
                 color="blank"
                 :tooltip="copied ? 'Copied' : 'Copy'"
-                @click.prevent="copy(ensAccount?.id || route.params.id)"
+                @click.prevent="copy(ensAccount?.id || (route.params.id as string))"
               >
                 <ClipboardCopyIcon class="w-6 h-6"></ClipboardCopyIcon>
               </AppButton>
             </div>
 
             <a
-              v-if="ensAccount"
+              v-if="ensAccount?.domains?.[0]"
               class="block mx-auto"
               target="_blank"
               :href="`${ENS_BASE_URL}${ensAccount.id}`"
@@ -63,7 +63,7 @@
             v-slot="{ isActive, isExactActive }"
           >
             <span
-              class="relative flex items-center bg-white border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 transition-colors duration-300 justify-center w-32 px-4 text-neutral-900 text-xs font-black uppercase transition ease-in-out border-4 h-11 hover:-translate-y-1 rounded-t-xl"
+              class="relative flex items-center justify-center w-32 px-4 text-xs font-black uppercase transition transition-colors duration-300 ease-in-out bg-white border-4 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-11 hover:-translate-y-1 rounded-t-xl"
               :class="[isActive && isExactActive && '-translate-y-1']"
             >
               {{ title }}
@@ -72,33 +72,36 @@
         </nav>
       </div>
     </header>
-    <section class="container justify-center px-8 sm:px-4 mx-auto">
+    <section class="container justify-center px-8 mx-auto sm:px-4">
       <router-view @showHint="hintVisible = true"></router-view>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, provide, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useClipboard, useFetch } from "@vueuse/core";
-import { ENS_SUBGRAPH, ENS_BASE_URL } from "@/utils/constants";
-import { getEnsAccount, getEnsAccountReverse } from "@/services/graphql/types";
-import { getShortAddress } from "@/utils/ethereum";
-import makeBlockie from "ethereum-blockies-base64";
 import ShareButtons from "@/components/share/ShareButtons.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { ClipboardCopyIcon } from "@heroicons/vue/outline";
+import { useClipboard, useFetch } from "@vueuse/core";
+import { ENS_SUBGRAPH, ENS_BASE_URL } from "@/utils/constants";
+import { getShortAddress } from "@/utils/ethereum";
+import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
+import { getEnsAccount, getEnsAccountReverse } from "@/services/graphql/types";
+import makeBlockie from "ethereum-blockies-base64";
 
-const emits = defineEmits(["loaded"]);
-emits("loaded", true);
-
-const hintVisible = ref(false);
-const route = useRoute();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 
+const emits = defineEmits(["loaded"]);
+emits("loaded", true); // avoids loading animation
+
+const hintVisible = ref(false);
+
 // ens handling
-const ensAccount = ref();
+const route = useRoute();
+const ensAccount = ref<EnsAccount>();
+provide(ENS_ACCOUNT, ensAccount);
 
 const { post, onFetchResponse, data } = useFetch(ENS_SUBGRAPH, {
   timeout: 10000,
@@ -108,11 +111,21 @@ const { post, onFetchResponse, data } = useFetch(ENS_SUBGRAPH, {
 onFetchResponse(() => {
   if (data?.value?.data?.account?.domains.length > 0) {
     ensAccount.value = data.value.data.account;
-  }
-  if (data?.value?.data?.domains[0]?.owner?.domains.length > 0) {
+  } else if (data?.value?.data?.domains?.[0]?.owner?.domains.length > 0) {
     ensAccount.value = data.value.data.domains[0].owner;
+  } else {
+    ensAccount.value = {
+      id: (route.params.id as string).toLowerCase(),
+      domains: [],
+    };
   }
 });
+
+const isValidEthAddress = computed(() =>
+  /^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string)
+);
+
+const isEnsName = computed(() => (route.params.id as string).endsWith(".eth"));
 
 watch(
   route,
@@ -122,13 +135,13 @@ watch(
     if (route?.params?.id)
       post(
         JSON.stringify({
-          query: /^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string)
-            ? getEnsAccount
-            : getEnsAccountReverse,
+          query: isValidEthAddress.value ? getEnsAccount : getEnsAccountReverse,
           variables: {
-            address: /^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string)
+            address: isValidEthAddress.value
               ? (route.params.id as string).toLowerCase()
-              : (route.params.id as string).toLowerCase() + ".eth",
+              : isEnsName.value
+              ? (route.params.id as string).toLowerCase()
+              : (route.params.id as string) + ".eth",
           },
         })
       ).execute();

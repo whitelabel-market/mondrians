@@ -5,74 +5,31 @@
     :transfers="transfers"
     :tokenDayDatas="tokenDayDatas"
   />
-  <div
-    class="flex flex-col items-center mx-auto space-y-8 text-center flex-0"
-    v-if="isFinished && !transfers.length"
-  >
-    <h3 class="text-2xl font-bold">No activity</h3>
-    <div>
-      <p>
-        {{
-          `It seems there is no activity in this collection for ${
-            isSelf ? "your" : "this"
-          } account.`
-        }}
-      </p>
-      <p>
-        You should consider to create a Mondrian &#128640; and make some noise
-        to promote the collection &#128172;
-      </p>
-    </div>
-
-    <AppButton color="reddish" :to="'/'">Create Mondrian</AppButton>
-  </div>
+  <NoTokens :ensAccount="ensAccount" v-if="isFinished && !transfers.length" />
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { inject, Ref, ref, watch } from "vue";
 import { useFetch } from "@vueuse/core";
-import { useWallet } from "@/composables/useWallet";
 import { getActivity, getTokenDayData } from "@/services/graphql/types";
 import { MAMO_SUBGRAPH, UNISWAP_SUBGRAPH_POLYGON } from "@/utils/constants";
-import AppButton from "@/components/app/AppButton.vue";
 import Activity from "@/components/activity/Activity.vue";
 import ActivitySkeleton from "@/components/activity/ActivitySkeleton.vue";
-
-const transfers = ref<any[]>([]);
-const tokenDayDatas = ref([]);
-
-defineProps({
-  address: {
-    type: String,
-    required: true,
-  },
-});
-
-const route = useRoute();
-const { address } = useWallet();
+import NoTokens from "@/components/user/NoTokens.vue";
+import { EnsAccount, ENS_ACCOUNT } from "@/utils/types";
 
 const emits = defineEmits(["showHint"]);
 
-const { post, onFetchResponse, data, isFinished } = useFetch(MAMO_SUBGRAPH, {
-  timeout: 10000,
-}).json();
+const transfers = ref<any[]>([]);
+const tokenDayDatas = ref([]);
+const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
 
-watch(
-  route,
-  () => {
-    if (route?.params?.id)
-      post(
-        JSON.stringify({
-          query: getActivity,
-          variables: {
-            address: (route.params.id as string).toLowerCase(),
-          },
-        })
-      ).execute();
-  },
-  { deep: true, immediate: true }
-);
+// transfers fetch handling
+
+const { onFetchResponse, data, isFinished, post } = useFetch(MAMO_SUBGRAPH, {
+  timeout: 10000,
+  immediate: false,
+}).json();
 
 onFetchResponse(() => {
   if (data?.value?.data?.account) {
@@ -85,6 +42,25 @@ onFetchResponse(() => {
     emits("showHint");
   }
 });
+
+watch(
+  () => ensAccount,
+  () => {
+    if (ensAccount?.value?.id) {
+      post(
+        JSON.stringify({
+          query: getActivity,
+          variables: {
+            address: ensAccount?.value?.id.toLowerCase(),
+          },
+        })
+      ).execute();
+    }
+  },
+  { deep: true }
+);
+
+// fetch prices handling
 
 const getDayData = () => {
   const { data: dayDatas, onFetchResponse: onDayDataResponse } = useFetch(
@@ -102,14 +78,10 @@ const getDayData = () => {
       })
     )
     .json();
-
   onDayDataResponse(() => {
     if (dayDatas?.value?.data?.tokenDayDatas?.length) {
       tokenDayDatas.value = dayDatas.value.data.tokenDayDatas;
     }
   });
 };
-
-const isSelf =
-  address.value.toLowerCase() === (route.params.id as string).toLowerCase();
 </script>

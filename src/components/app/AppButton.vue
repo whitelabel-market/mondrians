@@ -183,6 +183,7 @@ export default defineComponent({
     const isRouterOrAnchorLink = isRouterLink || isAnchorLink;
 
     const tag: any = isAnchorLink ? "a" : isRouterLink ? RouterLink : "button";
+
     const loadingNode = () =>
       h(
         "span",
@@ -195,12 +196,12 @@ export default defineComponent({
         tag,
         {
           hover: hover.value,
-          type: !isRouterOrAnchorLink ? props.type : null,
+          type: !isRouterOrAnchorLink ? props.type : undefined,
           "aria-disabled": props.disabled === true ? true : undefined,
           disabled: props.disabled,
-          target: isAnchorLink ? "_blank" : null,
-          to: isRouterLink ? props.to : null,
-          href: isAnchorLink ? props.href : null,
+          target: isAnchorLink ? "_blank" : undefined,
+          to: isRouterLink ? props.to : undefined,
+          href: isRouterOrAnchorLink ? props.href || props.to : undefined,
           class: classesWrapper.value,
           onMouseenter: () => {
             hover.value = true;

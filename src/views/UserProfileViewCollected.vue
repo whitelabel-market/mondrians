@@ -23,51 +23,30 @@
       <TokenCard :token="token" />
     </div>
   </div>
-  <div
-    class="flex flex-col items-center mx-auto space-y-8 text-center flex-0"
-    v-if="isFinished && !tokens.length"
-  >
-    <h3 class="text-2xl font-bold">No tokens found</h3>
-    <div>
-      <p>
-        {{
-          `It seems like ${
-            isSelf ? "you have" : "this address has"
-          } none of the rare Mondrians.`
-        }}
-      </p>
-      <p>
-        You should consider to create one &#128640; and make some noise to
-        promote the collection &#128172;
-      </p>
-    </div>
-
-    <AppButton color="reddish" :to="'/'">Create Mondrian</AppButton>
-  </div>
+  <NoTokens :ensAccount="ensAccount" v-if="isFinished && !tokens.length" />
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { useRoute } from "vue-router";
-import { useFetch } from "@vueuse/core";
-import { useWallet } from "@/composables/useWallet";
+import { ref, watch, inject, Ref } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
-import { MAMO_SUBGRAPH } from "@/utils/constants";
-import type { Token } from "@/utils/types";
 import TokenCard from "@/components/tokens/TokenCard.vue";
 import TokenCardSkeleton from "@/components/tokens/TokenCardSkeleton.vue";
-import AppButton from "@/components/app/AppButton.vue";
-
-const tokens = ref<Token[]>([]);
-
-const route = useRoute();
-const { address } = useWallet();
+import NoTokens from "@/components/user/NoTokens.vue";
+import { MAMO_SUBGRAPH } from "@/utils/constants";
+import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
+import type { Token } from "@/utils/types";
+import { useFetch } from "@vueuse/core";
 
 const emits = defineEmits(["showHint"]);
 
-const { post, onFetchResponse, data, isFetching, isFinished } = useFetch(
+const tokens = ref<Token[]>([]);
+const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
+
+// tokens fetch handling
+
+const { onFetchResponse, data, isFetching, isFinished, post } = useFetch(
   MAMO_SUBGRAPH,
-  { timeout: 10000 }
+  { timeout: 10000, immediate: false }
 ).json();
 
 onFetchResponse(() => {
@@ -78,24 +57,20 @@ onFetchResponse(() => {
   }
 });
 
-const isSelf = computed(
-  () =>
-    address.value.toLowerCase() === (route.params.id as string).toLowerCase()
-);
-
 watch(
-  route,
+  () => ensAccount,
   () => {
-    if (route?.params?.id)
+    if (ensAccount?.value?.id) {
       post(
         JSON.stringify({
           query: getTokensForAccount,
           variables: {
-            owner: (route.params.id as string).toLowerCase(),
+            owner: ensAccount?.value?.id.toLowerCase(),
           },
         })
       ).execute();
+    }
   },
-  { deep: true, immediate: true }
+  { deep: true }
 );
 </script>
