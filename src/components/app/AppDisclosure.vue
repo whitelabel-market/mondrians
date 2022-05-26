@@ -15,7 +15,7 @@
     </DisclosureButton>
 
     <Transition @enter="onEnter" @leave="onLeave" :css="false">
-      <div v-show="open" class="overflow-hidden h-0">
+      <div v-show="open" class="h-0 overflow-hidden">
         <div class="p-4 pt-0"><slot name="answer" /></div>
       </div>
     </Transition>
@@ -28,7 +28,7 @@ import { ChevronDownIcon } from "@heroicons/vue/solid";
 import { gsap } from "gsap";
 
 const toggle = (el: HTMLElement, height: string) =>
-  gsap.to(el, { height, duration: 0.2, ease: "Power1.easeOut" });
+  gsap.to(el, { height, duration: 0.1, ease: "power3.out" });
 
 const onEnter = async (el: HTMLElement, done: any) =>
   toggle(el, "auto").then(done);
