@@ -7,7 +7,9 @@
     >
       <ArrowSmUpIcon class="w-5 h-5 text-neutral-900" />
     </div>
-    <h3 class="text-2xl font-bold">No tokens found</h3>
+    <h3 class="text-2xl font-bold">
+      {{ route.name === "Activity" ? "No activity" : "No tokens found" }}
+    </h3>
     <div>
       <p v-if="route.name === 'CollectedItems'">
         {{

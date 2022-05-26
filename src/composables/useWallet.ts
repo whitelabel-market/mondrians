@@ -96,7 +96,6 @@ export function createWallet(options: ConfigurableWindow = {}): Wallet {
       provider.value = iProvider
         ? new ethers.providers.Web3Provider(toRaw(await iProvider.connect()))
         : undefined;
-      console.log(provider.value);
       if (provider.value)
         walletProvider = useStorage("wallet-provider", providerID);
     } catch (e: any) {
