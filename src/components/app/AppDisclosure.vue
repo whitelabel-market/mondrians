@@ -14,22 +14,25 @@
       />
     </DisclosureButton>
 
-    <transition
-      enter-from-class="max-h-0"
-      enter-to-class="max-h-32"
-      leave-from-class="max-h-32"
-      leave-to-class="max-h-0"
-    >
-      <DisclosurePanel
-        class="p-4 pt-0 transition-[max-height] duration-75 ease-out overflow-hidden"
-      >
-        <slot name="answer" />
-      </DisclosurePanel>
-    </transition>
+    <Transition @enter="onEnter" @leave="onLeave" :css="false">
+      <div v-show="open" class="overflow-hidden h-0">
+        <div class="p-4 pt-0"><slot name="answer" /></div>
+      </div>
+    </Transition>
   </Disclosure>
 </template>
 
 <script setup lang="ts">
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+import { Disclosure, DisclosureButton } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
+import { gsap } from "gsap";
+
+const toggle = (el: HTMLElement, height: string) =>
+  gsap.to(el, { height, duration: 0.2, ease: "Power1.easeOut" });
+
+const onEnter = async (el: HTMLElement, done: any) =>
+  toggle(el, "auto").then(done);
+
+const onLeave = async (el: HTMLElement, done: any) =>
+  toggle(el, "0").then(done);
 </script>

@@ -43,7 +43,7 @@ import LogoIcon from "@/components/icons/LogoIcon.vue";
 const questions = [
   "When is the mint date?",
   "What’s an NFT?",
-  "Why Mondiran’s?",
+  "Why Magic Mondrians?",
   "What exactly will I get?",
 ];
 </script>
