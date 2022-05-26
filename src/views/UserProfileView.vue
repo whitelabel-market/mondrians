@@ -131,7 +131,6 @@ watch(
   route,
   () => {
     hintVisible.value = false;
-    ensAccount.value = undefined;
     if (route?.params?.id)
       post(
         JSON.stringify({
