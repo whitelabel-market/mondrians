@@ -1,0 +1,35 @@
+version: "3"
+services:
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - mondrian
+    environment:
+      - APP_PORT=3000
+      - CONTRACT_ADDRESS=${CONTRACT_ADDRESS}
+      - SIGNER_PKEY=${SIGNER_PKEY}
+      - CHAIN_ID=${CHAIN_ID:-3}
+      - WHITELISTING_DOMAIN=CHAIN_ID=${WHITELISTING_DOMAIN:-Magic Mondrian}
+      - WHITELISTING_VERSION=${WHITELISTING_VERSION:-1}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+    env_file:
+      - ../.env
+    ports:
+      - "3000:3000"
+
+  redis:
+    container_name: redis-cache
+    networks:
+      - mondrian
+    image: redis
+    command: redis-server --loglevel debug
+    ports:
+      - 6379:6379
+
+networks:
+  mondrian:
+    name: mondrian

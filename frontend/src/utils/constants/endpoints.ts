@@ -1,0 +1,23 @@
+export const CONTRACT_ADDRESS = "0x0a43025d1Fd82E8818f6c6036E093B160EeDd9E3";
+export const UNLEASH_URL = "https://unleash.whitelabel-market.com/proxy";
+export const UNLEASH_CLIENT_KEY = "proxy-client-key";
+export const MAMO_SUBGRAPH =
+  "https://api.thegraph.com/subgraphs/name/amrap030/mamo-drop";
+export const ENS_SUBGRAPH =
+  "https://api.thegraph.com/subgraphs/name/ensdomains/ens";
+export const UNISWAP_SUBGRAPH =
+  "https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph";
+export const UNISWAP_SUBGRAPH_POLYGON =
+  "https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon";
+export const API = process.env.VUE_APP_API || "";
+export const INFURA_WSS = process.env.VUE_APP_INFURA_WSS || "";
+export const NETWORK_NAME = "maticmum";
+export const CHAIN_ID = NETWORK_NAME === "maticmum" ? 80001 : 3;
+export const ENS_BASE_URL = "https://app.ens.domains/address/";
+export const EXPLORER_BASE_URL =
+  NETWORK_NAME === "maticmum"
+    ? "https://mumbai.polygonscan.com/"
+    : "https://ropsten.etherscan.io/";
+export const IPFS_BASE_URL = "https://ipfs.io/ipfs/";
+export const OPENSEA_BASE_URL = `https://testnets.opensea.io/assets/mumbai/${CONTRACT_ADDRESS}`;
+export const INFURA_ID = process.env.VUE_APP_INFURA_ID || "";

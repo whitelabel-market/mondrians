@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  section {
+    @apply py-20 md:py-40;
+  }
+
+  .section-title {
+    @apply text-5xl md:text-6xl font-black;
+  }
+
+  .mondrian-border,
+  .mondrian-border-b {
+    @apply relative after:block after:absolute after:border-black;
+  }
+
+  .mondrian-border,
+  .mondrian-border-t {
+    @apply relative before:block before:absolute before:border-black;
+  }
+
+  .mondrian-border {
+    @apply pointer-events-none after:border-8 after:inset-0;
+  }
+
+  .mondrian-border-b {
+    @apply after:border-b-8 after:bottom-0 after:left-0 after:w-full after:h-0;
+  }
+
+  .link {
+    @apply relative font-black text-xs uppercase;
+  }
+}

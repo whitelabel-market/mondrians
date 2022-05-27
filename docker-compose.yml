@@ -1,0 +1,142 @@
+version: "3.7"
+
+services:
+  nginx:
+    image: nginx:1.21.6-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - whitelabel
+    volumes:
+      - ./data/nginx/conf.d:/etc/nginx/conf.d
+      - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+  certbot:
+    image: certbot/certbot
+    networks:
+      - whitelabel
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  
+  # the Unleash proxy is used for front-end clients, such as the
+  # JavaScript Proxy Client SDK and the React SDK.
+  #
+  # For security reasons, front-end clients shouldn't (and can't) talk
+  # directly to the Unleash server.
+  proxy:
+    image: unleashorg/unleash-proxy:v0.8.1
+    ports:
+      - 3000
+    networks:
+      - whitelabel
+    environment:
+      # Proxy clients must use one of these keys to connect to the
+      # Proxy. To add more keys, separate them with a comma (`key1,key2`).
+      UNLEASH_PROXY_CLIENT_KEYS: "proxy-client-key"
+      # This points the Proxy to the Unleash server API
+      UNLEASH_URL: "http://web:4242/api"
+      # This is the API token that the Proxy uses to communicate with
+      # the Unleash server.
+      #
+      # NOTE: It *must* match one of the client tokens defined in
+      # `web.environment.INIT_CLIENT_API_TOKENS`
+      UNLEASH_API_TOKEN: ${UNLEASH_API_TOKEN}
+    depends_on:
+      - web
+
+  # The Unleash server contains the Unleash configuration and
+  # communicates with server-side SDKs and the Unleash Proxy
+  web:
+    image: unleashorg/unleash-server
+    ports:
+      - 4242
+    networks:
+      - whitelabel
+    environment:
+      # This points Unleash to its backing database (defined in the `db` section below)
+      DATABASE_URL: "postgres://postgres:${POSTGRES_PASSWORD:-password}@db/postgres"
+      # Disable SSL for database connections. @chriswk: why do we do this?
+      DATABASE_SSL: "false"
+      # Initialize Unleash with a default set of client API tokens. To
+      # initialize Unleash with multiple tokens, separate them with a
+      # comma (`token1,token2`).
+      #
+      # These tokens can be used by the Proxy or by *server-side* client
+      # SDKs. For front-end client SDKs that talk to the Proxy, use a
+      # key from `proxy.environment.UNLEASH_PROXY_CLIENT_KEYS`
+      # instead.
+      INIT_CLIENT_API_TOKENS: ${UNLEASH_API_TOKEN}
+    depends_on:
+      - db
+    command: node index.js
+    healthcheck:
+      test: ["CMD", "nc", "-z", "db", "5432"]
+      interval: 1s
+      timeout: 1m
+      retries: 5
+      start_period: 15s
+  db:
+    ports:
+      - 5432
+    image: postgres:14
+    networks:
+      - whitelabel
+    environment:
+      # create a database called `db`
+      POSTGRES_DB: "db"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "--username=postgres",
+          "--host=127.0.0.1",
+          "--port=5432",
+        ]
+      interval: 2s
+      timeout: 1m
+      retries: 5
+      start_period: 10s
+
+  backend:
+    image: amrap030/whitelabel-backend
+    ports:
+      - 8080
+    networks:
+      - whitelabel
+    depends_on:
+      - redis
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-error}
+      - WHITELISTING_DOMAIN=${WHITELISTING_DOMAIN:-Magic Mondrian}
+      - WHITELISTING_VERSION=${WHITELISTING_VERSION:-1}
+      - CHAIN_ID=${CHAIN_ID:-80001}
+      - APP_PORT=${APP_PORT:-8080}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - CONTRACT_ADDRESS=${CONTRACT_ADDRESS}
+      - SIGNER_PKEY=${SIGNER_PKEY}
+      - TRUSTED_ORIGINS=${TRUSTED_ORIGINS:-https://magic-mondrian.netlify.app}
+
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    ports:
+      - 6379
+    restart: unless-stopped
+    networks:
+      - whitelabel
+
+networks:
+  whitelabel:
+    name: whitelabel
