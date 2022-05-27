@@ -25,7 +25,12 @@
       <Activity :transfer="transfer" :tokenDayDatas="tokenDayDatas" />
     </div>
   </div>
-  <NoTokens :ensAccount="ensAccount" v-if="isFinished && !transfers.length" />
+  <NoTokens
+    :ensAccount="ensAccount"
+    :error="error"
+    :aborted="aborted"
+    v-if="isFinished && !transfers.length"
+  />
 </template>
 
 <script setup lang="ts">
@@ -46,10 +51,13 @@ const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
 
 // transfers fetch handling
 
-const { onFetchResponse, data, isFinished, post } = useFetch(MAMO_SUBGRAPH, {
-  timeout: 10000,
-  immediate: false,
-}).json();
+const { onFetchResponse, data, isFinished, post, error, aborted } = useFetch(
+  MAMO_SUBGRAPH,
+  {
+    timeout: 10000,
+    immediate: false,
+  }
+).json();
 
 onFetchResponse(() => {
   if (data?.value?.data?.account) {
