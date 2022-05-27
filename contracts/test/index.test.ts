@@ -17,14 +17,12 @@ context("Contract: MagicMondrian", async function () {
 
   before(async function () {
     [owner, whitelistKey, maliciousKey] = await ethers.getSigners();
-
     const Contract = await ethers.getContractFactory(
       CollectionConfig.contractName
     );
 
     contract = (await Contract.deploy(
-      [owner.address, whitelistKey.address],
-      [50, 50],
+      "0xd3D3fc71B7B03a2c241d6C0772422fB487c763E6",
       owner.address,
       CollectionConfig.hiddenMetadataUri
     )) as MagicMondrian;
@@ -46,10 +44,6 @@ context("Contract: MagicMondrian", async function () {
 
     it("Should have 0 total supply", async () => {
       expect(await contract.totalSupply()).to.equal(0);
-    });
-
-    it("Should have 100 % total shares", async () => {
-      expect(await contract.totalShares()).to.equal(100);
     });
 
     it("Should support all interfaces", async function () {
