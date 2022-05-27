@@ -80,13 +80,13 @@ export default defineComponent({
 
     const ButtonColor: Indexable<string> = {
       blank: "bg-transparent text-current border-transparent",
-      gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-gray-300 dark:bg-neutral-600 dark:border-neutral-800 dark:text-neutral-800",
-      link: "bg-gray-100 text-gray-700 border-gray-200 hover:text-blueish",
+      gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-neutral-300 dark:bg-neutral-600 dark:border-neutral-800 dark:text-neutral-800",
+      link: "bg-neutral-100 text-gray-700 border-neutral-200 hover:text-blueish",
       reddish: "bg-reddish text-white border-2 border-neutral-800",
       yellowish: "bg-yellowish text-neutral-900 border-2 border-neutral-800",
       blueish: "bg-blueish text-white border-2 border-neutral-800",
       disabled:
-        "border-2 border-gray-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed",
+        "border-2 border-neutral-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed",
     };
 
     const ButtonWrapperSizeIcon: Indexable<string> = {
@@ -149,7 +149,7 @@ export default defineComponent({
         !props.disabled &&
         `after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10`,
       props.color === "gray" && !props.disabled
-        ? "after:bg-gray-300 dark:after:bg-neutral-800"
+        ? "after:bg-neutral-300 dark:after:bg-neutral-800"
         : "after:bg-neutral-800",
       !props.flat && ButtonAfterRounded[props.rounded],
       !(props.disabled || props.loading)

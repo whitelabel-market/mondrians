@@ -33,8 +33,7 @@
         type="text"
         id="mint"
         name="mint"
-        disabled
-        class="block w-20 mx-auto text-center transition-colors duration-300 border-2 border-black rounded-full cursor-not-allowed placeholder-neutral-500 dark:text-neutral-200 dark:bg-neutral-800 dark:border-neutral-800 focus:outline-none"
+        class="block w-20 mx-auto text-center transition-colors duration-300 border-2 rounded-full outline-none cursor-not-allowed border-neutral-800 dark:text-neutral-200 dark:bg-neutral-800 dark:border-neutral-800 focus:outline-none"
         :placeholder="quantity.toString()"
       />
 
