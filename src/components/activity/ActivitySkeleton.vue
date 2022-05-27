@@ -1,117 +1,64 @@
 <template>
   <div
-    class="grid grid-cols-6 grid-rows-1 px-3 py-2 font-medium text-gray-900 border-t-2 border-l-2 border-r-2 border-gray-100 rounded-t-lg gap-x-2"
+    class="flex flex-col justify-between h-full gap-6 p-4 border-2 border-neutral-200 dark:border-neutral-700 rounded-xl"
   >
-    <div>Event</div>
-    <div>From</div>
-    <div>To</div>
-    <div>Amount</div>
-    <div>Gas</div>
-    <div>Date</div>
-  </div>
-  <div
-    v-for="(transfer, index) of 3"
-    :key="transfer.id"
-    :index="index"
-    class="grid grid-cols-6 grid-rows-1 px-3 py-2 text-base text-gray-700 border-2 border-gray-100 h-14 gap-x-2"
-    :class="[index > 0 && 'border-t-0', index === 2 && 'rounded-b-lg']"
-  >
-    <div class="flex items-center space-x-2">
-      <div
-        class="w-5 h-5 bg-gray-200 rounded-full animate-pulse"
-        :style="[
-          index === 1 &&
-            'animation-delay: 150ms; animation-fill-mode: backwards',
-          index === 2 &&
-            'animation-delay: 300ms; animation-fill-mode: backwards',
-        ]"
-      />
-      <span
-        class="w-16 h-5 bg-gray-200 rounded-full animate-pulse"
-        :style="[
-          index === 1 &&
-            'animation-delay: 150ms; animation-fill-mode: backwards',
-          index === 2 &&
-            'animation-delay: 300ms; animation-fill-mode: backwards',
-        ]"
-      ></span>
-    </div>
-    <div class="flex">
-      <div class="flex items-center space-x-2">
+    <div class="flex flex-col justify-center">
+      <div class="flex items-center justify-between">
         <div
-          class="w-8 h-8 bg-gray-200 rounded-full animate-pulse"
-          :style="[
-            index === 1 &&
-              'animation-delay: 150ms; animation-fill-mode: backwards',
-            index === 2 &&
-              'animation-delay: 300ms; animation-fill-mode: backwards',
-          ]"
-        />
-        <span
-          class="w-16 h-5 bg-gray-200 rounded-full animate-pulse"
-          :style="[
-            index === 1 &&
-              'animation-delay: 150ms; animation-fill-mode: backwards',
-            index === 2 &&
-              'animation-delay: 300ms; animation-fill-mode: backwards',
-          ]"
-        ></span>
+          class="w-24 h-5 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+        ></div>
+        <div
+          class="w-16 h-5 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+        ></div>
       </div>
     </div>
-    <div class="flex">
+    <div class="flex flex-col gap-2">
       <div class="flex items-center space-x-2">
         <div
-          class="w-8 h-8 bg-gray-200 rounded-full animate-pulse"
-          :style="[
-            index === 1 &&
-              'animation-delay: 150ms; animation-fill-mode: backwards',
-            index === 2 &&
-              'animation-delay: 300ms; animation-fill-mode: backwards',
-          ]"
-        />
-        <span
-          class="w-16 h-5 bg-gray-200 rounded-full animate-pulse"
-          :style="[
-            index === 1 &&
-              'animation-delay: 150ms; animation-fill-mode: backwards',
-            index === 2 &&
-              'animation-delay: 300ms; animation-fill-mode: backwards',
-          ]"
-        ></span>
+          class="w-8 h-8 my-auto rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          style="animation-delay: 100ms; animation-fill-mode: backwards"
+        ></div>
+        <div
+          class="w-16 h-5 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          style="animation-delay: 100ms; animation-fill-mode: backwards"
+        ></div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center justify-center w-8"></div>
+        <div class="h-9"></div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <div
+          class="w-8 h-8 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          style="animation-delay: 200ms; animation-fill-mode: backwards"
+        ></div>
+        <div
+          class="w-16 h-5 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          style="animation-delay: 200ms; animation-fill-mode: backwards"
+        ></div>
       </div>
     </div>
-    <div class="flex items-center gap-2">
-      <span
-        class="w-16 h-5 bg-gray-200 rounded-full animate-pulse"
-        :style="[
-          index === 1 &&
-            'animation-delay: 150ms; animation-fill-mode: backwards',
-          index === 2 &&
-            'animation-delay: 300ms; animation-fill-mode: backwards',
-        ]"
-      ></span>
-    </div>
-    <div class="flex items-center gap-2">
-      <span
-        class="w-16 h-5 bg-gray-200 rounded-full animate-pulse"
-        :style="[
-          index === 1 &&
-            'animation-delay: 150ms; animation-fill-mode: backwards',
-          index === 2 &&
-            'animation-delay: 300ms; animation-fill-mode: backwards',
-        ]"
-      ></span>
-    </div>
-    <div class="flex items-center">
-      <span
-        class="w-16 h-5 bg-gray-200 rounded-full animate-pulse"
-        :style="[
-          index === 1 &&
-            'animation-delay: 150ms; animation-fill-mode: backwards',
-          index === 2 &&
-            'animation-delay: 300ms; animation-fill-mode: backwards',
-        ]"
-      ></span>
+    <div class="flex flex-col">
+      <div class="flex items-center justify-between h-5">
+        <div
+          class="w-16 h-4 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          style="animation-delay: 300ms; animation-fill-mode: backwards"
+        ></div>
+        <div
+          class="w-16 h-4 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          style="animation-delay: 300ms; animation-fill-mode: backwards"
+        ></div>
+      </div>
+      <div class="flex items-center justify-between h-5">
+        <div
+          class="w-16 h-4 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          style="animation-delay: 300ms; animation-fill-mode: backwards"
+        ></div>
+        <div
+          class="w-16 h-4 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          style="animation-delay: 300ms; animation-fill-mode: backwards"
+        ></div>
+      </div>
     </div>
   </div>
 </template>

@@ -1,12 +1,12 @@
 <template>
   <div
     class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
-    v-if="isFetching"
+    v-if="!isFinished"
   >
     <div
       v-for="i of 5"
       :key="i"
-      class="block w-full border-2 border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blueish"
+      class="block w-full focus:outline-none focus:ring-2 focus:ring-blueish"
     >
       <TokenCardSkeleton />
     </div>
@@ -44,10 +44,10 @@ const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
 
 // tokens fetch handling
 
-const { onFetchResponse, data, isFetching, isFinished, post } = useFetch(
-  MAMO_SUBGRAPH,
-  { timeout: 10000, immediate: false }
-).json();
+const { onFetchResponse, data, isFinished, post } = useFetch(MAMO_SUBGRAPH, {
+  timeout: 10000,
+  immediate: false,
+}).json();
 
 onFetchResponse(() => {
   if (data?.value?.data?.tokens.length) {

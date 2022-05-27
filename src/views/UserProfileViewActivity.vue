@@ -1,10 +1,30 @@
 <template>
-  <ActivitySkeleton v-if="!isFinished" />
-  <Activity
-    v-if="isFinished && transfers.length"
-    :transfers="transfers"
-    :tokenDayDatas="tokenDayDatas"
-  />
+  <div
+    class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+    v-if="
+      !isFinished || (isFinished && transfers.length && !tokenDayDatas.length)
+    "
+  >
+    <div
+      v-for="i of 5"
+      :key="i"
+      class="block w-full focus:outline-none focus:ring-2 focus:ring-blueish"
+    >
+      <ActivitySkeleton />
+    </div>
+  </div>
+  <div
+    class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+    v-if="isFinished && transfers.length && tokenDayDatas.length"
+  >
+    <div
+      v-for="(transfer, index) in (transfers as any[])"
+      :key="index"
+      class="block w-full focus:outline-none focus:ring-2 focus:ring-blueish"
+    >
+      <Activity :transfer="transfer" :tokenDayDatas="tokenDayDatas" />
+    </div>
+  </div>
   <NoTokens :ensAccount="ensAccount" v-if="isFinished && !transfers.length" />
 </template>
 

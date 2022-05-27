@@ -1,32 +1,36 @@
 <template>
-  <div class="flex flex-col justify-between h-full gap-3 p-4">
+  <div
+    class="flex flex-col justify-between h-full gap-4 p-4 border-2 border-neutral-200 dark:border-neutral-700 rounded-xl"
+  >
     <dd
       class="flex justify-end -space-x-6 sm:justify-start lg:justify-end xl:justify-start"
     >
       <div
-        class="w-6 h-6 bg-gray-200 rounded-full hover:cursor-pointer animate-pulse"
+        class="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
       ></div>
     </dd>
-    <div class="flex items-center justify-center w-full aspect-square">
-      <div class="bg-gray-200"></div>
-    </div>
+    <div
+      class="flex items-center justify-center w-full aspect-square bg-neutral-200 dark:bg-neutral-700 rounded-xl animate-pulse"
+      style="animation-delay: 100ms; animation-fill-mode: backwards"
+    ></div>
     <div class="flex items-center justify-between">
       <div
-        class="w-16 h-6 bg-gray-200 rounded-full animate-pulse"
-        style="animation-delay: 150ms; animation-fill-mode: backwards"
+        class="w-16 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+        style="animation-delay: 200ms; animation-fill-mode: backwards"
       ></div>
     </div>
     <div class="flex items-center justify-between">
       <div class="flex flex-col gap-2">
         <div
-          class="w-32 h-3 bg-gray-200 rounded-full animate-pulse"
+          class="w-32 h-3 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
           style="animation-delay: 300ms; animation-fill-mode: backwards"
         ></div>
         <div
-          class="w-24 h-3 bg-gray-200 rounded-full animate-pulse"
+          class="w-24 h-3 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
           style="animation-delay: 300ms; animation-fill-mode: backwards"
         ></div>
       </div>
+      <div class="w-16 h-16"></div>
     </div>
   </div>
 </template>
