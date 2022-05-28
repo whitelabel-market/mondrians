@@ -27,16 +27,3 @@ pnpm-debug.log*
 backend/node_modules
 backend/.env
 backend/html
-
-# contracts
-contracts/node_modules
-contracts/.env
-contracts/coverage
-contracts/coverage.json
-contracts/typechain
-
-#Hardhat files
-contracts/cache
-contracts/artifacts
-contracts/.husky
-contracts/.deps

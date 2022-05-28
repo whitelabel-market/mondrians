@@ -1,6 +1,0 @@
-# contracts
-node_modules
-artifacts
-cache
-coverage
-.env
