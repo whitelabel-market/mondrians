@@ -24,9 +24,8 @@ export const getVoucher = async (req, res, config) => {
     const address = req.headers && req.headers["x-viewer-address"];
     if (!address) throw "Missing address in header";
     logger.info(`Received voucher request from address: ${address}`);
-    console.log(api);
+
     const { data: whitelist } = await api.get("/whitelist.json");
-    console.log(whitelist);
 
     const index = whitelist.findIndex(
       (whitelisted) => whitelisted.toLowerCase() === address.toLowerCase()
