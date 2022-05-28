@@ -1,7 +1,6 @@
 import express from "express";
 import { getVoucher } from "../handlers/index.js";
 import { validateRequest } from "../middleware/requestValidation.js";
-import { verifyJWT } from "../middleware/authorization.js";
 
 /**
  * creates whitelisting related routes
@@ -18,7 +17,7 @@ const wlRouter = (config) => {
    */
   whitelistRouter.get(
     "/voucher",
-    [validateRequest(), verifyJWT()],
+    [validateRequest()],
     async (req, res) => await getVoucher(req, res, config)
   );
 

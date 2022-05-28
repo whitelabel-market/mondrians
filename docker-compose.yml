@@ -13,7 +13,7 @@ services:
       - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
   certbot:
     image: certbot/certbot
@@ -23,7 +23,7 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-  
+
   # the Unleash proxy is used for front-end clients, such as the
   # JavaScript Proxy Client SDK and the React SDK.
   #
@@ -127,6 +127,7 @@ services:
       - CONTRACT_ADDRESS=${CONTRACT_ADDRESS}
       - SIGNER_PKEY=${SIGNER_PKEY}
       - TRUSTED_ORIGINS=${TRUSTED_ORIGINS:-https://magic-mondrian.netlify.app}
+      - GH_PAT=${GH_PAT}
 
   redis:
     image: "redis:alpine"

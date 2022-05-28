@@ -40,11 +40,10 @@ export default class MondrianInterface {
       }
       return await this.publicMint(address, signedContract, quantity, price);
     } catch (e: any) {
-      console.log(e);
-      if (e?.error?.message) {
+      if (e?.error?.data?.message) {
+        throw new Error(e.error.data.message);
+      } else if (e?.error?.message) {
         throw new Error(e.error.message);
-      } else if (e?.data?.message) {
-        throw new Error(e.data.message);
       } else if (e?.message) {
         throw new Error(e.message);
       } else {

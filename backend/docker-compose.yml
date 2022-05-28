@@ -26,7 +26,7 @@ services:
     networks:
       - mondrian
     image: redis
-    command: redis-server --loglevel debug
+    command: redis-server --loglevel notice
     ports:
       - 6379:6379
 

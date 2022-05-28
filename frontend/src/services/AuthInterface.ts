@@ -13,7 +13,6 @@ export const createAuthInterface = (address: string) => {
   const xViewerAddress = address;
   const xCsrf = "1";
   let xCsrfToken = "";
-  let bearerToken = "";
 
   const useFetch = createFetch({
     baseUrl: API,
@@ -25,8 +24,6 @@ export const createAuthInterface = (address: string) => {
           Accept: "application/json",
           "Content-Type": "application/json",
         };
-        if (bearerToken)
-          options.headers.Authorization = `Bearer ${bearerToken}`;
         if (xCsrfToken) options.headers["x-csrf-token"] = xCsrfToken;
         return { options };
       },
@@ -63,12 +60,6 @@ export const createAuthInterface = (address: string) => {
         .json();
       if (error.value) {
         throw unref(data);
-      }
-      const jwt = unref(data).jwt;
-      if (jwt) {
-        bearerToken = jwt;
-      } else {
-        throw "No bearer token returned";
       }
     } catch (e: any) {
       throw new Error(e.toString());
