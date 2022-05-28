@@ -2,8 +2,8 @@ name: Build docker image
 
 # Controls when the action will run.
 on:
-  # manual trigger a new image build for dockerhub
-  on: workflow_dispatch
+  # manual trigger a new image build for dockerhub 
+  workflow_dispatch
 
 jobs:
   push_to_Docker_Hub:
