@@ -19,6 +19,7 @@ export default interface CollectionConfigInterface {
   publicSale: SaleConfig;
   payeesAdresses: string[];
   payeesShares: number[];
+  paymentSplitterAddress: string;
   contractAddress: string | null;
   signerAddress: string;
   whitelistAddresses: string[];

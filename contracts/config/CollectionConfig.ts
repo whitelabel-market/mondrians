@@ -31,6 +31,7 @@ const CollectionConfig: CollectionConfigInterface = {
     "0xfb98848b723e05d7F60cc2dC8d5157a6A01325Dc",
   ],
   payeesShares: [50, 50],
+  paymentSplitterAddress: "0xd3D3fc71B7B03a2c241d6C0772422fB487c763E6",
   contractAddress: "0x0a43025d1Fd82E8818f6c6036E093B160EeDd9E3",
   signerAddress: "0x24dC17EeC2b5A7a4e89013C15649145e337033b2",
   whitelistAddresses,
