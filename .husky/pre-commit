@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd contracts
-yarn test
+if ! git diff --quiet HEAD $REF -- ./contracts; then cd contracts/ && yarn test; fi
