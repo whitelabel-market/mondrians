@@ -5,7 +5,7 @@ import { logger } from "../../logger/index.js";
 import { client } from "../../utils/redis.js";
 
 const getMessage = (address, nonce) => {
-  return `Welcome to the Magic Mondrian NFT launch!\n\nClick to sign to login.\n\nThis request will not trigger a blockchain transaction or cost any gas fees.\n\nYour authentication status will reset after 1 hour.\n\nWallet address:\n${address}\n\nNonce:\n${nonce}`;
+  return `Welcome to the Magic Mondrian NFT launch!\n\nClick to sign to login.\n\nThis request will not trigger a blockchain transaction or cost any gas fees.\n\nWallet address:\n${address}\n\nNonce:\n${nonce}`;
 };
 
 /**
