@@ -1,23 +1,23 @@
 import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, INFURA_WSS, NETWORK_NAME } from "@/utils/constants";
+import { CONTRACT_ADDRESS, NETWORK_NAME } from "@/utils/constants";
 import magicMondrian from "@/utils/abis/MagicMondrian.json";
 
 type CallbackFunction = () => void;
 
 class EthereumInterface {
-  private provider: ethers.providers.WebSocketProvider;
-  private contract: ethers.Contract;
+  // private provider: ethers.providers.WebSocketProvider;
+  // private contract: ethers.Contract;
 
   constructor() {
-    this.provider = new ethers.providers.WebSocketProvider(
-      INFURA_WSS,
-      NETWORK_NAME
-    );
-    this.contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      magicMondrian.abi,
-      this.provider
-    );
+    // this.provider = new ethers.providers.WebSocketProvider(
+    //   INFURA_WSS,
+    //   NETWORK_NAME
+    // );
+    // this.contract = new ethers.Contract(
+    //   CONTRACT_ADDRESS,
+    //   magicMondrian.abi,
+    //   this.provider
+    // );
   }
 
   public async subscribeToNewBlock(callback: CallbackFunction): Promise<void> {
@@ -33,7 +33,7 @@ class EthereumInterface {
   }
 
   public async unsubscribe(): Promise<void> {
-    this.provider.removeAllListeners();
+    //this.provider.removeAllListeners();
   }
 }
 
