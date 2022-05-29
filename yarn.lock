@@ -2710,10 +2710,10 @@
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
-"@whitelabel-solutions/wallet-connector@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@whitelabel-solutions/wallet-connector/-/wallet-connector-1.0.2.tgz#d9bcad1a1fdecb656c902c973a4376c3c1e5458e"
-  integrity sha512-r0SAs22qEkq3ndVMfsDHr1S0fkINJ0h1xO3cglwa0NlP91j6Jli8RFr+MIgmXuWrSgacn7qM9fHQDbi3blfxBg==
+"@whitelabel-solutions/wallet-connector@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@whitelabel-solutions/wallet-connector/-/wallet-connector-1.0.3.tgz#514c1a7403d6597a1c4e0ed25ea7d011ad463247"
+  integrity sha512-fhFAoACE8lx1kgdjDUYK0DupQsZN4HhNtQlaOqCzmsEkacKfPM7YXnkntN4TmaSU2ew6JJqtGShxqG9XrOd22w==
   dependencies:
     "@coinbase/wallet-sdk" "^3.0.5"
     "@walletconnect/web3-provider" "^1.7.7"
