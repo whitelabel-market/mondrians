@@ -60,8 +60,9 @@ const connector = Connector.init(
     appName: "Magic Mondrian",
     infuraId: INFURA_ID,
     chainId: 80001,
-    authereum: { key: "" }, // Yet required (but unused) in ConnectorUserOptions type
-    fortmatic: { key: "" }, // Yet required (but unused) in ConnectorUserOptions type
+    walletconnect: {
+      rpc: { 80001: "https://rpc-mumbai.matic.today" },
+    },
   },
   [MetaMaskProvider, WalletLinkProvider, WalletConnectProvider]
 );
