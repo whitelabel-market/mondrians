@@ -43,7 +43,7 @@
     </div>
     <router-link
       class="relative flex items-stretch text-xs font-semibold tracking-wider uppercase transition duration-200 transform cursor-pointer justify-stretch ease-out-circ rounded-xl after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 after:rounded-xl group active:scale-95 after:transform after:translate-x-1 after:translate-y-1 h-11"
-      :to="`/user/${address}/collected`"
+      :to="`/`"
       v-if="isSelf"
     >
       <span
