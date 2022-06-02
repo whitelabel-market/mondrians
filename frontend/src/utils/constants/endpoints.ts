@@ -3,7 +3,7 @@ export const CONTRACT_ADDRESS = "0x555180608F21C954DeDc59224eB183cFF5cDD296";
 // whitelabel apis
 export const API =
   process.env.NODE_ENV === "development"
-    ? "http://192.168.178.31:3000"
+    ? "http://localhost:3000"
     : "https://api.whitelabel-market.com";
 export const UNLEASH_URL = "https://unleash.whitelabel-market.com/proxy";
 export const UNLEASH_CLIENT_KEY = "proxy-client-key";
