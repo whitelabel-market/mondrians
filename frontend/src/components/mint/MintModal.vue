@@ -41,7 +41,8 @@ import MondrianInterface from "@/services/MondrianInterface";
 import useTask from "@/composables/useTask";
 import { createAuthInterface } from "@/services/AuthInterface";
 import type { AuthInterface } from "@/services/AuthInterface";
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
+import { useWalletExtended } from "@/composables/useWalletExtended";
 import { ethers } from "ethers";
 import { MAMO_SUBGRAPH } from "@/utils/constants";
 import { useFetch } from "@vueuse/core";
@@ -51,7 +52,8 @@ import type { Task } from "@/composables/useTask";
 defineEmits(["update:modelValue"]);
 
 let authInterface: AuthInterface;
-const { address, provider, signMessage } = useWallet();
+const { address } = useWallet();
+const { signMessage, provider } = useWalletExtended();
 const tokens = ref([]);
 const tasks = ref<Task<any>[]>([]);
 

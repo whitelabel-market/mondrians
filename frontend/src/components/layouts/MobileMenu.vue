@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";

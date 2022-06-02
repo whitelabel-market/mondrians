@@ -17,24 +17,20 @@ import HomeRoadmap from "@/components/home/HomeRoadmap.vue";
 import HomeRarity from "@/components/home/HomeRarity.vue";
 import HomeInfo from "@/components/home/HomeInfo.vue";
 import HomeFaq from "@/components/home/HomeFaq.vue";
-//import HomeCta from "@/components/home/HomeCta.vue";
 import { onMounted, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import { CONTRACT_ADDRESS, MAMO_SUBGRAPH } from "@/utils/constants";
 import { getContract } from "@/services/graphql/types";
-import { useWindowActive } from "@/composables/useWindowActive";
+import { useBlock } from "@whitelabel-solutions/wallet-connector-vue";
 import useContract from "@/composables/useContract";
-import EthereumInterface from "@/services/EthereumInterface";
 
 const emits = defineEmits(["loaded"]);
 
 onMounted(() => emits("loaded", false));
 
 let { setContract } = useContract();
-const active = useWindowActive();
 
-//const ethereumInterface = new EthereumInterface();
-
+const { onNewBlock } = useBlock();
 const { onFetchResponse, data, execute, isFinished } = useFetch(MAMO_SUBGRAPH, {
   timeout: 10000,
 })
@@ -56,16 +52,7 @@ watch(isFinished, () => {
   if (isFinished) emits("loaded", true);
 });
 
-watch(
-  active,
-  (isActive) => {
-    // if (isActive) {
-    //   ethereumInterface.subscribeToNewBlock(execute);
-    //   ethereumInterface.subscribeToTransfer(execute);
-    // } else {
-    //   ethereumInterface.unsubscribe();
-    // }
-  },
-  { immediate: true }
-);
+onNewBlock(() => {
+  execute();
+});
 </script>

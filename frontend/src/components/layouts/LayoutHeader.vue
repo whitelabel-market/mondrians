@@ -54,7 +54,7 @@
                 class="object-cover w-6 h-6 rounded-full"
               />
               <span class="font-black slashed-zero">{{
-                ensAccount?.name || privateAddress
+                ensAccount?.name || shortAddress
               }}</span>
             </AppButton>
           </li>
@@ -64,14 +64,14 @@
       <WalletConnectModal v-model="showConnectModal" />
       <UserModal
         v-model="showUserModal"
-        :privateAddress="privateAddress"
+        :privateAddress="shortAddress"
         :blockie="blockie"
         :ensAccount="ensAccount"
       />
     </header>
     <MobileMenu
       v-model="showMobileMenu"
-      :privateAddress="privateAddress"
+      :privateAddress="shortAddress"
       :blockie="blockie"
       :ensAccount="ensAccount"
       @connect="showConnectModal = true"
@@ -85,7 +85,8 @@ import { ref } from "vue";
 import WalletConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
 import UserModal from "@/components/user/UserModal.vue";
 import AppHamburger from "@/components/app/AppHamburger.vue";
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
+import { useWalletExtended } from "@/composables/useWalletExtended";
 import AppButton from "@/components/app/AppButton.vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
@@ -96,8 +97,9 @@ const showConnectModal = ref(false);
 const showUserModal = ref(false);
 const showMobileMenu = ref(false);
 
-const { privateAddress, loading, blockie, isConnected, ensAccount } =
-  useWallet();
+const ensAccount = ref({});
+const { loading, isConnected, shortAddress } = useWallet();
+const { blockie } = useWalletExtended();
 
 const scrollToTop = () => {
   gsap.to(window, {

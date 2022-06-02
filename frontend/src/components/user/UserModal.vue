@@ -55,7 +55,7 @@
             <span class=""
               >Matic
               <span class="italic"
-                >{{ balance }} - ${{ usdBalance }}</span
+                >{{ Number(balance).toFixed(2) }} - ${{ usdBalance }}</span
               ></span
             >
           </div>
@@ -112,7 +112,7 @@ import AppModal from "@/components/app/AppModal.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { SwitchVerticalIcon } from "@heroicons/vue/solid";
 import {
   CollectionIcon,
@@ -127,10 +127,11 @@ import {
   ENS_BASE_URL,
 } from "@/utils/constants";
 import { useClipboard } from "@vueuse/core";
+import { useWalletExtended } from "@/composables/useWalletExtended";
 
 defineEmits(["update:modelValue", "clicked"]);
 
-const props = defineProps({
+defineProps({
   modelValue: {
     type: Boolean,
     required: true,
@@ -149,9 +150,9 @@ const props = defineProps({
   },
 });
 
-const { address, getBalance, disconnect } = useWallet();
+const { address, disconnect } = useWallet();
+const { balance } = useWalletExtended();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
-const balance = ref<string>("");
 const maticPrice = ref<string>("");
 
 const usdBalance = computed<string>(() => {
@@ -183,13 +184,9 @@ onFetchResponse(() => {
 });
 
 watch(
-  () => props.modelValue,
+  () => balance,
   async () => {
-    if (props.modelValue) {
-      execute();
-      const amount = await getBalance();
-      balance.value = Number(amount || 0).toFixed(4);
-    }
+    execute();
   }
 );
 </script>

@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-col items-center space-y-4">
     <div
-      class="flex items-center w-full"
+      class="flex items-center w-full text-neutral-800 dark:text-neutral-200"
       :class="tokens.length > 1 ? 'justify-between' : 'justify-center'"
     >
       <ChevronLeftIcon
         role="button"
-        class="w-6 h-6 text-gray-500 transition-all duration-100 active:scale-95"
+        class="w-6 h-6 transition-all duration-100 text-neutral-400 active:scale-95"
         :class="
           currentToken === 0
-            ? 'cursor-not-allowed hover:text-gray-500'
-            : 'cursor-pointer hover:text-gray-900'
+            ? 'cursor-not-allowed hover:text-neutral-400'
+            : 'cursor-pointer hover:text-neutral-900 dark:hover:text-neutral-200'
         "
         v-if="tokens.length > 1"
         @click.prevent="prev"
@@ -29,33 +29,36 @@
       </div>
       <ChevronLeftIcon
         role="button"
-        class="w-6 h-6 text-gray-500 transition-all duration-100 transform rotate-180 cursor-pointer hover:text-gray-900 active:scale-95"
+        class="w-6 h-6 transition-all duration-100 transform rotate-180 cursor-pointer text-neutral-400 active:scale-95"
         :class="
           currentToken === tokens.length - 1
-            ? 'cursor-not-allowed hover:text-gray-500'
-            : 'cursor-pointer hover:text-gray-900'
+            ? 'cursor-not-allowed hover:text-neutral-400'
+            : 'cursor-pointer hover:text-neutral-900 dark:hover:text-neutral-200'
         "
         v-if="tokens.length > 1"
         @click.prevent="next"
       />
     </div>
-    <span class="max-w-xs leading-tight text-center text-md"
-      ><span class="font-semibold">Congratulations!</span> Your Mondrian #{{
+    <span
+      class="max-w-xs leading-tight text-center text-md text-neutral-800 dark:text-neutral-200"
+      ><span class="font-semibold">Congratulations!</span> Your Magic Mondrian
+      #{{
         (tokens[currentToken] as Token).id
       }}
       was successfully created.</span
     >
-    <span class="max-w-xs font-bold leading-tight text-center text-md"
+    <span
+      class="max-w-xs font-bold leading-tight text-center text-md text-neutral-800 dark:text-neutral-200"
       >Let's show-off a little!</span
     >
     <div class="flex items-center gap-2">
       <ShareButtons :address="address" />
     </div>
     <AppButton
-      :size="'sm'"
       :href="`${EXPLORER_BASE_URL}tx/${(tokens[currentToken] as Token).transactionHash}`"
+      :fullWidth="true"
       target="_blank"
-      >View transaction on Polygonscan</AppButton
+      >View on Polygonscan</AppButton
     >
   </div>
 </template>
@@ -67,7 +70,7 @@ import AppButton from "@/components/app/AppButton.vue";
 import CarouselItem from "@/components/carousel/CarouselItem.vue";
 import { EXPLORER_BASE_URL } from "@/utils/constants";
 import ShareButtons from "@/components/share/ShareButtons.vue";
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import type { Token } from "@/utils/types";
 
 const { address } = useWallet();

@@ -28,7 +28,8 @@ export default class MondrianInterface {
       }
       const address = await this.signer.getAddress();
       const signedContract = this.contract.connect(this.signer);
-
+      console.log(address);
+      console.log(this.signer);
       if (signature) {
         return await this.whitelistMint(
           address,
@@ -40,6 +41,7 @@ export default class MondrianInterface {
       }
       return await this.publicMint(address, signedContract, quantity, price);
     } catch (e: any) {
+      console.log(e);
       if (e?.error?.data?.message) {
         throw new Error(e.error.data.message);
       } else if (e?.error?.message) {

@@ -33,15 +33,15 @@ import LayoutFrame from "@/components/layouts/LayoutFrame.vue";
 import LayoutChangeNetworkModal from "@/components/layouts/LayoutChangeNetworkModal.vue";
 import LoadingMondrian from "@/components/icons/LoadingMondrian.vue";
 //import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
-import { useWallet } from "@/composables/useWallet";
-import { NETWORK_NAME } from "@/utils/constants";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
+//import { NETWORK_NAME } from "@/utils/constants";
 
-const { network } = useWallet();
+const { activeChainId } = useWallet();
 const loaded = ref(false);
 
 const wrongNetwork = computed(() => {
-  if (network.value) {
-    return network.value.name !== NETWORK_NAME;
+  if (activeChainId.value) {
+    return activeChainId.value !== 80001;
   }
   return false;
 });

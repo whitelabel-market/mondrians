@@ -60,7 +60,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ArrowSmUpIcon } from "@heroicons/vue/solid";
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useRoute } from "vue-router";
 
 const props = defineProps({

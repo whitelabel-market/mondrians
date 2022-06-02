@@ -50,7 +50,7 @@ import SaleOpen from "@/components/phase/SaleOpen.vue";
 import MintModal from "@/components/mint/MintModal.vue";
 import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
 import useContract from "@/composables/useContract";
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useFlag } from "@/composables/useFlags";
 
 defineProps({

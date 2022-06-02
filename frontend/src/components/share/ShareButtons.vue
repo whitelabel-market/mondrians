@@ -13,7 +13,7 @@
 import { onMounted, reactive } from "vue";
 import ShareButton from "@/components/share/ShareButton.vue";
 import { CONTRACT_ADDRESS } from "@/utils/constants";
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useMediaQuery } from "@vueuse/core";
 
 const props = defineProps({
@@ -76,7 +76,7 @@ const items = reactive([
 const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
 onMounted(() => {
-  const isMetamask = provider.value?.connection.url === "metamask";
+  const isMetamask = provider.value?.isMetaMask;
   if (canHover.value && isMetamask) {
     items.push({
       tooltip: "Add to wallet",
@@ -112,7 +112,7 @@ const addToken = async () => {
     "https://ipfs.io/ipfs/bafybeid7fmhgs7roxyctc5k2ciut3wgznpnhtx2tawhl2pf47s7e554cim/1.png";
 
   try {
-    const wasAdded = await window.ethereum.request({
+    const wasAdded = await (window as any).ethereum.request({
       method: "wallet_watchAsset",
       params: {
         type: "ERC20",

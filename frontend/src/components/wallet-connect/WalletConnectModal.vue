@@ -11,21 +11,17 @@
           Select a wallet
         </h3>
         <ul class="space-y-4">
-          <li
-            v-for="(p, i) of providers.slice(
-              0,
-              providersCollapsed ? providers.length : 4
-            )"
-            :key="i"
-          >
+          <li v-for="(provider, i) of providers" :key="i">
             <AppButton
               :fullWidth="true"
-              @click.prevent="connectTo(p)"
+              @click="tryConnect(provider)"
               :center="false"
               class="flex items-center justify-between outline-none focus:outline-none"
             >
-              <span class="block font-semibold text-left">{{ p.name }}</span>
-              <g v-html="p.logo" id="logo"></g>
+              <span class="block font-semibold text-left">{{
+                provider.name
+              }}</span>
+              <g v-html="provider.logo" id="logo"></g>
             </AppButton>
           </li>
         </ul>
@@ -38,8 +34,11 @@
 import { ref } from "vue";
 import AppModal from "@/components/app/AppModal.vue";
 import AppButton from "@/components/app/AppButton.vue";
-import { useWallet } from "@/composables/useWallet";
-import { IProvider } from "@whitelabel-solutions/wallet-connector";
+import {
+  Providers,
+  useWallet,
+} from "@whitelabel-solutions/wallet-connector-vue";
+import type { IProvider } from "@whitelabel-solutions/wallet-connector-vue";
 
 const emits = defineEmits(["update:modelValue", "connected"]);
 
@@ -50,13 +49,15 @@ defineProps({
   },
 });
 
-const { providers, connect } = useWallet();
+const { connect } = useWallet();
+
+const { MetaMaskProvider, WalletLinkProvider, WalletConnectProvider } =
+  Providers;
+const providers = [MetaMaskProvider, WalletLinkProvider, WalletConnectProvider];
 const loading = ref(false);
 
-const providersCollapsed = ref(false);
-
-const connectTo = async (provider: IProvider) => {
-  await connect(provider.id);
+const tryConnect = async (provider: IProvider) => {
+  await connect(provider);
   emits("update:modelValue", false);
   emits("connected");
 };

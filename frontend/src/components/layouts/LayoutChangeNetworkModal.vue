@@ -32,7 +32,7 @@
 import AppModal from "@/components/app/AppModal.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppButton from "@/components/app/AppButton.vue";
-import { useWallet } from "@/composables/useWallet";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { NETWORK_NAME, CHAIN_ID } from "@/utils/constants";
 
 defineEmits(["update:modelValue"]);
@@ -44,13 +44,13 @@ defineProps({
   },
 });
 
-const { disconnect } = useWallet();
+const { disconnect, provider } = useWallet();
 
 const changeNetwork = async () => {
   if ((window as any).ethereum) {
     try {
       // check if the chain to connect to is installed
-      await (window as any).ethereum.request({
+      await provider.value?.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x" + CHAIN_ID.toString(16) }],
       });
@@ -59,8 +59,7 @@ const changeNetwork = async () => {
       // if it is not, then install it into the user MetaMask
       if (error.code === 4902) {
         try {
-          await (window as any).ethereum.request({
-            jsonrpc: "2.0",
+          await provider.value?.request({
             method: "wallet_addEthereumChain",
             params: [
               {
