@@ -2731,10 +2731,10 @@
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
-"@whitelabel-solutions/wallet-connector-vue@^0.0.5-development":
-  version "0.0.5-development"
-  resolved "https://registry.yarnpkg.com/@whitelabel-solutions/wallet-connector-vue/-/wallet-connector-vue-0.0.5-development.tgz#1e8687b27d064293a10aa5159da7ee278f69a29a"
-  integrity sha512-otRlzn+9ZLolOehb+GHzqvQIiNjO51hS5zQKqRNBLpiFbGytwLcGBlk2YfcASAYLSlREwSHXsu1gdaPqyaZfQw==
+"@whitelabel-solutions/wallet-connector-vue@^0.0.6-development":
+  version "0.0.6-development"
+  resolved "https://registry.yarnpkg.com/@whitelabel-solutions/wallet-connector-vue/-/wallet-connector-vue-0.0.6-development.tgz#4c3e8745463f3aa36fbe416bb2f61c205d943f27"
+  integrity sha512-LWutQwl34eE8yu/PwyZ5qW63AsoGKseKb1p0rEKVmqJYMP5v58FQ9ao7JNAiVzpypytsyOddbuTdC0v1sXBfkQ==
   dependencies:
     "@vueuse/core" "^8.5.0"
     "@whitelabel-solutions/wallet-connector" "^1.0.4"
