@@ -2731,19 +2731,19 @@
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
-"@whitelabel-solutions/wallet-connector-vue@^0.0.6-development":
-  version "0.0.6-development"
-  resolved "https://registry.yarnpkg.com/@whitelabel-solutions/wallet-connector-vue/-/wallet-connector-vue-0.0.6-development.tgz#4c3e8745463f3aa36fbe416bb2f61c205d943f27"
-  integrity sha512-LWutQwl34eE8yu/PwyZ5qW63AsoGKseKb1p0rEKVmqJYMP5v58FQ9ao7JNAiVzpypytsyOddbuTdC0v1sXBfkQ==
+"@whitelabel-solutions/wallet-connector-vue@^0.0.8-development":
+  version "0.0.8-development"
+  resolved "https://registry.yarnpkg.com/@whitelabel-solutions/wallet-connector-vue/-/wallet-connector-vue-0.0.8-development.tgz#4bb8dfdf45c5872dc890a36945c0781a2df60e59"
+  integrity sha512-ky0WkQsXUUviHISc+gdDFjV93mZg5jYXugCF6GKAwTpz5pcbWlWtWRbQvb80oOVA9KcZZnkjSe/SOIJhbw435g==
   dependencies:
     "@vueuse/core" "^8.5.0"
-    "@whitelabel-solutions/wallet-connector" "^1.0.4"
+    "@whitelabel-solutions/wallet-connector" "^1.0.6"
     vue-demi "^0.12.5"
 
-"@whitelabel-solutions/wallet-connector@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@whitelabel-solutions/wallet-connector/-/wallet-connector-1.0.4.tgz#a84d364faa0892ed910067c2139eec713ff6d24e"
-  integrity sha512-QbcrkthRgv4X2v1x+OVEwc6zfR/BIS8ZwQL1CsO0qGuc407p9fEzMvRc03vzlH3yCBQaZNMiiEdFWRGht7RYyA==
+"@whitelabel-solutions/wallet-connector@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@whitelabel-solutions/wallet-connector/-/wallet-connector-1.0.6.tgz#b4b3191e5c659a6cf305b849d25730d931e0d277"
+  integrity sha512-KY89rKzt7E3Qlu/oh2LIta6rmsUhgpQ6XlvBzo63KSWL543nAFJLKL5Qlr1hDXJxkcM1p722l27H6wkk7xvh1A==
   dependencies:
     "@coinbase/wallet-sdk" "^3.0.5"
     "@walletconnect/web3-provider" "^1.7.7"
