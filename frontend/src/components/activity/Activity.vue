@@ -65,7 +65,7 @@
         </a>
       </div>
       <div
-        v-if="props.tokenDayDatas?.length"
+        v-if="tokenDayDatas?.length"
         class="flex flex-col transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
       >
         <div class="flex items-center justify-between">
@@ -77,12 +77,7 @@
               <span class="truncate">{{ weiToEth(transfer.value) }}</span
               ><PolygonIcon class="w-2" />&#126;
               <span
-                >{{
-                  (
-                    getPrice(transfer.createdAtTimestamp) *
-                    weiToEth(transfer.value)
-                  ).toFixed(4)
-                }}$</span
+                >{{ (getPrice * weiToEth(transfer.value)).toFixed(4) }}$</span
               >
             </div>
           </div>
@@ -98,10 +93,7 @@
               ><PolygonIcon class="w-2" />&#126;
               <span
                 >{{
-                  (
-                    getPrice(transfer.createdAtTimestamp) *
-                    weiToEth(transfer.gasPrice)
-                  ).toFixed(4)
+                  (getPrice * weiToEth(transfer.gasPrice)).toFixed(4)
                 }}$</span
               >
             </div>
@@ -117,22 +109,48 @@ import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import makeBlockie from "ethereum-blockies-base64";
 import { getShortAddress, weiToGwei, weiToEth } from "@/utils/ethereum";
 import { ArrowSmDownIcon } from "@heroicons/vue/solid";
-import { EXPLORER_BASE_URL } from "@/utils/constants";
+import { EXPLORER_BASE_URL, UNISWAP_SUBGRAPH_POLYGON } from "@/utils/constants";
+import { computed, onMounted, ref } from "vue";
+import { useFetch } from "@vueuse/core";
+import { getTokenDayData } from "@/services/graphql/types";
 
 const props = defineProps({
   transfer: {
     type: Object,
     required: true,
   },
-  tokenDayDatas: {
-    type: Array,
-  },
 });
 
-const getPrice = (timestamp: string) => {
-  const { close, high, low, open } = (props.tokenDayDatas as any).find(
-    (data: any) => data.date >= Number(timestamp)
-  );
+// fetch historic prices
+
+const tokenDayDatas = ref<any[]>([]);
+
+const getPrice = computed(() => {
+  const { close, high, low, open } = tokenDayDatas.value[0];
   return [close, high, low, open].reduce((a, b) => Number(a) + Number(b)) / 4;
-};
+});
+
+onMounted(() => {
+  const { data: dayDatas, onFetchResponse: onDayDataResponse } = useFetch(
+    UNISWAP_SUBGRAPH_POLYGON,
+    {
+      timeout: 10000,
+    }
+  )
+    .post(
+      JSON.stringify({
+        query: getTokenDayData,
+        variables: {
+          startTime: Number(props.transfer.createdAtTimestamp),
+          first: 1,
+        },
+      })
+    )
+    .json();
+  onDayDataResponse(() => {
+    if (dayDatas?.value?.data?.tokenDayDatas?.length) {
+      tokenDayDatas.value = dayDatas.value.data.tokenDayDatas;
+    }
+  });
+});
 </script>

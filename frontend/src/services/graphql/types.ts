@@ -113,7 +113,7 @@ export const getTokenDayData = `
   query tokenDayDatas($first: Int, $startTime: Int!, $address: Bytes! = "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270") {
     tokenDayDatas(
       first: $first
-      where: {token: $address, date_gte: $startTime}
+      where: {token: $address, date_lte: $startTime}
       orderBy: date
       orderDirection: desc
     ) {
