@@ -1,0 +1,42 @@
+{
+  "backgroundColor": "rgb(0,0,0)",
+  "foregroundColor": "rgb(255,255,255)",
+  "description": "Magic Mondrian Launch",
+  "organizationName": "Whitelabel Solutions",
+  "passTypeIdentifier": "pass.com.magic-mondrian",
+  "teamIdentifier": "4NV9QM4YN4",
+  "labelColor": "rgb(73,129,191)",
+  "formatVersion": 1,
+  "eventTicket": {
+    "headerFields": [
+      {
+        "value": "Sat, 5 January",
+        "label": "8:00 PM",
+        "textAlignment": "PKTextAlignmentRight",
+        "key": "date"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "value": "Bohnsdorfer Weg 129, 12355 Berlin",
+        "label": "Location",
+        "key": "location"
+      }
+    ],
+    "primaryFields": [],
+    "secondaryFields": [
+      {
+        "value": "Magic Mondrian Launch",
+        "label": "Event",
+        "key": "event"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "info",
+        "value": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+        "label": "Description"
+      }
+    ]
+  }
+}
