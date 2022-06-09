@@ -80,12 +80,16 @@ export function createWalletExtended(): Wallet {
     }
   };
 
+  const refresh = async () => {
+    signer.value = provider.value?.getSigner();
+    balance.value = await getBalance();
+    blockie.value = makeBlockie(address.value);
+  };
+
   onConnected(async () => {
     if (walletProvider.value) {
       await connect(walletProvider.value);
-      signer.value = provider.value?.getSigner();
-      balance.value = await getBalance();
-      blockie.value = makeBlockie(address.value);
+      await refresh();
     }
   });
 
@@ -97,12 +101,11 @@ export function createWalletExtended(): Wallet {
   });
 
   onAccountsChanged(async () => {
-    balance.value = await getBalance();
-    blockie.value = makeBlockie(address.value);
+    await refresh();
   });
 
   onChainChanged(async () => {
-    balance.value = await getBalance();
+    await refresh();
   });
 
   onNewBlock(async () => {
