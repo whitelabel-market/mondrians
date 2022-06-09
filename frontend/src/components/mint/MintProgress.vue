@@ -14,16 +14,18 @@
     >
       <template v-slot:icon>
         <div class="flex items-center justify-center w-10">
-          <component
-            :is="
-              task.isRunning
-                ? components['AppLoadingSpinner']
-                : task.isError
-                ? components['ExclamationCircleIcon']
-                : components['CheckIcon']
-            "
+          <AppLoadingSpinner
+            v-if="task.isRunning && !task.isError"
+            :size="'sm'"
             class="text-current transform"
-            :class="[!task.isError && 'translate-x-0.5']"
+          />
+          <ExclamationCircleIcon
+            v-if="task.isError"
+            class="w-8 h-8 text-current transform"
+          />
+          <CheckIcon
+            v-if="task.isSuccessful"
+            class="w-8 h-8 text-current transform"
           />
         </div>
       </template>
@@ -60,12 +62,6 @@ enum Phase {
   PublicSale = "publicsale",
   Reveal = "reveal",
 }
-
-const components = {
-  AppLoadingSpinner,
-  CheckIcon,
-  ExclamationCircleIcon,
-};
 
 const props = defineProps({
   whitelistEnabled: {

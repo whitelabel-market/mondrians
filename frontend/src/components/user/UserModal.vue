@@ -8,7 +8,10 @@
         <div
           class="flex items-center space-x-2 text-neutral-900 dark:text-neutral-200"
         >
-          <img :src="blockie" class="object-cover w-8 h-8 rounded-md" />
+          <img
+            :src="makeBlockie(address)"
+            class="object-cover w-8 h-8 rounded-md"
+          />
           <div>
             <h4 class="text-base font-bold md:text-lg slashed-zero">
               {{ privateAddress }}
@@ -26,14 +29,14 @@
           <a
             :href="`${EXPLORER_BASE_URL}address/${address}`"
             target="_blank"
-            class="flex items-center space-x-1 text-xs font-semibold text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200"
+            class="flex items-center space-x-1 text-xs font-semibold outline-none text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200"
             ><span>View on Polygonscan</span> <ExternalLinkIcon class="w-4 h-4"
           /></a>
 
           <AppTooltip class="group" :show="copied">
             <template #element
               ><button
-                class="flex items-center space-x-1 text-xs font-semibold text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200"
+                class="flex items-center space-x-1 text-xs font-semibold outline-none text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200"
                 @click.prevent="copy(address)"
               >
                 <span>Copy address</span
@@ -128,6 +131,7 @@ import {
 } from "@/utils/constants";
 import { useClipboard } from "@vueuse/core";
 import { useWalletExtended } from "@/composables/useWalletExtended";
+import makeBlockie from "ethereum-blockies-base64";
 
 defineEmits(["update:modelValue", "clicked"]);
 
@@ -156,11 +160,10 @@ const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const maticPrice = ref<string>("");
 
 const usdBalance = computed<string>(() => {
-  return (
-    balance.value &&
-    maticPrice.value &&
-    (Number(balance.value) * Number(maticPrice.value) || 0).toFixed(2)
-  );
+  if (balance.value && maticPrice.value) {
+    return (Number(balance.value) * Number(maticPrice.value)).toFixed(2);
+  }
+  return "0.00";
 });
 
 const { data, execute, onFetchResponse } = useFetch(UNISWAP_SUBGRAPH_POLYGON, {
@@ -186,7 +189,8 @@ onFetchResponse(() => {
 watch(
   () => balance,
   async () => {
-    execute();
+    alert(balance.value);
+    if (Number(balance.value) > 0) execute();
   }
 );
 </script>

@@ -73,11 +73,10 @@ export function createWalletExtended(): Wallet {
   const getBalance = async (): Promise<string> => {
     try {
       return signer.value
-        ? weiToEth(
-            await (await signer.value.getBalance()).toString()
-          ).toString()
+        ? weiToEth((await signer.value.getBalance()).toString()).toString()
         : "";
     } catch (e: any) {
+      alert(e.toString());
       throw new Error(e.toString());
     }
   };
@@ -85,7 +84,7 @@ export function createWalletExtended(): Wallet {
   onConnected(async () => {
     if (walletProvider.value) {
       await connect(walletProvider.value);
-      signer.value = await provider.value?.getSigner();
+      signer.value = provider.value?.getSigner();
       balance.value = await getBalance();
       blockie.value = makeBlockie(address.value);
     }

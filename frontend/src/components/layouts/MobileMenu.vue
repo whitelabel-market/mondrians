@@ -49,10 +49,9 @@
                 color="blank"
                 flat
               >
-                <div class="flex items-center w-full gap-4">
+                <div class="z-50 flex items-center w-full gap-4">
                   <img
-                    v-if="blockie"
-                    :src="blockie"
+                    :src="makeBlockie(address)"
                     class="object-cover w-8 h-8 rounded-full"
                   />
                   <span
@@ -83,6 +82,7 @@ import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";
+import makeBlockie from "ethereum-blockies-base64";
 
 const emit = defineEmits(["update:modelValue", "connect", "clicked"]);
 
@@ -104,7 +104,7 @@ defineProps({
   },
 });
 
-const { loading, isConnected } = useWallet();
+const { loading, isConnected, address } = useWallet();
 
 const routes = {
   About: "/#About",

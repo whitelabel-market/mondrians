@@ -76,8 +76,8 @@
           >
         </div>
         <div class="flex items-end gap-2">
-          <img
-            :src="qrCode"
+          <g
+            v-html="qrCode"
             class="w-16 h-16 translate-x-1 translate-y-1"
             alt="QR Code"
           />
@@ -116,10 +116,20 @@ const getIpfsLink = computed(
 // qr code handling
 
 const qrCode = ref("");
+//const is = ref();
 
 onMounted(async () => {
-  qrCode.value = await QRCode.toDataURL(
-    `${OPENSEA_BASE_URL}/${props.token.id}`
+  // qrCode.value = await QRCode.toDataURL(
+  //   `${OPENSEA_BASE_URL}/${props.token.id}`,
+  //   { type: "svg" }
+  // );
+  QRCode.toString(
+    `${OPENSEA_BASE_URL}/${props.token.id}`,
+    { type: "svg" },
+    function (err: any, string: string) {
+      if (err) throw err;
+      qrCode.value = string;
+    }
   );
 });
 

@@ -8,7 +8,7 @@ import { computed } from "vue";
 const SpinnerSize: () => { [key: string]: string } = () => {
   return {
     xs: "border-px h-4 w-4",
-    sm: "border-1 h-6 w-6",
+    sm: "border-2 h-6 w-6",
     md: "border-2 h-8 w-8",
     lg: "border-4 h-10 w-10",
   };

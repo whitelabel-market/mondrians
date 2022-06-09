@@ -32,6 +32,9 @@ app.use(
     appName: "Magic Mondrian",
     infuraId: "3f6ed0b245824ed7ba603a0d01e52a4b",
     chainId: 80001,
+    walletconnect: {
+      bridge: "https://bridge.walletconnect.org",
+    },
   })
 );
 app.use(router);
