@@ -46,6 +46,38 @@ defineProps({
 
 const { disconnect, provider } = useWallet();
 
+const toHex = (num: number) => {
+  return "0x" + num.toString(16);
+};
+
+const chain = {
+  name: "Mumbai",
+  title: "Polygon Testnet Mumbai",
+  chain: "Polygon",
+  rpc: [
+    "https://matic-mumbai.chainstacklabs.com",
+    "https://rpc-mumbai.maticvigil.com",
+    "https://matic-testnet-archive-rpc.bwarelabs.com",
+  ],
+  faucets: ["https://faucet.polygon.technology/"],
+  nativeCurrency: {
+    name: "MATIC",
+    symbol: "MATIC",
+    decimals: 18,
+  },
+  infoURL: "https://polygon.technology/",
+  shortName: "maticmum",
+  chainId: 80001,
+  networkId: 80001,
+  explorers: [
+    {
+      name: "polygonscan",
+      url: "https://mumbai.polygonscan.com",
+      standard: "EIP3091",
+    },
+  ],
+};
+
 const changeNetwork = async () => {
   if ((window as any).ethereum) {
     try {
@@ -57,21 +89,27 @@ const changeNetwork = async () => {
     } catch (error: any) {
       // This error code indicates that the chain has not been added to MetaMask
       // if it is not, then install it into the user MetaMask
-      if (error.code === 4902) {
+      if (error?.code === 4902 || error?.data?.originalError?.code === 4902) {
         try {
           await provider.value?.request({
             method: "wallet_addEthereumChain",
             params: [
               {
-                chainId: "0x" + CHAIN_ID.toString(16),
-                rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
-                chainName: "Mumbai",
+                chainId: toHex(chain.chainId), // A 0x-prefixed hexadecimal string
+                chainName: chain.name,
                 nativeCurrency: {
-                  name: "MATIC",
-                  symbol: "MATIC", // 2-6 characters long
-                  decimals: 18,
+                  name: chain.nativeCurrency.name,
+                  symbol: chain.nativeCurrency.symbol, // 2-6 characters long
+                  decimals: chain.nativeCurrency.decimals,
                 },
-                blockExplorerUrls: ["https://mumbai.polygonscan.com"],
+                rpcUrls: chain.rpc,
+                blockExplorerUrls: [
+                  chain.explorers &&
+                  chain.explorers.length > 0 &&
+                  chain.explorers[0].url
+                    ? chain.explorers[0].url
+                    : chain.infoURL,
+                ],
               },
             ],
           });

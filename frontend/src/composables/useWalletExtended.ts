@@ -76,7 +76,6 @@ export function createWalletExtended(): Wallet {
         ? weiToEth((await signer.value.getBalance()).toString()).toString()
         : "";
     } catch (e: any) {
-      alert(e.toString());
       throw new Error(e.toString());
     }
   };

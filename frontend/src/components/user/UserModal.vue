@@ -189,7 +189,6 @@ onFetchResponse(() => {
 watch(
   () => balance,
   async () => {
-    alert(balance.value);
     if (Number(balance.value) > 0) execute();
   }
 );
