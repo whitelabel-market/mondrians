@@ -82,6 +82,7 @@ export function createWalletExtended(): Wallet {
 
   const refresh = async () => {
     signer.value = provider.value?.getSigner();
+    alert(JSON.stringify(signer.value));
     balance.value = await getBalance();
     blockie.value = makeBlockie(address.value);
   };
@@ -105,6 +106,7 @@ export function createWalletExtended(): Wallet {
   });
 
   onChainChanged(async () => {
+    alert("chain changed");
     await refresh();
   });
 
