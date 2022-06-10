@@ -7,7 +7,11 @@ export interface AuthInterface {
   login: () => Promise<string>;
   callback: (signature: string) => Promise<void>;
   getVoucher: () => Promise<string>;
+  getEmailProof: () => Promise<string>;
+  sendMail: (email: string, signature: string) => Promise<void>;
 }
+
+export let authInterface: AuthInterface;
 
 export const createAuthInterface = (address: string) => {
   const xViewerAddress = address;
@@ -82,9 +86,40 @@ export const createAuthInterface = (address: string) => {
     }
   };
 
-  return {
+  const getEmailProof = async (): Promise<string> => {
+    try {
+      const { data, error } = await useFetch("api/whitelist/emailproof", {
+        timeout: 10000,
+      })
+        .get()
+        .json();
+      if (error.value) {
+        throw unref(data);
+      }
+      return unref(data).message;
+    } catch (e: any) {
+      throw new Error(e.toString());
+    }
+  };
+
+  const sendMail = async (email: string, signature: string): Promise<void> => {
+    try {
+      const { data, error } = await useFetch(`api/whitelist/email`, {
+        timeout: 10000,
+      }).post({ email, signature });
+      if (error.value) {
+        throw unref(data);
+      }
+    } catch (e: any) {
+      throw new Error(e.toString());
+    }
+  };
+
+  authInterface = {
     login,
     callback,
     getVoucher,
+    getEmailProof,
+    sendMail,
   };
 };

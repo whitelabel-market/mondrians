@@ -3,6 +3,7 @@ import type { Ref, ShallowRef } from "vue";
 import { ethers } from "ethers";
 import { weiToEth } from "@/utils/ethereum";
 import makeBlockie from "ethereum-blockies-base64";
+import { createAuthInterface } from "@/services/AuthInterface";
 import {
   useWallet,
   useBlock,
@@ -83,7 +84,10 @@ export function createWalletExtended(): Wallet {
   const refresh = async () => {
     signer.value = provider.value?.getSigner();
     balance.value = await getBalance();
-    blockie.value = makeBlockie(address.value);
+    if (address.value) {
+      blockie.value = makeBlockie(address.value);
+      createAuthInterface(address.value);
+    }
   };
 
   onConnected(async () => {

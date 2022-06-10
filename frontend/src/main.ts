@@ -33,7 +33,8 @@ app.use(
     infuraId: "3f6ed0b245824ed7ba603a0d01e52a4b",
     chainId: 80001,
     walletconnect: {
-      bridge: "https://bridge.walletconnect.org",
+      //bridge: "https://bridge.walletconnect.org",
+      rpc: { 80001: "https://matic-mumbai.chainstacklabs.com" },
     },
   })
 );

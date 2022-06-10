@@ -39,8 +39,7 @@ import MintSuccess from "@/components/mint/MintSuccess.vue";
 import AppModal from "@/components/app/AppModal.vue";
 import MondrianInterface from "@/services/MondrianInterface";
 import useTask from "@/composables/useTask";
-import { createAuthInterface } from "@/services/AuthInterface";
-import type { AuthInterface } from "@/services/AuthInterface";
+import { authInterface } from "@/services/AuthInterface";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import { ethers } from "ethers";
@@ -51,7 +50,6 @@ import type { Task } from "@/composables/useTask";
 
 defineEmits(["update:modelValue"]);
 
-let authInterface: AuthInterface;
 const { address } = useWallet();
 const { signMessage, provider } = useWalletExtended();
 const tokens = ref([]);
@@ -78,7 +76,6 @@ const props = defineProps({
 
 // job to get message to be signed
 const getMessage = function* (): any {
-  authInterface = createAuthInterface(address.value);
   const message: string = yield authInterface.login();
   const signature: string = yield signMessage(message);
   return yield authInterface.callback(signature);

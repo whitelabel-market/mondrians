@@ -1,7 +1,12 @@
 <template>
   <AppModal
     :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    @update:modelValue="
+      ($event) => {
+        $emit('update:modelValue', $event);
+        emailAddress = '';
+      }
+    "
   >
     <div class="flex flex-col space-y-8">
       <div class="flex flex-col items-center space-y-4">
@@ -95,6 +100,36 @@
         </li>
       </ul>
 
+      <form class="mt-12" action="" method="POST">
+        <label
+          for="email"
+          class="ml-2 text-xs font-semibold transition-all duration-200 text-neutral-100"
+          >Resend order confirmation</label
+        >
+        <div class="relative">
+          <input
+            v-model="emailAddress"
+            id="email"
+            name="email"
+            type="email"
+            class="w-full px-4 pr-20 transition-all duration-100 border-none h-11 placeholder:text-neutral-400 text-neutral-200 focus:ring rounded-xl bg-neutral-800"
+            :class="!validEmail ? 'focus:ring-reddish' : 'focus:ring-green-400'"
+            placeholder="Email address"
+          />
+          <button
+            v-if="validEmail"
+            class="absolute flex items-center h-8 gap-1 px-2 py-1 my-auto mb-1 text-xs top-1.5 right-1.5 rounded-lg bg-yellowish text-neutral-800 font-semibold tracking-wider uppercase"
+            type="submit"
+            @click.prevent="registerForEventTicket()"
+          >
+            <PaperAirplaneIcon
+              class="w-4 h-4 transform rotate-45 -translate-y-0.5"
+            />
+            Send
+          </button>
+        </div>
+      </form>
+
       <AppButton
         @clicked="
           () => {
@@ -121,6 +156,7 @@ import {
   CollectionIcon,
   ClipboardCopyIcon,
   ExternalLinkIcon,
+  PaperAirplaneIcon,
 } from "@heroicons/vue/outline";
 import { useFetch } from "@vueuse/core";
 import { getTokenHourData } from "@/services/graphql/types";
@@ -132,6 +168,7 @@ import {
 import { useClipboard } from "@vueuse/core";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import makeBlockie from "ethereum-blockies-base64";
+import { authInterface } from "@/services/AuthInterface";
 
 defineEmits(["update:modelValue", "clicked"]);
 
@@ -155,9 +192,10 @@ defineProps({
 });
 
 const { address, disconnect } = useWallet();
-const { balance } = useWalletExtended();
+const { balance, signMessage } = useWalletExtended();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const maticPrice = ref<string>("");
+const emailAddress = ref("");
 
 const usdBalance = computed<string>(() => {
   if (balance.value && maticPrice.value) {
@@ -165,6 +203,23 @@ const usdBalance = computed<string>(() => {
   }
   return "0.00";
 });
+
+const validEmail = computed<boolean>(() =>
+  // eslint-disable-next-line no-useless-escape
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    emailAddress.value
+  )
+);
+
+const registerForEventTicket = async () => {
+  const message = await authInterface.getEmailProof();
+  if (message) {
+    const signature = await signMessage(message);
+    if (signature) {
+      await authInterface.sendMail(emailAddress.value, signature);
+    }
+  }
+};
 
 const { data, execute, onFetchResponse } = useFetch(UNISWAP_SUBGRAPH_POLYGON, {
   timeout: 10000,
@@ -192,3 +247,22 @@ watch(balance, async () => {
   }
 });
 </script>
+
+<style>
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e5e5e5;
+  -webkit-box-shadow: 0 0 0px 1000px #262626 inset;
+  box-shadow: 0 0 0px 1000px #262626 inset;
+  transition: background-color 5000s ease-in-out 0s;
+  color: #e5e5e5;
+}
+</style>
