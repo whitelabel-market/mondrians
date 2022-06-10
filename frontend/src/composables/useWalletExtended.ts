@@ -83,7 +83,6 @@ export function createWalletExtended(): Wallet {
   const refresh = async () => {
     signer.value = provider.value?.getSigner();
     balance.value = await getBalance();
-    alert(balance.value);
     blockie.value = makeBlockie(address.value);
   };
 
@@ -106,6 +105,11 @@ export function createWalletExtended(): Wallet {
   });
 
   onChainChanged(async () => {
+    if (walletProvider.value) {
+      provider.value = new ethers.providers.Web3Provider(
+        toRaw(walletProvider.value)
+      );
+    }
     await refresh();
   });
 
