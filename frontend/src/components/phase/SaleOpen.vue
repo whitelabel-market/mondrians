@@ -56,9 +56,7 @@
       <AppButton
         :disabled="quantity === 0"
         @click.prevent="
-          !isConnected
-            ? $emit('update:showConnectModal', true)
-            : $emit('update:modelValue', true)
+          !isConnected ? showConnectModal() : $emit('update:modelValue', true)
         "
       >
         <span class="px-8"> Mint </span>
@@ -71,9 +69,9 @@
 import PolygonIcon from "../icons/PolygonIcon.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { PlusSmIcon, MinusSmIcon } from "@heroicons/vue/solid";
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 
-defineEmits([
+const emit = defineEmits([
   "increase",
   "decrease",
   "update:modelValue",
@@ -107,8 +105,23 @@ const props = defineProps({
   },
 });
 
+const fromMintButton = ref(false);
+
 const canDecrease = computed(() => props.quantity > 0);
 const canIncrease = computed(
   () => props.quantity < (props.whitelistEnabled ? 5 : 10)
 );
+
+const showConnectModal = () => {
+  emit("update:showConnectModal", true);
+  fromMintButton.value = true;
+};
+
+watch([fromMintButton, () => props.isConnected], () => {
+  if (fromMintButton.value === true && props.isConnected) {
+    alert("jo");
+    emit("update:modelValue", true);
+    fromMintButton.value = false;
+  }
+});
 </script>

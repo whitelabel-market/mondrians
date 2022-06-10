@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import SaleClosed from "@/components/phase/SaleClosed.vue";
 import SaleOpen from "@/components/phase/SaleOpen.vue";
 import MintModal from "@/components/mint/MintModal.vue";
@@ -67,13 +67,7 @@ const showConnectModal = ref(false);
 const connected = ref(false);
 const quantity = ref(1);
 const { contract } = useContract();
-const { isConnected, address } = useWallet();
-
-watch(address, () => {
-  if (connected.value) {
-    modelValue.value = true;
-  }
-});
+const { isConnected } = useWallet();
 
 // phase handling
 
