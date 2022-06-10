@@ -1,14 +1,11 @@
 import { ethers } from "ethers";
 import { signWhitelist } from "../../utils/voucher.js";
 import { logger } from "../../logger/index.js";
+import crypto from "crypto";
+import { client } from "../../utils/redis.js";
 import axios from "axios";
 import nodemailer from "nodemailer";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import QRCode from "qrcode";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 import pkg from "passkit-generator";
 const { PKPass } = pkg;
 
@@ -20,6 +17,30 @@ const api = axios.create({
     Accept: "application/vnd.github.v4.raw",
   },
 });
+
+const getMessage = (address, nonce) => {
+  return `You are about to receive your order confirmation.\n\nClick to sign to proof your authenticity.\n\nThis request will not trigger a blockchain transaction or cost any gas fees.\n\nWallet address:\n${address}\n\nNonce:\n${nonce}`;
+};
+
+export const getEmailProof = async (req, res, config) => {
+  try {
+    const address = req.headers && req.headers["x-viewer-address"];
+    if (!address) throw new Error("Missing address in request body");
+
+    const nonce = crypto.randomBytes(32).toString("hex");
+
+    await client.set(address, JSON.stringify({ address, nonce }), {
+      EX: 60 * 60,
+    });
+
+    const message = getMessage(address, nonce);
+
+    return res.status(200).json({ message });
+  } catch (e) {
+    logger.error(e.toString());
+    return res.status(400).json(e.toString());
+  }
+};
 
 /**
  * returns a voucher for whitelist sale
@@ -64,9 +85,9 @@ export const getVoucher = async (req, res, config) => {
  */
 export const getMail = async (req, res, config) => {
   try {
-    //const address = req.headers && req.headers["x-viewer-address"];
-    const address = "0xe3bbf29f034fA780407Fd11dac7A0B3938b1bc6a";
-    const { email, signature } = req.query;
+    const address = req.headers && req.headers["x-viewer-address"];
+    const { email, signature } = req.body;
+
     if (!address) throw "Missing address in header";
     if (!email) throw "Missing email address";
     if (!signature) throw "Missing signature";
@@ -77,6 +98,42 @@ export const getMail = async (req, res, config) => {
       (whitelisted) => whitelisted.toLowerCase() === address.toLowerCase()
     );
     if (index < 0) throw "Not whitelisted";
+
+    let user = await client.get(address);
+    const parsedUser = JSON.parse(user);
+
+    if (parsedUser && !parsedUser.nonce)
+      throw new Error("No nonce available for user");
+
+    const message = getMessage(address, parsedUser.nonce);
+
+    const recoveredAddress = await ethers.utils.recoverAddress(
+      ethers.utils.arrayify(ethers.utils.hashMessage(message)),
+      signature
+    );
+
+    if (recoveredAddress.toLowerCase() !== address.toLowerCase())
+      throw new Error("Signature verification failed");
+
+    const dic_net = {
+      name: "maticmum",
+      chainId: 80001,
+      _defaultProvider: (providers) =>
+        new providers.JsonRpcProvider(
+          "https://matic-mumbai.chainstacklabs.com"
+        ),
+    };
+
+    const provider = ethers.getDefaultProvider(dic_net);
+
+    const contract = new ethers.Contract(
+      process.env.CONTRACT_ADDRESS,
+      ["function balanceOf(address owner) public view returns (uint256)"],
+      provider
+    );
+
+    const balance = await contract.balanceOf(address);
+    if (balance.isZero()) throw new Error("User balance is 0");
 
     let transporter = nodemailer.createTransport({
       host: "securesmtp.t-online.de",
@@ -133,7 +190,7 @@ export const getMail = async (req, res, config) => {
         <table style="width:100%;font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif" cellpadding="0" cellspacing="0" role="presentation"><tr><td align="center" style="background-color:#f8fafc">
         <table class="e" style="width:600px" cellpadding="0" cellspacing="0" role="presentation"><tr><td class="z w8" style="padding:48px;text-align:center"> <a href="https://magic-mondrian.netlify.app"> <img src="https://i.ibb.co/8g27SLZ/logo.png" width="70" alt="Magic Mondrian Logo" style="border:0;max-width:100%;vertical-align:middle"></a>
         </td></tr><tr><td align="center" class="w8">
-        <table style="width:100%" cellpadding="0" cellspacing="0" role="presentation"><tr><td class="w8" style="border-radius:4px;background-color:#fff;padding:48px;text-align:left;font-size:16px;line-height:24px;color:#334155;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)"><p style="margin:0;margin-bottom:16px">Hello,</p><p style="margin:0;margin-bottom:16px"> You are now owner of a Magic Mondrian NFT. This is a ticket for the </p><p class="w" style="margin:0;margin-bottom:16px;font-size:24px;font-weight:600;color:#000"> Magic Mondrian Launch Event </p><p style="margin:0;margin-bottom:24px"> on Saturday, 5th of January 2022 at Bohnsdorfer Weg 129, 12524 Berlin. </p><p style="margin:0;margin-bottom:16px"> Please use the following QR Code to check in during the event. </p><div style="margin-bottom:16px;text-align:center;line-height:100%"> <img src="cid:qrcode" width="75%" alt="QR Code" style="border:0;max-width:100%;vertical-align:middle"></div><div style="margin:0;margin-bottom:16px;text-align:center;line-height:100%"> <a href="http://192.168.178.31:3000/api/whitelist/pass?address=${address}&signature=${signature}"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Add_to_Apple_Wallet_badge.svg/512px-Add_to_Apple_Wallet_badge.svg.png" width="50%" alt="Add to Apple Wallet" style="border:0;max-width:100%;vertical-align:middle"> </a> </div><p> To add this pass to Wallet, open this email on your iPhone. </p>
+        <table style="width:100%" cellpadding="0" cellspacing="0" role="presentation"><tr><td class="w8" style="border-radius:4px;background-color:#fff;padding:48px;text-align:left;font-size:16px;line-height:24px;color:#334155;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)"><p style="margin:0;margin-bottom:16px">Hello,</p><p style="margin:0;margin-bottom:16px"> You are now owner of a Magic Mondrian NFT. This is a ticket for the </p><p class="w" style="margin:0;margin-bottom:16px;font-size:24px;font-weight:600;color:#000"> Magic Mondrian Launch Event </p><p style="margin:0;margin-bottom:24px"> on Saturday, 5th of January 2022 at Bohnsdorfer Weg 129, 12524 Berlin. </p><p style="margin:0;margin-bottom:16px"> Please use the following QR Code to check in during the event. </p><div style="margin-bottom:16px;text-align:center;line-height:100%"> <img src="cid:qrcode" width="75%" alt="QR Code" style="border:0;max-width:100%;vertical-align:middle"></div><div style="margin:0;margin-bottom:16px;text-align:center;line-height:100%"> <a href="https://api.whitelabel-market.com/api/whitelist/pass?address=${address}&signature=${signature}&nonce=${parsedUser.nonce}"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Add_to_Apple_Wallet_badge.svg/512px-Add_to_Apple_Wallet_badge.svg.png" width="50%" alt="Add to Apple Wallet" style="border:0;max-width:100%;vertical-align:middle"> </a> </div><p> To add this pass to Wallet, open this email on your iPhone. </p>
         <table style="width:100%" cellpadding="0" cellspacing="0" role="presentation"><tr><td style="padding-top:32px;padding-bottom:32px"><div style="height:1px;background-color:#e2e8f0;line-height:1px"> &zwnj; </div>
         </td></tr></table><p style="margin:0;margin-bottom:16px;color:#334155"> If you are not the receiver of this mail, you can safely ignore it. </p><p style="margin:0;margin-bottom:16px;color:#334155"> Thanks, <br>The Whitelabel Solutions Team </p>
         </td></tr><tr><td style="height:48px">
@@ -165,9 +222,21 @@ var add_minutes = function (dt, minutes) {
 
 export const getPass = async (req, res, config) => {
   try {
-    const { address } = req.query;
+    const { address, signature, nonce } = req.query;
     if (!address) throw "Missing address in query";
-    // TODO: check signature
+    if (!signature) throw "Missing signature in query";
+    if (!nonce) throw "Missing nonce in query";
+
+    const message = getMessage(address, nonce);
+
+    const recoveredAddress = await ethers.utils.recoverAddress(
+      ethers.utils.arrayify(ethers.utils.hashMessage(message)),
+      signature
+    );
+
+    if (recoveredAddress.toLowerCase() !== address.toLowerCase())
+      throw new Error("Signature verification failed");
+
     const examplePass = await PKPass.from(
       {
         model: "./MAMO.pass",
@@ -196,7 +265,7 @@ export const getPass = async (req, res, config) => {
     });
 
     examplePass.setBarcodes({
-      message: `http://192.168.178.31:3000/api/whitelist/scan?address=${address}`,
+      message: `https://api.whitelabel-market.com/api/whitelist/scan?address=${address}`,
       format: "PKBarcodeFormatQR",
     });
 

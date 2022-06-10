@@ -1,5 +1,10 @@
 import express from "express";
-import { getVoucher, getPass, getMail } from "../handlers/index.js";
+import {
+  getVoucher,
+  getPass,
+  getMail,
+  getEmailProof,
+} from "../handlers/index.js";
 import { validateRequest } from "../middleware/requestValidation.js";
 
 /**
@@ -28,6 +33,12 @@ const wlRouter = (config) => {
   );
 
   whitelistRouter.get(
+    "/emailproof",
+    //[validateRequest()],
+    async (req, res) => await getEmailProof(req, res, config)
+  );
+
+  whitelistRouter.post(
     "/email",
     //[validateRequest()],
     async (req, res) => await getMail(req, res, config)
