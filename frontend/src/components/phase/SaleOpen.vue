@@ -119,7 +119,6 @@ const showConnectModal = () => {
 
 watch([fromMintButton, () => props.isConnected], () => {
   if (fromMintButton.value === true && props.isConnected) {
-    alert("jo");
     emit("update:modelValue", true);
     fromMintButton.value = false;
   }
