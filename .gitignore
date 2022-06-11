@@ -27,3 +27,5 @@ pnpm-debug.log*
 backend/node_modules
 backend/.env
 backend/html
+backend/index.html
+backend/screenshots

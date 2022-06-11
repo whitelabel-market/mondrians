@@ -15,6 +15,9 @@ const api = axios.create({
   headers: {
     Authorization: `token ${process.env.GH_PAT}`,
     Accept: "application/vnd.github.v4.raw",
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
+    Expires: "0",
   },
 });
 

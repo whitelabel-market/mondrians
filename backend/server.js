@@ -2,8 +2,15 @@ import express from "express";
 import cors from "cors";
 import authRouter from "./api/routes/auth.js";
 import wlRouter from "./api/routes/whitelisting.js";
+import printRouter from "./api/routes/print.js";
 import createConfig from "./utils/config.js";
 import { logger } from "./logger/index.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -27,12 +34,27 @@ const startServer = async () => {
     })
   );
 
+  app.use("/screenshots", (req, res, next) => {
+    const { apikey } = req.query;
+    if (!apikey) return res.status(403).send("Forbidden");
+    if (apikey !== process.env.PRINT_KEY)
+      return res.status(403).send("Forbidden");
+    return next();
+  });
+
+  app.use(
+    "/screenshots",
+    express.static(path.join(__dirname, "./screenshots"))
+  );
+
   app.get("/status", (req, res) => {
     return res.status(200).json();
   });
+
   app.disable("x-powered-by");
   app.use(express.json());
   app.use(authRouter(config));
+  app.use("/api/print", printRouter(config));
   app.use("/api/whitelist", wlRouter(config));
 
   app.listen(config.app.port, (err) => {
