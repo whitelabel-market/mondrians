@@ -11,7 +11,6 @@
         class="fixed z-30 flex items-center justify-center w-full h-screen bg-white dark:bg-neutral-900"
       >
         <LoadingMondrian class="w-10 h-10" />
-        <!-- <AppLoadingSpinner :size="'lg'" /> -->
       </div>
       <main
         class="flex flex-col justify-center flex-1 w-full transition-colors duration-300 bg-white dark:bg-neutral-900"
@@ -32,9 +31,7 @@ import LayoutHeader from "@/components/layouts/LayoutHeader.vue";
 import LayoutFrame from "@/components/layouts/LayoutFrame.vue";
 import LayoutChangeNetworkModal from "@/components/layouts/LayoutChangeNetworkModal.vue";
 import LoadingMondrian from "@/components/icons/LoadingMondrian.vue";
-//import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
-//import { NETWORK_NAME } from "@/utils/constants";
 
 const { activeChainId } = useWallet();
 const loaded = ref(false);
