@@ -3,7 +3,7 @@ import type { Ref, ShallowRef } from "vue";
 import { ethers } from "ethers";
 import { weiToEth } from "@/utils/ethereum";
 import makeBlockie from "ethereum-blockies-base64";
-import { createAuthInterface } from "@/services/AuthInterface";
+import { authInterface, createAuthInterface } from "@/services/AuthInterface";
 import {
   useWallet,
   useBlock,
@@ -94,6 +94,14 @@ export function createWalletExtended(): Wallet {
     if (walletProvider.value) {
       await connect(walletProvider.value);
       await refresh();
+      authInterface.reset();
+      const message = await authInterface.login();
+      if (message) {
+        const signature = await signMessage(message);
+        if (signature) {
+          await authInterface.callback(signature);
+        }
+      }
     }
   });
 
@@ -102,10 +110,19 @@ export function createWalletExtended(): Wallet {
     balance.value = "";
     blockie.value = "";
     signer.value = undefined;
+    authInterface.reset();
   });
 
   onAccountsChanged(async () => {
     await refresh();
+    authInterface.reset();
+    const message = await authInterface.login();
+    if (message) {
+      const signature = await signMessage(message);
+      if (signature) {
+        await authInterface.callback(signature);
+      }
+    }
   });
 
   onChainChanged(async () => {

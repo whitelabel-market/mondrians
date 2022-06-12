@@ -1,6 +1,7 @@
 import express from "express";
 import { login, callback } from "../handlers/index.js";
 import { validateRequest } from "../middleware/requestValidation.js";
+import { isAuthenticated } from "../middleware/authorization.js";
 
 /**
  * creates authentication related routes for
@@ -17,7 +18,7 @@ const authRouter = (config) => {
    */
   authenticationRouter.post(
     "/login",
-    validateRequest(false),
+    [validateRequest(false), isAuthenticated()],
     async (req, res) => await login(req, res, config)
   );
 

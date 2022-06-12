@@ -7,8 +7,8 @@ export interface AuthInterface {
   login: () => Promise<string>;
   callback: (signature: string) => Promise<void>;
   getVoucher: () => Promise<string>;
-  getEmailProof: () => Promise<string>;
-  sendMail: (email: string, signature: string) => Promise<void>;
+  sendMail: (email: string) => Promise<void>;
+  reset: () => void;
 }
 
 export let authInterface: AuthInterface;
@@ -17,6 +17,7 @@ export const createAuthInterface = (address: string) => {
   const xViewerAddress = address;
   const xCsrf = "1";
   let xCsrfToken = "";
+  let bearerToken = "";
 
   const useFetch = createFetch({
     baseUrl: API,
@@ -28,6 +29,8 @@ export const createAuthInterface = (address: string) => {
           Accept: "application/json",
           "Content-Type": "application/json",
         };
+        if (bearerToken)
+          options.headers.Authorization = `Bearer ${bearerToken}`;
         if (xCsrfToken) options.headers["x-csrf-token"] = xCsrfToken;
         return { options };
       },
@@ -48,10 +51,13 @@ export const createAuthInterface = (address: string) => {
       }
       const message = unref(data).message;
       xCsrfToken = unref(data).csrfToken;
+      if (unref(data)?.jwt) {
+        bearerToken = unref(data)?.jwt;
+      }
       if (message) {
         return message;
       }
-      throw "No message returned";
+      return "";
     } catch (e: any) {
       throw new Error(e.toString());
     }
@@ -64,6 +70,12 @@ export const createAuthInterface = (address: string) => {
         .json();
       if (error.value) {
         throw unref(data);
+      }
+      const jwt = unref(data).jwt;
+      if (jwt) {
+        bearerToken = jwt;
+      } else {
+        throw "No bearer token returned";
       }
     } catch (e: any) {
       throw new Error(e.toString());
@@ -86,40 +98,29 @@ export const createAuthInterface = (address: string) => {
     }
   };
 
-  const getEmailProof = async (): Promise<string> => {
+  const sendMail = async (email: string): Promise<void> => {
     try {
-      const { data, error } = await useFetch("api/whitelist/emailproof", {
+      const { data, error } = await useFetch(`api/whitelist/email`, {
         timeout: 10000,
-      })
-        .get()
-        .json();
+      }).post({ email });
       if (error.value) {
         throw unref(data);
       }
-      return unref(data).message;
     } catch (e: any) {
       throw new Error(e.toString());
     }
   };
 
-  const sendMail = async (email: string, signature: string): Promise<void> => {
-    try {
-      const { data, error } = await useFetch(`api/whitelist/email`, {
-        timeout: 10000,
-      }).post({ email, signature });
-      if (error.value) {
-        throw unref(data);
-      }
-    } catch (e: any) {
-      throw new Error(e.toString());
-    }
+  const reset = () => {
+    xCsrfToken = "";
+    bearerToken = "";
   };
 
   authInterface = {
     login,
     callback,
     getVoucher,
-    getEmailProof,
     sendMail,
+    reset,
   };
 };

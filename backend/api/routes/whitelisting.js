@@ -1,11 +1,11 @@
 import express from "express";
-import {
-  getVoucher,
-  getPass,
-  getMail,
-  getEmailProof,
-} from "../handlers/index.js";
+import { getVoucher, getPass, getMail } from "../handlers/index.js";
 import { validateRequest } from "../middleware/requestValidation.js";
+import {
+  verifyJWT,
+  isWhitelisted,
+  hasMondrian,
+} from "../middleware/authorization.js";
 
 /**
  * creates whitelisting related routes
@@ -22,25 +22,19 @@ const wlRouter = (config) => {
    */
   whitelistRouter.get(
     "/voucher",
-    [validateRequest()],
+    [validateRequest(), verifyJWT(), isWhitelisted()],
     async (req, res) => await getVoucher(req, res, config)
   );
 
   whitelistRouter.get(
     "/pass",
-    //[validateRequest()],
+    [isWhitelisted(), hasMondrian()],
     async (req, res) => await getPass(req, res, config)
-  );
-
-  whitelistRouter.get(
-    "/emailproof",
-    //[validateRequest()],
-    async (req, res) => await getEmailProof(req, res, config)
   );
 
   whitelistRouter.post(
     "/email",
-    //[validateRequest()],
+    [validateRequest(), verifyJWT(), isWhitelisted(), hasMondrian()],
     async (req, res) => await getMail(req, res, config)
   );
 

@@ -3,9 +3,14 @@ import crypto from "crypto";
 import { encrypt } from "../../utils/crypto.js";
 import { logger } from "../../logger/index.js";
 import { client } from "../../utils/redis.js";
+import {
+  generateAccessToken,
+  setRefreshToken,
+  generateRefreshToken,
+} from "../../utils/jwt.js";
 
 const getMessage = (address, nonce) => {
-  return `Welcome to the Magic Mondrian NFT launch!\n\nClick to sign to login.\n\nThis request will not trigger a blockchain transaction or cost any gas fees.\n\nWallet address:\n${address}\n\nNonce:\n${nonce}`;
+  return `Welcome to the world of Magic Mondrian NFT's'!\n\nClick to sign to login.\n\nThis request will not trigger a blockchain transaction or cost any gas fees.\n\nWallet address:\n${address}\n\nNonce:\n${nonce}`;
 };
 
 /**
@@ -70,7 +75,21 @@ export const callback = async (req, res, config) => {
     if (recoveredAddress.toLowerCase() !== address.toLowerCase())
       throw new Error("Signature verification failed");
 
-    return res.status(200).json("");
+    const iat = Math.round(Date.now() / 1000);
+
+    const payload = {
+      iat,
+      sub: address,
+      iss: "MagicMondrian",
+      typ: "Bearer",
+    };
+
+    const accessToken = generateAccessToken(payload);
+    payload.typ = "Refresh";
+    const refreshToken = generateRefreshToken(payload);
+    setRefreshToken(res, refreshToken);
+
+    return res.status(200).json({ jwt: accessToken });
   } catch (e) {
     logger.error(e.toString());
     return res.status(401).json("Unauthenticated");

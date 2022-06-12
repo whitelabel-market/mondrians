@@ -1,6 +1,11 @@
 import express from "express";
 import { getPoster, createPrintOrder } from "../handlers/index.js";
 import { validateRequest } from "../middleware/requestValidation.js";
+import {
+  hasMondrian,
+  verifyJWT,
+  onlyLocal,
+} from "../middleware/authorization.js";
 
 /**
  * creates prrinting related routes
@@ -17,7 +22,7 @@ const printRouter = (config) => {
    */
   printerRouter.get(
     "/poster",
-    [validateRequest()],
+    [onlyLocal()],
     async (req, res) => await getPoster(req, res, config)
   );
 
@@ -28,7 +33,7 @@ const printRouter = (config) => {
    */
   printerRouter.post(
     "/order",
-    [validateRequest()],
+    [validateRequest(), verifyJWT(), hasMondrian()],
     async (req, res) => await createPrintOrder(req, res, config)
   );
 

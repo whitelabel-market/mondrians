@@ -184,8 +184,9 @@ export const getPoster = async (req, res, config) => {
  * @returns {HTML} - new poster
  */
 export const createPrintOrder = async (req, res, config) => {
-  const { address, street, zipCode, countryCode, city, country, name, email } =
-    req.body;
+  const { accessToken } = req;
+  const address = accessToken.sub;
+  const { street, zipCode, countryCode, city, country, name, email } = req.body;
 
   if (!fs.existsSync(path.join(__dirname, "../../screenshots"))) {
     fs.mkdirSync(path.join(__dirname, "../../screenshots"));
@@ -207,9 +208,9 @@ export const createPrintOrder = async (req, res, config) => {
     });
 
     await page.goto(
-      process.env.NODE_ENV === "development"
-        ? `http://localhost:3000/api/print/poster?address=${address}`
-        : `https://api.whitelabel-market.com/api/print/poster?address=${address}`,
+      `http://localhost:${
+        process.env.NODE_ENV === "development" ? "3000" : "8080"
+      }/api/print/poster?address=${address}`,
       { waitUntil: "load" }
     );
 

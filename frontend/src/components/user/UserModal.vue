@@ -192,7 +192,7 @@ defineProps({
 });
 
 const { address, disconnect } = useWallet();
-const { balance, signMessage } = useWalletExtended();
+const { balance } = useWalletExtended();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const maticPrice = ref<string>("");
 const emailAddress = ref("");
@@ -212,13 +212,7 @@ const validEmail = computed<boolean>(() =>
 );
 
 const registerForEventTicket = async () => {
-  const message = await authInterface.getEmailProof();
-  if (message) {
-    const signature = await signMessage(message);
-    if (signature) {
-      await authInterface.sendMail(emailAddress.value, signature);
-    }
-  }
+  await authInterface.sendMail(emailAddress.value);
 };
 
 const { data, execute, onFetchResponse } = useFetch(UNISWAP_SUBGRAPH_POLYGON, {

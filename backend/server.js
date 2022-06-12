@@ -8,6 +8,7 @@ import { logger } from "./logger/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import cookieParser from "cookie-parser";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -53,6 +54,7 @@ const startServer = async () => {
 
   app.disable("x-powered-by");
   app.use(express.json());
+  app.use(cookieParser());
   app.use(authRouter(config));
   app.use("/api/print", printRouter(config));
   app.use("/api/whitelist", wlRouter(config));

@@ -11,10 +11,6 @@ type MintSteps = {
 export const MINT_TASKS: MintSteps = {
   whitelistsale: [
     {
-      name: "Authenticate",
-      description: "Ensuring authenticity of your eth account address",
-    },
-    {
       name: "Get Voucher",
       description:
         "Check if your address is eligible for Whitelist Sale and receive voucher",

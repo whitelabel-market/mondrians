@@ -51,7 +51,7 @@ import type { Task } from "@/composables/useTask";
 defineEmits(["update:modelValue"]);
 
 const { address } = useWallet();
-const { signMessage, provider } = useWalletExtended();
+const { provider } = useWalletExtended();
 const tokens = ref([]);
 const tasks = ref<Task<any>[]>([]);
 
@@ -73,13 +73,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-// job to get message to be signed
-const getMessage = function* (): any {
-  const message: string = yield authInterface.login();
-  const signature: string = yield signMessage(message);
-  return yield authInterface.callback(signature);
-};
 
 // job to generate voucher (whitelist sale)
 const getVoucher = function* (): any {
@@ -130,7 +123,6 @@ watch(
       switch (props.whitelistEnabled) {
         case true:
           tasks.value = [
-            useTask(getMessage),
             useTask(getVoucher),
             useTask(execMint),
             useTask(getToken),
