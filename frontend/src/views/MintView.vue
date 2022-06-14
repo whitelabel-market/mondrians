@@ -1,19 +1,17 @@
 <template>
   <section>
-    <div class="container max-w-4xl px-8 mx-auto">
+    <div class="container px-8 mx-auto">
       <StepperContainer>
-        <StepperItem title="Get Voucher">
-          <MintProgress
-            :tasks="tasks"
-            :whitelistEnabled="whitelistEnabled"
-            @update:modelValue="reset"
-          />
+        <StepperItem :title="MintStepKey.GET_VOUCHER" v-if="whitelistEnabled">
+          <MintStep :step="steps[MintStepKey.GET_VOUCHER]" />
         </StepperItem>
-        <StepperItem title=""> <p>Test Content 2</p> </StepperItem>
-        <StepperItem title="Get Physical Item">
-          <p>Test Content 3</p>
+        <StepperItem :title="MintStepKey.MINT">
+          <MintStep :step="steps[MintStepKey.MINT]" />
         </StepperItem>
-        <StepperItem title="Mint Confirmation">
+        <StepperItem :title="MintStepKey.LOAD_TOKEN">
+          <MintStep :step="steps[MintStepKey.LOAD_TOKEN]" />
+        </StepperItem>
+        <StepperItem title="Confirmation">
           <MintSuccess :tokens="tokens" @update:modelValue="reset" />
         </StepperItem>
       </StepperContainer>
@@ -23,7 +21,6 @@
 
 <script setup lang="ts">
 import { ref, toRaw, computed, watch, onMounted } from "vue";
-import MintProgress from "@/components/mint/MintProgress.vue";
 import MintSuccess from "@/components/mint/MintSuccess.vue";
 import MondrianInterface from "@/services/MondrianInterface";
 import useTask from "@/composables/useTask";
@@ -31,7 +28,12 @@ import { authInterface } from "@/services/AuthInterface";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, MAMO_SUBGRAPH } from "@/utils/constants";
+import {
+  CONTRACT_ADDRESS,
+  MAMO_SUBGRAPH,
+  MintStepKey,
+  SalePhase,
+} from "@/utils/constants";
 import { useFetch } from "@vueuse/core";
 import { getContract, getTokensFromBlock } from "@/services/graphql/types";
 import type { Task } from "@/composables/useTask";
@@ -39,29 +41,19 @@ import useContract from "@/composables/useContract";
 import { useFlag } from "@/composables/useFlags";
 import StepperContainer from "@/components/stepper/StepperContainer.vue";
 import StepperItem from "@/components/stepper/StepperItem.vue";
+import MintStep from "@/components/mint/MintStep.vue";
+import { MintStepType } from "@/utils/types";
 
 // phase handling
 
-enum Phase {
-  PreSale = "presale",
-  WhitelistSale = "whitelistsale",
-  PublicSale = "publicsale",
-  Reveal = "reveal",
-}
-
-const presaleEnabled = useFlag(Phase.PreSale);
-const whitelistEnabled = useFlag(Phase.WhitelistSale);
-const publicsaleEnabled = useFlag(Phase.PublicSale);
-const revealEnabled = useFlag(Phase.Reveal);
+const presaleEnabled = useFlag(SalePhase.PreSale);
+const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
+const publicsaleEnabled = useFlag(SalePhase.PublicSale);
+const revealEnabled = useFlag(SalePhase.Reveal);
 
 const { address } = useWallet();
 const { provider } = useWalletExtended();
 const tokens = ref([]);
-const tasks = computed<Task<any>[]>(() => {
-  return whitelistEnabled
-    ? [useTask(getVoucher), useTask(execMint), useTask(getToken)]
-    : [useTask(execMint), useTask(getToken)];
-});
 
 const emits = defineEmits(["loaded"]);
 
@@ -73,15 +65,15 @@ const { contract } = useContract();
 const { isConnected } = useWallet();
 
 const currentPhase = computed(() => {
-  if (revealEnabled.value) return Phase.Reveal;
-  if (publicsaleEnabled.value) return Phase.PublicSale;
-  if (whitelistEnabled.value) return Phase.WhitelistSale;
-  if (presaleEnabled.value) return Phase.PreSale;
+  if (revealEnabled.value) return SalePhase.Reveal;
+  if (publicsaleEnabled.value) return SalePhase.PublicSale;
+  if (whitelistEnabled.value) return SalePhase.WhitelistSale;
+  if (presaleEnabled.value) return SalePhase.PreSale;
   return "";
 });
 
 const price = computed(() =>
-  currentPhase.value === Phase.WhitelistSale ? "0.00025" : "0.005"
+  currentPhase.value === SalePhase.WhitelistSale ? "0.00025" : "0.005"
 );
 
 // job to generate voucher (whitelist sale)
@@ -148,4 +140,23 @@ const { onFetchResponse, data, execute, isFinished } = useFetch(MAMO_SUBGRAPH, {
 watch(isFinished, () => {
   if (isFinished) emits("loaded", true);
 });
+
+const steps: Record<MintStepKey, MintStepType> = {
+  [MintStepKey.GET_VOUCHER]: {
+    task: useTask(getVoucher),
+    title: MintStepKey.GET_VOUCHER,
+    description:
+      "Check if your address is eligible for Whitelist Sale and receive voucher",
+  },
+  [MintStepKey.MINT]: {
+    task: useTask(execMint),
+    title: MintStepKey.MINT,
+    description: "Create your own Magic Mondrian NFT's",
+  },
+  [MintStepKey.LOAD_TOKEN]: {
+    task: useTask(getToken),
+    title: MintStepKey.LOAD_TOKEN,
+    description: "Receiving your minted NFT's",
+  },
+};
 </script>

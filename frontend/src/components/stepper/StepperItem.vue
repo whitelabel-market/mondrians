@@ -1,5 +1,5 @@
 <template>
-  <TabPanel>
+  <TabPanel class="p-8">
     <slot></slot>
   </TabPanel>
 </template>

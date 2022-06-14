@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
-import MintStep from "@/components/mint/MintStep.vue";
+import MintStep from "@/components/mint/MintStep_depr.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import useQueue from "@/composables/useQueue";
 import type { Task } from "@/composables/useTask";
