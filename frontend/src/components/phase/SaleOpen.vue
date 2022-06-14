@@ -16,108 +16,32 @@
     >
       {{ contract.totalSupply }} of {{ contract.maxSupply }}
     </p>
-    <div class="flex items-center justify-center w-full mt-4 space-x-4">
-      <AppButton
-        only-icon
-        :disabled="!canDecrease"
-        size="md"
-        @click.prevent="$emit('decrease')"
-        rounded="full"
-      >
-        <MinusSmIcon class="w-4 h-4" />
-      </AppButton>
-
-      <input
-        :value="quantity"
-        readonly
-        type="text"
-        id="mint"
-        name="mint"
-        class="block w-20 mx-auto text-center transition-colors duration-300 border-2 rounded-full outline-none cursor-not-allowed border-neutral-800 dark:text-neutral-200 dark:bg-neutral-800 dark:border-neutral-800 focus:outline-none"
-        :placeholder="quantity.toString()"
-      />
-
-      <AppButton
-        only-icon
-        :disabled="!canIncrease"
-        @click.prevent="$emit('increase')"
-        rounded="full"
-      >
-        <PlusSmIcon class="w-4 h-4" />
-      </AppButton>
-    </div>
-    <p
-      class="flex items-center justify-center mt-4 space-x-1 text-sm font-semibold transition-colors duration-300 dark:text-neutral-200"
-    >
-      <span>Price: {{ Number(price) * quantity }} </span>
-      <PolygonIcon class="w-2.5" />
-    </p>
-    <div class="flex items-center justify-center mt-4">
-      <AppButton
-        :disabled="quantity === 0"
-        @click.prevent="!isConnected ? connect() : mint()"
-      >
-        <span class="px-8"> Mint </span>
-      </AppButton>
-    </div>
+    <MintSettings
+      :model-value="modelValue"
+      @update:modelValue="emit('update:modelValue', $event)"
+      :whitelistEnabled="whitelistEnabled"
+      @mint="emit('mint', $event)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import PolygonIcon from "../icons/PolygonIcon.vue";
-import AppButton from "@/components/app/AppButton.vue";
-import { PlusSmIcon, MinusSmIcon } from "@heroicons/vue/solid";
-import { computed, ref, watch } from "vue";
+import MintSettings from "@/components/mint/MintSettings.vue";
 
-const emit = defineEmits(["increase", "decrease", "mint", "connect"]);
+const emit = defineEmits(["update:modelValue", "mint"]);
 
 const props = defineProps({
-  price: {
-    type: String,
-    required: true,
-  },
-  quantity: {
+  modelValue: {
     type: Number,
-    required: true,
-  },
-  whitelistEnabled: {
-    type: Boolean,
-    required: true,
-  },
-  publicsaleEnabled: {
-    type: Boolean,
     required: true,
   },
   contract: {
     type: Object,
     required: true,
   },
-  isConnected: {
+  whitelistEnabled: {
     type: Boolean,
     required: true,
   },
-});
-
-const fromMintButton = ref(false);
-
-const canDecrease = computed(() => props.quantity > 0);
-const canIncrease = computed(
-  () => props.quantity < (props.whitelistEnabled ? 5 : 10)
-);
-
-const connect = () => {
-  emit("connect");
-  fromMintButton.value = true;
-};
-
-const mint = () => {
-  emit("mint");
-};
-
-watch([fromMintButton, () => props.isConnected], () => {
-  if (fromMintButton.value && props.isConnected) {
-    emit("mint");
-    fromMintButton.value = false;
-  }
 });
 </script>

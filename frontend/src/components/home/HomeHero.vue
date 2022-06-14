@@ -8,44 +8,29 @@
         alt="Magic Mondrian"
         class="animate"
       />
-      <SaleClosed
-        v-if="currentPhase === Phase.PreSale || currentPhase == Phase.Reveal"
-        :revealEnabled="currentPhase === Phase.Reveal"
-        :loaded="loaded"
-      />
       <SaleOpen
-        v-if="
-          currentPhase === Phase.WhitelistSale ||
-          currentPhase == Phase.PublicSale
-        "
-        :price="currentPhase === Phase.WhitelistSale ? '0.00025' : '0.005'"
-        :whitelistEnabled="currentPhase === Phase.WhitelistSale"
-        :publicsaleEnabled="currentPhase === Phase.PublicSale"
-        :quantity="quantity"
+        v-if="whitelistEnabled || publicsaleEnabled"
+        v-model="quantity"
+        :whitelistEnabled="whitelistEnabled"
         :contract="contract"
-        :is-connected="isConnected"
-        @increase="quantity++"
-        @decrease="quantity--"
-        @mint="onMint"
-        @connect="showConnectModal = true"
+        @mint="mintIfConnected"
       />
+      <SaleClosed v-else :revealEnabled="revealEnabled" :loaded="loaded" />
     </div>
   </section>
-  <LayoutConnectModal
-    v-model="showConnectModal"
-    @connected="connected = true"
-  />
+  <LayoutConnectModal v-model="showConnectModal" />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import SaleClosed from "@/components/phase/SaleClosed.vue";
 import SaleOpen from "@/components/phase/SaleOpen.vue";
 import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
 import useContract from "@/composables/useContract";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useFlag } from "@/composables/useFlags";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+import { SalePhase } from "@/utils/constants/mint";
 
 defineProps({
   loaded: {
@@ -55,40 +40,21 @@ defineProps({
 });
 
 const router = useRouter();
-const route = useRoute();
-
-// modal handling
-
-const modelValue = ref(false);
-const showConnectModal = ref(false);
-const connected = ref(false);
-const quantity = ref(1);
 const { contract } = useContract();
 const { isConnected } = useWallet();
 
-// phase handling
+const [whitelistEnabled, publicsaleEnabled, revealEnabled] = [
+  SalePhase.WhitelistSale,
+  SalePhase.PublicSale,
+  SalePhase.Reveal,
+].map(useFlag);
 
-enum Phase {
-  PreSale = "presale",
-  WhitelistSale = "whitelistsale",
-  PublicSale = "publicsale",
-  Reveal = "reveal",
-}
+const showConnectModal = ref(false);
+const quantity = ref(1);
 
-const presaleEnabled = useFlag(Phase.PreSale);
-const whitelistEnabled = useFlag(Phase.WhitelistSale);
-const publicsaleEnabled = useFlag(Phase.PublicSale);
-const revealEnabled = useFlag(Phase.Reveal);
-
-const currentPhase = computed(() => {
-  if (revealEnabled.value) return Phase.Reveal;
-  if (publicsaleEnabled.value) return Phase.PublicSale;
-  if (whitelistEnabled.value) return Phase.WhitelistSale;
-  if (presaleEnabled.value) return Phase.PreSale;
-  return "";
-});
-
-const onMint = () => {
-  router.push({ name: "Mint", query: { quantity: quantity.value } });
+const mintIfConnected = (event: number) => {
+  return isConnected.value
+    ? router.push({ name: "Mint", query: { quantity: event } })
+    : (showConnectModal.value = true);
 };
 </script>

@@ -40,14 +40,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useSlots, defineEmits } from "vue";
+import { useSlots } from "vue";
 import StepperItem from "@/components/stepper/StepperItem.vue";
 import { Tab, TabGroup, TabList, TabPanels } from "@headlessui/vue";
 
-const emit = defineEmits(["select"]);
-
 const slots = useSlots();
-const steps: typeof StepperItem[] = slots.default();
+const steps = slots.default?.() as unknown as typeof StepperItem[];
 </script>
 
 <style scoped></style>

@@ -2,17 +2,22 @@
   <section>
     <div class="container px-8 mx-auto">
       <StepperContainer>
-        <StepperItem :title="MintStepKey.GET_VOUCHER" v-if="whitelistEnabled">
-          <MintStep :step="steps[MintStepKey.GET_VOUCHER]" />
+        <StepperItem title="Mint">
+          <MintStep />
         </StepperItem>
+        <StepperItem :title="MintStepKey.GET_VOUCHER" v-if="whitelistEnabled">
+          <TaskStep :step="steps[MintStepKey.GET_VOUCHER]" />
+        </StepperItem>
+        <StepperItem title="Event Invitation"> </StepperItem>
+        <StepperItem title="Print Order"> </StepperItem>
         <StepperItem :title="MintStepKey.MINT">
-          <MintStep :step="steps[MintStepKey.MINT]" />
+          <TaskStep :step="steps[MintStepKey.MINT]" />
         </StepperItem>
         <StepperItem :title="MintStepKey.LOAD_TOKEN">
-          <MintStep :step="steps[MintStepKey.LOAD_TOKEN]" />
+          <TaskStep :step="steps[MintStepKey.LOAD_TOKEN]" />
         </StepperItem>
         <StepperItem title="Confirmation">
-          <MintSuccess :tokens="tokens" @update:modelValue="reset" />
+          <MintSuccess :tokens="tokens" />
         </StepperItem>
       </StepperContainer>
     </div>
@@ -36,11 +41,11 @@ import {
 } from "@/utils/constants";
 import { useFetch } from "@vueuse/core";
 import { getContract, getTokensFromBlock } from "@/services/graphql/types";
-import type { Task } from "@/composables/useTask";
 import useContract from "@/composables/useContract";
 import { useFlag } from "@/composables/useFlags";
 import StepperContainer from "@/components/stepper/StepperContainer.vue";
 import StepperItem from "@/components/stepper/StepperItem.vue";
+import TaskStep from "@/components/mint/TaskStep.vue";
 import MintStep from "@/components/mint/MintStep.vue";
 import { MintStepType } from "@/utils/types";
 

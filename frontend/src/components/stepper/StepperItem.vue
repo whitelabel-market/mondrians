@@ -8,7 +8,7 @@
 import { defineProps } from "vue";
 import { TabPanel } from "@headlessui/vue";
 
-const props = defineProps({
+defineProps({
   title: { type: String, default: "" },
   disabled: { type: Boolean, default: false },
 });
