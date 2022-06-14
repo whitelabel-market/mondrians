@@ -1,13 +1,22 @@
 <template>
   <section>
     <div class="container max-w-4xl px-8 mx-auto">
-      <MintProgress
-        v-if="!tokens.length"
-        :tasks="tasks"
-        :whitelistEnabled="whitelistEnabled"
-        @update:modelValue="reset"
-      />
-      <MintSuccess v-else :tokens="tokens" @update:modelValue="reset" />
+      <StepperContainer>
+        <StepperItem title="Get Voucher">
+          <MintProgress
+            :tasks="tasks"
+            :whitelistEnabled="whitelistEnabled"
+            @update:modelValue="reset"
+          />
+        </StepperItem>
+        <StepperItem title=""> <p>Test Content 2</p> </StepperItem>
+        <StepperItem title="Get Physical Item">
+          <p>Test Content 3</p>
+        </StepperItem>
+        <StepperItem title="Mint Confirmation">
+          <MintSuccess :tokens="tokens" @update:modelValue="reset" />
+        </StepperItem>
+      </StepperContainer>
     </div>
   </section>
 </template>
@@ -28,6 +37,8 @@ import { getContract, getTokensFromBlock } from "@/services/graphql/types";
 import type { Task } from "@/composables/useTask";
 import useContract from "@/composables/useContract";
 import { useFlag } from "@/composables/useFlags";
+import StepperContainer from "@/components/stepper/StepperContainer.vue";
+import StepperItem from "@/components/stepper/StepperItem.vue";
 
 // phase handling
 
