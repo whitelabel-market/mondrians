@@ -26,17 +26,11 @@
         :is-connected="isConnected"
         @increase="quantity++"
         @decrease="quantity--"
-        @update:modelValue="modelValue = true"
-        @update:showConnectModal="showConnectModal = true"
+        @mint="onMint"
+        @connect="showConnectModal = true"
       />
     </div>
   </section>
-  <MintModal
-    v-model="modelValue"
-    :whitelistEnabled="whitelistEnabled"
-    :quantity="quantity"
-    :price="currentPhase === Phase.WhitelistSale ? '0.00025' : '0.005'"
-  />
   <LayoutConnectModal
     v-model="showConnectModal"
     @connected="connected = true"
@@ -47,11 +41,11 @@
 import { computed, ref } from "vue";
 import SaleClosed from "@/components/phase/SaleClosed.vue";
 import SaleOpen from "@/components/phase/SaleOpen.vue";
-import MintModal from "@/components/mint/MintModal.vue";
 import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
 import useContract from "@/composables/useContract";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useFlag } from "@/composables/useFlags";
+import { useRouter, useRoute } from "vue-router";
 
 defineProps({
   loaded: {
@@ -59,6 +53,9 @@ defineProps({
     required: true,
   },
 });
+
+const router = useRouter();
+const route = useRoute();
 
 // modal handling
 
@@ -90,4 +87,8 @@ const currentPhase = computed(() => {
   if (presaleEnabled.value) return Phase.PreSale;
   return "";
 });
+
+const onMint = () => {
+  router.push({ name: "Mint", query: { quantity: quantity.value } });
+};
 </script>

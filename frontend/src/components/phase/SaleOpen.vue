@@ -55,9 +55,7 @@
     <div class="flex items-center justify-center mt-4">
       <AppButton
         :disabled="quantity === 0"
-        @click.prevent="
-          !isConnected ? showConnectModal() : $emit('update:modelValue', true)
-        "
+        @click.prevent="!isConnected ? connect() : mint()"
       >
         <span class="px-8"> Mint </span>
       </AppButton>
@@ -71,12 +69,7 @@ import AppButton from "@/components/app/AppButton.vue";
 import { PlusSmIcon, MinusSmIcon } from "@heroicons/vue/solid";
 import { computed, ref, watch } from "vue";
 
-const emit = defineEmits([
-  "increase",
-  "decrease",
-  "update:modelValue",
-  "update:showConnectModal",
-]);
+const emit = defineEmits(["increase", "decrease", "mint", "connect"]);
 
 const props = defineProps({
   price: {
@@ -112,14 +105,18 @@ const canIncrease = computed(
   () => props.quantity < (props.whitelistEnabled ? 5 : 10)
 );
 
-const showConnectModal = () => {
-  emit("update:showConnectModal", true);
+const connect = () => {
+  emit("connect");
   fromMintButton.value = true;
 };
 
+const mint = () => {
+  emit("mint");
+};
+
 watch([fromMintButton, () => props.isConnected], () => {
-  if (fromMintButton.value === true && props.isConnected) {
-    emit("update:modelValue", true);
+  if (fromMintButton.value && props.isConnected) {
+    emit("mint");
     fromMintButton.value = false;
   }
 });

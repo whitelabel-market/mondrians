@@ -1,11 +1,15 @@
 <template>
-  <MintProgress
-    v-if="!tokens.length"
-    :tasks="tasks"
-    :whitelistEnabled="whitelistEnabled"
-    @update:modelValue="reset"
-  />
-  <MintSuccess v-else :tokens="tokens" @update:modelValue="reset" />
+  <section>
+    <div class="container max-w-4xl px-8 mx-auto">
+      <MintProgress
+        v-if="!tokens.length"
+        :tasks="tasks"
+        :whitelistEnabled="whitelistEnabled"
+        @update:modelValue="reset"
+      />
+      <MintSuccess v-else :tokens="tokens" @update:modelValue="reset" />
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
