@@ -1,5 +1,5 @@
 <template>
-  <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
+  <div class="mt-6 lgs:mt-0 lgs:max-w-[454px] mx-auto">
     <div class="flex items-center justify-center w-full mt-4 space-x-4">
       <AppButton
         only-icon

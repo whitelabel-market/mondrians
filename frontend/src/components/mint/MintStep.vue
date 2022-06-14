@@ -1,5 +1,13 @@
 <template>
-  <div class="flex flex-col justify-center items-center">
+  <div class="flex flex-col justify-center items-center space-y-8">
+    <h2 class="font-black uppercase text-neutral-900 dark:text-neutral-200">
+      Select quantity
+    </h2>
+
+    <div>
+      <p>Adjust the number of Magic Mondrian NFT's you want to own!</p>
+    </div>
+
     <MintSettings
       v-model="quantity"
       :whitelistEnabled="whitelistEnabled"

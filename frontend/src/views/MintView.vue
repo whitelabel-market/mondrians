@@ -1,27 +1,25 @@
 <template>
-  <section>
-    <div class="container px-8 mx-auto">
-      <StepperContainer>
-        <StepperItem title="Mint">
-          <MintStep />
-        </StepperItem>
-        <StepperItem :title="MintStepKey.GET_VOUCHER" v-if="whitelistEnabled">
-          <TaskStep :step="steps[MintStepKey.GET_VOUCHER]" />
-        </StepperItem>
-        <StepperItem title="Event Invitation"> </StepperItem>
-        <StepperItem title="Print Order"> </StepperItem>
-        <StepperItem :title="MintStepKey.MINT">
-          <TaskStep :step="steps[MintStepKey.MINT]" />
-        </StepperItem>
-        <StepperItem :title="MintStepKey.LOAD_TOKEN">
-          <TaskStep :step="steps[MintStepKey.LOAD_TOKEN]" />
-        </StepperItem>
-        <StepperItem title="Confirmation">
-          <MintSuccess :tokens="tokens" />
-        </StepperItem>
-      </StepperContainer>
-    </div>
-  </section>
+  <div>
+    <StepperContainer>
+      <StepperItem title="Select quantity">
+        <MintStep />
+      </StepperItem>
+      <StepperItem :title="MintStepKey.VERIFY_VOUCHER" v-if="whitelistEnabled">
+        <TaskStep :step="steps[MintStepKey.VERIFY_VOUCHER]" />
+      </StepperItem>
+      <StepperItem title="Receive event invitation"> </StepperItem>
+      <StepperItem title="Order physical NFT"> </StepperItem>
+      <StepperItem :title="MintStepKey.MINT">
+        <TaskStep :step="steps[MintStepKey.MINT]" />
+      </StepperItem>
+      <StepperItem :title="MintStepKey.LOAD_TOKEN">
+        <TaskStep :step="steps[MintStepKey.LOAD_TOKEN]" />
+      </StepperItem>
+      <StepperItem title="Confirmation">
+        <MintSuccess :tokens="tokens" />
+      </StepperItem>
+    </StepperContainer>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -147,9 +145,9 @@ watch(isFinished, () => {
 });
 
 const steps: Record<MintStepKey, MintStepType> = {
-  [MintStepKey.GET_VOUCHER]: {
+  [MintStepKey.VERIFY_VOUCHER]: {
     task: useTask(getVoucher),
-    title: MintStepKey.GET_VOUCHER,
+    title: MintStepKey.VERIFY_VOUCHER,
     description:
       "Check if your address is eligible for Whitelist Sale and receive voucher",
   },

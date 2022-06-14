@@ -16,7 +16,7 @@ export enum SalePhase {
 }
 
 export enum MintStepKey {
-  GET_VOUCHER = "Get Voucher",
+  VERIFY_VOUCHER = "Verify Voucher",
   MINT = "Mint",
   LOAD_TOKEN = "Load Token",
 }
