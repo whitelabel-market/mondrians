@@ -1,165 +1,142 @@
 <template>
-  <div>
-    <StepperContainer>
-      <StepperItem title="Select quantity">
-        <MintStep />
-      </StepperItem>
-      <StepperItem :title="MintStepKey.VERIFY_VOUCHER" v-if="whitelistEnabled">
-        <TaskStep :step="steps[MintStepKey.VERIFY_VOUCHER]" />
-      </StepperItem>
-      <StepperItem title="Receive event invitation"> </StepperItem>
-      <StepperItem title="Order physical NFT"> </StepperItem>
-      <StepperItem :title="MintStepKey.MINT">
-        <TaskStep :step="steps[MintStepKey.MINT]" />
-      </StepperItem>
-      <StepperItem :title="MintStepKey.LOAD_TOKEN">
-        <TaskStep :step="steps[MintStepKey.LOAD_TOKEN]" />
-      </StepperItem>
-      <StepperItem title="Confirmation">
-        <MintSuccess :tokens="tokens" />
-      </StepperItem>
-    </StepperContainer>
-  </div>
+  <StepperContainer v-model="step">
+    <MintStep title="Select quantity">
+      <template v-slot:description>
+        Adjust the number of Magic Mondrian NFT's you want to own!
+      </template>
+      <QuantityTask v-model="data.quantity" @submit="nextJob" />
+    </MintStep>
+
+    <MintStep title="Generate Voucher" :task="tasks[0]">
+      <template v-slot:description>
+        Verify that your address is eligible for Whitelist Sale and generate
+        voucher
+      </template>
+    </MintStep>
+
+    <MintStep title="Receive Event Invitation">
+      <template v-slot:description>
+        As an owner of a Magic Mondrian NFT you have the opportunity to take
+        part in an exclusive offline event. The only thing we need is your
+        email, so we can send you the tickets and provide you with further
+        details on the event!
+      </template>
+
+      <TicketTask v-model="data.email" @submit="nextJob" @skip="skipJob" />
+    </MintStep>
+
+    <MintStep title="Order physical NFT"> </MintStep>
+
+    <MintStep title="Mint" :task="tasks[3]">
+      <template v-slot:description>
+        Creating your own Magic Mondrian NFT
+      </template>
+    </MintStep>
+
+    <MintStep title="Load NFT" :task="tasks[4]">
+      <template v-slot:description> Receiving your minted NFT </template>
+    </MintStep>
+
+    <MintStep title="Confirmation">
+      <template v-slot:description> Confirmation </template>
+    </MintStep>
+  </StepperContainer>
 </template>
 
 <script setup lang="ts">
-import { ref, toRaw, computed, watch, onMounted } from "vue";
-import MintSuccess from "@/components/mint/MintSuccess.vue";
+import { ref, toRaw, onMounted } from "vue";
 import MondrianInterface from "@/services/MondrianInterface";
-import useTask from "@/composables/useTask";
 import { authInterface } from "@/services/AuthInterface";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import { ethers } from "ethers";
-import {
-  CONTRACT_ADDRESS,
-  MAMO_SUBGRAPH,
-  MintStepKey,
-  SalePhase,
-} from "@/utils/constants";
-import { useFetch } from "@vueuse/core";
-import { getContract, getTokensFromBlock } from "@/services/graphql/types";
-import useContract from "@/composables/useContract";
+import { Price, SalePhase } from "@/utils/constants";
 import { useFlag } from "@/composables/useFlags";
 import StepperContainer from "@/components/stepper/StepperContainer.vue";
-import StepperItem from "@/components/stepper/StepperItem.vue";
-import TaskStep from "@/components/mint/TaskStep.vue";
+import QuantityTask from "@/components/mint/QuantityTask.vue";
+import TicketTask from "@/components/mint/TicketTask.vue";
+import useSubgraph from "@/composables/useSubgraph";
+import useQueue from "@/composables/useQueue";
+import useTask from "@/composables/useTask";
 import MintStep from "@/components/mint/MintStep.vue";
-import { MintStepType } from "@/utils/types";
 
-// phase handling
-
-const presaleEnabled = useFlag(SalePhase.PreSale);
+const emit = defineEmits(["loaded"]);
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
-const publicsaleEnabled = useFlag(SalePhase.PublicSale);
-const revealEnabled = useFlag(SalePhase.Reveal);
-
 const { address } = useWallet();
 const { provider } = useWalletExtended();
-const tokens = ref([]);
+const { getTokenByAddress } = useSubgraph();
 
-const emits = defineEmits(["loaded"]);
+const step = ref(0);
+const job = ref(0);
+const jobsDisabled = ref(false);
 
-onMounted(() => emits("loaded", false));
+const price = whitelistEnabled.value ? Price.whitelist : Price.default;
 
-const connected = ref(false);
-const quantity = ref(1);
-const { contract } = useContract();
-const { isConnected } = useWallet();
-
-const currentPhase = computed(() => {
-  if (revealEnabled.value) return SalePhase.Reveal;
-  if (publicsaleEnabled.value) return SalePhase.PublicSale;
-  if (whitelistEnabled.value) return SalePhase.WhitelistSale;
-  if (presaleEnabled.value) return SalePhase.PreSale;
-  return "";
+const data = ref({
+  voucher: "",
+  quantity: 1,
+  email: "",
+  order: {
+    url: "",
+    zip: "",
+  },
+  tokens: [],
 });
 
-const price = computed(() =>
-  currentPhase.value === SalePhase.WhitelistSale ? "0.00025" : "0.005"
-);
+emit("loaded", false);
 
-// job to generate voucher (whitelist sale)
-const getVoucher = function* (): any {
-  return yield authInterface.getVoucher();
+onMounted(() => {
+  emit("loaded", true);
+});
+
+const getVoucher = function* () {
+  data.value.voucher = yield authInterface.getVoucher();
+};
+const setTicket = function* (email: string) {
+  data.value.email = email;
+  yield;
+};
+const sendTicket = function* () {
+  yield authInterface.sendMail(data.value.email);
 };
 
-// job to execute minting (whitelist sale or public sale)
-const execMint = function* (signal: any, voucher: string): any {
+const setOrder = function* () {
+  yield;
+};
+const mint = function* () {
   const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
-  return yield mondrianInterface.mint(quantity.value, price.value, voucher);
+
+  yield mondrianInterface.mint(data.value.quantity, price, data.value.voucher);
+};
+const getTokens = function* ({ signal, tx }: any) {
+  data.value.tokens = yield getTokenByAddress(address.value, signal, tx);
 };
 
-const timeout = (time: number) => {
-  return new Promise((resolve) => setTimeout(resolve, time));
+const tasks = [getVoucher, setTicket, setOrder, mint, getTokens].map(useTask);
+
+const queue = useQueue();
+
+const skipJob = () => {
+  console.log("skip jobs");
 };
 
-// job to receive tokens from indexer
-const getToken = function* (signal: any, tx: ethers.ContractTransaction): any {
-  const block = tx.blockNumber;
-  while (true) {
-    const { data } = yield useFetch(MAMO_SUBGRAPH, { timeout: 10000 })
-      .post(
-        JSON.stringify({
-          query: getTokensFromBlock,
-          variables: {
-            address: address.value.toLowerCase(),
-            block,
-          },
-        })
-      )
-      .json();
-    if (data?.value?.data?.tokens?.length > 0) {
-      tokens.value = data.value.data.tokens;
-      break;
-    } else {
-      yield timeout(5000); // wait 5s
-    }
+const nextJob = () => {
+  if (jobsDisabled.value) {
+    return;
   }
-  yield tokens;
-};
-
-const reset = () => {
-  setTimeout(() => {
-    tokens.value = [];
-  }, 500);
-};
-
-const { onFetchResponse, data, execute, isFinished } = useFetch(MAMO_SUBGRAPH, {
-  timeout: 10000,
-})
-  .post(
-    JSON.stringify({
-      query: getContract,
-      variables: {
-        id: CONTRACT_ADDRESS.toLocaleLowerCase(),
+  jobsDisabled.value = true;
+  step.value = queue.size + 1;
+  tasks.slice(queue.size, [1, 1, 3][job.value]).forEach((task, i) =>
+    queue.enqueue({
+      ...task,
+      then: async () => {
+        step.value = queue.size + i;
       },
     })
-  )
-  .json();
-
-watch(isFinished, () => {
-  if (isFinished) emits("loaded", true);
-});
-
-const steps: Record<MintStepKey, MintStepType> = {
-  [MintStepKey.VERIFY_VOUCHER]: {
-    task: useTask(getVoucher),
-    title: MintStepKey.VERIFY_VOUCHER,
-    description:
-      "Check if your address is eligible for Whitelist Sale and receive voucher",
-  },
-  [MintStepKey.MINT]: {
-    task: useTask(execMint),
-    title: MintStepKey.MINT,
-    description: "Create your own Magic Mondrian NFT's",
-  },
-  [MintStepKey.LOAD_TOKEN]: {
-    task: useTask(getToken),
-    title: MintStepKey.LOAD_TOKEN,
-    description: "Receiving your minted NFT's",
-  },
+  );
+  queue.last?.finally(async () => (jobsDisabled.value = false));
+  job.value++;
 };
 </script>

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <TabGroup>
+    <TabGroup
+      :selectedIndex="modelValue"
+      as="div"
+      @change="emit('update:modelValue', $event)"
+    >
       <TabList
         v-slot="{ selectedIndex }"
         class="py-8 bg-reddish mondrian-border-b text-white bg-hero-pattern-charlie"
@@ -15,7 +19,7 @@
             <Tab
               v-for="(step, i) in steps"
               :key="i"
-              class="block relative flex-1 flex flex-col justify-start items-center"
+              class="block relative flex-1 flex flex-col justify-start items-center outline-none focus:outline-none"
               :disabled="step.props.disabled"
             >
               <div
@@ -57,8 +61,17 @@ import StepperItem from "@/components/stepper/StepperItem.vue";
 import { Tab, TabGroup, TabList, TabPanels } from "@headlessui/vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 
+defineProps({
+  modelValue: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const emit = defineEmits(["update:modelValue"]);
 const slots = useSlots();
 const steps = slots.default?.() as unknown as typeof StepperItem[];
+console.log("steps", steps);
 </script>
 
 <style scoped></style>

@@ -20,7 +20,7 @@
       :model-value="modelValue"
       @update:modelValue="emit('update:modelValue', $event)"
       :whitelistEnabled="whitelistEnabled"
-      @mint="emit('mint', $event)"
+      @submit="emit('mint', $event)"
     />
   </div>
 </template>

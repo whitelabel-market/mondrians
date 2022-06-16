@@ -39,7 +39,7 @@
     <div class="flex items-center justify-center mt-4">
       <AppButton
         :disabled="modelValue <= 0"
-        @click.prevent="emit('mint', modelValue)"
+        @click.prevent="emit('submit', modelValue)"
       >
         <span class="px-8">Mint</span>
       </AppButton>
@@ -54,7 +54,7 @@ import { PlusSmIcon, MinusSmIcon } from "@heroicons/vue/solid";
 import { computed } from "vue";
 import { MaxMint, Price } from "@/utils/constants";
 
-const emit = defineEmits(["update:modelValue", "mint"]);
+const emit = defineEmits(["update:modelValue", "submit"]);
 
 const props = defineProps({
   modelValue: {

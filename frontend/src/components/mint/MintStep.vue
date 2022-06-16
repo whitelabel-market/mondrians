@@ -1,43 +1,71 @@
 <template>
-  <div class="flex flex-col justify-center items-center space-y-8">
-    <h2 class="font-black uppercase text-neutral-900 dark:text-neutral-200">
-      Select quantity
-    </h2>
+  <StepperItem :title="title">
+    <div
+      class="flex flex-col space-y-8 items-center text-center w-full max-w-lg mx-auto"
+    >
+      <div
+        v-if="showIndicator"
+        :class="[
+          'flex flex-col items-center justify-center',
+          !!loading && 'dark:text-neutral-200',
+          !!error && 'text-red-500',
+          !error & !loading && 'text-green-500',
+        ]"
+      >
+        <div class="w-8 h-8">
+          <AppLoadingSpinner
+            v-if="loading"
+            :size="'sm'"
+            class="text-current transform"
+          />
+          <ExclamationCircleIcon
+            v-if="!!error"
+            class="text-current transform"
+          />
+          <CheckIcon v-if="!loading && !error" class="text-current transform" />
+        </div>
+        <div v-if="!!error">
+          <p class="text-xs mt-2">
+            {{ error.message }}
+          </p>
+        </div>
+      </div>
 
-    <div>
-      <p>Adjust the number of Magic Mondrian NFT's you want to own!</p>
+      <h2 class="font-black uppercase text-neutral-900 dark:text-neutral-200">
+        {{ title }}
+      </h2>
+
+      <p class="text-neutral-900 dark:text-neutral-200">
+        <slot name="description"></slot>
+      </p>
+
+      <slot />
     </div>
-
-    <MintSettings
-      v-model="quantity"
-      :whitelistEnabled="whitelistEnabled"
-      @mint="mintIfConnected"
-    />
-  </div>
-
-  <LayoutConnectModal v-model="showConnectModal" />
+  </StepperItem>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
-import useContract from "@/composables/useContract";
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
-import { useFlag } from "@/composables/useFlags";
-import { SalePhase } from "@/utils/constants/mint";
-import MintSettings from "@/components/mint/MintSettings.vue";
+import StepperItem from "@/components/stepper/StepperItem.vue";
+import { computed } from "vue";
+import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
+import { CheckIcon, ExclamationCircleIcon } from "@heroicons/vue/outline";
 
-const { contract } = useContract();
-const { isConnected } = useWallet();
+const props = defineProps({
+  task: {
+    type: Object,
+    required: false,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+});
 
-const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
+const showIndicator = computed(() => props.task !== undefined);
 
-const showConnectModal = ref(false);
-const quantity = ref(1);
+const loading = computed(
+  () => !(props.task?.isError || props.task?.isSuccessful)
+);
 
-const mintIfConnected = (event: number) => {
-  return isConnected.value
-    ? console.log("mint finish", event)
-    : (showConnectModal.value = true);
-};
+const error = computed(() => props.task?.error);
 </script>

@@ -19,7 +19,7 @@ export type DeferredObject<T> = {
   reject: any;
 };
 
-enum TaskStatus {
+export enum TaskStatus {
   RUNNING = "running",
   CANCELED = "canceled",
   CANCELING = "canceling",
