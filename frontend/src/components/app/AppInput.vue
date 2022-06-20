@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full space-y-1">
+  <div class="w-full text-left">
     <label
       :for="id"
       class="inline-block text-xs font-semibold text-neutral-900 dark:text-neutral-400"
@@ -15,7 +15,7 @@
         :id="id"
         :name="id"
         :type="type"
-        class="w-full h-12 focus:ring-0 focus:border-black focus:italic outline-none border-2 border-black placeholder:text-neutral-200 dark:placeholder:text-neutral-400 text-current rounded-xl bg-white dark:bg-neutral-800 transition-colors duration-200 ease-in-out"
+        class="w-full h-12 focus:ring-0 focus:border-black outline-none border-2 border-neutral-300 placeholder:text-neutral-400 dark:placeholder:text-neutral-400 text-current rounded-xl bg-neutral-100 dark:bg-neutral-800 transition-colors duration-200 ease-in-circ"
       />
       <button
         v-if="inlineSubmit"

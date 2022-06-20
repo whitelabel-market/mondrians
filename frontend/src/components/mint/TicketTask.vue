@@ -1,18 +1,15 @@
 <template>
-  <form
-    action=""
-    method="POST"
-    class="space-y-4 flex flex-col items-center w-full"
-  >
+  <form action="" method="POST" class="space-y-4 flex flex-col w-full">
     <AppInput
       :modelValue="modelValue"
       @update:modelValue="emit('update:modelValue', modelValue)"
       id="mint-stepper-ticket-email"
       type="email"
-      placeholder="Email address"
+      placeholder="Email Address"
+      label="Email Address"
     />
 
-    <div class="space-x-8 flex justify-between items-center">
+    <div class="space-x-4 flex justify-start items-center">
       <AppButton @click.prevent="emit('submit', modelValue)">
         Register
       </AppButton>

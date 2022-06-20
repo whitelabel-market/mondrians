@@ -1,12 +1,11 @@
 <template>
-  <TabPanel class="p-8">
+  <div>
     <slot></slot>
-  </TabPanel>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { defineProps } from "vue";
-import { TabPanel } from "@headlessui/vue";
 
 defineProps({
   title: { type: String, default: "" },
