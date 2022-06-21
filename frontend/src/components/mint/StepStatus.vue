@@ -1,41 +1,41 @@
 <template>
   <div :class="['flex items-center justify-center w-8 h-8']">
-    <span
-      v-if="showIndex"
-      class="flex items-center justify-center w-8 h-8 bg-black text-xs text-white rounded-full"
-      >{{ index + 1 }}</span
-    >
     <AppLoadingSpinner
-      v-if="loading"
+      v-if="isLoading.value"
       :size="'sm'"
       class="text-current transform"
     />
-    <ExclamationCircleIcon v-if="error" class="text-red-500" />
-    <CheckIcon v-if="success" class="text-green-500" />
+    <ExclamationCircleIcon v-else-if="error.value" class="text-red-500" />
+    <CheckIcon v-else-if="isReady.value" class="text-green-500" />
+    <span
+      v-else
+      class="flex items-center justify-center w-8 h-8 bg-black text-xs text-white rounded-full"
+      >{{ index + 1 }}</span
+    >
   </div>
 </template>
 
 <script setup lang="ts">
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/vue/outline";
-import { TaskStatus } from "@/composables/useTask";
-import { computed, PropType } from "vue";
+import { PropType, ref, Ref } from "vue";
 
-const props = defineProps({
+defineProps({
   index: {
     type: Number,
     required: true,
   },
-  status: {
-    type: String as PropType<TaskStatus>,
-    default: null,
+  isReady: {
+    type: Object as PropType<Ref<boolean>>,
+    required: true,
+  },
+  isLoading: {
+    type: Object as PropType<Ref<boolean>>,
+    required: true,
+  },
+  error: {
+    type: Object as PropType<Ref<unknown>>,
+    required: true,
   },
 });
-
-const loading = computed(() => props.status === TaskStatus.RUNNING);
-const success = computed(() => props.status === TaskStatus.SUCCESS);
-const error = computed(() => props.status === TaskStatus.ERROR);
-const showIndex = computed(
-  () => !(success.value || loading.value || error.value)
-);
 </script>

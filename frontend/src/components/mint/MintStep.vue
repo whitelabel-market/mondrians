@@ -1,39 +1,28 @@
 <template>
-  <StepperItem :title="title">
-    <div class="flex flex-col text-center space-y-4 w-full max-w-xl mx-auto">
-      <p>
+  <div class="relative">
+    <div
+      class="flex flex-col space-y-4 text-center w-full max-w-xl mx-auto relative"
+    >
+      <p class="text-lg z-10">
         <slot name="description"></slot>
       </p>
 
-      <div class="relative w-full">
-        <div v-if="!active" class="absolute -inset-2 bg-white/80 z-10" />
-        <slot />
-      </div>
+      <slot />
+
+      <div v-if="!isActive" class="absolute -inset-2 bg-white/80 z-0" />
     </div>
-  </StepperItem>
+  </div>
 </template>
 
 <script setup lang="ts">
 import StepperItem from "@/components/stepper/StepperItem.vue";
-import { PropType } from "vue";
-import { TaskStatus } from "@/composables/useTask";
+import { PropType, ref, Ref } from "vue";
 
-const props = defineProps({
-  active: {
+const emit = defineEmits(["update:modelValue"]);
+defineProps({
+  isActive: {
     type: Boolean,
-    default: null,
-  },
-  status: {
-    type: String as PropType<TaskStatus>,
-    default: null,
-  },
-  index: {
-    type: Number,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
+    default: true,
   },
 });
 </script>
