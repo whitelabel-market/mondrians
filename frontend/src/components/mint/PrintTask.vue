@@ -78,9 +78,14 @@
     </div>
 
     <div class="lg:col-span-2 space-x-4 pt-2 flex justify-start items-center">
-      <AppButton @click.prevent="emit('submit', modelValue)"> Send </AppButton>
+      <AppButton
+        :disabled="disabled"
+        @click.prevent="emit('submit', modelValue)"
+      >
+        Send
+      </AppButton>
 
-      <AppButton @click.prevent="emit('skip')" color="gray"
+      <AppButton :disabled="disabled" @click.prevent="emit('skip')" color="gray"
         >Skip for now</AppButton
       >
     </div>
@@ -97,6 +102,10 @@ const props = defineProps({
   modelValue: {
     type: Object,
     required: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -3,7 +3,7 @@
     <div class="flex items-center justify-center w-full mt-4 space-x-4">
       <AppButton
         only-icon
-        :disabled="!canDecrease"
+        :disabled="disabled || !canDecrease"
         size="md"
         @click.prevent="$emit('update:modelValue', modelValue - 1)"
         rounded="full"
@@ -23,7 +23,7 @@
 
       <AppButton
         only-icon
-        :disabled="!canIncrease"
+        :disabled="disabled || !canIncrease"
         @click.prevent="$emit('update:modelValue', modelValue + 1)"
         rounded="full"
       >
@@ -38,7 +38,7 @@
     </p>
     <div class="flex items-center justify-center mt-4">
       <AppButton
-        :disabled="modelValue <= 0"
+        :disabled="disabled || modelValue <= 0"
         @click.prevent="emit('submit', modelValue)"
       >
         <span class="px-8">Mint</span>
@@ -64,6 +64,10 @@ const props = defineProps({
   whitelistEnabled: {
     type: Boolean,
     required: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

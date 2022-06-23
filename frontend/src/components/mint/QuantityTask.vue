@@ -1,5 +1,6 @@
 <template>
   <MintSettings
+    :disabled="disabled"
     :modelValue="modelValue"
     @update:modelValue="emit('update:modelValue', $event)"
     :whitelistEnabled="whitelistEnabled"
@@ -20,6 +21,10 @@ const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
 
 defineProps({
   modelValue: { type: Number, default: 1 },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
   loading: { type: Boolean, default: false },
   error: { type: Error, default: null },
 });

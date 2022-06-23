@@ -8,8 +8,8 @@
       <div class="flex w-full items-center space-x-4">
         <StepStatus
           :index="index"
-          :is-ready="isReady"
-          :is-loading="isLoading"
+          :isLoading="isLoading"
+          :isReady="isReady"
           :error="error"
         />
         <h3 class="font-bold">{{ title }}</h3>
@@ -17,7 +17,7 @@
     </DisclosureButton>
     <div v-show="modelValue" class="p-8 pl-16">
       <DisclosurePanel static>
-        <slot />
+        <slot :index="index" />
       </DisclosurePanel>
     </div>
   </div>
@@ -29,7 +29,7 @@ import { DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import StepStatus from "@/components/mint/StepStatus.vue";
 
 const emit = defineEmits(["update:modelValue"]);
-defineProps({
+const props = defineProps({
   title: { type: String, default: "" },
   index: { type: Number, default: -1 },
   modelValue: {
@@ -38,15 +38,15 @@ defineProps({
   },
   isReady: {
     type: Object as PropType<Ref<boolean>>,
-    default: () => ref(false),
+    default: ref(false),
   },
   isLoading: {
     type: Object as PropType<Ref<boolean>>,
-    default: () => ref(false),
+    default: ref(false),
   },
   error: {
-    type: Object as PropType<Ref<unknown>>,
-    default: () => ref(null),
+    type: Object as PropType<Ref<Error | null>>,
+    default: ref(null),
   },
 });
 </script>

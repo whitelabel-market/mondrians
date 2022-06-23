@@ -10,11 +10,14 @@
     />
 
     <div class="space-x-4 flex justify-start items-center">
-      <AppButton @click.prevent="emit('submit', modelValue)">
+      <AppButton
+        :disabled="disabled"
+        @click.prevent="emit('submit', modelValue)"
+      >
         Register
       </AppButton>
 
-      <AppButton @click.prevent="emit('skip')" color="gray"
+      <AppButton :disabled="disabled" @click.prevent="emit('skip')" color="gray"
         >Skip for now</AppButton
       >
     </div>
@@ -31,6 +34,10 @@ defineProps({
   modelValue: {
     type: String,
     required: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>

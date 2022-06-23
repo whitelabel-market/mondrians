@@ -12,97 +12,109 @@
   </div>
 
   <div class="container max-w-md lg:max-w-4xl py-8 lg:px-8 mx-auto">
-    <StepperContainer v-model="step">
+    <StepperContainer v-model="taskIndex">
       <StepperItem title="Select quantity">
-        <MintStep :isActive="taskIndex >= 0">
-          <template v-slot:description>
-            Adjust the number of Magic Mondrian NFT's you want to own!
-          </template>
-          <QuantityTask v-model="data.quantity" @submit="next(0)" />
-        </MintStep>
+        <template v-slot="{ index }">
+          <MintStep :isActive="taskIndex >= index">
+            <template v-slot:description>
+              Adjust the number of Magic Mondrian NFT's you want to own!
+            </template>
+            <QuantityTask
+              :disabled="task(0, 0).isReady.value || taskIndex < index"
+              v-model="data.mint.quantity"
+              @submit="nextJob({ task: 1 })"
+            />
+          </MintStep>
+        </template>
       </StepperItem>
 
-      <StepperItem
-        title="Generate Voucher"
-        :isReady="tasks[0][0].isReady"
-        :isLoading="tasks[0][0].isLoading"
-        :error="tasks[0][0].error"
-      >
-        <MintStep :isActive="taskIndex >= 1">
-          <template v-slot:description>
-            Verify that your address is eligible for Whitelist Sale and generate
-            voucher
-          </template>
-        </MintStep>
+      <StepperItem title="Generate Voucher" v-bind="task(0, 0)">
+        <template v-slot="{ index }">
+          <MintStep :isActive="taskIndex >= index">
+            <template v-slot:description>
+              Verify that your address is eligible for Whitelist Sale and
+              generate voucher
+            </template>
+          </MintStep>
+        </template>
       </StepperItem>
 
-      <StepperItem
-        title="Mint"
-        :isReady="tasks[0][1].isReady"
-        :isLoading="tasks[0][1].isLoading"
-        :error="tasks[0][1].error"
-      >
-        <MintStep :isActive="taskIndex >= 2">
-          <template v-slot:description>
-            Creating your Magic Mondrian NFT
-          </template>
-        </MintStep>
+      <StepperItem title="Mint" v-bind="task(0, 1)">
+        <template v-slot="{ index }">
+          <MintStep :isActive="taskIndex >= index">
+            <template v-slot:description>
+              Creating your Magic Mondrian NFT
+            </template>
+          </MintStep>
+        </template>
       </StepperItem>
 
-      <StepperItem
-        title="Load NFT"
-        :isReady="tasks[0][2].isReady"
-        :isLoading="tasks[0][2].isLoading"
-        :error="tasks[0][2].error"
-      >
-        <MintStep :isActive="taskIndex >= 3">
-          <template v-slot:description> Receiving your minted NFT </template>
-        </MintStep>
+      <StepperItem title="Load NFT" v-bind="task(0, 2)">
+        <template v-slot="{ index }">
+          <MintStep :isActive="taskIndex >= index">
+            <template v-slot:description> Receiving your minted NFT </template>
+          </MintStep>
+        </template>
       </StepperItem>
 
-      <StepperItem
-        title="Receive Event Invitation"
-        :isReady="tasks[1][0].isReady"
-        :isLoading="tasks[1][0].isLoading"
-        :error="tasks[1][0].error"
-      >
-        <MintStep :isActive="taskIndex >= 4">
-          <template v-slot:description>
-            As an owner of a Magic Mondrian NFT you have the opportunity to take
-            part in an exclusive offline event. The only thing we need is your
-            email, so we can send you the tickets and provide you with further
-            details on the event!
-          </template>
+      <StepperItem title="Receive Event Invitation" v-bind="task(1, 0)">
+        <template v-slot="{ index }">
+          <MintStep :isActive="taskIndex >= index">
+            <template v-slot:description>
+              As an owner of a Magic Mondrian NFT you have the opportunity to
+              take part in an exclusive offline event. The only thing we need is
+              your email, so we can send you the tickets and provide you with
+              further details on the event!
+            </template>
 
-          <TicketTask v-model="data.email" @submit="next(1)" @skip="skip(1)" />
-        </MintStep>
+            <TicketTask
+              v-model="data.ticket.email"
+              :disabled="task(1, 0).isReady.value || taskIndex < index"
+              @submit="nextJob({ job: 1, task: index })"
+              @skip="nextJob({ job: 1, task: index }, true)"
+            />
+          </MintStep>
+        </template>
       </StepperItem>
 
-      <StepperItem
-        title="Print NFT"
-        :isReady="tasks[2][0].isReady"
-        :isLoading="tasks[2][0].isLoading"
-        :error="tasks[2][0].error"
-      >
-        <MintStep :isActive="taskIndex >= 5">
-          <template v-slot:description>
-            Order a printed artwork of your Magic Mondrian NFT
-          </template>
-          <PrintTask v-model="data.print" @submit="next(2)" @skip="skip(2)" />
-        </MintStep>
+      <StepperItem title="Print NFT" v-bind="task(2, 0)">
+        <template v-slot="{ index }">
+          <MintStep :isActive="taskIndex >= index">
+            <template v-slot:description>
+              Order a printed artwork of your Magic Mondrian NFT
+            </template>
+            <PrintTask
+              :disabled="task(2, 0).isReady.value || taskIndex < index"
+              v-model="data.print"
+              @submit="nextJob({ job: 2, task: index })"
+              @skip="nextJob({ job: 2, task: index }, true)"
+            />
+          </MintStep>
+        </template>
       </StepperItem>
 
       <StepperItem title="Confirmation">
-        <MintStep :isActive="taskIndex >= 6">
-          <template v-slot:description> Confirmation </template>
-        </MintStep>
+        <template v-slot="{ index }">
+          <MintStep :isActive="taskIndex >= index">
+            <template v-slot:description> Confirmation </template>
+          </MintStep>
+        </template>
       </StepperItem>
     </StepperContainer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, unref, reactive, Ref } from "vue";
+import {
+  ref,
+  onMounted,
+  unref,
+  watch,
+  toRefs,
+  toRef,
+  toRaw,
+  reactive,
+} from "vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import { Price, SalePhase } from "@/utils/constants";
@@ -113,18 +125,13 @@ import TicketTask from "@/components/mint/TicketTask.vue";
 import useSubgraph from "@/composables/useSubgraph";
 import MintStep from "@/components/mint/MintStep.vue";
 import PrintTask from "@/components/mint/PrintTask.vue";
-import {
-  promiseTimeout,
-  useAsyncQueue,
-  UseAsyncQueueReturn,
-  UseAsyncQueueTask,
-  useAsyncState,
-  UseAsyncStateReturn,
-  useCycleList,
-} from "@vueuse/core";
+import { promiseTimeout } from "@vueuse/core";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
-import StepStatus from "@/components/mint/StepStatus.vue";
 import StepperItem from "@/components/stepper/StepperItem.vue";
+import { authInterface } from "@/services/AuthInterface";
+import MondrianInterface from "@/services/MondrianInterface";
+import { ethers } from "ethers";
+import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
 
 const emit = defineEmits(["loaded"]);
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
@@ -132,16 +139,16 @@ const { address } = useWallet();
 const { provider } = useWalletExtended();
 const { getTokenByAddress } = useSubgraph();
 
-const step = ref(0);
-const taskIndex = ref(1);
-const queueLock = ref(false);
-
-const price = whitelistEnabled.value ? Price.whitelist : Price.default;
-
 const data = ref({
-  voucher: "",
-  quantity: 1,
-  email: "",
+  mint: {
+    quantity: 1,
+    voucher: "",
+    price: whitelistEnabled.value ? Price.whitelist : Price.default,
+    tokens: [],
+  },
+  ticket: {
+    email: "",
+  },
   print: {
     firstName: "",
     lastName: "",
@@ -152,7 +159,6 @@ const data = ref({
     zipCode: "",
     country: "",
   },
-  tokens: [],
 });
 
 emit("loaded", false);
@@ -162,43 +168,38 @@ onMounted(() => {
 });
 
 const getVoucher = async function () {
-  data.value.voucher = "VOUCHER_VALUE";
-  console.log("authInterface.getVoucher", data.value.voucher);
+  console.log("getVoucher", (data.value.mint.voucher = "VOUCHEREXAMPLE"));
   await promiseTimeout(1200);
-  console.log("authInterface.getVoucher finished");
-  // data.value.voucher = yield authInterface.getVoucher();
+  console.log("getVoucher finished");
+
+  // data.value.mint.voucher = await authInterface.getVoucher();
 };
 
 const mint = async function () {
-  console.log(
-    "mondrianInterface.mint",
-    data.value.quantity,
-    price,
-    data.value.voucher
-  );
   // const mondrianInterface: MondrianInterface = new MondrianInterface(
   //   toRaw(provider.value as ethers.providers.Web3Provider)
   // );
-  //
-  // yield mondrianInterface.mint(data.value.quantity, price, data.value.voucher);
+  const { quantity, price, voucher } = data.value.mint;
+  console.log("mint", quantity, price, voucher);
   await promiseTimeout(1200);
-  console.log("mondrianInterface.mint finished");
-  return;
+  console.log("mint finished");
+  //return mondrianInterface.mint(quantity, price, voucher);
 };
 
 const getTokens = async function () {
-  // data.value.tokens = yield getTokenByAddress(address.value, signal, tx);
   console.log("getTokens");
   await promiseTimeout(1200);
   console.log("getTokens finished");
+
+  //data.value.mint.tokens = await getTokenByAddress(address.value, signal, tx);
 };
 
 const sendTicket = async function () {
-  // await authInterface.sendMail(data.value.email);
-  console.log("authInterface.sendMail", data.value.email);
+  console.log("sendTicket", data.value.ticket.email);
   await promiseTimeout(1200);
-  console.log("authInterface.sendMail finished");
-  return;
+  console.log("sendTicket finished");
+
+  //await authInterface.sendMail(data.value.ticket.email);
 };
 
 const print = async function () {
@@ -209,66 +210,26 @@ const print = async function () {
     ...printData,
     street: `${streetName} ${streetNumber}`,
     name: `${firstName} ${lastName}`,
-    countryCode: 1,
+    countryCode: "de",
   };
 
   console.log("print", payload);
   await promiseTimeout(1200);
   console.log("print finished");
-  return;
 };
 
-const queue: Ref<UseAsyncQueueReturn<any>[]> = ref([]);
-const tasks: UseAsyncStateReturn<any, true>[][] = [
+const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(
   [getVoucher, mint, getTokens],
   [sendTicket],
-  [print],
-].map((_) =>
-  _.map((task: any) =>
-    useAsyncState(
-      (args) =>
-        task(args).then((res: any) => {
-          taskIndex.value++;
-          step.value = taskIndex.value;
-          return res;
-        }),
-      null,
-      { immediate: false }
-    )
-  )
+  [print]
 );
 
-// const { state, next, prev } = useCycleList([
-//   mintQueue,
-//   ticketQueue,
-//   printQueue,
-// ]);
-
-const onFinished = () => {
-  queueLock.value = false;
+const nextJob = (from: { job?: number; task?: number }, doSkip = false) => {
+  doSkip ? skip(from) : next(from);
 };
 
-const skip = (queueIndex: number) => {
-  const nextTasks = tasks[queueIndex];
-  taskIndex.value += nextTasks.length;
-  step.value = taskIndex.value;
-};
-
-const next = (queueIndex: number) => {
-  if (queueLock.value) {
-    return;
-  }
-  queueLock.value = true;
-  const nextTasks = tasks[queueIndex];
-  step.value = taskIndex.value;
-  queue.value = [
-    ...queue.value,
-    useAsyncQueue(
-      nextTasks.map((task) => task.execute),
-      {
-        onFinished,
-      }
-    ),
-  ];
+const task = (job: number, task: number) => {
+  const { isLoading, isReady, error } = jobs[job][task];
+  return { isLoading, isReady, error };
 };
 </script>

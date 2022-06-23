@@ -34,7 +34,7 @@ defineProps({
     required: true,
   },
   error: {
-    type: Object as PropType<Ref<unknown>>,
+    type: Object as PropType<Ref<Error | null>>,
     required: true,
   },
 });
