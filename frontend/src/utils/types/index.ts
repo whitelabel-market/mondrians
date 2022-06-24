@@ -1,6 +1,3 @@
-import { Task } from "@/composables/useTask";
-import { MintStepKey } from "@/utils/constants";
-
 export type Account = {
   id: string;
 };
@@ -40,9 +37,3 @@ export type EnsAccount = {
 };
 
 export const ENS_ACCOUNT = Symbol();
-
-export type MintStepType = {
-  task: Task<any>;
-  title: MintStepKey;
-  description: string;
-};

@@ -1,34 +1,13 @@
 <template>
-  <div
-    class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
-    v-if="!isFinished"
-  >
-    <div
-      v-for="i of 5"
-      :key="i"
-      class="block w-full focus:outline-none focus:ring-2 focus:ring-blueish"
-    >
-      <TokenCardSkeleton />
-    </div>
+  <div>
+    <TokenList :tokens="tokens" :is-finished="isFinished"></TokenList>
+    <NoTokens
+      :ensAccount="ensAccount"
+      :error="error"
+      :aborted="aborted"
+      v-if="isFinished && !tokens.length"
+    />
   </div>
-  <div
-    class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
-    v-if="isFinished && tokens.length"
-  >
-    <div
-      v-for="token of tokens"
-      :key="token.id"
-      class="block w-full focus:outline-none focus:ring-2 focus:ring-blueish"
-    >
-      <TokenCard :token="token" />
-    </div>
-  </div>
-  <NoTokens
-    :ensAccount="ensAccount"
-    :error="error"
-    :aborted="aborted"
-    v-if="isFinished && !tokens.length"
-  />
 </template>
 
 <script setup lang="ts">
@@ -41,6 +20,7 @@ import { MAMO_SUBGRAPH } from "@/utils/constants";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { useFetch } from "@vueuse/core";
+import TokenList from "@/components/tokens/TokenList.vue";
 
 const emits = defineEmits(["showHint"]);
 

@@ -143,7 +143,7 @@ export default defineComponent({
     };
 
     const classesWrapper = computed(() => [
-      `relative flex items-stretch justify-stretch font-semibold tracking-wider uppercase transition duration-200 ease-out-circ`,
+      `relative flex items-stretch justify-stretch font-bold tracking-wider uppercase transition duration-200 ease-out-circ`,
       ButtonRounded[props.rounded],
       !props.flat &&
         !props.disabled &&

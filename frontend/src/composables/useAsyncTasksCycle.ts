@@ -8,7 +8,7 @@ import {
 export interface AsyncCycle {
   taskIndex: Ref<number>;
   jobIndex: Ref<number>;
-  next: (from?: { task?: number; job?: number }) => void;
+  next: (from?: { task?: number; job?: number }, data?: any) => void;
   skip: (from?: { task?: number; job?: number }) => void;
   locked: Ref<boolean>;
   jobs: Array<UseAsyncStateReturn<unknown, true>[]>;
@@ -31,6 +31,7 @@ export default function useAsyncTasksCycle(
       useAsyncState(
         (args) =>
           cb(args).then((res: any) => {
+            console.log("res", res);
             taskIndex.value++;
             return res;
           }),
@@ -47,7 +48,7 @@ export default function useAsyncTasksCycle(
     jobIndex.value++;
   };
 
-  const next = (from?: { task?: number; job?: number }) => {
+  const next = (from?: { task?: number; job?: number }, data?: any) => {
     if (locked.value) {
       return;
     }
@@ -56,8 +57,12 @@ export default function useAsyncTasksCycle(
     taskIndex.value = from?.task ?? taskIndex.value;
     const nextTasks = jobs[jobIndex.value];
     useAsyncQueue(
-      nextTasks.map((task) => task.execute),
+      nextTasks.map((task, i) => (...args: any[]) => {
+        const executor = () => task.execute(0, i <= 0 ? data : args);
+        return new Promise(executor);
+      }),
       {
+        interrupt: true,
         onFinished: () => {
           jobIndex.value++;
           locked.value = false;

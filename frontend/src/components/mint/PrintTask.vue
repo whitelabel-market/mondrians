@@ -1,8 +1,29 @@
 <template>
-  <form action="" method="POST" class="grid lg:grid-cols-2 gap-2 w-full">
+  <form class="grid lg:grid-cols-2 gap-2 w-full">
+    <div class="lg:col-span-2 space-y-1 text-left">
+      <span
+        class="inline-block text-xs font-semibold text-neutral-900 dark:text-neutral-400"
+      >
+        Select Item
+      </span>
+
+      <TokenList
+        dense
+        :tokens="tokens"
+        enableSlider
+        :is-finished="tokens.length > 0"
+      >
+        <template v-slot:token="{ token }">
+          <AppButton color="blank" @click.prevent="data.token = token">
+            <TokenCard :token="token" dense :highlight="true"></TokenCard>
+          </AppButton>
+          ></template
+        >
+      </TokenList>
+    </div>
+
     <AppInput
-      :modelValue="modelValue.firstName"
-      @update:modelValue="updateModel('firstName', $event)"
+      v-model="data.firstName"
       id="print-firstName"
       type="text"
       placeholder="First Name"
@@ -10,8 +31,7 @@
     />
 
     <AppInput
-      :modelValue="modelValue.lastName"
-      @update:modelValue="updateModel('lastName', $event)"
+      v-model="data.lastName"
       id="print-lastName"
       type="text"
       placeholder="Last Name"
@@ -20,68 +40,78 @@
 
     <div class="lg:col-span-2">
       <AppInput
-        :modelValue="modelValue.email"
-        @update:modelValue="updateModel('email', $event)"
+        v-model="data.email"
         id="print-email"
-        type="text"
+        type="email"
         placeholder="Email Address"
         label="Email Address"
       />
     </div>
 
-    <AppInput
-      :modelValue="modelValue.streetName"
-      @update:modelValue="updateModel('streetName', $event)"
-      id="print-streetName"
-      type="text"
-      placeholder="Street Name"
-      label="Street Name"
-    />
-
-    <AppInput
-      :modelValue="modelValue.streetNumber"
-      @update:modelValue="updateModel('streetNumber', $event)"
-      id="print-streetNumber"
-      type="number"
-      placeholder="Street Number"
-      label="Street Number"
-    />
-
-    <AppInput
-      :modelValue="modelValue.city"
-      @update:modelValue="updateModel('city', $event)"
-      id="print-city"
-      type="text"
-      placeholder="City"
-      label="City"
-    />
-
-    <AppInput
-      :modelValue="modelValue.zipCode"
-      @update:modelValue="updateModel('zipCode', $event)"
-      id="print-zipCode"
-      type="text"
-      placeholder="Zip Code"
-      label="Zip Code"
-    />
-
-    <div class="lg:col-span-2">
+    <template v-if="manualAddress">
       <AppInput
-        class="lg:col-span-2"
-        :modelValue="modelValue.country"
-        @update:modelValue="updateModel('country', $event)"
-        id="print-country"
+        v-model="data.streetName"
+        id="print-streetName"
         type="text"
-        placeholder="Country"
-        label="Country"
+        placeholder="Street Name"
+        label="Street Name"
       />
+
+      <AppInput
+        v-model="data.streetNumber"
+        id="print-streetNumber"
+        type="number"
+        placeholder="Street Number"
+        label="Street Number"
+      />
+
+      <AppInput
+        v-model="data.city"
+        id="print-city"
+        type="text"
+        placeholder="City"
+        label="City"
+      />
+
+      <AppInput
+        v-model="data.zipCode"
+        id="print-zipCode"
+        type="text"
+        placeholder="Zip Code"
+        label="Zip Code"
+      />
+
+      <div class="lg:col-span-2">
+        <AppInput
+          class="lg:col-span-2"
+          v-model="data.country"
+          id="print-country"
+          type="text"
+          placeholder="Country"
+          label="Country"
+        />
+      </div>
+    </template>
+
+    <div class="lg:col-span-2" v-if="!manualAddress">
+      <AppInput
+        v-model="address"
+        id="print-address"
+        type="text"
+        placeholder="Address"
+        label="Address"
+      />
+
+      <div class="flex items-center lg:justify-end pt-4 pb-8 space-x-1">
+        <span class="block uppercase text-xs">or</span>
+        <AppButton @click.prevent="manualAddress = true" color="gray" size="xs">
+          Manually enter Address
+        </AppButton>
+      </div>
     </div>
 
     <div class="lg:col-span-2 space-x-4 pt-2 flex justify-start items-center">
-      <AppButton
-        :disabled="disabled"
-        @click.prevent="emit('submit', modelValue)"
-      >
+      <AppButton :disabled="disabled" @click.prevent="emit('submit', data)">
         Send
       </AppButton>
 
@@ -95,12 +125,15 @@
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import AppInput from "@/components/app/AppInput.vue";
+import { reactive, ref } from "vue";
+import TokenList from "@/components/tokens/TokenList.vue";
+import TokenCard from "@/components/tokens/TokenCard.vue";
 
-const emit = defineEmits(["update:modelValue", "submit", "skip"]);
+const emit = defineEmits(["submit", "skip"]);
 
 const props = defineProps({
-  modelValue: {
-    type: Object,
+  tokens: {
+    type: Array,
     required: true,
   },
   disabled: {
@@ -109,7 +142,18 @@ const props = defineProps({
   },
 });
 
-const updateModel = (key: string, value: any) => {
-  emit("update:modelValue", { ...props.modelValue, [key]: value });
-};
+const manualAddress = ref(false);
+const address = ref("");
+
+const data = reactive({
+  token: props.tokens.length > 0 ? props.tokens[0] : {},
+  firstName: "",
+  lastName: "",
+  email: "",
+  streetName: "",
+  streetNumber: null,
+  city: "",
+  zipCode: "",
+  country: "",
+});
 </script>

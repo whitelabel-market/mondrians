@@ -1,10 +1,9 @@
 <template>
   <MintSettings
     :disabled="disabled"
-    :modelValue="modelValue"
-    @update:modelValue="emit('update:modelValue', $event)"
+    v-model="quantity"
     :whitelistEnabled="whitelistEnabled"
-    @submit="emit('submit', modelValue)"
+    @submit="submitOrConnect"
   />
 
   <LayoutConnectModal v-model="showConnectModal" />
@@ -16,11 +15,12 @@ import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.v
 import { useFlag } from "@/composables/useFlags";
 import { SalePhase } from "@/utils/constants/mint";
 import MintSettings from "@/components/mint/MintSettings.vue";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
+import { useRoute } from "vue-router";
 
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
-
+const { isConnected } = useWallet();
 defineProps({
-  modelValue: { type: Number, default: 1 },
   disabled: {
     type: Boolean,
     default: false,
@@ -29,6 +29,18 @@ defineProps({
   error: { type: Error, default: null },
 });
 
-const emit = defineEmits(["update:modelValue", "submit"]);
+const emit = defineEmits(["submit"]);
 const showConnectModal = ref(false);
+
+const { query } = useRoute(); // or with a default value
+
+const quantity = ref(Number(query.quantity) || 1);
+
+const submitOrConnect = () => {
+  if (isConnected.value) {
+    emit("submit", quantity.value);
+  } else {
+    showConnectModal.value = true;
+  }
+};
 </script>

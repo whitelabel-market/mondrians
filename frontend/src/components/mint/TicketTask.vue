@@ -1,8 +1,7 @@
 <template>
-  <form action="" method="POST" class="space-y-4 flex flex-col w-full">
+  <form class="space-y-4 flex flex-col w-full">
     <AppInput
-      :modelValue="modelValue"
-      @update:modelValue="emit('update:modelValue', modelValue)"
+      v-model="email"
       id="mint-stepper-ticket-email"
       type="email"
       placeholder="Email Address"
@@ -10,10 +9,7 @@
     />
 
     <div class="space-x-4 flex justify-start items-center">
-      <AppButton
-        :disabled="disabled"
-        @click.prevent="emit('submit', modelValue)"
-      >
+      <AppButton :disabled="disabled" @click.prevent="emit('submit', email)">
         Register
       </AppButton>
 
@@ -27,17 +23,16 @@
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import AppInput from "@/components/app/AppInput.vue";
+import { ref } from "vue";
 
-const emit = defineEmits(["update:modelValue", "submit", "skip"]);
+const emit = defineEmits(["submit", "skip"]);
 
 defineProps({
-  modelValue: {
-    type: String,
-    required: true,
-  },
   disabled: {
     type: Boolean,
     default: false,
   },
 });
+
+const email = ref("");
 </script>

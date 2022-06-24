@@ -12,20 +12,17 @@
   </div>
 
   <div class="container max-w-md lg:max-w-4xl py-8 lg:px-8 mx-auto">
-    <StepperContainer v-model="taskIndex">
+    <StepperContainer v-model="step">
       <StepperItem title="Select quantity">
-        <template v-slot="{ index }">
-          <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description>
-              Adjust the number of Magic Mondrian NFT's you want to own!
-            </template>
-            <QuantityTask
-              :disabled="task(0, 0).isReady.value || taskIndex < index"
-              v-model="data.mint.quantity"
-              @submit="nextJob({ task: 1 })"
-            />
-          </MintStep>
-        </template>
+        <MintStep :isActive="true">
+          <template v-slot:description>
+            Adjust the number of Magic Mondrian NFT's you want to own!
+          </template>
+          <QuantityTask
+            :disabled="task(0, 0).isReady.value"
+            @submit="next({ task: 1 }, $event)"
+          />
+        </MintStep>
       </StepperItem>
 
       <StepperItem title="Generate Voucher" v-bind="task(0, 0)">
@@ -62,16 +59,15 @@
           <MintStep :isActive="taskIndex >= index">
             <template v-slot:description>
               As an owner of a Magic Mondrian NFT you have the opportunity to
-              take part in an exclusive offline event. The only thing we need is
-              your email, so we can send you the tickets and provide you with
-              further details on the event!
+              take part in an exclusive real life event. Register your email
+              address and we will send you the tickets and give further
+              information.
             </template>
 
             <TicketTask
-              v-model="data.ticket.email"
-              :disabled="task(1, 0).isReady.value || taskIndex < index"
-              @submit="nextJob({ job: 1, task: index })"
-              @skip="nextJob({ job: 1, task: index }, true)"
+              :disabled="task(1, 0).isReady.value || taskIndex.value < index"
+              @submit="next({ job: 1, task: index }, $event)"
+              @skip="skip({ job: 1, task: index })"
             />
           </MintStep>
         </template>
@@ -81,13 +77,14 @@
         <template v-slot="{ index }">
           <MintStep :isActive="taskIndex >= index">
             <template v-slot:description>
-              Order a printed artwork of your Magic Mondrian NFT
+              Order a printed artwork of your Magic Mondrian NFT. Currently,
+              only one printable version per purchase is allowed.
             </template>
             <PrintTask
-              :disabled="task(2, 0).isReady.value || taskIndex < index"
-              v-model="data.print"
-              @submit="nextJob({ job: 2, task: index })"
-              @skip="nextJob({ job: 2, task: index }, true)"
+              :tokens="tokens"
+              :disabled="task(2, 0).isReady.value || taskIndex.value < index"
+              @submit="next({ job: 2, task: index }, $event)"
+              @skip="skip({ job: 2, task: index })"
             />
           </MintStep>
         </template>
@@ -96,7 +93,11 @@
       <StepperItem title="Confirmation">
         <template v-slot="{ index }">
           <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description> Confirmation </template>
+            <template v-slot:description
+              >Enjoy your newly created Magic Mondrian NFTs. The following tasks
+              have been completed:</template
+            >
+            <ConfirmationTask :finishedTasks="finishedTasks" />
           </MintStep>
         </template>
       </StepperItem>
@@ -105,16 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  onMounted,
-  unref,
-  watch,
-  toRefs,
-  toRef,
-  toRaw,
-  reactive,
-} from "vue";
+import { ref, onMounted, watch, toRaw, reactive } from "vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import { Price, SalePhase } from "@/utils/constants";
@@ -132,6 +124,7 @@ import { authInterface } from "@/services/AuthInterface";
 import MondrianInterface from "@/services/MondrianInterface";
 import { ethers } from "ethers";
 import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
+import ConfirmationTask from "@/components/mint/ConfirmationTask.vue";
 
 const emit = defineEmits(["loaded"]);
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
@@ -139,73 +132,58 @@ const { address } = useWallet();
 const { provider } = useWalletExtended();
 const { getTokenByAddress } = useSubgraph();
 
-const data = ref({
-  mint: {
-    quantity: 1,
-    voucher: "",
-    price: whitelistEnabled.value ? Price.whitelist : Price.default,
-    tokens: [],
-  },
-  ticket: {
-    email: "",
-  },
-  print: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    streetName: "",
-    streetNumber: null,
-    city: "",
-    zipCode: "",
-    country: "",
-  },
+const tokens = ref([]);
+const step = ref(0);
+const finishedTasks = reactive({
+  mint: false,
+  sendTicket: false,
+  print: false,
 });
-
 emit("loaded", false);
 
 onMounted(() => {
   emit("loaded", true);
 });
 
-const getVoucher = async function () {
-  console.log("getVoucher", (data.value.mint.voucher = "VOUCHEREXAMPLE"));
-  await promiseTimeout(1200);
-  console.log("getVoucher finished");
-
-  // data.value.mint.voucher = await authInterface.getVoucher();
+const getVoucher = async function (quantity: number) {
+  const price = whitelistEnabled.value ? Price.whitelist : Price.default;
+  const voucher = await authInterface.getVoucher();
+  return { quantity, price, voucher };
 };
 
-const mint = async function () {
-  // const mondrianInterface: MondrianInterface = new MondrianInterface(
-  //   toRaw(provider.value as ethers.providers.Web3Provider)
-  // );
-  const { quantity, price, voucher } = data.value.mint;
-  console.log("mint", quantity, price, voucher);
-  await promiseTimeout(1200);
-  console.log("mint finished");
-  //return mondrianInterface.mint(quantity, price, voucher);
-};
-
-const getTokens = async function () {
-  console.log("getTokens");
-  await promiseTimeout(1200);
-  console.log("getTokens finished");
-
-  //data.value.mint.tokens = await getTokenByAddress(address.value, signal, tx);
-};
-
-const sendTicket = async function () {
-  console.log("sendTicket", data.value.ticket.email);
-  await promiseTimeout(1200);
-  console.log("sendTicket finished");
-
-  //await authInterface.sendMail(data.value.ticket.email);
-};
-
-const print = async function () {
-  const { streetName, streetNumber, firstName, lastName, ...printData } = unref(
-    data.value.print
+const mint = async function (mintData: {
+  quantity: number;
+  price: string;
+  voucher: string;
+}) {
+  const mondrianInterface: MondrianInterface = new MondrianInterface(
+    toRaw(provider.value as ethers.providers.Web3Provider)
   );
+  const txWait = await mondrianInterface.mint(
+    mintData.quantity,
+    mintData.price,
+    mintData.voucher
+  );
+  finishedTasks.mint = true;
+  return txWait;
+};
+
+const getTokens = async function ({ signal, tx }: any) {
+  tokens.value = await getTokenByAddress(address.value, signal, tx);
+};
+
+const sendTicket = async function (email: string) {
+  await authInterface.sendMail(email);
+  finishedTasks.sendTicket = true;
+};
+
+const print = async function ({
+  streetName,
+  streetNumber,
+  firstName,
+  lastName,
+  ...printData
+}: any) {
   const payload = {
     ...printData,
     street: `${streetName} ${streetNumber}`,
@@ -213,9 +191,8 @@ const print = async function () {
     countryCode: "de",
   };
 
-  console.log("print", payload);
-  await promiseTimeout(1200);
-  console.log("print finished");
+  await authInterface.print(payload);
+  finishedTasks.print = true;
 };
 
 const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(
@@ -224,9 +201,9 @@ const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(
   [print]
 );
 
-const nextJob = (from: { job?: number; task?: number }, doSkip = false) => {
-  doSkip ? skip(from) : next(from);
-};
+watch(taskIndex, () => {
+  step.value = taskIndex.value;
+});
 
 const task = (job: number, task: number) => {
   const { isLoading, isReady, error } = jobs[job][task];
