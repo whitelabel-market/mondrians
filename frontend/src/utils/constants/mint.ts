@@ -1,37 +1,22 @@
-type Step = {
-  name: string;
-  description: string;
+export const Price = {
+  whitelist: "0.00025",
+  default: "0.005",
 };
 
-type MintSteps = {
-  whitelistsale: Array<Step>;
-  publicsale: Array<Step>;
+export const MaxMint = {
+  whitelist: 5,
+  default: 10,
 };
 
-export const MINT_TASKS: MintSteps = {
-  whitelistsale: [
-    {
-      name: "Get Voucher",
-      description:
-        "Check if your address is eligible for Whitelist Sale and receive voucher",
-    },
-    {
-      name: "Mint",
-      description: "Create your own Magic Mondrian NFT's",
-    },
-    {
-      name: "Load Token",
-      description: "Receiving your minted NFT's",
-    },
-  ],
-  publicsale: [
-    {
-      name: "Mint",
-      description: "Create your own Magic Mondrian NFT's",
-    },
-    {
-      name: "Load Token",
-      description: "Receiving your minted NFT's",
-    },
-  ],
-};
+export enum SalePhase {
+  PreSale = "presale",
+  WhitelistSale = "whitelistsale",
+  PublicSale = "publicsale",
+  Reveal = "reveal",
+}
+
+export enum MintStepKey {
+  VERIFY_VOUCHER = "Verify Voucher",
+  MINT = "Mint",
+  LOAD_TOKEN = "Load Token",
+}

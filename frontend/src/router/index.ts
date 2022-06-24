@@ -9,6 +9,11 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView,
   },
   {
+    path: "/mint",
+    name: "Mint",
+    component: () => import("@/views/MintView.vue"),
+  },
+  {
     path: "/user/:id",
     name: "UserProfile",
     component: () => import("@/views/UserProfileView.vue"),

@@ -8,6 +8,7 @@ export interface AuthInterface {
   callback: (signature: string) => Promise<void>;
   getVoucher: () => Promise<string>;
   sendMail: (email: string) => Promise<void>;
+  print: (printData: any) => Promise<void>;
   reset: () => void;
 }
 
@@ -111,6 +112,19 @@ export const createAuthInterface = (address: string) => {
     }
   };
 
+  const print = async (printData: any): Promise<void> => {
+    try {
+      const { data, error } = await useFetch(`api/print`, {
+        timeout: 10000,
+      }).post(printData);
+      if (error.value) {
+        throw unref(data);
+      }
+    } catch (e: any) {
+      throw new Error(e.toString());
+    }
+  };
+
   const reset = () => {
     xCsrfToken = "";
     bearerToken = "";
@@ -121,6 +135,7 @@ export const createAuthInterface = (address: string) => {
     callback,
     getVoucher,
     sendMail,
+    print,
     reset,
   };
 };

@@ -1,9 +1,7 @@
 <template>
   <div class="relative">
     <div class="h-24"></div>
-    <header
-      class="fixed top-0 left-0 w-full bg-opacity-50 mondrian-border-b backdrop-blur backdrop-filter"
-    >
+    <header class="fixed top-0 left-0 w-full bg-white mondrian-border-b">
       <nav
         class="container flex items-center justify-between w-full h-24 max-w-6xl px-8 mx-auto transition-colors duration-300 dark:text-neutral-200"
       >

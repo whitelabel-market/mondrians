@@ -100,34 +100,24 @@
         </li>
       </ul>
 
-      <form class="mt-12" action="" method="POST">
-        <label
-          for="email"
-          class="ml-2 text-xs font-semibold transition-all duration-200 text-neutral-100"
-          >Resend order confirmation</label
+      <form action="" method="POST" class="mt-12">
+        <AppInput
+          v-model="emailAddress"
+          id="user-modal-ticket-email"
+          label="Resend order confirmation"
+          type="email"
+          placeholder="Email address"
+          :inline-submit="validEmail"
+          @submit="registerForEventTicket"
         >
-        <div class="relative">
-          <input
-            v-model="emailAddress"
-            id="email"
-            name="email"
-            type="email"
-            class="w-full px-4 pr-20 transition-all duration-100 border-none h-11 placeholder:text-neutral-400 text-neutral-200 focus:ring rounded-xl bg-neutral-800"
-            :class="!validEmail ? 'focus:ring-reddish' : 'focus:ring-green-400'"
-            placeholder="Email address"
+          <PaperAirplaneIcon
+            class="w-4 h-4 transform rotate-45 -translate-y-0.5"
           />
-          <button
-            v-if="validEmail"
-            class="absolute flex items-center h-8 gap-1 px-2 py-1 my-auto mb-1 text-xs top-1.5 right-1.5 rounded-lg bg-yellowish text-neutral-800 font-semibold tracking-wider uppercase"
-            type="submit"
-            @click.prevent="registerForEventTicket()"
+          <span
+            class="text-xs font-semibold text-neutral-900 dark:text-neutral-400"
+            >Send</span
           >
-            <PaperAirplaneIcon
-              class="w-4 h-4 transform rotate-45 -translate-y-0.5"
-            />
-            Send
-          </button>
-        </div>
+        </AppInput>
       </form>
 
       <AppButton
@@ -169,6 +159,8 @@ import { useClipboard } from "@vueuse/core";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import makeBlockie from "ethereum-blockies-base64";
 import { authInterface } from "@/services/AuthInterface";
+import TicketForm from "@/components/ticket/TicketForm.vue";
+import AppInput from "@/components/app/AppInput.vue";
 
 defineEmits(["update:modelValue", "clicked"]);
 
@@ -241,22 +233,3 @@ watch(balance, async () => {
   }
 });
 </script>
-
-<style>
-/* Change Autocomplete styles in Chrome*/
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  -webkit-text-fill-color: #e5e5e5;
-  -webkit-box-shadow: 0 0 0px 1000px #262626 inset;
-  box-shadow: 0 0 0px 1000px #262626 inset;
-  transition: background-color 5000s ease-in-out 0s;
-  color: #e5e5e5;
-}
-</style>
