@@ -93,6 +93,7 @@ export const createAuthInterface = (address: string) => {
       if (error.value) {
         throw unref(data);
       }
+      console.log("got data", data);
       return unref(data).signature;
     } catch (e: any) {
       throw new Error(e.toString());

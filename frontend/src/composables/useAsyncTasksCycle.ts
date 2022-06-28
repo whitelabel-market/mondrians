@@ -31,7 +31,7 @@ export default function useAsyncTasksCycle(
       useAsyncState(
         (args) =>
           cb(args).then((res: any) => {
-            console.log("res", res);
+            console.log("finished task cb", taskIndex.value, "res", res);
             taskIndex.value++;
             return res;
           }),
@@ -57,10 +57,18 @@ export default function useAsyncTasksCycle(
     taskIndex.value = from?.task ?? taskIndex.value;
     const nextTasks = jobs[jobIndex.value];
     useAsyncQueue(
-      nextTasks.map((task, i) => (...args: any[]) => {
-        const executor = () => task.execute(0, i <= 0 ? data : args);
-        return new Promise(executor);
-      }),
+      nextTasks.map(
+        (task, i) => async (args: any) =>
+          new Promise((resolve, reject) =>
+            task.execute(0, i <= 0 ? data : args).then((res) => {
+              if (res) {
+                resolve(res);
+              } else {
+                reject();
+              }
+            })
+          )
+      ),
       {
         interrupt: true,
         onFinished: () => {

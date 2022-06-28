@@ -27,9 +27,10 @@ export default class MondrianInterface {
         throw new Error("Wallet not connected");
       }
       const address = await this.signer.getAddress();
-      const signedContract = this.contract.connect(this.signer);
-
+      const signedContract = await this.contract.connect(this.signer);
       if (signature) {
+        console.log("whitelistMint");
+
         return await this.whitelistMint(
           address,
           signedContract,

@@ -50,6 +50,12 @@
         <template v-slot="{ index }">
           <MintStep :isActive="taskIndex >= index">
             <template v-slot:description> Receiving your minted NFT </template>
+            <TokenList
+              dense
+              slider
+              :tokens="tokens"
+              :is-finished="tokens.length > 0"
+            />
           </MintStep>
         </template>
       </StepperItem>
@@ -125,6 +131,7 @@ import MondrianInterface from "@/services/MondrianInterface";
 import { ethers } from "ethers";
 import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
 import ConfirmationTask from "@/components/mint/ConfirmationTask.vue";
+import TokenList from "@/components/tokens/TokenList.vue";
 
 const emit = defineEmits(["loaded"]);
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
@@ -148,6 +155,7 @@ onMounted(() => {
 const getVoucher = async function (quantity: number) {
   const price = whitelistEnabled.value ? Price.whitelist : Price.default;
   const voucher = await authInterface.getVoucher();
+  await promiseTimeout(1000);
   return { quantity, price, voucher };
 };
 
@@ -159,17 +167,22 @@ const mint = async function (mintData: {
   const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
+  console.log("mint", mintData);
   const txWait = await mondrianInterface.mint(
     mintData.quantity,
     mintData.price,
     mintData.voucher
   );
+  console.log("mint res", txWait);
+
   finishedTasks.mint = true;
   return txWait;
 };
 
 const getTokens = async function ({ signal, tx }: any) {
+  console.log("getTokens", signal, tx);
   tokens.value = await getTokenByAddress(address.value, signal, tx);
+  console.log("got Tokens", tokens.value);
 };
 
 const sendTicket = async function (email: string) {
