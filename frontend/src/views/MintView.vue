@@ -54,7 +54,7 @@
               dense
               slider
               :tokens="tokens"
-              :is-finished="tokens.length > 0"
+              :is-finished="tokens.value.length > 0"
             />
           </MintStep>
         </template>
