@@ -1,6 +1,7 @@
 <template>
   <div>
     <TokenList :tokens="tokens" :is-finished="isFinished"></TokenList>
+
     <NoTokens
       :ensAccount="ensAccount"
       :error="error"
@@ -21,6 +22,8 @@ import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { useFetch } from "@vueuse/core";
 import TokenList from "@/components/tokens/TokenList.vue";
+import AppButton from "@/components/app/AppButton.vue";
+import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
 
 const emits = defineEmits(["showHint"]);
 

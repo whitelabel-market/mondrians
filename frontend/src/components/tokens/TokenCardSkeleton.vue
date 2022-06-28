@@ -21,17 +21,17 @@
       ></div>
     </div>
     <div class="flex items-center justify-between">
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col space-y-2 w-full">
         <div
-          class="w-28 h-3 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          class="w-full h-3 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
           style="animation-delay: 300ms; animation-fill-mode: backwards"
         ></div>
         <div
-          class="w-20 h-3 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
+          class="w-2/3 h-3 rounded-full bg-neutral-200 dark:bg-neutral-700 animate-pulse"
           style="animation-delay: 300ms; animation-fill-mode: backwards"
         ></div>
       </div>
-      <div class="w-16 aspect-square"></div>
+      <div class="w-1/3 aspect-square"></div>
     </div>
   </div>
 </template>

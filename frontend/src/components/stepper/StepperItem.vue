@@ -14,16 +14,18 @@
         <h3 class="font-bold">{{ title }}</h3>
       </div>
     </DisclosureButton>
-    <div v-show="modelValue" class="p-8 pl-16">
-      <DisclosurePanel static>
-        <div class="space-y-4">
-          <div v-if="!!error.value" class="text-center text-red-500">
-            <p>{{ error.value }}</p>
+    <Transition @enter="onEnter" @leave="onLeave" :css="false">
+      <div v-show="modelValue" class="p-8 pl-16">
+        <DisclosurePanel static>
+          <div class="space-y-4">
+            <div v-if="!!error.value" class="text-center text-red-500">
+              <p>{{ error.value }}</p>
+            </div>
+            <slot :index="index" />
           </div>
-          <slot :index="index" />
-        </div>
-      </DisclosurePanel>
-    </div>
+        </DisclosurePanel>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -31,6 +33,7 @@
 import { PropType, ref, Ref } from "vue";
 import { DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import StepStatus from "@/components/mint/StepStatus.vue";
+import { gsap } from "gsap";
 
 const emit = defineEmits(["update:modelValue"]);
 defineProps({
@@ -53,4 +56,13 @@ defineProps({
     default: ref(null),
   },
 });
+
+const toggle = (el: HTMLElement, height: string) =>
+  gsap.to(el, { height, duration: 0.1, ease: "power1.inOut" });
+
+const onEnter = async (el: HTMLElement, done: any) =>
+  toggle(el, "auto").then(done);
+
+const onLeave = async (el: HTMLElement, done: any) =>
+  toggle(el, "0").then(done);
 </script>

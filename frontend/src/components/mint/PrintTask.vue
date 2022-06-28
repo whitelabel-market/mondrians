@@ -6,19 +6,16 @@
       >
         Select Item
       </span>
-
-      <TokenList
-        dense
-        :tokens="tokens"
-        enableSlider
-        :is-finished="tokens.length > 0"
-      >
+      <TokenList dense slider :tokens="tokens" :is-finished="tokens.length > 0">
         <template v-slot:token="{ token }">
-          <AppButton color="blank" @click.prevent="data.token = token">
-            <TokenCard :token="token" dense :highlight="true"></TokenCard>
-          </AppButton>
-          ></template
-        >
+          <button
+            class="flex w-full text-left h-full border-2 border-transparent p-4 rounded-2xl transition-color duration-200 ease-out-circ"
+            :class="{ 'border-black': data.token.id === token.id }"
+            @click.prevent="data.token = token"
+          >
+            <TokenCardPrint :token="token" />
+          </button>
+        </template>
       </TokenList>
     </div>
 
@@ -128,6 +125,7 @@ import AppInput from "@/components/app/AppInput.vue";
 import { reactive, ref } from "vue";
 import TokenList from "@/components/tokens/TokenList.vue";
 import TokenCard from "@/components/tokens/TokenCard.vue";
+import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
 
 const emit = defineEmits(["submit", "skip"]);
 
