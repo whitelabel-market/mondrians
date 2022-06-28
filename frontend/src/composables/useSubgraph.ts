@@ -15,7 +15,6 @@ const timeout = (time: number) => {
 export default function useSubgraph() {
   const getTokenByAddress = async function (
     address: string,
-    signal: any,
     tx: ethers.ContractTransaction
   ): Promise<any> {
     const block = tx.blockNumber;

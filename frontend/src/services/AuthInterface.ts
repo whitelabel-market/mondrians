@@ -60,7 +60,7 @@ export const createAuthInterface = (address: string) => {
       }
       return "";
     } catch (e: any) {
-      throw new Error(e.toString());
+      throw new Error(e);
     }
   };
 

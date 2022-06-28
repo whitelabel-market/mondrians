@@ -29,8 +29,6 @@ export default class MondrianInterface {
       const address = await this.signer.getAddress();
       const signedContract = await this.contract.connect(this.signer);
       if (signature) {
-        console.log("whitelistMint");
-
         return await this.whitelistMint(
           address,
           signedContract,

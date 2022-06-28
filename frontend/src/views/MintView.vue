@@ -168,20 +168,20 @@ const mint = async function (mintData: {
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
   console.log("mint", mintData);
-  const txWait = await mondrianInterface.mint(
+  const tx = await mondrianInterface.mint(
     mintData.quantity,
     mintData.price,
     mintData.voucher
   );
-  console.log("mint res", txWait);
+  console.log("mint res", tx);
 
   finishedTasks.mint = true;
-  return txWait;
+  return tx;
 };
 
-const getTokens = async function ({ signal, tx }: any) {
-  console.log("getTokens", signal, tx);
-  tokens.value = await getTokenByAddress(address.value, signal, tx);
+const getTokens = async function (tx: ethers.ContractTransaction) {
+  console.log("getTokens", tx);
+  tokens.value = await getTokenByAddress(address.value, tx);
   console.log("got Tokens", tokens.value);
 };
 
