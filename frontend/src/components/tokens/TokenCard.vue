@@ -1,10 +1,10 @@
 <template>
   <div class="pb-1 pr-1">
     <div
-      class="relative z-10 transition-colors duration-300 after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 dark:after:bg-black after:rounded-xl after:translate-x-1 after:translate-y-1 after:transition-colors after:duration-300"
+      class="relative z-10 transition-colors duration-300 after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 dark:after:bg-black after:rounded-lg after:translate-x-1 after:translate-y-1 after:transition-colors after:duration-300"
     >
       <div
-        class="flex flex-col justify-between h-full gap-4 transition-all duration-300 border select-none bg-neutral-50 dark:bg-neutral-800 rounded-xl bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
+        class="flex flex-col justify-between h-full gap-4 transition-all duration-300 border select-none bg-neutral-50 dark:bg-neutral-800 rounded-lg bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
         :class="[
           dense ? 'p-2' : 'p-4',
           highlight ? 'border-black dark:border-white' : 'border-neutral-800',

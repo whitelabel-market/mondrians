@@ -1,18 +1,20 @@
 <template>
   <section id="Roadmap" class="text-white bg-blueish mondrian-border-b">
-    <div class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-3">
+    <div
+      class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-3"
+      v-animate
+    >
       <div class="grid items-stretch gap-4 lgs:col-span-2 md:grid-cols-3">
         <div class="max-w-xl space-y-2 md:col-span-3">
-          <h2 class="section-title" v-animate>Roadmap</h2>
-          <p class="pb-4" v-animate>
+          <h2 class="section-title">Roadmap</h2>
+          <p class="pb-4">
             This roadmap outlines our goals and where we want to take
             Mondrian’s. We have a lot of ideas and concepts that we are working
             on.
           </p>
         </div>
         <div
-          class="p-4 space-y-2 bg-blue-100 border-4 text-neutral-900 border-neutral-800 rounded-xl md:p-8"
-          v-animate
+          class="p-4 space-y-2 bg-blue-100 border-4 text-neutral-900 border-neutral-800 rounded-lg md:p-8"
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
           :key="step.title"
@@ -36,7 +38,6 @@
         src="@/assets/images/image-2.png"
         alt="Roadmap"
         class="order-first w-full max-w-sm mx-auto lgs:order-none"
-        v-animate
       />
     </div>
   </section>

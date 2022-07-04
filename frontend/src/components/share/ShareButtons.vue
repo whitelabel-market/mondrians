@@ -5,7 +5,7 @@
     :item="item"
     :index="index"
     :hintVisible="hintVisible"
-    @clicked="shareItem"
+    @click="shareItem"
   />
 </template>
 

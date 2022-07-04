@@ -1,7 +1,7 @@
 <template>
   <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
     <div
-      class="mx-auto text-5xl font-black text-center text-transparent md:text-6xl"
+      class="mx-auto text-6xl font-black text-center text-transparent md:text-7xl"
     >
       <span
         class="text-transparent bg-clip-text bg-gradient-to-r from-blueish via-yellowish to-reddish"

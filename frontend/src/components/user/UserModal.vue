@@ -8,99 +8,50 @@
       }
     "
   >
-    <div class="flex flex-col space-y-8">
-      <div class="flex flex-col items-center space-y-4">
-        <div
-          class="flex items-center space-x-2 text-neutral-900 dark:text-neutral-200"
-        >
-          <img
-            :src="makeBlockie(address)"
-            class="object-cover w-8 h-8 rounded-md"
-          />
-          <div>
-            <h4 class="text-base font-bold md:text-lg slashed-zero">
-              {{ privateAddress }}
-            </h4>
-            <a
-              v-if="ensAccount?.name"
-              :href="`${ENS_BASE_URL}${address}`"
-              class="text-xs font-semibold"
-              >{{ "@" + ensAccount.name }}</a
-            >
-          </div>
-        </div>
-
-        <div class="flex items-center justify-center w-full gap-4">
+    <div class="flex flex-col space-y-4">
+      <div class="self-center flex items-center space-x-2 pb-4">
+        <img
+          :src="makeBlockie(address)"
+          :alt="address"
+          class="object-cover w-8 h-8 rounded-lg"
+        />
+        <div>
+          <h4
+            class="block text-lg font-black md:text-xl slashed-zero leading-0"
+          >
+            {{ ensAccount?.name ? "@" + ensAccount.name : privateAddress }}
+          </h4>
           <a
-            :href="`${EXPLORER_BASE_URL}address/${address}`"
-            target="_blank"
-            class="flex items-center space-x-1 text-xs font-semibold outline-none text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200"
-            ><span>View on Polygonscan</span> <ExternalLinkIcon class="w-4 h-4"
-          /></a>
-
-          <AppTooltip class="group" :show="copied">
-            <template #element
-              ><button
-                class="flex items-center space-x-1 text-xs font-semibold outline-none text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200"
-                @click.prevent="copy(address)"
-              >
-                <span>Copy address</span
-                ><ClipboardCopyIcon class="w-4 h-4" /></button
-            ></template>
-            <template #text>Copied</template>
-          </AppTooltip>
+            v-if="ensAccount?.name"
+            :href="`${ENS_BASE_URL}${address}`"
+            class="font-semibold"
+            >{{ "@" + ensAccount.name }}</a
+          >
         </div>
       </div>
 
-      <ul class="flex flex-col w-full gap-4">
-        <li
-          class="relative flex items-center justify-start p-4 space-x-4 bg-white dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 h-14 rounded-xl"
-        >
-          <PolygonIcon class="block w-6 h-6 -translate-x-1" />
-
-          <div class="absolute text-sm font-semibold left-8">
-            <span class="block slashed-zero">{{ privateAddress }}</span>
-            <span class=""
-              >Matic
-              <span class="italic"
-                >{{ Number(balance).toFixed(2) }} - ${{ usdBalance }}</span
-              ></span
-            >
-          </div>
-        </li>
+      <ul class="flex flex-col w-full space-y-2">
         <li>
-          <router-link
-            @click.prevent="$emit('update:modelValue', false)"
-            class="relative flex items-stretch text-xs font-semibold tracking-wider uppercase transition duration-200 transform cursor-pointer justify-stretch ease-out-circ rounded-xl after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 after:rounded-xl group active:scale-95 after:transform after:translate-x-1 after:translate-y-1 h-11"
+          <AppButton
+            color="gray"
             :to="`/user/${address}/collected`"
-          >
-            <span
-              class="flex items-center justify-center w-full px-8 py-3 space-x-2 text-white transition duration-200 transform border-2 ease-out-circ rounded-xl group-hover:translate-x-1 group-hover:translate-y-1 bg-blueish border-neutral-800"
-              ><CollectionIcon class="w-5 h-5"></CollectionIcon>
-              <span class="font-semibold tracking-wider uppercase"
-                >My Collection</span
-              ></span
-            >
-          </router-link>
+            @click.prevent="$emit('update:modelValue', false)"
+            ><CollectionIcon class="w-5 h-5"></CollectionIcon>
+            <span class="block">My Collection</span>
+          </AppButton>
         </li>
         <li>
-          <router-link
-            @click.prevent="$emit('update:modelValue', false)"
-            class="relative flex items-stretch text-xs font-semibold tracking-wider uppercase transition duration-200 transform cursor-pointer justify-stretch ease-out-circ rounded-xl after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 after:rounded-xl group active:scale-95 after:transform after:translate-x-1 after:translate-y-1 h-11"
+          <AppButton
+            color="gray"
             :to="`/user/${address}/activity`"
-          >
-            <span
-              class="flex items-center justify-center w-full px-8 py-3 space-x-2 text-white transition duration-200 transform border-2 ease-out-circ rounded-xl group-hover:translate-x-1 group-hover:translate-y-1 bg-blueish border-neutral-800"
-              ><SwitchVerticalIcon class="w-5 h-5"></SwitchVerticalIcon>
-              <span class="font-semibold tracking-wider uppercase"
-                >My activity</span
-              ></span
-            >
-          </router-link>
+            @click.prevent="$emit('update:modelValue', false)"
+            ><SwitchVerticalIcon class="w-5 h-5" />
+            <span class="block">My activity</span>
+          </AppButton>
         </li>
       </ul>
 
-      <form action="" method="POST" class="mt-12">
+      <form>
         <AppInput
           v-model="emailAddress"
           id="user-modal-ticket-email"
@@ -120,16 +71,72 @@
         </AppInput>
       </form>
 
-      <AppButton
-        @clicked="
-          () => {
-            $emit('update:modelValue', false);
-            signOut();
-          }
-        "
+      <div
+        class="flex flex-col bg-white dark:bg-neutral-900 border-2 border-stone-200 dark:border-stone-700 rounded-lg p-4 space-y-2"
       >
-        Sign out</AppButton
-      >
+        <div class="flex w-full items-start justify-between">
+          <div>
+            <div class="flex items-center space-x-2">
+              <img
+                :src="makeBlockie(address)"
+                :alt="address"
+                class="object-cover w-4 h-4 rounded"
+              />
+              <div>
+                <h4 class="block slashed-zero text-sm">
+                  {{ privateAddress }}
+                </h4>
+              </div>
+            </div>
+
+            <span class="text-xs"> Network: Polygon </span>
+          </div>
+          <div class="flex items-center justify-start space-x-2">
+            <AppButton
+              flat
+              rounded="full"
+              size="sm"
+              color="gray"
+              :tooltip="'Viw on Polygonscan'"
+              only-icon
+              :href="`${EXPLORER_BASE_URL}address/${address}`"
+            >
+              <SearchIcon class="w-4 h-4" />
+            </AppButton>
+
+            <AppButton
+              flat
+              rounded="full"
+              size="sm"
+              color="gray"
+              only-icon
+              :tooltip="copied ? 'Copied' : 'Copy address'"
+              @click.prevent="copy(address)"
+            >
+              <ClipboardCopyIcon class="w-4 h-4" />
+            </AppButton>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-1 pb-2">
+          <PolygonIcon class="block w-4 h-4" />
+          <span class="block font-semibold"
+            >{{ Number(balance).toFixed(2) }} ($ {{ usdBalance }})</span
+          >
+        </div>
+
+        <AppButton
+          size="sm"
+          @click="
+            () => {
+              $emit('update:modelValue', false);
+              signOut();
+            }
+          "
+        >
+          Disconnect</AppButton
+        >
+      </div>
     </div>
   </AppModal>
 </template>
@@ -145,7 +152,7 @@ import { SwitchVerticalIcon } from "@heroicons/vue/solid";
 import {
   CollectionIcon,
   ClipboardCopyIcon,
-  ExternalLinkIcon,
+  SearchIcon,
   PaperAirplaneIcon,
 } from "@heroicons/vue/outline";
 import { useFetch } from "@vueuse/core";
@@ -162,7 +169,7 @@ import { authInterface } from "@/services/AuthInterface";
 import TicketForm from "@/components/ticket/TicketForm.vue";
 import AppInput from "@/components/app/AppInput.vue";
 
-defineEmits(["update:modelValue", "clicked"]);
+defineEmits(["update:modelValue", "click"]);
 
 defineProps({
   modelValue: {

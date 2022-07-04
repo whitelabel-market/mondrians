@@ -12,14 +12,10 @@
       >
         <LoadingMondrian class="w-10 h-10" />
       </div>
-      <main
-        class="flex flex-col justify-center flex-1 w-full transition-colors duration-300 bg-white dark:bg-neutral-900"
-      >
+      <main class="flex flex-col justify-center flex-1 w-full">
         <router-view @loaded="loaded = $event" />
       </main>
-      <div class="transition-colors duration-300 bg-white dark:bg-neutral-900">
-        <LayoutFooter />
-      </div>
+      <LayoutFooter />
     </div>
   </div>
 </template>

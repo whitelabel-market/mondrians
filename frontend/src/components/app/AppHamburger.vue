@@ -6,7 +6,7 @@
     :aria-expanded="show"
     aria-controls="mobile-controls"
     :class="{ 'menu-active': show }"
-    @click="$emit('clicked')"
+    @click="$emit('click')"
   >
     <span></span>
     <span></span>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-defineEmits(["clicked"]);
+defineEmits(["click"]);
 defineProps({ show: { type: Boolean, required: true } });
 </script>
 

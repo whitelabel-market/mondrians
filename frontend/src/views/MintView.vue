@@ -4,8 +4,9 @@
   >
     <div class="container px-8 mx-auto">
       <div class="py-24">
-        <h1 class="text-center font-bold text-4xl leading-relaxed">
-          Create your <LogoIcon class="!text-4xl" />
+        <h1 class="text-center text-4xl font-black lg:text-5xl leading-relaxed">
+          <span class="">Create your</span>
+          <LogoIcon class="!text-4xl !lg:text-5xl" />
         </h1>
       </div>
     </div>
@@ -54,7 +55,7 @@
               dense
               slider
               :tokens="tokens"
-              :is-finished="tokens.value.length > 0"
+              :is-finished="finishedTasks.getTokens"
             />
           </MintStep>
         </template>
@@ -143,6 +144,7 @@ const tokens = ref([]);
 const step = ref(0);
 const finishedTasks = reactive({
   mint: false,
+  getTokens: false,
   sendTicket: false,
   print: false,
 });
@@ -183,6 +185,7 @@ const getTokens = async function (tx: ethers.ContractTransaction) {
   console.log("getTokens", tx);
   tokens.value = await getTokenByAddress(address.value, tx);
   console.log("got Tokens", tokens.value);
+  finishedTasks.getTokens = true;
 };
 
 const sendTicket = async function (email: string) {
@@ -190,21 +193,11 @@ const sendTicket = async function (email: string) {
   finishedTasks.sendTicket = true;
 };
 
-const print = async function ({
-  streetName,
-  streetNumber,
-  firstName,
-  lastName,
-  ...printData
-}: any) {
-  const payload = {
+const print = async function (printData: any) {
+  await authInterface.print({
     ...printData,
-    street: `${streetName} ${streetNumber}`,
-    name: `${firstName} ${lastName}`,
     countryCode: "de",
-  };
-
-  await authInterface.print(payload);
+  });
   finishedTasks.print = true;
 };
 

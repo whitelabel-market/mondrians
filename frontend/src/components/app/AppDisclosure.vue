@@ -2,10 +2,10 @@
   <Disclosure
     as="div"
     v-slot="{ open }"
-    class="w-full bg-yellow-100 border-4 border-neutral-800 rounded-xl"
+    class="w-full bg-yellow-100 border-4 border-neutral-800 rounded-lg relative after:block after:absolute after:bottom-0 after:right-0 after:-z-10 after:!w-full after:!h-full after:translate-x-1 after:translate-y-1 after:bg-neutral-800 after:rounded-lg"
   >
     <DisclosureButton
-      class="flex items-center justify-between w-full p-4 cursor-pointer after:block after:absolute after:bottom-0 after:right-0 after:-z-10 after:!w-full after:!h-full after:translate-x-1 after:translate-y-1 after:bg-neutral-800 after:rounded-xl"
+      class="flex items-center justify-between w-full p-4 cursor-pointer"
     >
       <span class="text-lg font-bold"><slot name="question" /></span>
       <ChevronDownIcon

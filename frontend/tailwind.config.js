@@ -43,10 +43,12 @@ module.exports = {
       },
     },
     fontFamily: {
-      sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+      serif: ["Optician Sans", ...defaultTheme.fontFamily.serif],
+      sans: ["Source Sans Pro", ...defaultTheme.fontFamily.sans],
     },
     transitionTimingFunction: {
       "out-circ": "cubic-bezier(0,0.55,0.45,1)",
+      "in-circ": "cubic-bezier(0.55, 0, 1, 0.45)",
     },
     animation: {
       pulse: "pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",

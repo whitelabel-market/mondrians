@@ -1,6 +1,6 @@
 <template>
   <AppButton
-    @clicked="$emit('clicked', item.content)"
+    @click="$emit('click', item.content)"
     :tooltip="item.tooltip"
     only-icon
     size="sm"
@@ -14,7 +14,7 @@
       <span
         class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-reddish animate-ping"
       ></span>
-      <span class="relative inline-flex w-2 h-2 bg-red-500 rounded-xl"></span>
+      <span class="relative inline-flex w-2 h-2 bg-red-500 rounded-lg"></span>
     </span>
   </AppButton>
 </template>
@@ -27,7 +27,7 @@ import { PlusIcon, MailIcon } from "@heroicons/vue/solid";
 
 const components = { FacebookIcon, TwitterIcon, PlusIcon, MailIcon };
 
-defineEmits(["clicked"]);
+defineEmits(["click"]);
 
 defineProps({
   item: {

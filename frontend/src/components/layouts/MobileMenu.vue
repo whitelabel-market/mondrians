@@ -45,7 +45,7 @@
                 :center="false"
                 size="sm"
                 :loading="loading"
-                @click.prevent="$emit('clicked')"
+                @click.prevent="$emit('click')"
                 color="blank"
                 flat
               >
@@ -61,7 +61,7 @@
                 </div>
               </AppButton>
               <div
-                class="relative flex items-center justify-between p-4 transition-colors duration-300 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-xl"
+                class="relative flex items-center justify-between p-4 transition-colors duration-300 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-lg"
               >
                 <span
                   class="transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
@@ -84,7 +84,7 @@ import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";
 import makeBlockie from "ethereum-blockies-base64";
 
-const emit = defineEmits(["update:modelValue", "connect", "clicked"]);
+const emit = defineEmits(["update:modelValue", "connect", "click"]);
 
 defineProps({
   modelValue: {

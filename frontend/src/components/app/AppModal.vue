@@ -25,17 +25,21 @@
             leave-to="opacity-0 translate-y-12"
           >
             <div
-              class="relative flex flex-col items-stretch w-full max-w-md max-h-full p-4 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl sm:p-8 dark:bg-neutral-800 bg-hero-pattern-charlie rounded-xl"
+              class="relative flex flex-col items-stretch w-full max-w-md max-h-full p-4 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl sm:p-8 dark:bg-neutral-800 text-black dark:text-white bg-hero-pattern-charlie rounded-lg"
             >
-              <slot />
-              <div class="">
+              <div class="absolute top-0 right-0 p-2">
                 <AppButton
-                  color="gray"
-                  full-width
+                  size="sm"
+                  color="link"
+                  only-icon
+                  flat
+                  rounded="full"
                   @click.prevent="$emit('update:modelValue', false)"
-                  ><slot name="button">Close</slot></AppButton
-                >
+                  ><slot name="button"><XIcon class="w-4 h-4" /></slot
+                ></AppButton>
               </div>
+
+              <slot />
             </div>
           </TransitionChild>
         </div>
@@ -52,6 +56,7 @@ import {
   DialogOverlay,
 } from "@headlessui/vue";
 import AppButton from "@/components/app/AppButton.vue";
+import { XIcon } from "@heroicons/vue/outline";
 
 defineEmits(["update:modelValue"]);
 defineProps({

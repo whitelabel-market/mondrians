@@ -1,9 +1,11 @@
 import { RouterScrollBehavior } from "vue-router";
 
 export default (function (to) {
-  if (to.hash) {
+  if (to.query.el) {
+    return { el: to.query.el, behavior: "smooth" };
+  } else if (to.hash) {
     return { el: to.hash, behavior: "smooth" };
   } else {
-    return { x: 0, y: 0 };
+    return { top: 0 };
   }
 } as RouterScrollBehavior);

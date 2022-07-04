@@ -9,7 +9,10 @@
 
       <slot />
 
-      <div v-if="!isActive" class="absolute -inset-2 bg-white/80 z-0" />
+      <div
+        v-if="!isActive"
+        class="absolute -inset-2 bg-white/80 dark:bg-neutral-900/80 z-0"
+      />
     </div>
   </div>
 </template>

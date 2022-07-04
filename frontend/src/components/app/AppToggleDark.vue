@@ -14,11 +14,11 @@
           />
           <!-- background -->
           <div
-            class="block bg-neutral-200 bg-opacity-50 dark:bg-neutral-800 w-14 h-8 rounded-full transition duration-300"
+            class="block bg-neutral-200 bg-opacity-50 dark:bg-neutral-800 w-12 h-6 rounded-full transition duration-300"
           ></div>
           <!-- dot -->
           <div
-            class="absolute flex items-center justify-center left-1 top-1 bg-neutral-800 dark:bg-neutral-200 w-6 h-6 rounded-full transition duration-300 dark:translate-x-full translate-x-0"
+            class="absolute flex items-center justify-center left-0 top-0 bg-neutral-800 dark:bg-neutral-200 w-6 h-6 rounded-full transition duration-300 dark:translate-x-full translate-x-0"
           >
             <SunIcon class="w-4 h-4 text-neutral-200 dark:hidden block" />
             <MoonIcon class="w-4 h-4 dark:text-neutral-900 hidden dark:block" />

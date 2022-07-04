@@ -24,7 +24,6 @@
       class="outline-none focus:outline-none"
       >Change network</AppButton
     >
-    <template v-slot:button>Logout</template>
   </AppModal>
 </template>
 

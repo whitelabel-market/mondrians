@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, h, ref } from "vue";
+import { computed, defineComponent, h, PropType, ref } from "vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import { RouterLink } from "vue-router";
@@ -9,7 +9,7 @@ type Indexable<T = any> = {
 };
 
 export default defineComponent({
-  emits: ["clicked"],
+  emits: ["click"],
   props: {
     type: {
       type: String,
@@ -32,8 +32,8 @@ export default defineComponent({
       default: false,
     },
     rounded: {
-      type: String as () => "full" | "xl" | "none",
-      default: "xl",
+      type: String as () => "full" | "lg" | "none",
+      default: "lg",
     },
     size: {
       type: String as () => "xs" | "sm" | "md" | "lg",
@@ -68,7 +68,7 @@ export default defineComponent({
       default: false,
     },
     tooltip: {
-      type: String,
+      type: Object as PropType<string | undefined>,
       default: null,
     },
     delay: {
@@ -80,8 +80,8 @@ export default defineComponent({
 
     const ButtonColor: Indexable<string> = {
       blank: "bg-transparent text-current border-transparent",
-      gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-neutral-300 dark:bg-neutral-600 dark:border-neutral-800 dark:text-neutral-800",
-      link: "bg-neutral-100 text-gray-700 border-neutral-200 hover:text-blueish",
+      gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-neutral-300 dark:bg-neutral-600 dark:border-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100",
+      link: "bg-transparent border-transparent link",
       reddish: "bg-reddish text-white border-2 border-neutral-800",
       yellowish: "bg-yellowish text-neutral-900 border-2 border-neutral-800",
       blueish: "bg-blueish text-white border-2 border-neutral-800",
@@ -132,13 +132,13 @@ export default defineComponent({
 
     const ButtonRounded: Indexable<string> = {
       none: "rounded-none",
-      xl: "rounded-xl",
+      lg: "rounded-lg",
       full: "rounded-full",
     };
 
     const ButtonAfterRounded: Indexable<string> = {
       none: "after:rounded-none",
-      xl: "after:rounded-xl",
+      lg: "after:rounded-lg",
       full: "after:rounded-full",
     };
 
@@ -212,7 +212,7 @@ export default defineComponent({
           onClick: (e: Event) => {
             !isAnchorLink && e.preventDefault();
             if (!(props.disabled || props.loading)) {
-              emit("clicked", e);
+              emit("click", e);
             }
           },
         },

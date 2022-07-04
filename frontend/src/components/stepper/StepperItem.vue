@@ -1,7 +1,7 @@
 <template>
   <div>
     <DisclosureButton
-      class="relative w-full space-x-4 flex items-center justify-start p-4 cursor-pointer transition ease-in-circ duration-200 hover:opacity-60"
+      class="relative w-full space-x-4 flex items-center justify-start p-4 cursor-pointer transition duration-300 hover:opacity-60"
       @click="emit('update:modelValue', index)"
     >
       <div class="flex w-full items-center space-x-4">
@@ -11,7 +11,7 @@
           :isReady="isReady"
           :error="error"
         />
-        <h3 class="font-bold">{{ title }}</h3>
+        <h3 class="font-serif font-black text-xl">{{ title }}</h3>
       </div>
     </DisclosureButton>
     <Transition @enter="onEnter" @leave="onLeave" :css="false">

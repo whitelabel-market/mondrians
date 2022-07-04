@@ -7,7 +7,7 @@ import { computed } from "vue";
 
 const SpinnerSize: () => { [key: string]: string } = () => {
   return {
-    xs: "border-px h-4 w-4",
+    xs: "border-2 h-4 w-4",
     sm: "border-2 h-6 w-6",
     md: "border-2 h-8 w-8",
     lg: "border-4 h-10 w-10",
@@ -17,7 +17,7 @@ const SpinnerSize: () => { [key: string]: string } = () => {
 const SpinnerColor: { [key: string]: string } = {
   primary: "border-r-black border-transparent dark:border-r-white",
   secondary: "border-r-gray-400 border-gray-200",
-  white: "border-r-blueish border-white",
+  white: "border-r-transparent border-white",
 };
 
 interface Props {

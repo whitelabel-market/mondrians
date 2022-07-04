@@ -1,6 +1,6 @@
 <template>
   <section id="Gallery" class="mondrian-border-b">
-    <div class="px-8 overflow-hidden">
+    <div class="px-8 overflow-hidden" v-animate>
       <div class="space-y-4 md:hidden">
         <div
           class="flex space-x-4"

@@ -1,8 +1,8 @@
 import { Directive } from "vue";
 import { gsap } from "gsap";
 
-const from = { y: 50, autoAlpha: 0 };
-const duration = 1;
+const from = { autoAlpha: 0, y: 24 };
+const duration = 0.6;
 
 export default {
   mounted(el, binding) {
@@ -15,11 +15,10 @@ export default {
       },
       scrollTrigger: {
         trigger: el,
-        once: true, // equals toggleActions: "play none none none",
-        // toggleActions: "restart reset restart reset",
+        start: "center bottom",
       },
       duration,
-      ease: "power2.inOut",
+      ease: "Sine.in",
     });
   },
 } as Directive;

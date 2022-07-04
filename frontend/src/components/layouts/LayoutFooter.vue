@@ -1,38 +1,56 @@
 <template>
-  <footer class="container w-full max-w-4xl px-8 py-24 mx-auto">
-    <div
-      class="grid max-w-xl grid-cols-2 gap-4 py-16 transition-colors duration-300 md:grid-cols-3 md:gap-20 text-neutral-900 dark:text-neutral-200"
-    >
-      <div>
-        <span class="block mb-8">Home</span>
-        <ul class="space-y-4 text-sm">
-          <li v-for="(to, name) in routes" :key="to">
-            <router-link class="link" :to="to">{{ name }}</router-link>
-          </li>
-        </ul>
+  <footer class="">
+    <div class="container w-full max-w-4xl px-8 py-24 space-y-24 mx-auto">
+      <div class="flex flex-col justify-center space-y-8 mx-auto" v-animate>
+        <h2
+          class="text-center flex flex-col items-center text-3xl font-black uppercase md:text-4xl"
+        >
+          Get your
+          <LogoIcon class="!text-3xl md:!text-4xl" /> NFT now
+        </h2>
+        <div>
+          <AppButton color="reddish" class="mx-auto" :fullWidth="false"
+            >View on Opensea
+          </AppButton>
+        </div>
       </div>
-      <div>
-        <span class="block mb-8">Follow Us</span>
-        <ul class="space-y-4 text-sm">
-          <li v-for="(to, name) in follows" :key="to">
-            <router-link class="link" :to="to">{{ name }}</router-link>
-          </li>
-        </ul>
+      <div
+        class="grid grid-cols-2 gap-4 gap-y-16 py-16 transition-colors duration-300 md:grid-cols-4 md:gap-20"
+      >
+        <div v-for="(items, title) in routes" :key="title">
+          <span class="block mb-8">{{ title }}</span>
+          <ul class="space-y-4 text-sm">
+            <li v-for="(to, name) in items" :key="title + to">
+              <router-link class="link" :to="to">{{ name }}</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div
-      class="flex items-center justify-between mdx:flex-col-reverse md:mt-[3.125rem] mt-[0.563rem]"
-    >
-      <p class="text-xs leading-relaxed text-stone-400">
-        © {{ new Date().getFullYear() }} Whitelabel Solutions, Inc. Powered by
-        Piet Mondrian.
-      </p>
+    <div class="bg-black text-white bg-hero-pattern-charlie">
+      <div class="container w-full max-w-4xl p-8 mx-auto text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8">
+          <div>
+            <p>© {{ new Date().getFullYear() }} Whitelabel Solutions</p>
+          </div>
+          <div>
+            <ul class="flex items-center space-x-8">
+              <li v-for="(to, name) in Legal" :key="to">
+                <router-link class="" :to="to">{{ name }}</router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
-const routes = {
+import AppButton from "@/components/app/AppButton.vue";
+import LogoIcon from "@/components/icons/LogoIcon.vue";
+
+const Home = {
   About: "/#About",
   Gallery: "/#Gallery",
   Roadmap: "/#Roadmap",
@@ -41,8 +59,21 @@ const routes = {
   Faq: "/#Faq",
 };
 
-const follows = {
-  Discord: "/#",
-  Twitter: "/#",
+const User = {
+  "Collected Tokens":
+    "/user/0x23479a6877970e5889dfad779e225adc08eb8e03/collected",
+  "Transaction Activity":
+    "/user/0x23479a6877970e5889dfad779e225adc08eb8e03/activity",
 };
+
+const Mint = {
+  Mint: "/mint",
+};
+
+const Legal = {
+  "Privacy Policy": "/privacy",
+  "Terms of usage": "/terms",
+};
+
+const routes = { Home, User, Mint, Legal };
 </script>

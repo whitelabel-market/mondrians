@@ -3,10 +3,10 @@
     id="Faq"
     class="space-y-8 bg-yellowish mondrian-border-b text-neutral-900"
   >
-    <div class="container max-w-4xl px-8 mx-auto space-y-8">
-      <h2 class="text-center section-title" v-animate>FAQ</h2>
+    <div class="container max-w-4xl px-8 mx-auto space-y-8" v-animate>
+      <h2 class="text-center section-title">FAQ</h2>
       <ul class="space-y-4">
-        <li v-animate v-for="(question, index) in questions" :key="index">
+        <li v-for="(question, index) in questions" :key="index" class="block">
           <AppDisclosure>
             <template #question> {{ question }}</template>
 
@@ -17,20 +17,6 @@
           </AppDisclosure>
         </li>
       </ul>
-    </div>
-    <div class="flex flex-col justify-center space-y-8">
-      <h2
-        class="flex flex-col items-center text-xl font-black uppercase md:text-3xl text-neutral-900"
-        v-animate
-      >
-        Get your
-        <LogoIcon class="!text-xl md:!text-3xl text-neutral-900" /> NFT now
-      </h2>
-      <div v-animate>
-        <AppButton color="reddish" class="mx-auto" :fullWidth="false"
-          >View on Opensea
-        </AppButton>
-      </div>
     </div>
   </section>
 </template>
