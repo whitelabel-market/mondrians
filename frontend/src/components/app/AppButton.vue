@@ -68,7 +68,7 @@ export default defineComponent({
       default: false,
     },
     tooltip: {
-      type: Object as PropType<string | undefined>,
+      type: String,
       default: null,
     },
     delay: {
@@ -90,17 +90,17 @@ export default defineComponent({
     };
 
     const ButtonWrapperSizeIcon: Indexable<string> = {
-      xs: "w-6 h-6 text-xs",
-      sm: "w-7 h-7 text-xs",
-      md: "w-10 h-10 text-sm",
-      lg: "w-12 h-12 text-base",
+      xs: "w-8 h-8 text-xxs",
+      sm: "w-10 h-10 text-xs",
+      md: "w-12 h-12 text-sm",
+      lg: "w-14 h-14 text-base",
     };
 
     const ButtonWrapperSizeDefault: Indexable<string> = {
-      xs: "h-7 text-[0.5rem]",
-      sm: "h-9 text-[0.675rem]",
-      md: "h-11 text-xs",
-      lg: "h-14 text-base",
+      xs: "h-10 text-xs",
+      sm: "h-12 text-sm",
+      md: "h-14 text-base",
+      lg: "h-16 text-lg",
     };
 
     const ButtonSpacing: Indexable<string> = {
@@ -143,7 +143,7 @@ export default defineComponent({
     };
 
     const classesWrapper = computed(() => [
-      `relative flex items-stretch justify-stretch font-bold tracking-wider uppercase transition duration-200 ease-out-circ`,
+      `relative inline-flex items-stretch justify-stretch font-semibold uppercase transition duration-200 ease-in-circ`,
       ButtonRounded[props.rounded],
       !props.flat &&
         !props.disabled &&
@@ -153,7 +153,7 @@ export default defineComponent({
         : "after:bg-neutral-800",
       !props.flat && ButtonAfterRounded[props.rounded],
       !(props.disabled || props.loading)
-        ? "cursor-pointer group transform active:scale-95"
+        ? "cursor-pointer group transform active:scale-[96%]"
         : "cursor-default",
       !(props.disabled || props.flat) && ButtonAfterTranslate[props.size],
       props.onlyIcon

@@ -4,7 +4,7 @@
       <AppButton
         only-icon
         :disabled="disabled || !canDecrease"
-        size="md"
+        size="sm"
         @click.prevent="$emit('update:modelValue', modelValue - 1)"
         rounded="full"
       >
@@ -17,12 +17,13 @@
         type="text"
         id="mint"
         name="mint"
-        class="block w-20 mx-auto text-center transition-colors duration-300 border-2 rounded-full outline-none cursor-not-allowed border-neutral-800 dark:text-neutral-200 dark:bg-neutral-800 dark:border-neutral-800 focus:outline-none"
+        class="block w-20 mx-auto text-center transition-colors duration-300 border-2 rounded-full outline-none focus:ring-0 focus:outline-none cursor-default !border-neutral-800 dark:text-neutral-200 dark:bg-neutral-800 !dark:border-neutral-800"
         :placeholder="modelValue.toString()"
       />
 
       <AppButton
         only-icon
+        size="sm"
         :disabled="disabled || !canIncrease"
         @click.prevent="$emit('update:modelValue', modelValue + 1)"
         rounded="full"
@@ -30,12 +31,12 @@
         <PlusSmIcon class="w-4 h-4" />
       </AppButton>
     </div>
-    <p
-      class="flex items-center justify-center mt-4 space-x-1 text-sm font-semibold transition-colors duration-300 dark:text-neutral-200"
+    <div
+      class="flex items-center justify-center mt-4 space-x-1 font-serif text-lg transition-colors duration-300 dark:text-neutral-200"
     >
-      <span>Price: {{ Number(price) * modelValue }} </span>
-      <PolygonIcon class="w-2.5" />
-    </p>
+      <PolygonIcon class="w-3" />
+      <span>{{ Number(price) * modelValue }} </span>
+    </div>
     <div class="flex items-center justify-center mt-4">
       <AppButton
         :disabled="disabled || modelValue <= 0"
@@ -74,6 +75,6 @@ const props = defineProps({
 const price = props.whitelistEnabled ? Price.whitelist : Price.default;
 const maxMint = props.whitelistEnabled ? MaxMint.whitelist : MaxMint.default;
 
-const canDecrease = computed(() => props.modelValue > 0);
+const canDecrease = computed(() => props.modelValue > 1);
 const canIncrease = computed(() => props.modelValue < maxMint);
 </script>

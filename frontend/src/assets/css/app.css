@@ -29,7 +29,11 @@
     @apply after:border-b-8 after:bottom-0 after:left-0 after:w-full after:h-0;
   }
 
+  .mondrian-border-t {
+    @apply before:border-t-8 before:top-0 before:left-0 before:w-full before:h-0;
+  }
+
   .link {
-    @apply relative font-black text-xs uppercase;
+    @apply relative font-black text-sm uppercase;
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <section class="mondrian-border-b">
     <div
-      class="relative grid items-center max-w-6xl mx-auto -mt-10 md:-mt-0 lgs:grid-cols-2"
+      class="relative grid items-center max-w-6xl mx-auto -mt-10 md:-mt-0 lgs:grid-cols-2 z-10"
     >
       <img
         src="@/assets/images/image-1.png"

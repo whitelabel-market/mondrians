@@ -4,8 +4,8 @@
       class="container grid items-center max-w-4xl gap-12 px-8 mx-auto md:grid-cols-2 md:gap-20"
       v-animate
     >
-      <div class="space-y-8">
-        <div class="-translate-x-0.5 section-title">Creator</div>
+      <div class="space-y-4">
+        <div class="section-title">Creator</div>
 
         <div class="space-y-2">
           <p>

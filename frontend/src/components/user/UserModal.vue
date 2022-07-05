@@ -17,7 +17,7 @@
         />
         <div>
           <h4
-            class="block text-lg font-black md:text-xl slashed-zero leading-0"
+            class="block text-xl font-black md:text-2xl slashed-zero leading-0 font-serif"
           >
             {{ ensAccount?.name ? "@" + ensAccount.name : privateAddress }}
           </h4>
@@ -33,7 +33,20 @@
       <ul class="flex flex-col w-full space-y-2">
         <li>
           <AppButton
+            full-width
             color="gray"
+            size="xs"
+            :to="`/mint`"
+            @click.prevent="$emit('update:modelValue', false)"
+            ><ViewGridAddIcon class="w-5 h-5" />
+            <span class="block">Create</span>
+          </AppButton>
+        </li>
+        <li>
+          <AppButton
+            full-width
+            color="gray"
+            size="xs"
             :to="`/user/${address}/collected`"
             @click.prevent="$emit('update:modelValue', false)"
             ><CollectionIcon class="w-5 h-5"></CollectionIcon>
@@ -42,7 +55,9 @@
         </li>
         <li>
           <AppButton
+            full-width
             color="gray"
+            size="xs"
             :to="`/user/${address}/activity`"
             @click.prevent="$emit('update:modelValue', false)"
             ><SwitchVerticalIcon class="w-5 h-5" />
@@ -95,7 +110,7 @@
             <AppButton
               flat
               rounded="full"
-              size="sm"
+              size="xs"
               color="gray"
               :tooltip="'Viw on Polygonscan'"
               only-icon
@@ -107,7 +122,7 @@
             <AppButton
               flat
               rounded="full"
-              size="sm"
+              size="xs"
               color="gray"
               only-icon
               :tooltip="copied ? 'Copied' : 'Copy address'"
@@ -125,17 +140,20 @@
           >
         </div>
 
-        <AppButton
-          size="sm"
-          @click="
-            () => {
-              $emit('update:modelValue', false);
-              signOut();
-            }
-          "
-        >
-          Disconnect</AppButton
-        >
+        <div>
+          <AppButton
+            size="xs"
+            full-width
+            @click="
+              () => {
+                $emit('update:modelValue', false);
+                signOut();
+              }
+            "
+          >
+            Disconnect</AppButton
+          >
+        </div>
       </div>
     </div>
   </AppModal>
@@ -148,12 +166,13 @@ import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
-import { SwitchVerticalIcon } from "@heroicons/vue/solid";
 import {
   CollectionIcon,
   ClipboardCopyIcon,
   SearchIcon,
+  SwitchVerticalIcon,
   PaperAirplaneIcon,
+  ViewGridAddIcon,
 } from "@heroicons/vue/outline";
 import { useFetch } from "@vueuse/core";
 import { getTokenHourData } from "@/services/graphql/types";

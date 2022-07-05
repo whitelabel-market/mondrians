@@ -8,10 +8,8 @@
           Get your
           <LogoIcon class="!text-3xl md:!text-4xl" /> NFT now
         </h2>
-        <div>
-          <AppButton color="reddish" class="mx-auto" :fullWidth="false"
-            >View on Opensea
-          </AppButton>
+        <div class="mx-auto">
+          <AppButton color="reddish" to="/mint">Create your own</AppButton>
         </div>
       </div>
       <div
@@ -62,8 +60,7 @@ const Home = {
 const User = {
   "Collected Tokens":
     "/user/0x23479a6877970e5889dfad779e225adc08eb8e03/collected",
-  "Transaction Activity":
-    "/user/0x23479a6877970e5889dfad779e225adc08eb8e03/activity",
+  Activity: "/user/0x23479a6877970e5889dfad779e225adc08eb8e03/activity",
 };
 
 const Mint = {

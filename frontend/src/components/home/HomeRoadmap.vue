@@ -5,12 +5,12 @@
       v-animate
     >
       <div class="grid items-stretch gap-4 lgs:col-span-2 md:grid-cols-3">
-        <div class="max-w-xl space-y-2 md:col-span-3">
+        <div class="max-w-2xl space-y-2 md:col-span-3 pb-8">
           <h2 class="section-title">Roadmap</h2>
-          <p class="pb-4">
+          <p class="text-xl">
             This roadmap outlines our goals and where we want to take
             Mondrian’s. We have a lot of ideas and concepts that we are working
-            on.
+            on:
           </p>
         </div>
         <div
@@ -25,7 +25,7 @@
             >
               <span class="block">{{ index + 1 }}</span>
             </div>
-            <h6 class="font-bold uppercase">
+            <h6 class="font-black uppercase">
               {{ step.title }}
             </h6>
           </div>
