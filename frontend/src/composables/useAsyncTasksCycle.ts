@@ -5,10 +5,12 @@ import {
   UseAsyncStateReturn,
 } from "@vueuse/core";
 
+type Task = (...args: any[]) => Promise<any> | any;
+
 export interface AsyncCycle {
   taskIndex: Ref<number>;
   jobIndex: Ref<number>;
-  next: (from?: { task?: number; job?: number }, data?: any) => void;
+  next: (data?: any, from?: { task?: number; job?: number }) => void;
   skip: (from?: { task?: number; job?: number }) => void;
   locked: Ref<boolean>;
   jobs: Array<UseAsyncStateReturn<unknown, true>[]>;
@@ -17,24 +19,20 @@ export interface AsyncCycle {
   ) => UseAsyncStateReturn<unknown, true>[];
 }
 
-export default function useAsyncTasksCycle(
-  ...promises: Array<((...args: any[]) => Promise<unknown>)[]>
-) {
+export default function useAsyncTasksCycle(...tasks: Array<Task[]>) {
   const locked = ref(false);
   const taskIndex = ref(0);
   const jobIndex = ref(0);
 
-  const _createJob = (
-    promises: ((...args: any[]) => Promise<any>)[]
-  ): UseAsyncStateReturn<unknown, true>[] => {
-    return promises.map((cb) =>
+  const _createJob = (tasks: Task[]): UseAsyncStateReturn<unknown, true>[] => {
+    return tasks.map((taskCb) =>
       useAsyncState(
-        (args) =>
-          cb(args).then((res: any) => {
-            console.log("finished task cb", taskIndex.value, "res", res);
-            taskIndex.value++;
-            return res;
-          }),
+        async (args) => {
+          const res = await taskCb(args);
+          console.log("finished task cb", taskIndex.value, "res", res);
+          taskIndex.value++;
+          return res;
+        },
         null,
         { immediate: false }
       )
@@ -48,7 +46,7 @@ export default function useAsyncTasksCycle(
     jobIndex.value++;
   };
 
-  const next = (from?: { task?: number; job?: number }, data?: any) => {
+  const next = (data?: any, from?: { task?: number; job?: number }) => {
     if (locked.value) {
       return;
     }
@@ -79,7 +77,7 @@ export default function useAsyncTasksCycle(
     );
   };
 
-  const jobs = promises.map(_createJob) as Array<
+  const jobs = tasks.map(_createJob) as Array<
     UseAsyncStateReturn<unknown, true>[]
   >;
 

@@ -17,30 +17,31 @@
       class="container max-w-md py-8 mx-auto transition-colors lg:max-w-4xl lg:px-8 dark:text-neutral-200"
     >
       <StepperContainer v-model="step">
-        <StepperItem title="Select quantity">
-          <MintStep :isActive="true">
-            <template v-slot:description>
-              Adjust the number of Magic Mondrian NFT's you want to own!
-            </template>
-            <QuantityTask
-              :disabled="task(0, 0).isReady.value"
-              @submit="next({ task: 1 }, $event)"
-            />
-          </MintStep>
-        </StepperItem>
-
-        <StepperItem title="Generate Voucher" v-bind="task(0, 0)">
+        <StepperItem title="Select quantity" v-bind="task(0, 0)">
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Verify that your address is eligible for Whitelist Sale and
-                generate voucher
+                Adjust the number of Magic Mondrian NFT's you want to own!
+              </template>
+              <QuantityTask
+                :disabled="task(0, 0).isReady.value"
+                @submit="next"
+              />
+            </MintStep>
+          </template>
+        </StepperItem>
+
+        <StepperItem title="Generate Voucher" v-bind="task(0, 1)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description>
+                Adjust the number of Magic Mondrian NFT's you want to own!
               </template>
             </MintStep>
           </template>
         </StepperItem>
 
-        <StepperItem title="Mint" v-bind="task(0, 1)">
+        <StepperItem title="Mint" v-bind="task(0, 2)">
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -50,7 +51,7 @@
           </template>
         </StepperItem>
 
-        <StepperItem title="Load NFT" v-bind="task(0, 2)">
+        <StepperItem title="Load NFT" v-bind="task(0, 3)">
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -78,7 +79,7 @@
 
               <TicketTask
                 :disabled="task(1, 0).isReady.value || taskIndex.value < index"
-                @submit="next({ job: 1, task: index }, $event)"
+                @submit="next($event, { job: 1, task: index })"
                 @skip="skip({ job: 1, task: index })"
               />
             </MintStep>
@@ -95,7 +96,7 @@
               <PrintTask
                 :tokens="tokens"
                 :disabled="task(2, 0).isReady.value || taskIndex.value < index"
-                @submit="next({ job: 2, task: index }, $event)"
+                @submit="next($event, { job: 2, task: index })"
                 @skip="skip({ job: 2, task: index })"
               />
             </MintStep>
@@ -160,10 +161,11 @@ onMounted(() => {
   emit("loaded", true);
 });
 
+const setQuantity = (quantity: number) => quantity;
+
 const getVoucher = async function (quantity: number) {
   const price = whitelistEnabled.value ? Price.whitelist : Price.default;
   const voucher = await authInterface.getVoucher();
-  await promiseTimeout(1000);
   return { quantity, price, voucher };
 };
 
@@ -188,9 +190,7 @@ const mint = async function (mintData: {
 };
 
 const getTokens = async function (tx: ethers.ContractTransaction) {
-  console.log("getTokens", tx);
   tokens.value = await getTokenByAddress(address.value, tx);
-  console.log("got Tokens", tokens.value);
   finishedTasks.getTokens = true;
 };
 
@@ -208,7 +208,7 @@ const print = async function (printData: any) {
 };
 
 const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(
-  [getVoucher, mint, getTokens],
+  [setQuantity, getVoucher, mint, getTokens],
   [sendTicket],
   [print]
 );
