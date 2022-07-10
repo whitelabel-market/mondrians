@@ -40,9 +40,8 @@
 <script setup lang="ts">
 import TokenCard from "@/components/tokens/TokenCard.vue";
 import TokenCardSkeleton from "@/components/tokens/TokenCardSkeleton.vue";
-import { computed } from "vue";
 
-const props = defineProps({
+defineProps({
   tokens: {
     type: Array,
     required: true,

@@ -161,7 +161,7 @@ const { pass, errorFields } = useAsyncValidator(form, rules, {
 const submit = () => {
   touched.value = true;
   if (pass.value) {
-    emit("submit", form);
+    emit("submit", { ...form });
   }
 };
 

@@ -9,7 +9,7 @@
     <CheckIcon v-else-if="isReady.value" class="text-green-500" />
     <span
       v-else
-      class="flex items-center justify-center w-8 h-8 bg-black text-xs text-white rounded-full"
+      class="flex items-center justify-center w-8 h-8 text-xs text-white bg-black rounded-full"
       >{{ index + 1 }}</span
     >
   </div>
@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/vue/outline";
-import { PropType, ref, Ref } from "vue";
+import { PropType, Ref } from "vue";
 
 defineProps({
   index: {

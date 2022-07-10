@@ -184,9 +184,9 @@ export const getPoster = async (req, res, config) => {
  * @returns {HTML} - new poster
  */
 export const createPrintOrder = async (req, res, config) => {
+  const { street, name, email, city, zipCode, country, countryCode } = req.body;
   const { accessToken } = req;
   const address = accessToken.sub;
-  const { street, zipCode, countryCode, city, country, name, email } = req.body;
 
   if (!fs.existsSync(path.join(__dirname, "../../screenshots"))) {
     fs.mkdirSync(path.join(__dirname, "../../screenshots"));
@@ -211,7 +211,7 @@ export const createPrintOrder = async (req, res, config) => {
       `http://localhost:${
         process.env.NODE_ENV === "development" ? "3000" : "8080"
       }/api/print/poster?address=${address}`,
-      { waitUntil: "load" }
+      { waitUntil: "networkidle0" }
     );
 
     // capture screenshot and store it into screenshots directory.
@@ -252,7 +252,7 @@ export const createPrintOrder = async (req, res, config) => {
       items: [
         {
           merchantReference: "item #1",
-          sku: "ART-FAP-MFA-24X32",
+          sku: "ART-FAP-MFA-24X32", // Budget Art Paper: ART-FAP-BAP-24X32, Smooth Art Paper: ART-FAP-SAP-24X32
           copies: 1,
           sizing: "fillPrintArea",
           assets: [
