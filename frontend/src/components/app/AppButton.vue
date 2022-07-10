@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, h, PropType, ref } from "vue";
+import { computed, defineComponent, h, ref } from "vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppTooltip from "@/components/app/AppTooltip.vue";
 import { RouterLink } from "vue-router";
@@ -86,7 +86,7 @@ export default defineComponent({
       yellowish: "bg-yellowish text-neutral-900 border-2 border-neutral-800",
       blueish: "bg-blueish text-white border-2 border-neutral-800",
       disabled:
-        "border-2 border-neutral-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed",
+        "border-2 border-neutral-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed transition-colors duration-300",
     };
 
     const ButtonWrapperSizeIcon: Indexable<string> = {
@@ -143,7 +143,7 @@ export default defineComponent({
     };
 
     const classesWrapper = computed(() => [
-      `relative inline-flex items-stretch justify-stretch font-semibold uppercase transition duration-200 ease-in-circ`,
+      `relative inline-flex items-stretch justify-stretch font-semibold uppercase`,
       ButtonRounded[props.rounded],
       !props.flat &&
         !props.disabled &&
@@ -163,7 +163,7 @@ export default defineComponent({
     ]);
 
     const classesContent = computed(() => [
-      `flex w-full items-center transition duration-200 ease-out-circ`,
+      `flex w-full items-center transition-transform`,
       ButtonRounded[props.rounded],
       props.flat ? "hover:bg-opacity-50" : ButtonTranslate[props.size],
       ButtonColor[props.disabled ? "disabled" : props.color],
@@ -172,7 +172,7 @@ export default defineComponent({
     ]);
 
     const classesLoader = computed(() => [
-      `absolute inset-0 w-full h-full z-10 flex items-center justify-center transition duration-200 ease-out-circ`,
+      `absolute inset-0 w-full h-full z-10 flex items-center justify-center transition duration-300`,
       props.loading ? "block" : "hidden",
       ButtonRounded[props.rounded],
       ButtonColor[props.color],

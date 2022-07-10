@@ -1,5 +1,5 @@
 <template>
-  <div class="mondrian-border-b">
+  <div class="transition-colors duration-300 bg-white dark:bg-neutral-900">
     <header
       class="pt-20 bg-yellowish mondrian-border-b bg-hero-pattern-charlie"
     >
@@ -9,7 +9,7 @@
         <img
           v-if="route?.params?.id"
           :src="makeBlockie(route.params.id as string)"
-          class="object-cover w-24 h-24 border-4 border-neutral-800 rounded-lg"
+          class="object-cover w-24 h-24 border-4 rounded-lg border-neutral-800"
         />
 
         <div class="flex flex-col items-center gap-4">

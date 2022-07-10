@@ -1,7 +1,10 @@
 <template>
-  <section id="Rarity" class="mondrian-border-b">
+  <section
+    id="Rarity"
+    class="transition-colors duration-300 bg-white mondrian-border-b dark:bg-neutral-900"
+  >
     <div
-      class="container grid items-center max-w-4xl gap-4 px-8 mx-auto md:grid-cols-2 md:gap-20 dark:text-neutral-200"
+      class="container grid items-center max-w-4xl gap-4 px-8 mx-auto transition-colors duration-300 md:grid-cols-2 md:gap-20 dark:text-neutral-200"
       v-animate
     >
       <div class="space-y-4">

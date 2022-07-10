@@ -17,7 +17,9 @@
     <Transition @enter="onEnter" @leave="onLeave" :css="false">
       <div v-show="modelValue" class="p-8 pl-16">
         <DisclosurePanel static>
-          <div class="space-y-4">
+          <div
+            class="space-y-4 transition-colors duration-300 dark:text-neutral-200"
+          >
             <div v-if="!!error.value" class="text-center text-red-500">
               <p>{{ error.value }}</p>
             </div>
