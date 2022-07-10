@@ -192,6 +192,7 @@ const mint = async function (mintData: {
 const getTokens = async function (tx: ethers.ContractTransaction) {
   tokens.value = await getTokenByAddress(address.value, tx);
   finishedTasks.getTokens = true;
+  console.log("minted tokens", tokens.value);
 };
 
 const sendTicket = async function (email: string) {
