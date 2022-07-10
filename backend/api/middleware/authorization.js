@@ -165,3 +165,42 @@ export const isAuthenticated = () => {
     }
   };
 };
+
+export const canPrint = () => {
+  return async (req, res, next) => {
+    // skip middleware if authorization disabled
+    if (!config.authorization.required) {
+      return next();
+    }
+
+    const headerAddress = req.headers && req.headers["x-viewer-address"];
+    const { address: queryAddress } = req.query;
+    const { accessToken } = req;
+
+    const address = accessToken
+      ? accessToken.sub
+      : headerAddress || queryAddress;
+
+    // TODO: change to correct network
+    const dic_net = {
+      name: "maticmum",
+      chainId: 80001,
+      _defaultProvider: (providers) =>
+        new providers.JsonRpcProvider(
+          "https://matic-mumbai.chainstacklabs.com"
+        ),
+    };
+
+    const provider = ethers.getDefaultProvider(dic_net);
+
+    const contract = new ethers.Contract(
+      process.env.CONTRACT_ADDRESS,
+      ["function hasPrintedOnce(address) public view returns (bool)"],
+      provider
+    );
+
+    const hasPrintedOnce = await contract.hasPrintedOnce(address);
+    if (hasPrintedOnce) return res.status(403).json("Forbidden");
+    else return next();
+  };
+};

@@ -5,6 +5,7 @@ import {
   hasMondrian,
   verifyJWT,
   onlyLocal,
+  canPrint,
 } from "../middleware/authorization.js";
 
 /**
@@ -33,7 +34,7 @@ const printRouter = (config) => {
    */
   printerRouter.post(
     "/order",
-    [validateRequest(), verifyJWT(), hasMondrian()],
+    [validateRequest(), verifyJWT(), hasMondrian(), canPrint()],
     async (req, res) => await createPrintOrder(req, res, config)
   );
 
