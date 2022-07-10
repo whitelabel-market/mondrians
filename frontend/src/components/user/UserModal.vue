@@ -9,7 +9,7 @@
     "
   >
     <div class="flex flex-col space-y-4">
-      <div class="self-center flex items-center space-x-2 pb-4">
+      <div class="flex items-center self-center pb-4 space-x-2">
         <img
           :src="makeBlockie(address)"
           :alt="address"
@@ -17,7 +17,7 @@
         />
         <div>
           <h4
-            class="block text-xl font-black md:text-2xl slashed-zero leading-0 font-serif"
+            class="block font-serif text-xl font-black md:text-2xl slashed-zero leading-0"
           >
             {{ ensAccount?.name ? "@" + ensAccount.name : privateAddress }}
           </h4>
@@ -87,9 +87,9 @@
       </form>
 
       <div
-        class="flex flex-col bg-white dark:bg-neutral-900 border-2 border-stone-200 dark:border-stone-700 rounded-lg p-4 space-y-2"
+        class="flex flex-col p-4 space-y-2 bg-white border-2 rounded-lg dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
       >
-        <div class="flex w-full items-start justify-between">
+        <div class="flex items-start justify-between w-full">
           <div>
             <div class="flex items-center space-x-2">
               <img
@@ -98,7 +98,7 @@
                 class="object-cover w-4 h-4 rounded"
               />
               <div>
-                <h4 class="block slashed-zero text-sm">
+                <h4 class="block text-sm slashed-zero">
                   {{ privateAddress }}
                 </h4>
               </div>
@@ -133,7 +133,7 @@
           </div>
         </div>
 
-        <div class="flex items-center space-x-1 pb-2">
+        <div class="flex items-center pb-2 space-x-1">
           <PolygonIcon class="block w-4 h-4" />
           <span class="block font-semibold"
             >{{ Number(balance).toFixed(2) }} ($ {{ usdBalance }})</span

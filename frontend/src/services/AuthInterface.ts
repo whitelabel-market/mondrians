@@ -102,9 +102,9 @@ export const createAuthInterface = (address: string) => {
 
   const sendMail = async (email: string): Promise<void> => {
     try {
-      const { data, error } = await useFetch(`api/whitelist/email`, {
-        timeout: 10000,
-      }).post({ email });
+      const { data, error } = await useFetch(`api/whitelist/email`).post({
+        email,
+      });
       if (error.value) {
         throw unref(data);
       }
@@ -115,9 +115,7 @@ export const createAuthInterface = (address: string) => {
 
   const print = async (printData: any): Promise<void> => {
     try {
-      const { data, error } = await useFetch(`api/print`, {
-        timeout: 10000,
-      }).post(printData);
+      const { data, error } = await useFetch(`api/print/order`).post(printData);
       if (error.value) {
         throw unref(data);
       }

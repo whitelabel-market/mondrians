@@ -1,10 +1,10 @@
 <template>
   <div
-    class="py-8 bg-reddish mondrian-border-b text-white bg-hero-pattern-charlie"
+    class="py-8 text-white bg-reddish mondrian-border-b bg-hero-pattern-charlie"
   >
     <div class="container px-8 mx-auto">
       <div class="py-24">
-        <h1 class="text-center text-4xl font-black lg:text-5xl leading-relaxed">
+        <h1 class="text-4xl font-black leading-relaxed text-center lg:text-5xl">
           <span class="">Create your</span>
           <LogoIcon class="!text-4xl !lg:text-5xl" />
         </h1>
@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <div class="container max-w-md lg:max-w-4xl py-8 lg:px-8 mx-auto">
+  <div class="container max-w-md py-8 mx-auto lg:max-w-4xl lg:px-8">
     <StepperContainer v-model="step">
       <StepperItem title="Select quantity" v-bind="task(0, 0)">
         <template v-slot="{ index }">

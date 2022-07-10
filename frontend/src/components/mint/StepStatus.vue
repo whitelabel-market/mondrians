@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/vue/outline";
-import { PropType, ref, Ref } from "vue";
+import { PropType, Ref } from "vue";
 
 defineProps({
   index: {
