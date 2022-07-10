@@ -131,7 +131,6 @@ import TicketTask from "@/components/mint/TicketTask.vue";
 import useSubgraph from "@/composables/useSubgraph";
 import MintStep from "@/components/mint/MintStep.vue";
 import PrintTask from "@/components/mint/PrintTask.vue";
-import { promiseTimeout } from "@vueuse/core";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import StepperItem from "@/components/stepper/StepperItem.vue";
 import { authInterface } from "@/services/AuthInterface";
@@ -196,6 +195,7 @@ const getTokens = async function (tx: ethers.ContractTransaction) {
 };
 
 const sendTicket = async function (email: string) {
+  console.log("yes");
   await authInterface.sendMail(email);
   finishedTasks.sendTicket = true;
 };

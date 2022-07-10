@@ -9,7 +9,7 @@
     />
 
     <div class="flex items-center justify-start space-x-4">
-      <AppButton :disabled="submitDisabled" @click.prevent="submit">
+      <AppButton :disabled="!pass" @click.prevent="submit">
         Register
       </AppButton>
 
@@ -23,13 +23,13 @@
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import AppInput from "@/components/app/AppInput.vue";
-import { computed, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
 import { Rules } from "async-validator";
 
 const emit = defineEmits(["submit", "skip"]);
 
-const props = defineProps({
+defineProps({
   disabled: {
     type: Boolean,
     default: false,
@@ -52,13 +52,9 @@ const { pass, errorFields } = useAsyncValidator(form, rules, {
   validateOption: { suppressWarning: true },
 });
 
-const submitDisabled = computed(() => {
-  return props.disabled || (touched.value && !pass.value);
-});
-
 const submit = () => {
   touched.value = true;
-  if (!submitDisabled.value) {
+  if (pass.value) {
     emit("submit", form.email);
   }
 };

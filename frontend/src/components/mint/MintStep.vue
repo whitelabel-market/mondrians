@@ -18,8 +18,6 @@
 </template>
 
 <script setup lang="ts">
-defineEmits(["update:modelValue"]);
-
 defineProps({
   isActive: {
     type: Boolean,
