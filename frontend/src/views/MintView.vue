@@ -12,102 +12,110 @@
     </div>
   </div>
 
-  <div class="container max-w-md py-8 mx-auto lg:max-w-4xl lg:px-8">
-    <StepperContainer v-model="step">
-      <StepperItem title="Select quantity" v-bind="task(0, 0)">
-        <template v-slot="{ index }">
-          <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description>
-              Adjust the number of Magic Mondrian NFT's you want to own!
-            </template>
-            <QuantityTask :disabled="task(0, 0).isReady.value" @submit="next" />
-          </MintStep>
-        </template>
-      </StepperItem>
+  <div class="transition-colors duration-300 bg-white dark:bg-neutral-900">
+    <div
+      class="container max-w-md py-8 mx-auto transition-colors lg:max-w-4xl lg:px-8 dark:text-neutral-200"
+    >
+      <StepperContainer v-model="step">
+        <StepperItem title="Select quantity" v-bind="task(0, 0)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description>
+                Adjust the number of Magic Mondrian NFT's you want to own!
+              </template>
+              <QuantityTask
+                :disabled="task(0, 0).isReady.value"
+                @submit="next"
+              />
+            </MintStep>
+          </template>
+        </StepperItem>
 
-      <StepperItem title="Generate Voucher" v-bind="task(0, 1)">
-        <template v-slot="{ index }">
-          <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description>
-              Verify that your address is eligible for Whitelist Sale and
-              generate voucher
-            </template>
-          </MintStep>
-        </template>
-      </StepperItem>
+        <StepperItem title="Generate Voucher" v-bind="task(0, 1)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description>
+                Adjust the number of Magic Mondrian NFT's you want to own!
+              </template>
+            </MintStep>
+          </template>
+        </StepperItem>
 
-      <StepperItem title="Mint" v-bind="task(0, 2)">
-        <template v-slot="{ index }">
-          <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description>
-              Creating your Magic Mondrian NFT
-            </template>
-          </MintStep>
-        </template>
-      </StepperItem>
+        <StepperItem title="Mint" v-bind="task(0, 2)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description>
+                Creating your Magic Mondrian NFT
+              </template>
+            </MintStep>
+          </template>
+        </StepperItem>
 
-      <StepperItem title="Load NFT" v-bind="task(0, 3)">
-        <template v-slot="{ index }">
-          <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description> Receiving your minted NFT </template>
-            <TokenList
-              dense
-              slider
-              :tokens="tokens"
-              :is-finished="finishedTasks.getTokens"
-            />
-          </MintStep>
-        </template>
-      </StepperItem>
+        <StepperItem title="Load NFT" v-bind="task(0, 3)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description>
+                Receiving your minted NFT
+              </template>
+              <TokenList
+                dense
+                slider
+                :tokens="tokens"
+                :is-finished="finishedTasks.getTokens"
+              />
+            </MintStep>
+          </template>
+        </StepperItem>
 
-      <StepperItem title="Receive Event Invitation" v-bind="task(1, 0)">
-        <template v-slot="{ index }">
-          <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description>
-              As an owner of a Magic Mondrian NFT you have the opportunity to
-              take part in an exclusive real life event. Register your email
-              address and we will send you the tickets and give further
-              information.
-            </template>
+        <StepperItem title="Receive Event Invitation" v-bind="task(1, 0)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description>
+                As an owner of a Magic Mondrian NFT you have the opportunity to
+                take part in an exclusive real life event. Register your email
+                address and we will send you the tickets and give further
+                information.
+              </template>
 
-            <TicketTask
-              :disabled="task(1, 0).isReady.value || taskIndex.value < index"
-              @submit="next($event, { job: 1, task: index })"
-              @skip="skip({ job: 1, task: index })"
-            />
-          </MintStep>
-        </template>
-      </StepperItem>
+              <TicketTask
+                :disabled="task(1, 0).isReady.value || taskIndex.value < index"
+                @submit="next($event, { job: 1, task: index })"
+                @skip="skip({ job: 1, task: index })"
+              />
+            </MintStep>
+          </template>
+        </StepperItem>
 
-      <StepperItem title="Print NFT" v-bind="task(2, 0)">
-        <template v-slot="{ index }">
-          <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description>
-              Order a printed artwork of your Magic Mondrian NFT. Currently,
-              only one printable version per purchase is allowed.
-            </template>
-            <PrintTask
-              :tokens="tokens"
-              :disabled="task(2, 0).isReady.value || taskIndex.value < index"
-              @submit="next($event, { job: 2, task: index })"
-              @skip="skip({ job: 2, task: index })"
-            />
-          </MintStep>
-        </template>
-      </StepperItem>
+        <StepperItem title="Print NFT" v-bind="task(2, 0)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description>
+                Order a printed artwork of your Magic Mondrian NFT. Currently,
+                only one printable version per purchase is allowed.
+              </template>
+              <PrintTask
+                :tokens="tokens"
+                :disabled="task(2, 0).isReady.value || taskIndex.value < index"
+                @submit="next($event, { job: 2, task: index })"
+                @skip="skip({ job: 2, task: index })"
+              />
+            </MintStep>
+          </template>
+        </StepperItem>
 
-      <StepperItem title="Confirmation">
-        <template v-slot="{ index }">
-          <MintStep :isActive="taskIndex >= index">
-            <template v-slot:description
-              >Enjoy your newly created Magic Mondrian NFTs. The following tasks
-              have been completed:</template
-            >
-            <ConfirmationTask :finishedTasks="finishedTasks" />
-          </MintStep>
-        </template>
-      </StepperItem>
-    </StepperContainer>
+        <StepperItem title="Confirmation">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description
+                >Enjoy your newly created Magic Mondrian NFTs. The following
+                tasks have been completed:</template
+              >
+              <ConfirmationTask :finishedTasks="finishedTasks" />
+            </MintStep>
+          </template>
+        </StepperItem>
+      </StepperContainer>
+    </div>
   </div>
 </template>
 

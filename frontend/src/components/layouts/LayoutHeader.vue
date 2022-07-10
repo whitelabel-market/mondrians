@@ -2,7 +2,7 @@
   <div class="relative">
     <div class="h-24"></div>
     <header
-      class="fixed top-0 left-0 w-full bg-white dark:bg-neutral-900 mondrian-border-b"
+      class="fixed top-0 left-0 w-full transition duration-300 bg-white dark:bg-neutral-900 mondrian-border-b"
     >
       <nav
         class="container flex items-center justify-between w-full h-24 max-w-6xl px-8 mx-auto transition-colors duration-300 dark:text-neutral-200"

@@ -9,7 +9,7 @@
     <CheckIcon v-else-if="isReady.value" class="text-green-500" />
     <span
       v-else
-      class="flex items-center justify-center w-8 h-8 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-full font-bold"
+      class="flex items-center justify-center w-8 h-8 font-bold text-white duration-300 rounded-full bg-neutral-900 dark:bg-white dark:text-black"
       >{{ index + 1 }}</span
     >
   </div>

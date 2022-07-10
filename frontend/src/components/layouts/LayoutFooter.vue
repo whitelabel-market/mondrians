@@ -1,9 +1,12 @@
 <template>
-  <footer class="">
-    <div class="container w-full max-w-4xl px-8 py-24 space-y-24 mx-auto">
-      <div class="flex flex-col justify-center space-y-8 mx-auto" v-animate>
+  <footer class="transition-colors duration-300 bg-white dark:bg-neutral-900">
+    <div class="container w-full max-w-4xl px-8 py-24 mx-auto space-y-24">
+      <div
+        class="flex flex-col justify-center mx-auto space-y-8 transition-colors duration-300 dark:text-neutral-200"
+        v-animate
+      >
         <h2
-          class="text-center flex flex-col items-center text-3xl font-black uppercase md:text-4xl"
+          class="flex flex-col items-center text-3xl font-black text-center uppercase md:text-4xl"
         >
           Get your
           <LogoIcon class="!text-3xl md:!text-4xl" /> NFT now
@@ -13,7 +16,7 @@
         </div>
       </div>
       <div
-        class="grid grid-cols-2 gap-4 gap-y-16 py-16 transition-colors duration-300 md:grid-cols-4 md:gap-20"
+        class="grid grid-cols-2 gap-4 py-16 transition-colors duration-300 dark:text-neutral-200 gap-y-16 md:grid-cols-4 md:gap-20"
       >
         <div v-for="(items, title) in routes" :key="title">
           <span class="block mb-8">{{ title }}</span>
@@ -25,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-black text-white bg-hero-pattern-charlie">
+    <div class="text-white bg-black bg-hero-pattern-charlie">
       <div class="container w-full max-w-4xl p-8 mx-auto text-xs">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8">
           <div>

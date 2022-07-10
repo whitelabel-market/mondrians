@@ -42,12 +42,12 @@
       </p>
     </div>
     <router-link
-      class="relative flex items-stretch text-xs font-semibold tracking-wider uppercase transition duration-200 transform cursor-pointer justify-stretch ease-out-circ rounded-lg after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 after:rounded-lg group active:scale-95 after:transform after:translate-x-1 after:translate-y-1 h-11"
+      class="relative flex items-stretch text-xs font-semibold tracking-wider uppercase transition duration-300 transform rounded-lg cursor-pointer justify-stretch ease-out-circ after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 after:rounded-lg group active:scale-95 after:transform after:translate-x-1 after:translate-y-1 h-11"
       :to="`/`"
       v-if="isSelf"
     >
       <span
-        class="flex items-center justify-center w-full px-8 py-3 space-x-2 text-white transition duration-200 transform border-2 ease-out-circ rounded-lg group-hover:translate-x-1 group-hover:translate-y-1 bg-reddish border-neutral-800"
+        class="flex items-center justify-center w-full px-8 py-3 space-x-2 text-white transition duration-300 transform border-2 rounded-lg ease-out-circ group-hover:translate-x-1 group-hover:translate-y-1 bg-reddish border-neutral-800"
       >
         <span class="font-semibold tracking-wider uppercase"
           >Create Mondrian</span
