@@ -40,7 +40,7 @@ export default function useSubgraph() {
         await timeout(5000); // wait 5s
       }
     }
-    return tokens;
+    return tokens.value;
   };
 
   const getContract = async function () {
