@@ -163,7 +163,7 @@ export default defineComponent({
     ]);
 
     const classesContent = computed(() => [
-      `flex w-full items-center transition-transform`,
+      `flex w-full items-center transition-transform duration-300`,
       ButtonRounded[props.rounded],
       props.flat ? "hover:bg-opacity-50" : ButtonTranslate[props.size],
       ButtonColor[props.disabled ? "disabled" : props.color],

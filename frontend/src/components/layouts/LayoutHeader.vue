@@ -2,10 +2,10 @@
   <div class="relative">
     <div class="h-24"></div>
     <header
-      class="fixed top-0 left-0 w-full transition duration-300 bg-white dark:bg-neutral-900 mondrian-border-b"
+      class="fixed top-0 left-0 w-full transition-colors duration-300 bg-white dark:bg-neutral-900 mondrian-border-b"
     >
       <nav
-        class="container flex items-center justify-between w-full h-24 max-w-6xl px-8 mx-auto transition-colors duration-300 dark:text-neutral-200"
+        class="container flex items-center justify-between w-full h-24 max-w-6xl px-8 mx-auto"
       >
         <router-link
           :to="'/'"
@@ -22,9 +22,11 @@
         />
         <ul class="items-center hidden space-x-6 text-sm font-semibold lg:flex">
           <li v-for="(to, name) in routes" :key="to">
-            <router-link class="text-xs font-black uppercase" :to="to">{{
-              name
-            }}</router-link>
+            <router-link
+              class="text-xs font-black uppercase transition-colors duration-300 dark:text-neutral-200"
+              :to="to"
+              >{{ name }}</router-link
+            >
           </li>
           <li>
             <AppToggleDark />
@@ -53,9 +55,10 @@
                 :src="blockie"
                 class="object-cover w-6 h-6 rounded-full"
               />
-              <span class="font-black slashed-zero">{{
-                ensAccount?.name || shortAddress
-              }}</span>
+              <span
+                class="font-black transition-colors duration-300 slashed-zero dark:text-neutral-200"
+                >{{ ensAccount?.name || shortAddress }}</span
+              >
             </AppButton>
           </li>
         </ul>
