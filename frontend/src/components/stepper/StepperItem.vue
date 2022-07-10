@@ -1,17 +1,17 @@
 <template>
   <div>
     <DisclosureButton
-      class="relative w-full space-x-4 flex items-center justify-start p-4 cursor-pointer transition duration-300 hover:opacity-60"
+      class="relative flex items-center justify-start w-full p-4 space-x-4 transition duration-300 cursor-pointer hover:opacity-60"
       @click="emit('update:modelValue', index)"
     >
-      <div class="flex w-full items-center space-x-4">
+      <div class="flex items-center w-full space-x-4">
         <StepStatus
           :index="index"
           :isLoading="isLoading"
           :isReady="isReady"
           :error="error"
         />
-        <h3 class="font-serif font-black text-xl">{{ title }}</h3>
+        <h3 class="font-serif text-xl font-black">{{ title }}</h3>
       </div>
     </DisclosureButton>
     <Transition @enter="onEnter" @leave="onLeave" :css="false">
@@ -36,6 +36,7 @@ import StepStatus from "@/components/mint/StepStatus.vue";
 import { gsap } from "gsap";
 
 const emit = defineEmits(["update:modelValue"]);
+
 defineProps({
   title: { type: String, default: "" },
   index: { type: Number, default: -1 },

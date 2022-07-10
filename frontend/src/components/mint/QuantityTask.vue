@@ -20,6 +20,7 @@ import { useRoute } from "vue-router";
 
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
 const { isConnected } = useWallet();
+
 defineProps({
   disabled: {
     type: Boolean,

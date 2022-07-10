@@ -10,12 +10,12 @@
 
       <div
         v-if="i < steps.length - 1"
-        class="absolute bottom-4 top-8 left-8 transform translate-y-8"
+        class="absolute transform translate-y-8 bottom-4 top-8 left-8"
       >
-        <span
-          class="block absolute left-0 top-0 h-full border-r-4 w-2 border-black border-dashed transform -translate-x-1.5"
+        <!-- <span
+          class="block absolute left-0 top-0 h-full border-r-1 w-1 dark:border-white border-black transform -translate-x-1.5"
         >
-        </span>
+        </span> -->
       </div>
     </Disclosure>
   </div>

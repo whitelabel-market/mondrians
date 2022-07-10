@@ -1,9 +1,9 @@
 <template>
   <div class="relative">
     <div
-      class="flex flex-col space-y-4 text-center w-full max-w-xl mx-auto relative"
+      class="relative flex flex-col w-full max-w-xl mx-auto space-y-4 text-center"
     >
-      <p class="text-lg z-10">
+      <p class="z-10 text-lg">
         <slot name="description"></slot>
       </p>
 
@@ -11,17 +11,15 @@
 
       <div
         v-if="!isActive"
-        class="absolute -inset-2 bg-white/80 dark:bg-neutral-900/80 z-0"
+        class="absolute z-0 -inset-2 bg-white/80 dark:bg-neutral-900/80"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import StepperItem from "@/components/stepper/StepperItem.vue";
-import { PropType, ref, Ref } from "vue";
+defineEmits(["update:modelValue"]);
 
-const emit = defineEmits(["update:modelValue"]);
 defineProps({
   isActive: {
     type: Boolean,
