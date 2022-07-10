@@ -4,13 +4,18 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" href="<%= BASE_URL %>favicon-32x32.png" sizes="32x32" />
     <title>Magic Mondrian</title>
   </head>
-  <body class="bg-white dark:bg-neutral-900 text-black dark:text-white transition-colors duration-300">
+  <body
+    class="text-black transition-colors duration-300 bg-white dark:bg-neutral-900 dark:text-white"
+  >
     <noscript>
       <strong
         >We're sorry but Magic Mondrian doesn't work properly without JavaScript
@@ -19,5 +24,9 @@
     </noscript>
     <div id="app" ref="target"></div>
     <!-- built files will be auto injected -->
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN6-IOE-wz52UfvmxHzey5IBr149NuPm8&libraries=places"
+    ></script>
   </body>
 </html>
