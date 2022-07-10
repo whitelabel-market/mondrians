@@ -16,6 +16,12 @@ export const getTokensFromBlock = `
   query GetTokensFromBlock($address: String = "", $block: Int = 0) {
     tokens(where: { owner: $address, createdAtBlockNumber: $block }) {
       id
+      owner {
+        id
+      }
+      contract {
+        id
+      }
       imageURI
       createdAtTimestamp
       createdAtBlockNumber
