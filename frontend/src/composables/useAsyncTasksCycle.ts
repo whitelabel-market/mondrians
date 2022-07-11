@@ -29,7 +29,6 @@ export default function useAsyncTasksCycle(...tasks: Array<Task[]>) {
       useAsyncState(
         async (args) => {
           const res = await taskCb(args);
-          console.log("finished task cb", taskIndex.value, "res", res);
           taskIndex.value++;
           return res;
         },
@@ -64,7 +63,7 @@ export default function useAsyncTasksCycle(...tasks: Array<Task[]>) {
               } else {
                 reject();
               }
-            })
+            }, reject)
           )
       ),
       {

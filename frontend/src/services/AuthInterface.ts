@@ -101,26 +101,18 @@ export const createAuthInterface = (address: string) => {
   };
 
   const sendMail = async (email: string): Promise<void> => {
-    try {
-      const { data, error } = await useFetch(`api/whitelist/email`).post({
-        email,
-      });
-      if (error.value) {
-        throw unref(data);
-      }
-    } catch (e: any) {
-      throw new Error(e.toString());
+    const { data, error } = await useFetch(`api/whitelist/email`).post({
+      email,
+    });
+    if (error.value) {
+      throw unref(data);
     }
   };
 
   const print = async (printData: any): Promise<void> => {
-    try {
-      const { data, error } = await useFetch(`api/print/order`).post(printData);
-      if (error.value) {
-        throw unref(data);
-      }
-    } catch (e: any) {
-      throw new Error(e.toString());
+    const { data, error } = await useFetch(`api/print/order`).post(printData);
+    if (error.value) {
+      throw unref(data);
     }
   };
 
