@@ -8,7 +8,7 @@
   >
     <foreignObject width="100%" height="100%">
       <div
-        class="flex flex-col space-y-[6%] relative"
+        class="flex flex-col space-y-[8%] relative"
         xmlns="http://www.w3.org/1999/xhtml"
       >
         <div class="p-[6%] pb-[0%]">
@@ -19,9 +19,9 @@
           </AppImageLoad>
         </div>
 
-        <div class="flex justify-between space-x-[6%]">
-          <div class="flex flex-col space-y-[6%]">
-            <div class="font-bold uppercase truncate text-[182%] leading-none">
+        <div class="flex justify-between space-x-[8%]">
+          <div class="flex flex-col space-y-[8%]">
+            <div class="font-black uppercase truncate text-[170%] leading-none">
               <h4>
                 Magic Mondrian <br />#{{
                   ("0000" + token.id).substr(token.id.toString().length)
@@ -31,7 +31,7 @@
             <div class="w-9/12">
               <ul class="flex flex-col leading-tight">
                 <li
-                  class="flex w-full items-center justify-between text-[102%] uppercase whitespace-nowrap"
+                  class="flex w-full items-center justify-between text-[96%] uppercase whitespace-nowrap"
                   v-for="(value, key) in tokenDetails"
                   :key="key"
                 >
@@ -43,8 +43,8 @@
               </ul>
             </div>
           </div>
-          <div class="transform -translate-y-[5%] flex-1">
-            <g v-html="qrCode" class="aspect-square w-full" />
+          <div class="transform flex-1 pl-[16%]">
+            <g v-html="qrCode" class="aspect-square w-full !fill-transparent" />
           </div>
         </div>
 

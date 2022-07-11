@@ -14,7 +14,7 @@
 
   <div class="transition-colors duration-300 bg-white dark:bg-neutral-900">
     <div
-      class="container max-w-md py-8 mx-auto transition-colors lg:max-w-4xl lg:px-8 dark:text-neutral-200"
+      class="container max-w-4xl py-8 mx-auto transition-colors lg:px-8 dark:text-neutral-200"
     >
       <StepperContainer v-model="step">
         <StepperItem title="Select quantity" v-bind="task(0, 0)">

@@ -9,9 +9,9 @@
       <TokenList dense slider :tokens="tokens" :is-finished="tokens.length > 0">
         <template v-slot:token="{ token }">
           <button
-            class="flex w-full h-full p-4 text-left duration-200 border-2 border-transparent rounded-lg transition-color"
+            class="flex w-full h-full p-2 text-left duration-200 border-2 border-transparent rounded-lg transition-color"
             :class="{
-              'border-black': form.token?.id && form.token?.id === token.id,
+              'border-black dark:border-white': form.token.id === token.id,
             }"
             @click.prevent="form.token = token"
           >
