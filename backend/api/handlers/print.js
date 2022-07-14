@@ -235,6 +235,7 @@ export const createPrintOrder = async (req, res, config) => {
       }
     );
 
+    // create order at prodigi
     const { data: order } = await api.post("/Orders", {
       merchantReference: "Mondrian",
       shippingMethod: "Standard",
