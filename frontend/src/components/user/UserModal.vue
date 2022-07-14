@@ -184,7 +184,7 @@ import {
 import { useClipboard } from "@vueuse/core";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import makeBlockie from "ethereum-blockies-base64";
-import { authInterface } from "@/services/AuthInterface";
+import { authInterface } from "@/services/BackendInterface";
 import TicketForm from "@/components/ticket/TicketForm.vue";
 import AppInput from "@/components/app/AppInput.vue";
 

@@ -106,7 +106,10 @@ export const getPoster = async (req, res, config) => {
                     >
                     <span
                         class="text-[18rem] font-semibold text-right w-full mr-[100rem]"
-                        >0xe3bbf..1bc6a</span
+                        >${address.substring(0, 6)}...${address.substring(
+    address.length - 5,
+    address.length
+  )}</span
                     >
                     </div>
                 </div>
@@ -184,7 +187,9 @@ export const getPoster = async (req, res, config) => {
  * @returns {HTML} - new poster
  */
 export const createPrintOrder = async (req, res, config) => {
-  const { street, name, email, city, zipCode, country, countryCode } = req.body;
+  const { street, name, email, city, zipCode, country, countryCode, token } =
+    req.body;
+  console.log(token);
   const { accessToken } = req;
   const address = accessToken.sub;
 

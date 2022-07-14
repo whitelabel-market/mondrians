@@ -133,7 +133,7 @@ import MintStep from "@/components/mint/MintStep.vue";
 import PrintTask from "@/components/mint/PrintTask.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import StepperItem from "@/components/stepper/StepperItem.vue";
-import { authInterface } from "@/services/AuthInterface";
+import { authInterface } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
 import { ethers } from "ethers";
 import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
@@ -201,6 +201,12 @@ const sendTicket = async function (email: string) {
 };
 
 const print = async function (printData: any) {
+  const mondrianInterface: MondrianInterface = new MondrianInterface(
+    toRaw(provider.value as ethers.providers.Web3Provider)
+  );
+
+  //await mondrianInterface.print();
+
   await authInterface.print({
     ...printData,
     countryCode: "de",

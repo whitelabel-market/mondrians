@@ -79,4 +79,32 @@ export default class MondrianInterface {
 
     return await tx.wait();
   }
+
+  // Function to send ether/matic to contract for printing
+  async print() {
+    const price = "0.0001";
+    console.log(ethers.utils.parseEther(price));
+    try {
+      if (!this.signer) {
+        throw new Error("Wallet not connected");
+      }
+
+      const contract = await this.contract.connect(this.signer);
+      const tx = await contract.print({
+        value: ethers.utils.parseEther(price),
+      });
+
+      return await tx.wait();
+    } catch (e: any) {
+      if (e?.error?.data?.message) {
+        throw new Error(e.error.data.message);
+      } else if (e?.error?.message) {
+        throw new Error(e.error.message);
+      } else if (e?.message) {
+        throw new Error(e.message);
+      } else {
+        throw new Error("Something went wrong");
+      }
+    }
+  }
 }

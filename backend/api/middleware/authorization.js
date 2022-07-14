@@ -76,7 +76,6 @@ export const hasMondrian = () => {
     if (!config.authorization.required) {
       return next();
     }
-
     const headerAddress = req.headers && req.headers["x-viewer-address"];
     const { address: queryAddress } = req.query;
     const { accessToken } = req;
@@ -94,7 +93,6 @@ export const hasMondrian = () => {
           "https://matic-mumbai.chainstacklabs.com"
         ),
     };
-
     const provider = ethers.getDefaultProvider(dic_net);
 
     const contract = new ethers.Contract(
@@ -104,6 +102,7 @@ export const hasMondrian = () => {
     );
 
     const balance = await contract.balanceOf(address);
+
     if (balance.isZero()) return res.status(403).json("Forbidden");
     else return next();
   };
@@ -187,7 +186,7 @@ export const canPrint = () => {
       chainId: 80001,
       _defaultProvider: (providers) =>
         new providers.JsonRpcProvider(
-          "https://matic-mumbai.chainstacklabs.com"
+          "https://matic-testnet-archive-rpc.bwarelabs.com"
         ),
     };
 
@@ -200,7 +199,8 @@ export const canPrint = () => {
     );
 
     const hasPrintedOnce = await contract.hasPrintedOnce(address);
-    if (hasPrintedOnce) return res.status(403).json("Forbidden");
+
+    if (!hasPrintedOnce) return res.status(403).json("Forbidden");
     else return next();
   };
 };

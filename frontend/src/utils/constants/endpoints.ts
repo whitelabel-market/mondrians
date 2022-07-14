@@ -1,4 +1,6 @@
-export const CONTRACT_ADDRESS = "0x555180608F21C954DeDc59224eB183cFF5cDD296";
+export const CONTRACT_ADDRESS =
+  process.env.VUE_APP_CONTRACT_ADDRESS ||
+  "0xe73ad02d526971C25D846b2afa256EE96d8065b4";
 
 // whitelabel apis
 export const API =

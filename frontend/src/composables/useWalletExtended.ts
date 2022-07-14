@@ -3,7 +3,10 @@ import type { Ref, ShallowRef } from "vue";
 import { ethers } from "ethers";
 import { weiToEth } from "@/utils/ethereum";
 import makeBlockie from "ethereum-blockies-base64";
-import { authInterface, createAuthInterface } from "@/services/AuthInterface";
+import {
+  authInterface,
+  createAuthInterface,
+} from "@/services/BackendInterface";
 import {
   useWallet,
   useBlock,
