@@ -1,7 +1,7 @@
 <template>
   <section
     id="Gallery"
-    class="transition-colors duration-300 bg-white mondrian-border-b dark:bg-neutral-900"
+    class="transition-colors duration-100 bg-white mondrian-border-b dark:bg-neutral-900"
   >
     <div class="px-8 overflow-hidden" v-animate>
       <div class="space-y-4 md:hidden">

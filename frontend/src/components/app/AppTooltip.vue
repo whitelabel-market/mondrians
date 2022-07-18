@@ -5,7 +5,7 @@
       appear
       :show="show && !disabled"
       as="template"
-      :enter="`transition duration-200 ease-out origin-bottom transform delay-${delay}`"
+      :enter="`transition duration-100 ease-out origin-bottom transform delay-${delay}`"
       enter-from="scale-95 translate-y-0.5 opacity-0"
       enter-to="scale-100 translate-y-0 opacity-100"
       leave="transition ease-in duration-100 delay-0"

@@ -8,7 +8,7 @@
   }
 
   .section-title {
-    @apply font-serif text-5xl font-black;
+    @apply text-5xl font-bold;
   }
 
   .mondrian-border,
@@ -34,6 +34,6 @@
   }
 
   .link {
-    @apply relative font-black text-sm uppercase;
+    @apply relative text-sm font-bold capitalize before:absolute before:block before:left-0 before:-bottom-1.5 before:bg-reddish before:h-0.5 before:w-0 hover:before:w-full active:before:w-full before:delay-75 before:duration-100 after:absolute after:block after:left-0 after:-bottom-0.5 after:bg-yellowish after:h-0.5 after:w-0 hover:after:w-full active:after:w-full after:duration-100;
   }
 }

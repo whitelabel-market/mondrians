@@ -86,21 +86,21 @@ export default defineComponent({
       yellowish: "bg-yellowish text-neutral-900 border-2 border-neutral-800",
       blueish: "bg-blueish text-white border-2 border-neutral-800",
       disabled:
-        "border-2 border-neutral-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed transition-colors duration-300",
+        "border-2 border-neutral-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed transition-colors duration-100",
     };
 
     const ButtonWrapperSizeIcon: Indexable<string> = {
-      xs: "w-8 h-8 text-xxs",
+      xs: "w-8 h-8 text-xs",
       sm: "w-10 h-10 text-xs",
-      md: "w-12 h-12 text-sm",
-      lg: "w-14 h-14 text-base",
+      md: "w-14 h-14 text-sm",
+      lg: "w-16 h-16 text-base",
     };
 
     const ButtonWrapperSizeDefault: Indexable<string> = {
-      xs: "h-10 text-xs",
-      sm: "h-12 text-sm",
-      md: "h-14 text-base",
-      lg: "h-16 text-lg",
+      xs: "h-8 text-xs",
+      sm: "h-10 text-xs",
+      md: "h-14 text-sm",
+      lg: "h-16 text-base",
     };
 
     const ButtonSpacing: Indexable<string> = {
@@ -132,13 +132,13 @@ export default defineComponent({
 
     const ButtonRounded: Indexable<string> = {
       none: "rounded-none",
-      lg: "rounded-lg",
+      lg: "rounded",
       full: "rounded-full",
     };
 
     const ButtonAfterRounded: Indexable<string> = {
       none: "after:rounded-none",
-      lg: "after:rounded-lg",
+      lg: "after:rounded",
       full: "after:rounded-full",
     };
 
@@ -153,7 +153,7 @@ export default defineComponent({
         : "after:bg-neutral-800",
       !props.flat && ButtonAfterRounded[props.rounded],
       !(props.disabled || props.loading)
-        ? "cursor-pointer group transform active:scale-[96%]"
+        ? "cursor-pointer group transform active:scale-[97%]"
         : "cursor-default",
       !(props.disabled || props.flat) && ButtonAfterTranslate[props.size],
       props.onlyIcon
@@ -163,7 +163,7 @@ export default defineComponent({
     ]);
 
     const classesContent = computed(() => [
-      `flex w-full items-center transition-transform duration-300`,
+      `flex w-full items-center transition-transform duration-100`,
       ButtonRounded[props.rounded],
       props.flat ? "hover:bg-opacity-50" : ButtonTranslate[props.size],
       ButtonColor[props.disabled ? "disabled" : props.color],
@@ -172,7 +172,7 @@ export default defineComponent({
     ]);
 
     const classesLoader = computed(() => [
-      `absolute inset-0 w-full h-full z-10 flex items-center justify-center transition duration-300`,
+      `absolute inset-0 w-full h-full z-10 flex items-center justify-center transition duration-100`,
       props.loading ? "block" : "hidden",
       ButtonRounded[props.rounded],
       ButtonColor[props.color],

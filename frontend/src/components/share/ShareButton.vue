@@ -3,7 +3,7 @@
     @click="$emit('click', item.content)"
     :tooltip="item.tooltip"
     only-icon
-    size="sm"
+    size="xs"
     rounded="full"
   >
     <component :is="components[item.icon]" class="w-4 h-4" />
@@ -14,7 +14,7 @@
       <span
         class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-reddish animate-ping"
       ></span>
-      <span class="relative inline-flex w-2 h-2 bg-red-500 rounded-lg"></span>
+      <span class="relative inline-flex w-2 h-2 bg-red-500 rounded"></span>
     </span>
   </AppButton>
 </template>

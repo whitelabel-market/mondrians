@@ -4,7 +4,7 @@
     <div class="relative flex flex-col min-h-screen mx-auto">
       <LayoutFrame class="z-90" />
       <LayoutHeader
-        class="transition-colors duration-300 bg-white z-80 dark:bg-neutral-900"
+        class="transition-colors duration-100 bg-white z-80 dark:bg-neutral-900"
       />
       <div
         v-if="!loaded"

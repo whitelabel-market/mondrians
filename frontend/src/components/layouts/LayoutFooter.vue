@@ -1,8 +1,8 @@
 <template>
-  <footer class="transition-colors duration-300 bg-white dark:bg-neutral-900">
+  <footer class="transition-colors duration-100 bg-white dark:bg-neutral-900">
     <div class="container w-full max-w-4xl px-8 py-24 mx-auto space-y-24">
       <div
-        class="flex flex-col justify-center mx-auto space-y-8 transition-colors duration-300 dark:text-neutral-200"
+        class="flex flex-col justify-center mx-auto space-y-8 transition-colors duration-100 dark:text-neutral-200"
         v-animate
       >
         <h2
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div
-        class="grid grid-cols-2 gap-4 py-16 transition-colors duration-300 dark:text-neutral-200 gap-y-16 md:grid-cols-4 md:gap-20"
+        class="grid grid-cols-2 gap-4 py-16 transition-colors duration-100 dark:text-neutral-200 gap-y-16 md:grid-cols-4 md:gap-20"
       >
         <div v-for="(items, title) in routes" :key="title">
           <span class="block mb-8">{{ title }}</span>

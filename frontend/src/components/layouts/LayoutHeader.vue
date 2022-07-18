@@ -1,11 +1,11 @@
 <template>
   <div class="relative">
-    <div class="h-24"></div>
+    <div class="h-20"></div>
     <header
-      class="fixed top-0 left-0 w-full transition-colors duration-300 bg-white dark:bg-neutral-900 mondrian-border-b"
+      class="fixed top-0 left-0 w-full transition-colors duration-100 bg-white dark:bg-neutral-900 mondrian-border-b"
     >
       <nav
-        class="container flex items-center justify-between w-full h-24 max-w-6xl px-8 mx-auto"
+        class="container flex items-center justify-between w-full h-20 max-w-6xl px-8 mx-auto"
       >
         <router-link
           :to="'/'"
@@ -13,7 +13,7 @@
           class="inline-block"
         >
           <LogoIcon
-            class="transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
+            class="transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
           />
         </router-link>
         <AppHamburger
@@ -23,7 +23,7 @@
         <ul class="items-center hidden space-x-6 text-sm font-semibold lg:flex">
           <li v-for="(to, name) in routes" :key="to">
             <router-link
-              class="text-xs font-black uppercase transition-colors duration-300 dark:text-neutral-200"
+              class="link transition-colors duration-100 dark:text-neutral-200"
               :to="to"
               >{{ name }}</router-link
             >
@@ -34,7 +34,7 @@
           <li>
             <AppButton
               v-if="!isConnected"
-              size="xs"
+              size="sm"
               color="reddish"
               :loading="loading"
               @click.prevent="showConnectModal = true"
@@ -56,7 +56,7 @@
                 class="object-cover w-6 h-6 rounded-full"
               />
               <span
-                class="font-black transition-colors duration-300 slashed-zero dark:text-neutral-200"
+                class="font-black transition-colors duration-100 slashed-zero dark:text-neutral-200"
                 >{{ ensAccount?.name || shortAddress }}</span
               >
             </AppButton>

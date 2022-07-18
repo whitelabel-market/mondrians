@@ -1,34 +1,34 @@
 <template>
   <section id="Roadmap" class="text-white bg-blueish mondrian-border-b">
     <div
-      class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-3"
+      class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-7"
       v-animate
     >
-      <div class="grid items-stretch gap-4 lgs:col-span-2 md:grid-cols-3">
-        <div class="max-w-2xl space-y-2 md:col-span-3 pb-8">
+      <div class="grid items-stretch gap-6 lgs:col-span-5 md:grid-cols-3">
+        <div class="max-w-2xl space-y-6 md:col-span-3">
           <h2 class="section-title">Roadmap</h2>
-          <p class="text-xl">
+          <p class="">
             This roadmap outlines our goals and where we want to take
             Mondrian’s. We have a lot of ideas and concepts that we are working
             on:
           </p>
         </div>
         <div
-          class="p-4 space-y-2 bg-blue-100 border-4 text-neutral-900 border-neutral-800 rounded-lg md:p-8"
+          class="p-4 space-y-2 bg-blue-100 border-4 text-neutral-900 border-neutral-800 rounded md:p-8"
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
           :key="step.title"
         >
-          <div class="flex items-start space-x-2">
-            <div
-              class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-bold rounded-full text-neutral-200 bg-neutral-800"
-            >
-              <span class="block">{{ index + 1 }}</span>
-            </div>
-            <h6 class="font-black uppercase">
-              {{ step.title }}
-            </h6>
+          <div
+            class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-semibold rounded-full text-neutral-200 bg-neutral-800"
+          >
+            <span class="block">{{ index + 1 }}</span>
           </div>
+
+          <h6 class="font-bold uppercase">
+            {{ step.title }}
+          </h6>
+
           <p class="text-sm">
             {{ step.description }}
           </p>
@@ -37,7 +37,7 @@
       <img
         src="@/assets/images/image-2.png"
         alt="Roadmap"
-        class="order-first w-full max-w-sm mx-auto lgs:order-none"
+        class="order-first w-full max-w-sm mx-auto lgs:order-none lgs:col-span-2"
       />
     </div>
   </section>

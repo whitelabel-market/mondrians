@@ -1,17 +1,17 @@
 <template>
   <div
-    class="relative z-10 transition-colors duration-300 after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 dark:after:bg-black after:rounded-lg after:translate-x-1 after:translate-y-1 after:transition-colors after:duration-300"
+    class="relative z-10 transition-colors duration-100 after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 dark:after:bg-black after:rounded after:translate-x-1 after:translate-y-1 after:transition-colors after:duration-100"
   >
     <div
-      class="flex flex-col justify-between h-full gap-6 p-4 transition-all duration-300 border select-none text-neutral-200 bg-neutral-50 dark:bg-neutral-800 border-neutral-800 rounded-lg bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
+      class="flex flex-col justify-between h-full gap-6 p-4 transition-all duration-100 border select-none text-neutral-200 bg-neutral-50 dark:bg-neutral-800 border-neutral-800 rounded bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
     >
       <div
-        class="flex flex-col justify-center transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
+        class="flex flex-col justify-center transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
       >
         <div class="flex items-center justify-between">
           <span class="font-bold leading-tight truncate">Transaction</span>
           <a
-            class="text-xs leading-tight truncate transition-colors duration-300 dark:text-neutral-400 dark:hover:text-neutral-200"
+            class="text-xs leading-tight truncate transition-colors duration-100 dark:text-neutral-400 dark:hover:text-neutral-200"
             target="_blank"
             :href="`${EXPLORER_BASE_URL}block/${transfer.createdAtBlockNumber}`"
             >{{
@@ -26,7 +26,7 @@
         <a
           :href="`${EXPLORER_BASE_URL}address/${transfer.from.id}`"
           target="_blank"
-          class="flex items-center space-x-2 truncate transition-colors duration-300 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
+          class="flex items-center space-x-2 truncate transition-colors duration-100 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
         >
           <img
             :src="makeBlockie(transfer.from.id)"
@@ -38,12 +38,12 @@
         </a>
         <div class="flex items-center gap-4">
           <div
-            class="flex items-center justify-center w-8 transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
+            class="flex items-center justify-center w-8 transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
           >
             <ArrowSmDownIcon class="w-5 h-5" />
           </div>
           <a
-            class="px-4 py-1 border-2 cursor-pointer rounded-lg border-blueish text-blueish"
+            class="px-4 py-1 border-2 cursor-pointer rounded border-blueish text-blueish"
             :href="`${EXPLORER_BASE_URL}tx/${transfer.transactionHash}`"
             target="_blank"
           >
@@ -53,7 +53,7 @@
         <a
           :href="`${EXPLORER_BASE_URL}address/${transfer.to.id}`"
           target="_blank"
-          class="flex items-center space-x-2 truncate transition-colors duration-300 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
+          class="flex items-center space-x-2 truncate transition-colors duration-100 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
         >
           <img
             :src="makeBlockie(transfer.to.id)"
@@ -66,7 +66,7 @@
       </div>
       <div
         v-if="tokenDayDatas?.length"
-        class="flex flex-col transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
+        class="flex flex-col transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
       >
         <div class="flex items-center justify-between">
           <span class="flex flex-col items-start text-sm font-semibold"

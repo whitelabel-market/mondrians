@@ -4,10 +4,10 @@
       class="container grid items-center max-w-4xl gap-12 px-8 mx-auto md:grid-cols-2 md:gap-20"
       v-animate
     >
-      <div class="space-y-4">
+      <div class="space-y-6">
         <div class="section-title">Creator</div>
 
-        <div class="space-y-2">
+        <div class="space-y-1">
           <p>
             I’m Piet Mondrian, a full time painter and art theoretician who is
             regarded as one of the greatest artists of the 20th century. I have

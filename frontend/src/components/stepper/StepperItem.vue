@@ -1,7 +1,7 @@
 <template>
   <div>
     <DisclosureButton
-      class="relative flex items-center justify-start w-full p-4 space-x-4 transition duration-300 cursor-pointer hover:opacity-60"
+      class="relative flex items-center justify-start w-full p-4 space-x-4 transition duration-100 cursor-pointer hover:opacity-60"
       @click="emit('update:modelValue', index)"
     >
       <div class="flex items-center w-full space-x-4">
@@ -11,14 +11,14 @@
           :isReady="isReady"
           :error="error"
         />
-        <h3 class="font-serif text-xl font-black">{{ title }}</h3>
+        <h3 class="font-bold">{{ title }}</h3>
       </div>
     </DisclosureButton>
     <Transition @enter="onEnter" @leave="onLeave" :css="false">
       <div v-show="modelValue" class="p-8">
         <DisclosurePanel static>
           <div
-            class="space-y-4 transition-colors duration-300 dark:text-neutral-200"
+            class="space-y-4 transition-colors duration-100 dark:text-neutral-200"
           >
             <div v-if="!!error.value" class="text-center text-red-500">
               <p>{{ error.value }}</p>

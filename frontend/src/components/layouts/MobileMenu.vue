@@ -3,24 +3,24 @@
     <Dialog as="div">
       <TransitionChild
         as="template"
-        enter="duration-300 ease-out-circ"
+        enter="duration-100 ease-out-circ"
         enter-from="translate-x-full"
         enter-to="translate-x-0"
-        leave="duration-300 ease-out-circ"
+        leave="duration-100 ease-out-circ"
         leave-from="translate-x-0"
         leave-to="translate-x-full"
       >
         <div
-          class="fixed top-0 left-0 flex flex-col w-full h-screen mt-24 lg:hidden z-80"
+          class="fixed top-0 left-0 flex flex-col w-full h-screen mt-20 lg:hidden z-80"
         >
           <div
-            class="flex-1 p-8 space-y-8 overflow-y-auto transition-colors duration-300 bg-white mondrian-border-b text-neutral-900 dark:bg-neutral-900"
+            class="flex-1 p-8 space-y-8 overflow-y-auto transition-colors duration-100 bg-white mondrian-border-b text-neutral-900 dark:bg-neutral-900"
           >
             <ul class="flex flex-col gap-6 font-sans font-bold mobile-controls">
               <li
                 v-for="(to, name) in routes"
                 :key="to"
-                class="text-xl font-bold transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
+                class="text-xl font-bold transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
               >
                 <router-link
                   class="block outline-none focus:outline-none"
@@ -55,16 +55,16 @@
                     class="object-cover w-8 h-8 rounded-full"
                   />
                   <span
-                    class="text-sm font-black lowercase transition-colors duration-300 text-neutral-800 dark:text-neutral-200 slashed-zero"
+                    class="text-sm font-black lowercase transition-colors duration-100 text-neutral-800 dark:text-neutral-200 slashed-zero"
                     >{{ ensAccount?.name || privateAddress }}</span
                   >
                 </div>
               </AppButton>
               <div
-                class="relative flex items-center justify-between p-4 transition-colors duration-300 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded-lg"
+                class="relative flex items-center justify-between p-4 transition-colors duration-100 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded"
               >
                 <span
-                  class="transition-colors duration-300 text-neutral-900 dark:text-neutral-200"
+                  class="transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
                   >Appearence</span
                 >
                 <AppToggleDark />

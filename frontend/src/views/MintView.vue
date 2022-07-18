@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <div class="transition-colors duration-300 bg-white dark:bg-neutral-900">
+  <div class="transition-colors duration-100 bg-white dark:bg-neutral-900">
     <div
       class="container max-w-4xl py-8 mx-auto transition-colors lg:px-8 dark:text-neutral-200"
     >

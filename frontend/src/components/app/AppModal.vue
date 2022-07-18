@@ -5,10 +5,10 @@
         <div class="flex items-center justify-center h-screen p-8">
           <TransitionChild
             as="template"
-            enter="duration-300 ease-out"
+            enter="duration-100 ease-out"
             enter-from="opacity-0"
             enter-to="opacity-100"
-            leave="duration-200 ease-in"
+            leave="duration-100 ease-in"
             leave-from="opacity-100"
             leave-to="opacity-0"
           >
@@ -17,15 +17,15 @@
 
           <TransitionChild
             as="template"
-            enter="duration-300 ease-out"
+            enter="duration-100 ease-out"
             enter-from="opacity-0 translate-y-12"
             enter-to="opacity-100 translate-y-0"
-            leave="duration-200 ease-in"
+            leave="duration-100 ease-in"
             leave-from="opacity-100 translate-y-0"
             leave-to="opacity-0 translate-y-12"
           >
             <div
-              class="relative flex flex-col items-stretch w-full max-w-md max-h-full p-4 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl sm:p-8 dark:bg-neutral-800 text-black dark:text-white bg-hero-pattern-charlie rounded-lg"
+              class="relative flex flex-col items-stretch w-full max-w-md max-h-full p-4 space-y-4 transition-all transform bg-white border-8 border-black shadow-xl sm:p-8 dark:bg-neutral-800 text-black dark:text-white bg-hero-pattern-charlie rounded"
             >
               <div class="absolute top-0 right-0 p-2">
                 <AppButton

@@ -4,7 +4,7 @@
       class="container grid items-center max-w-4xl gap-4 px-8 mx-auto md:grid-cols-2 md:gap-20"
       v-animate
     >
-      <div class="space-y-4">
+      <div class="space-y-8">
         <h2 class="section-title">What are the Mondrians?</h2>
         <p>
           Mondrians is a drop of custom digital paintings, created by Piet

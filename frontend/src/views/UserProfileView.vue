@@ -1,5 +1,5 @@
 <template>
-  <div class="transition-colors duration-300 bg-white dark:bg-neutral-900">
+  <div class="transition-colors duration-100 bg-white dark:bg-neutral-900">
     <header
       class="pt-20 bg-yellowish mondrian-border-b bg-hero-pattern-charlie"
     >
@@ -9,7 +9,7 @@
         <img
           v-if="route?.params?.id"
           :src="makeBlockie(route.params.id as string)"
-          class="object-cover w-24 h-24 border-4 rounded-lg border-neutral-800"
+          class="object-cover w-24 h-24 border-4 rounded border-neutral-800"
         />
 
         <div class="flex flex-col items-center gap-4">
@@ -23,7 +23,7 @@
               </h1>
               <AppButton
                 only-icon
-                size="sm"
+                size="xs"
                 flat
                 color="blank"
                 :tooltip="copied ? 'Copied' : 'Copy'"
@@ -63,7 +63,7 @@
             v-slot="{ isActive, isExactActive }"
           >
             <span
-              class="relative flex items-center justify-center w-32 px-4 text-xs font-black uppercase transition transition-colors duration-300 ease-in-out bg-white border-4 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-11 hover:-translate-y-1 rounded-t-xl"
+              class="relative flex items-center justify-center w-32 px-4 text-xs font-black uppercase transition transition-colors duration-100 ease-in-out bg-white border-4 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-11 hover:-translate-y-1 rounded-t-xl"
               :class="[isActive && isExactActive && '-translate-y-1']"
             >
               {{ title }}

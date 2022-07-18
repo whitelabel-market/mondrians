@@ -13,12 +13,10 @@
         <img
           :src="makeBlockie(address)"
           :alt="address"
-          class="object-cover w-8 h-8 rounded-lg"
+          class="object-cover w-8 h-8 rounded"
         />
         <div>
-          <h4
-            class="block font-serif text-xl font-black md:text-2xl slashed-zero leading-0"
-          >
+          <h4 class="block text-xl font-bold slashed-zero leading-0">
             {{ ensAccount?.name ? "@" + ensAccount.name : privateAddress }}
           </h4>
           <a
@@ -35,10 +33,10 @@
           <AppButton
             full-width
             color="gray"
-            size="xs"
+            size="sm"
             :to="`/mint`"
             @click.prevent="$emit('update:modelValue', false)"
-            ><ViewGridAddIcon class="w-5 h-5" />
+            ><ViewGridAddIcon class="w-4 h-4" />
             <span class="block">Create</span>
           </AppButton>
         </li>
@@ -46,10 +44,10 @@
           <AppButton
             full-width
             color="gray"
-            size="xs"
+            size="sm"
             :to="`/user/${address}/collected`"
             @click.prevent="$emit('update:modelValue', false)"
-            ><CollectionIcon class="w-5 h-5"></CollectionIcon>
+            ><CollectionIcon class="w-4 h-4"></CollectionIcon>
             <span class="block">My Collection</span>
           </AppButton>
         </li>
@@ -57,10 +55,10 @@
           <AppButton
             full-width
             color="gray"
-            size="xs"
+            size="sm"
             :to="`/user/${address}/activity`"
             @click.prevent="$emit('update:modelValue', false)"
-            ><SwitchVerticalIcon class="w-5 h-5" />
+            ><SwitchVerticalIcon class="w-4 h-4" />
             <span class="block">My activity</span>
           </AppButton>
         </li>
@@ -87,7 +85,7 @@
       </form>
 
       <div
-        class="flex flex-col p-4 space-y-2 bg-white border-2 rounded-lg dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
+        class="flex flex-col p-4 space-y-2 bg-white border-2 rounded text-sm dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
       >
         <div class="flex items-start justify-between w-full">
           <div>
@@ -95,16 +93,14 @@
               <img
                 :src="makeBlockie(address)"
                 :alt="address"
-                class="object-cover w-4 h-4 rounded"
+                class="object-cover w-4 h-4 rounded-full"
               />
               <div>
-                <h4 class="block text-sm slashed-zero">
+                <h4 class="block font-semibold slashed-zero">
                   {{ privateAddress }}
                 </h4>
               </div>
             </div>
-
-            <span class="text-xs"> Network: Polygon </span>
           </div>
           <div class="flex items-center justify-start space-x-2">
             <AppButton
@@ -133,16 +129,33 @@
           </div>
         </div>
 
-        <div class="flex items-center pb-2 space-x-1">
-          <PolygonIcon class="block w-4 h-4" />
-          <span class="block font-semibold"
-            >{{ Number(balance).toFixed(2) }} ($ {{ usdBalance }})</span
-          >
+        <div class="grid grid-cols-[5rem_1fr]">
+          <div>Network:</div>
+          <div>
+            <span class="font-semibold italic">Polygon</span>
+          </div>
+          <div>Balance:</div>
+          <div>
+            <div class="flex items-center pb-2 space-x-2">
+              <span class="inline-flex items-center space-x-0.5">
+                <PolygonIcon class="block w-4 h-4" />
+                <span class="block font-semibold italic"
+                  >{{ Number(balance).toFixed(2) }}
+                </span>
+              </span>
+
+              <SwitchHorizontalIcon class="w-3 h-3" />
+              <span>
+                <span>$&nbsp;</span>
+                <span class="font-semibold italic"> {{ usdBalance }} </span>
+              </span>
+            </div>
+          </div>
         </div>
 
         <div>
           <AppButton
-            size="xs"
+            size="sm"
             full-width
             @click="
               () => {
@@ -187,7 +200,10 @@ import makeBlockie from "ethereum-blockies-base64";
 import { authInterface } from "@/services/BackendInterface";
 import TicketForm from "@/components/ticket/TicketForm.vue";
 import AppInput from "@/components/app/AppInput.vue";
-
+import {
+  CurrencyDollarIcon,
+  SwitchHorizontalIcon,
+} from "@heroicons/vue/outline";
 defineEmits(["update:modelValue", "click"]);
 
 defineProps({

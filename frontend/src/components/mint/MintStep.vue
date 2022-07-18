@@ -9,7 +9,7 @@
 
       <div
         v-if="!isActive"
-        class="absolute z-0 -inset-2 bg-white/80 dark:bg-neutral-900/80 transition-colors duration-300"
+        class="absolute z-0 -inset-2 bg-white/80 dark:bg-neutral-900/80 transition-colors duration-100"
       />
     </div>
   </div>

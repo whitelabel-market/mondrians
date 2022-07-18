@@ -16,14 +16,14 @@
         :name="id"
         ref="inputRef"
         :type="type"
-        class="w-full h-12 px-4 text-current transition-colors bg-white border-2 rounded-lg outline-none 3200 focus:ring-0 dark:focus:border-stone-700 placeholder:text-neutral-400 dark:placeholder:text-neutral-400 dark:bg-neutral-900 ease-in-circ"
+        class="w-full h-12 px-4 text-current transition-colors bg-white border-2 rounded outline-none 3200 focus:ring-0 dark:focus:border-stone-700 placeholder:text-neutral-400 dark:placeholder:text-neutral-400 dark:bg-neutral-900 ease-in-circ"
         :class="
           error ? 'border-red-500' : 'border-stone-200 dark:border-stone-700'
         "
       />
       <button
         v-if="inlineSubmit"
-        class="absolute top-0 right-0 flex items-center justify-center h-full px-4 py-2 text-xs text-current rounded-lg"
+        class="absolute top-0 right-0 flex items-center justify-center h-full px-4 py-2 text-xs text-current rounded"
         type="submit"
         @click.prevent="inlineSubmit && $emit('submit', modelValue)"
       >
