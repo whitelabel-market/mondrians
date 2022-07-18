@@ -1,7 +1,7 @@
 <template>
-  <div class="transition-colors duration-100 bg-white dark:bg-neutral-900">
+  <div class="">
     <header
-      class="pt-20 bg-yellowish mondrian-border-b bg-hero-pattern-charlie"
+      class="pt-20 bg-candlelight dark:bg-candlelight-600 mondrian-border-b bg-hero-pattern-charlie"
     >
       <div
         class="container flex flex-col items-center justify-start flex-1 w-full h-full mx-auto space-y-12"

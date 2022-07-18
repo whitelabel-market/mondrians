@@ -20,12 +20,12 @@ export default defineComponent({
         | "blank"
         | "link"
         | "gray"
-        | "yellowish"
-        | "reddish"
-        | "blueish"
+        | "candlelight"
+        | "crimson"
+        | "dodgerblue"
         | "disabled"
         | "custom",
-      default: "yellowish",
+      default: "candlelight",
     },
     flat: {
       type: Boolean,
@@ -82,9 +82,11 @@ export default defineComponent({
       blank: "bg-transparent text-current border-transparent",
       gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-neutral-300 dark:bg-neutral-600 dark:border-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100",
       link: "bg-transparent border-transparent link",
-      reddish: "bg-reddish text-white border-2 border-neutral-800",
-      yellowish: "bg-yellowish text-neutral-900 border-2 border-neutral-800",
-      blueish: "bg-blueish text-white border-2 border-neutral-800",
+      crimson:
+        "bg-crimson dark:bg-crimson-700 text-neutral-50 border-2 border-neutral-800",
+      candlelight:
+        "bg-candlelight text-neutral-900 dark:bg-candlelight-600 dark:text-neutral-900 border-2 border-neutral-800",
+      dodgerblue: "bg-dodgerblue text-white border-2 border-neutral-800",
       disabled:
         "border-2 border-neutral-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed transition-colors duration-100",
     };

@@ -1,5 +1,8 @@
 <template>
-  <section id="Creator" class="text-white bg-reddish mondrian-border-b">
+  <section
+    id="Creator"
+    class="text-white bg-crimson-500 dark:bg-crimson-800 mondrian-border-b"
+  >
     <div
       class="container grid items-center max-w-4xl gap-12 px-8 mx-auto md:grid-cols-2 md:gap-20"
       v-animate
@@ -16,7 +19,7 @@
           <p>
             When I’m not creating, you can either catch me experimenting with
             colors, eating cheese or on my
-            <a class="font-medium text-yellowish" href="">private Discord</a>.
+            <a class="font-medium text-candlelight" href="">private Discord</a>.
           </p>
         </div>
         <div>

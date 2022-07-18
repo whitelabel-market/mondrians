@@ -5,7 +5,7 @@
         class="px-4 mx-auto text-5xl font-black text-center text-transparent animate md:text-6xl"
       >
         <span
-          class="text-transparent outline outline-1 bg-clip-text bg-gradient-to-r from-blueish via-yellowish to-reddish"
+          class="text-transparent outline outline-1 bg-clip-text bg-gradient-to-r from-dodgerblue via-candlelight to-crimson"
           >Magic Mondrian</span
         >
       </div>
@@ -15,7 +15,7 @@
         A
         <span
           id="nft-counter"
-          class="text-transparent truncate bg-clip-text bg-gradient-to-r from-reddish via-yellowish to-blueish"
+          class="text-transparent truncate bg-clip-text bg-gradient-to-r from-crimson via-candlelight to-dodgerblue"
           >{{ maxSupply }}</span
         >
         piece custom collection is joining the NFT Space.
@@ -26,7 +26,7 @@
       v-if="revealEnabled"
     >
       <span
-        class="text-transparent outline outline-1 bg-clip-text bg-gradient-to-r from-blueish via-yellowish to-reddish"
+        class="text-transparent outline outline-1 bg-clip-text bg-gradient-to-r from-dodgerblue via-candlelight to-crimson"
       >
         Sold Out
       </span>

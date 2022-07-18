@@ -12,7 +12,7 @@
       class="absolute -top-0.5 -right-0.5 flex w-2 h-2"
     >
       <span
-        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-reddish animate-ping"
+        class="absolute inline-flex w-full h-full rounded-full opacity-75 bg-crimson animate-ping"
       ></span>
       <span class="relative inline-flex w-2 h-2 bg-red-500 rounded"></span>
     </span>

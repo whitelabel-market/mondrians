@@ -6,7 +6,7 @@
     <div
       v-for="i of 5"
       :key="i"
-      class="block w-full focus:outline-none focus:ring-2 focus:ring-blueish"
+      class="block w-full focus:outline-none focus:ring-2 focus:ring-dodgerblue"
     >
       <ActivitySkeleton />
     </div>
@@ -18,7 +18,7 @@
     <div
       v-for="(transfer, index) in (transfers as any[])"
       :key="index"
-      class="block w-full focus:outline-none focus:ring-2 focus:ring-blueish"
+      class="block w-full focus:outline-none focus:ring-2 focus:ring-dodgerblue"
     >
       <Activity :transfer="transfer" />
     </div>

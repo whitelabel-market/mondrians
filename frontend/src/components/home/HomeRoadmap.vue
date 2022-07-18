@@ -1,5 +1,8 @@
 <template>
-  <section id="Roadmap" class="text-white bg-blueish mondrian-border-b">
+  <section
+    id="Roadmap"
+    class="text-neutral-50 bg-dodgerblue-500 dark:bg-dodgerblue-900 mondrian-border-b"
+  >
     <div
       class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-7"
       v-animate
@@ -14,7 +17,7 @@
           </p>
         </div>
         <div
-          class="p-4 space-y-2 bg-blue-100 border-4 text-neutral-900 border-neutral-800 rounded md:p-8"
+          class="p-4 space-y-2 bg-dodgerblue-50 dark:bg-dodgerblue-800 text-neutral-900 dark:text-white border-4 border-black rounded md:p-8"
           :class="step?.classes || ''"
           v-for="(step, index) of steps"
           :key="step.title"

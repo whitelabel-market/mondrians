@@ -34,7 +34,7 @@
               <AppButton
                 v-if="!isConnected"
                 full-width
-                color="reddish"
+                color="crimson"
                 :loading="loading"
                 @click.prevent="emit('connect', true)"
               >

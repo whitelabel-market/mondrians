@@ -1,5 +1,5 @@
 <template>
-  <section class="relative py-20 bg-blueish mondrian-border-b">
+  <section class="relative py-20 bg-dodgerblue mondrian-border-b">
     <div class="container max-w-4xl mx-auto md:px-8">
       <img
         src="@/assets/images/image-6.png"

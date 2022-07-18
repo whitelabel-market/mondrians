@@ -12,7 +12,7 @@
           <LogoIcon class="!text-3xl md:!text-4xl" /> NFT now
         </h2>
         <div class="mx-auto">
-          <AppButton color="reddish" to="/mint">Create your own</AppButton>
+          <AppButton color="crimson" to="/mint">Create your own</AppButton>
         </div>
       </div>
       <div

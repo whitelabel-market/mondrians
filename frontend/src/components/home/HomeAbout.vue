@@ -1,5 +1,8 @@
 <template>
-  <section id="About" class="text-white bg-reddish mondrian-border-b">
+  <section
+    id="About"
+    class="text-white bg-crimson-500 dark:bg-crimson-800 mondrian-border-b"
+  >
     <div
       class="container grid items-center max-w-4xl gap-4 px-8 mx-auto md:grid-cols-2 md:gap-20"
       v-animate

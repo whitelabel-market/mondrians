@@ -35,7 +35,7 @@
             <AppButton
               v-if="!isConnected"
               size="sm"
-              color="reddish"
+              color="crimson"
               :loading="loading"
               @click.prevent="showConnectModal = true"
             >

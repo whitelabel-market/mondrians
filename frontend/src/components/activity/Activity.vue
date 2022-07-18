@@ -43,7 +43,7 @@
             <ArrowSmDownIcon class="w-5 h-5" />
           </div>
           <a
-            class="px-4 py-1 border-2 cursor-pointer rounded border-blueish text-blueish"
+            class="px-4 py-1 border-2 cursor-pointer rounded border-dodgerblue text-dodgerblue"
             :href="`${EXPLORER_BASE_URL}tx/${transfer.transactionHash}`"
             target="_blank"
           >

@@ -4,7 +4,7 @@
       class="mx-auto text-6xl md:text-7xl font-black text-center text-transparent"
     >
       <span
-        class="text-transparent bg-clip-text bg-gradient-to-r from-blueish via-yellowish to-reddish"
+        class="text-transparent bg-clip-text bg-gradient-to-r from-dodgerblue via-candlelight to-crimson"
       >
         {{ whitelistEnabled ? "Whitelist Sale" : "Public Sale" }}
         is live

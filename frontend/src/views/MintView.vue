@@ -1,12 +1,12 @@
 <template>
   <div
-    class="py-8 text-white bg-reddish mondrian-border-b bg-hero-pattern-charlie"
+    class="py-8 text-neutral-50 bg-crimson-500 dark:bg-crimson-800 mondrian-border-b bg-hero-pattern-charlie"
   >
     <div class="container px-8 mx-auto">
       <div class="py-24">
-        <h1 class="text-4xl font-black leading-relaxed text-center lg:text-5xl">
+        <h1 class="text-4xl font-bold leading-relaxed text-center">
           <span class="">Create your</span>
-          <LogoIcon class="!text-4xl !lg:text-5xl" />
+          <LogoIcon class="!text-4xl" />
         </h1>
       </div>
     </div>
