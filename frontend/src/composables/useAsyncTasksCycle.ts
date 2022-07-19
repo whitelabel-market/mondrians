@@ -50,21 +50,20 @@ export default function useAsyncTasksCycle(...tasks: Array<Task[]>) {
       return;
     }
     locked.value = true;
+
     jobIndex.value = from?.job ?? jobIndex.value;
     taskIndex.value = from?.task ?? taskIndex.value;
     const nextTasks = jobs[jobIndex.value];
     useAsyncQueue(
       nextTasks.map(
         (task, i) => async (args: any) =>
-          new Promise((resolve, reject) =>
-            task.execute(0, i <= 0 ? data : args).then((res) => {
-              if (res) {
-                resolve(res);
-              } else {
-                reject();
-              }
-            }, reject)
-          )
+          new Promise((resolve, reject) => {
+            return task
+              .execute(0, i <= 0 ? data : args)
+              .then((res) =>
+                task.error.value ? reject(task.error.value) : resolve(res)
+              );
+          })
       ),
       {
         interrupt: true,

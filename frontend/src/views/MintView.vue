@@ -205,7 +205,7 @@ const print = async function (printData: any) {
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
 
-  //await mondrianInterface.print();
+  await mondrianInterface.print();
 
   await authInterface.print({
     ...printData,

@@ -6,7 +6,7 @@
   "author": "Whitelabel Solutions",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon -r dotenv/config server.js dotenv_config_path=./../.env"
+    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config server.js dotenv_config_path=./../.env"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -25,6 +25,7 @@
     "winston": "^3.6.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "nodemon": "^2.0.15"
   },
