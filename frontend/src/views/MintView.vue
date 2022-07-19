@@ -35,7 +35,7 @@
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Adjust the number of Magic Mondrian NFT's you want to own!
+                Confirming that your address is eligible for whitelist sale
               </template>
             </MintStep>
           </template>
@@ -57,12 +57,6 @@
               <template v-slot:description>
                 Receiving your minted NFT
               </template>
-              <TokenList
-                dense
-                slider
-                :tokens="tokens"
-                :is-finished="finishedTasks.getTokens"
-              />
             </MintStep>
           </template>
         </StepperItem>

@@ -8,10 +8,10 @@
   >
     <foreignObject width="100%" height="100%">
       <div
-        class="flex flex-col space-y-[8%] relative"
+        class="flex flex-col relative space-y-[4%] !bg-white !text-black"
         xmlns="http://www.w3.org/1999/xhtml"
       >
-        <div class="p-[6%] pb-[0%]">
+        <div class="p-[8%] pb-[4%]">
           <AppImageLoad size="md">
             <template v-slot:image>
               <img :src="imgSrc" :alt="'Magic Mondrian ' + token.id" />
@@ -19,9 +19,9 @@
           </AppImageLoad>
         </div>
 
-        <div class="flex justify-between space-x-[8%]">
+        <div class="flex justify-between space-x-[8%] p-[1%]">
           <div class="flex flex-col space-y-[8%]">
-            <div class="font-black uppercase truncate text-[170%] leading-none">
+            <div class="font-black uppercase truncate text-[148%] leading-none">
               <h4>
                 Magic Mondrian <br />#{{
                   ("0000" + token.id).substr(token.id.toString().length)
@@ -31,7 +31,7 @@
             <div class="w-9/12">
               <ul class="flex flex-col leading-tight">
                 <li
-                  class="flex w-full items-center justify-between text-[96%] uppercase whitespace-nowrap"
+                  class="flex w-full items-center justify-between text-[84%] uppercase whitespace-nowrap"
                   v-for="(value, key) in tokenDetails"
                   :key="key"
                 >
@@ -43,12 +43,12 @@
               </ul>
             </div>
           </div>
-          <div class="transform flex-1 pl-[16%]">
+          <div class="transform flex-1 pl-[12%]">
             <g v-html="qrCode" class="aspect-square w-full !fill-transparent" />
           </div>
         </div>
 
-        <div class="grid grid-cols-7 gap-[4%] items-end">
+        <div class="grid grid-cols-7 gap-[4%] p-[1%] items-end">
           <div class="col-span-2">
             <p class="text-[32%] text-neutral-400 font-light w-full">
               © 2022 Whitelabel Solutions, Inc.

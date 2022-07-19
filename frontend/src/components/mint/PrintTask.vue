@@ -11,7 +11,8 @@
           <button
             class="flex w-full h-full p-2 text-left duration-100 border-2 border-transparent rounded transition-color"
             :class="{
-              'border-black dark:border-white': form.token.id === token.id,
+              'border-stone-200 dark:border-stone-700':
+                form.token.id === token.id,
             }"
             @click.prevent="form.token = token"
           >
@@ -47,9 +48,7 @@
       <AppInput
         v-model="form.street"
         id="print-street"
-        ref="streetRef"
         type="text"
-        @inputRefLoaded="initGooglePlaces($event)"
         placeholder="Street and house number"
         label="Street and house number"
         :error="form.street.length ? errorFields?.street?.[0]?.message : ''"
@@ -99,7 +98,7 @@
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import AppInput from "@/components/app/AppInput.vue";
-import { onUnmounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import TokenList from "@/components/tokens/TokenList.vue";
 import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
@@ -134,7 +133,7 @@ const touched = ref(false);
 
 const rules: Rules = {
   token: [{ type: "object", required: true }],
-  name: [{ type: "string", min: 5, max: 20, required: true }],
+  name: [{ type: "string", min: 1, max: 40, required: true }],
   email: [
     {
       type: "email",
@@ -146,13 +145,11 @@ const rules: Rules = {
       type: "string",
       required: true,
       pattern: /\d/,
-      message: "missing number",
+      message: "missing house number",
     },
   ],
   city: [{ type: "string", required: true }],
-  zipCode: [
-    { type: "string", required: true, len: 5, message: "invalid zipcode" },
-  ],
+  zipCode: [{ type: "string", required: true }],
   country: [{ type: "string", required: true }],
 };
 
@@ -165,58 +162,5 @@ const submit = () => {
   if (pass.value) {
     emit("submit", { ...form });
   }
-};
-
-// Google Maps autocomplete
-
-const streetRef = ref();
-let autocomplete: any;
-
-const initGooglePlaces = (inputRef: any) => {
-  // eslint-disable-next-line
-  autocomplete = new google.maps.places.Autocomplete(inputRef.value, {
-    type: ["address"],
-    fields: ["address_components"],
-  });
-
-  // eslint-disable-next-line
-  google.maps.event.addListener(autocomplete, "place_changed", () => {
-    const mapping = {
-      route: "street",
-      locality: "city",
-      postal_code: "zipCode",
-      country: "country",
-    };
-
-    for (const field in mapping) {
-      form[mapping[field]] = "";
-    }
-
-    const place = {
-      address_components: [],
-      ...autocomplete.getPlace(),
-    };
-
-    place.address_components.forEach((component: any) => {
-      component.types.forEach((type: string) => {
-        // eslint-disable-next-line
-        if (mapping.hasOwnProperty(type)) {
-          if (type === "route")
-            form[mapping[type]] =
-              component.long_name +
-              " " +
-              place.address_components.find((component: any) =>
-                component.types.includes("street_number")
-              ).long_name;
-          else form[mapping[type]] = component.long_name;
-        }
-      });
-    });
-  });
-
-  onUnmounted(() => {
-    // eslint-disable-next-line
-    if (autocomplete) google.maps.event.clearInstanceListeners(autocomplete);
-  });
 };
 </script>
