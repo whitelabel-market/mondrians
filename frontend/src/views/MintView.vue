@@ -203,7 +203,6 @@ const print = async function (printData: any) {
 
   await authInterface.print({
     ...printData,
-    countryCode: "de",
   });
   finishedTasks.print = true;
 };

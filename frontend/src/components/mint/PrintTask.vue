@@ -73,15 +73,18 @@
       :error="form.city.length ? errorFields?.city?.[0]?.message : ''"
     />
 
-    <div class="lg:col-span-2">
-      <AppInput
-        class="lg:col-span-2"
-        v-model="form.country"
-        :error="form.country.length ? errorFields?.country?.[0]?.message : ''"
-        id="print-country"
-        type="text"
+    <div class="-space-y-1 text-left lg:col-span-2">
+      <label
+        for="country"
+        class="inline-block text-xs font-semibold text-left text-neutral-900 dark:text-neutral-400"
+      >
+        Country
+      </label>
+      <AppList
+        :items="COUNTRIES"
+        id="country"
         placeholder="Country"
-        label="Country"
+        @selected="form.country = $event"
       />
     </div>
 
@@ -103,6 +106,8 @@ import TokenList from "@/components/tokens/TokenList.vue";
 import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
 import { Rules } from "async-validator";
+import AppList from "@/components/app/AppList.vue";
+import { COUNTRIES } from "@/utils/constants/countries";
 
 const emit = defineEmits(["submit", "skip"]);
 
@@ -132,8 +137,7 @@ const form = reactive({
 const touched = ref(false);
 
 const rules: Rules = {
-  token: [{ type: "object", required: true }],
-  name: [{ type: "string", min: 1, max: 40, required: true }],
+  name: [{ type: "string", min: 1, required: true }],
   email: [
     {
       type: "email",
@@ -144,13 +148,20 @@ const rules: Rules = {
     {
       type: "string",
       required: true,
-      pattern: /\d/,
-      message: "missing house number",
     },
   ],
   city: [{ type: "string", required: true }],
   zipCode: [{ type: "string", required: true }],
-  country: [{ type: "string", required: true }],
+  country: [
+    {
+      type: "object",
+      fields: {
+        name: { type: "string", required: true },
+        code: { type: "string", required: true },
+      },
+      required: true,
+    },
+  ],
 };
 
 const { pass, errorFields } = useAsyncValidator(form, rules, {

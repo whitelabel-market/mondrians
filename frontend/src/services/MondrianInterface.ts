@@ -83,7 +83,6 @@ export default class MondrianInterface {
   // Function to send ether/matic to contract for printing
   async print() {
     const price = "0.0001";
-    console.log(ethers.utils.parseEther(price));
     try {
       if (!this.signer) {
         throw new Error("Wallet not connected");
