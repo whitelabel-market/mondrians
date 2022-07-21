@@ -121,7 +121,7 @@ import { Price, SalePhase } from "@/utils/constants";
 import { useFlag } from "@/composables/useFlags";
 import StepperContainer from "@/components/stepper/StepperContainer.vue";
 import QuantityTask from "@/components/mint/QuantityTask.vue";
-import TicketTask from "@/components/mint/TicketTask.vue";
+import TicketTask from "@/components/mint/EventTask.vue";
 import useSubgraph from "@/composables/useSubgraph";
 import MintStep from "@/components/mint/MintStep.vue";
 import PrintTask from "@/components/mint/PrintTask.vue";

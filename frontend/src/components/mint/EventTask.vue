@@ -9,11 +9,16 @@
     />
 
     <div class="flex items-center justify-start space-x-4">
-      <AppButton :disabled="!pass" @click.prevent="submit">
+      <AppButton :disabled="!pass" @click.prevent="submit" :loading="loading">
         Register
       </AppButton>
 
-      <AppButton :disabled="disabled" @click.prevent="emit('skip')" color="gray"
+      <AppButton
+        :disabled="disabled"
+        @click.prevent="emit('skip')"
+        color="gray"
+        v-if="skippable"
+        :loading="loading"
         >Skip for now</AppButton
       >
     </div>
@@ -31,6 +36,14 @@ const emit = defineEmits(["submit", "skip"]);
 
 defineProps({
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  skippable: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
     type: Boolean,
     default: false,
   },

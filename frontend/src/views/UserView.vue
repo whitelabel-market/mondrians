@@ -12,7 +12,7 @@
           class="object-cover w-24 h-24 border-4 rounded border-neutral-800"
         />
 
-        <div class="flex flex-col items-center gap-4">
+        <div class="flex flex-col items-center space-y-4">
           <div class="text-center text-neutral-900">
             <div
               class="flex items-center space-x-2"
@@ -54,14 +54,14 @@
         </div>
 
         <nav
-          class="relative flex items-center justify-start md:justify-center w-full space-x-1 md:space-x-4 h-12 px-4"
+          class="relative flex items-center justify-start md:justify-center w-full space-x-1 md:space-x-4 px-1"
         >
           <router-link
-            class="relative flex items-center justify-center text-center w-24 md:w-32 px-2 md:px-4 text-xs font-bold uppercase transition transition-colors duration-100 ease-in-out bg-white border-4 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-11 hover:-translate-y-1 rounded-t-xl"
+            class="relative inline-flex items-center justify-center text-center flex-1 md:flex-grow-0 md:flex-auto md:w-32 px-2 md:px-4 text-xs font-bold uppercase transition-colors duration-100 ease-in-out bg-white border-4 border-b-0 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-14 -translate-y-1 hover:-translate-y-2 rounded-t"
             v-for="(to, title) in tabs"
             :key="title"
             :to="to"
-            exact-active-class="z-10 -translate-y-1"
+            exact-active-class="z-10 -translate-y-2"
           >
             {{ title }}
           </router-link>

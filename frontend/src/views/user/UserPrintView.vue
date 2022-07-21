@@ -1,6 +1,13 @@
 <template>
-  <div class="max-w-2xl">
-    <PrintTask :tokens="tokens" v-if="isFinished && tokens.length" />
+  <div>
+    <div class="max-w-2xl" v-if="isFinished && tokens.length">
+      <PrintTask
+        :tokens="tokens"
+        :skippable="false"
+        :loading="loading"
+        @submit="print"
+      />
+    </div>
     <NoTokens
       :ensAccount="ensAccount"
       :error="error"
@@ -11,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, inject, Ref } from "vue";
+import { ref, watch, inject, Ref, toRaw } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
 import TokenCard from "@/components/tokens/TokenCard.vue";
 import TokenCardSkeleton from "@/components/tokens/TokenCardSkeleton.vue";
@@ -24,11 +31,41 @@ import TokenList from "@/components/tokens/TokenList.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
 import PrintTask from "@/components/mint/PrintTask.vue";
+import { authInterface } from "@/services/BackendInterface";
+import MondrianInterface from "@/services/MondrianInterface";
+import { ethers } from "ethers";
+import { useWalletExtended } from "@/composables/useWalletExtended";
 
 const emits = defineEmits(["showHint"]);
 
+const loading = ref(false);
+
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
+const { provider } = useWalletExtended();
+
+const print = async function (printData: any) {
+  if (loading.value) {
+    return;
+  }
+
+  try {
+    loading.value = true;
+
+    const mondrianInterface: MondrianInterface = new MondrianInterface(
+      toRaw(provider.value as ethers.providers.Web3Provider)
+    );
+
+    await mondrianInterface.print();
+
+    await authInterface.print({
+      ...printData,
+      countryCode: "de",
+    });
+  } finally {
+    loading.value = false;
+  }
+};
 
 // tokens fetch handling
 

@@ -1,6 +1,9 @@
 <template>
-  <div class="max-w-2xl">
-    <TicketTask v-if="isFinished && tokens.length" />
+  <div>
+    <div class="max-w-2xl" v-if="isFinished && tokens.length">
+      <EventTask @submit="sendTicket" :loading="loading" :skippable="false" />
+    </div>
+
     <NoTokens
       :ensAccount="ensAccount"
       :error="error"
@@ -13,22 +16,32 @@
 <script setup lang="ts">
 import { ref, watch, inject, Ref } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
-import TokenCard from "@/components/tokens/TokenCard.vue";
-import TokenCardSkeleton from "@/components/tokens/TokenCardSkeleton.vue";
 import NoTokens from "@/components/user/NoTokens.vue";
 import { MAMO_SUBGRAPH } from "@/utils/constants";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { useFetch } from "@vueuse/core";
-import TokenList from "@/components/tokens/TokenList.vue";
-import AppButton from "@/components/app/AppButton.vue";
-import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
-import TicketTask from "@/components/mint/TicketTask.vue";
+import EventTask from "@/components/mint/EventTask.vue";
+import { authInterface } from "@/services/BackendInterface";
 
 const emits = defineEmits(["showHint"]);
 
+const loading = ref(false);
+
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
+
+const sendTicket = async function (email: string) {
+  try {
+    if (loading.value) {
+      return;
+    }
+    loading.value = true;
+    await authInterface.sendMail(email);
+  } finally {
+    loading.value = false;
+  }
+};
 
 // tokens fetch handling
 
