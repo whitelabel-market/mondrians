@@ -200,7 +200,7 @@ export const canPrint = () => {
 
     const hasPrintedOnce = await contract.hasPrintedOnce(address);
 
-    if (!hasPrintedOnce) return res.status(403).json("Forbidden");
+    if (hasPrintedOnce) return res.status(403).json("Forbidden");
     else return next();
   };
 };
