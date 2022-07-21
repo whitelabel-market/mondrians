@@ -12,7 +12,6 @@ export enum SalePhase {
   PreSale = "presale",
   WhitelistSale = "whitelistsale",
   PublicSale = "publicsale",
-  Reveal = "reveal",
 }
 
 export enum MintStepKey {

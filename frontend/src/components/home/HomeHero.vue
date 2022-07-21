@@ -17,7 +17,11 @@
         :contract="contract"
         @mint="mintIfConnected"
       />
-      <SaleClosed v-else :revealEnabled="revealEnabled" :loaded="loaded" />
+      <SaleClosed
+        v-else
+        :soldOut="contract.maxSupply === contract.totalSupply"
+        :loaded="loaded"
+      />
     </div>
   </section>
   <LayoutConnectModal v-model="showConnectModal" />
@@ -45,10 +49,9 @@ const router = useRouter();
 const { contract } = useContract();
 const { isConnected } = useWallet();
 
-const [whitelistEnabled, publicsaleEnabled, revealEnabled] = [
+const [whitelistEnabled, publicsaleEnabled] = [
   SalePhase.WhitelistSale,
   SalePhase.PublicSale,
-  SalePhase.Reveal,
 ].map(useFlag);
 
 const showConnectModal = ref(false);

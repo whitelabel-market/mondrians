@@ -187,9 +187,7 @@ export const getPoster = async (req, res, config) => {
  * @returns {HTML} - new poster
  */
 export const createPrintOrder = async (req, res, config) => {
-  const { street, name, email, city, zipCode, country, countryCode, token } =
-    req.body;
-  console.log(token);
+  const { street, name, email, city, zipCode, country, token } = req.body;
   const { accessToken } = req;
   const address = accessToken.sub;
 
@@ -248,9 +246,9 @@ export const createPrintOrder = async (req, res, config) => {
         address: {
           line1: street,
           postalOrZipCode: zipCode,
-          countryCode: countryCode,
+          countryCode: country.code,
           townOrCity: city,
-          stateOrCounty: country,
+          stateOrCounty: country.name,
         },
         name,
         email,

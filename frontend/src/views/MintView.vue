@@ -5,14 +5,19 @@
     <div class="container px-8 mx-auto">
       <div class="py-24">
         <h1 class="text-4xl font-bold leading-relaxed text-center">
-          <span class="">Create your</span>
-          <LogoIcon class="!text-4xl" />
+          <span class="">{{
+            presaleEnabled ? "Sale not open" : "Create your"
+          }}</span>
+          <LogoIcon class="!text-4xl" v-if="!presaleEnabled" />
         </h1>
       </div>
     </div>
   </div>
 
-  <div class="transition-colors duration-100 bg-white dark:bg-neutral-900">
+  <div
+    v-if="!presaleEnabled"
+    class="transition-colors duration-100 bg-white dark:bg-neutral-900"
+  >
     <div
       class="container max-w-4xl py-8 mx-auto transition-colors lg:px-8 dark:text-neutral-200"
     >
@@ -31,7 +36,11 @@
           </template>
         </StepperItem>
 
-        <StepperItem title="Generate Voucher" v-bind="task(0, 1)">
+        <StepperItem
+          title="Generate Voucher"
+          v-if="whitelistEnabled"
+          v-bind="task(0, 1)"
+        >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -41,7 +50,10 @@
           </template>
         </StepperItem>
 
-        <StepperItem title="Mint" v-bind="task(0, 2)">
+        <StepperItem
+          title="Mint"
+          v-bind="whitelistEnabled ? task(0, 2) : task(0, 1)"
+        >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -51,7 +63,10 @@
           </template>
         </StepperItem>
 
-        <StepperItem title="Load NFT" v-bind="task(0, 3)">
+        <StepperItem
+          title="Load NFT"
+          v-bind="whitelistEnabled ? task(0, 3) : task(0, 2)"
+        >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -61,7 +76,11 @@
           </template>
         </StepperItem>
 
-        <StepperItem title="Receive Event Invitation" v-bind="task(1, 0)">
+        <StepperItem
+          title="Receive Event Invitation"
+          v-if="whitelistEnabled"
+          v-bind="task(1, 0)"
+        >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -80,7 +99,10 @@
           </template>
         </StepperItem>
 
-        <StepperItem title="Print NFT" v-bind="task(2, 0)">
+        <StepperItem
+          title="Print NFT"
+          v-bind="whitelistEnabled ? task(2, 0) : task(1, 0)"
+        >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -89,9 +111,15 @@
               </template>
               <PrintTask
                 :tokens="tokens"
-                :disabled="task(2, 0).isReady.value || taskIndex.value < index"
-                @submit="next($event, { job: 2, task: index })"
-                @skip="skip({ job: 2, task: index })"
+                :disabled="
+                  whitelistEnabled
+                    ? task(2, 0).isReady.value
+                    : task(1, 0).isReady.value || taskIndex.value < index
+                "
+                @submit="
+                  next($event, { job: whitelistEnabled ? 2 : 1, task: index })
+                "
+                @skip="skip({ job: whitelistEnabled ? 2 : 1, task: index })"
               />
             </MintStep>
           </template>
@@ -132,22 +160,24 @@ import MondrianInterface from "@/services/MondrianInterface";
 import { ethers } from "ethers";
 import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
 import ConfirmationTask from "@/components/mint/ConfirmationTask.vue";
-import TokenList from "@/components/tokens/TokenList.vue";
 
 const emit = defineEmits(["loaded"]);
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
+const presaleEnabled = useFlag(SalePhase.PreSale);
 const { address } = useWallet();
 const { provider } = useWalletExtended();
 const { getTokenByAddress } = useSubgraph();
 
 const tokens = ref([]);
 const step = ref(0);
+
 const finishedTasks = reactive({
   mint: false,
   getTokens: false,
   sendTicket: false,
   print: false,
 });
+
 emit("loaded", false);
 
 onMounted(() => {
@@ -162,21 +192,22 @@ const getVoucher = async function (quantity: number) {
   return { quantity, price, voucher };
 };
 
-const mint = async function (mintData: {
-  quantity: number;
-  price: string;
-  voucher: string;
-}) {
+const mint = async function (
+  mintData: number | { quantity: number; voucher?: string }
+) {
   const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
-  console.log("mint", mintData);
+
+  const price = whitelistEnabled.value ? Price.whitelist : Price.default;
+
+  const quantity = typeof mintData === "number" ? mintData : mintData.quantity;
+
   const tx = await mondrianInterface.mint(
-    mintData.quantity,
-    mintData.price,
-    mintData.voucher
+    quantity,
+    price,
+    mintData?.voucher || undefined
   );
-  console.log("mint res", tx);
 
   finishedTasks.mint = true;
   return tx;
@@ -185,11 +216,9 @@ const mint = async function (mintData: {
 const getTokens = async function (tx: ethers.ContractTransaction) {
   tokens.value = await getTokenByAddress(address.value, tx);
   finishedTasks.getTokens = true;
-  console.log("minted tokens", tokens.value);
 };
 
 const sendTicket = async function (email: string) {
-  console.log("yes");
   await authInterface.sendMail(email);
   finishedTasks.sendTicket = true;
 };
@@ -203,16 +232,15 @@ const print = async function (printData: any) {
 
   await authInterface.print({
     ...printData,
-    countryCode: "de",
   });
   finishedTasks.print = true;
 };
 
-const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(
-  [setQuantity, getVoucher, mint, getTokens],
-  [sendTicket],
-  [print]
-);
+const tasks = whitelistEnabled.value
+  ? [[setQuantity, getVoucher, mint, getTokens], [sendTicket], [print]]
+  : [[setQuantity, mint, getTokens], [print]];
+
+const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(...tasks);
 
 watch(taskIndex, () => {
   step.value = taskIndex.value;

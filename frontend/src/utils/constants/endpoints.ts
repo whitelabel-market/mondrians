@@ -29,7 +29,7 @@ export const EXPLORER_BASE_URL =
   NETWORK_NAME === "maticmum"
     ? "https://mumbai.polygonscan.com/"
     : "https://ropsten.etherscan.io/";
-export const IPFS_BASE_URL = "https://ipfs.io/ipfs/";
+export const IPFS_BASE_URL = "https://cloudflare-ipfs.com/ipfs/";
 export const OPENSEA_BASE_URL = `https://testnets.opensea.io/assets/mumbai/${CONTRACT_ADDRESS}`;
 
 export const INFURA_ID = process.env.VUE_APP_INFURA_ID || "";
