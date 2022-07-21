@@ -50,10 +50,7 @@
           </template>
         </StepperItem>
 
-        <StepperItem
-          title="Mint"
-          v-bind="whitelistEnabled ? task(0, 2) : task(0, 1)"
-        >
+        <StepperItem title="Mint" v-bind="task(0, whitelistEnabled ? 2 : 1)">
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -65,7 +62,7 @@
 
         <StepperItem
           title="Load NFT"
-          v-bind="whitelistEnabled ? task(0, 3) : task(0, 2)"
+          v-bind="task(0, whitelistEnabled ? 3 : 2)"
         >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
@@ -99,10 +96,7 @@
           </template>
         </StepperItem>
 
-        <StepperItem
-          title="Print NFT"
-          v-bind="whitelistEnabled ? task(2, 0) : task(1, 0)"
-        >
+        <StepperItem title="Print NFT" v-bind="task(2, 0)">
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
@@ -111,16 +105,26 @@
               </template>
               <PrintTask
                 :tokens="tokens"
-                :disabled="
-                  whitelistEnabled
-                    ? task(2, 0).isReady.value
-                    : task(1, 0).isReady.value || taskIndex.value < index
-                "
-                @submit="
-                  next($event, { job: whitelistEnabled ? 2 : 1, task: index })
-                "
-                @skip="skip({ job: whitelistEnabled ? 2 : 1, task: index })"
+                :disabled="task(2, 0).isReady.value || taskIndex.value < index"
+                @submit="next($event, { job: 2, task: index })"
+                @skip="skip({ job: 2, task: index })"
               />
+            </MintStep>
+          </template>
+        </StepperItem>
+
+        <StepperItem title="Send print Payment" v-bind="task(2, 1)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description> Send print Payment </template>
+            </MintStep>
+          </template>
+        </StepperItem>
+
+        <StepperItem title="Send print order" v-bind="task(2, 2)">
+          <template v-slot="{ index }">
+            <MintStep :isActive="taskIndex >= index">
+              <template v-slot:description> Send print order </template>
             </MintStep>
           </template>
         </StepperItem>
@@ -223,13 +227,17 @@ const sendTicket = async function (email: string) {
   finishedTasks.sendTicket = true;
 };
 
-const print = async function (printData: any) {
+const setPrintData = (printData: any) => printData;
+
+const sendPrintPayment = async (printData: any) => {
   const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
-
   await mondrianInterface.print();
+  return printData;
+};
 
+const sendPrintOrder = async (printData: any) => {
   await authInterface.print({
     ...printData,
   });
@@ -237,7 +245,11 @@ const print = async function (printData: any) {
 };
 
 const tasks = whitelistEnabled.value
-  ? [[setQuantity, getVoucher, mint, getTokens], [sendTicket], [print]]
+  ? [
+      [setQuantity, getVoucher, mint, getTokens],
+      [sendTicket],
+      [setPrintData, sendPrintPayment, sendPrintOrder],
+    ]
   : [[setQuantity, mint, getTokens], [print]];
 
 const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(...tasks);
