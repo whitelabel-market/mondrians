@@ -81,7 +81,7 @@ export default defineComponent({
     const ButtonColor: Indexable<string> = {
       blank: "bg-transparent text-current border-transparent",
       gray: "border-2 bg-neutral-100 text-gray-500 hover:text-gray-800 border-neutral-300 dark:bg-neutral-600 dark:border-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100",
-      link: "bg-transparent border-transparent link",
+      link: "bg-transparent border-transparent",
       crimson:
         "bg-crimson dark:bg-crimson-700 text-neutral-50 border-2 border-neutral-800",
       candlelight:

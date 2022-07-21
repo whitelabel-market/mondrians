@@ -54,20 +54,16 @@
         </div>
 
         <nav
-          class="relative flex items-center justify-center w-full space-x-4 h-11"
+          class="relative flex items-center justify-start md:justify-center w-full space-x-1 md:space-x-4 h-12 px-4"
         >
           <router-link
-            v-for="title in tabs"
+            class="relative flex items-center justify-center text-center w-24 md:w-32 px-2 md:px-4 text-xs font-bold uppercase transition transition-colors duration-100 ease-in-out bg-white border-4 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-11 hover:-translate-y-1 rounded-t-xl"
+            v-for="(to, title) in tabs"
             :key="title"
-            :to="title.toLowerCase()"
-            v-slot="{ isActive, isExactActive }"
+            :to="to"
+            exact-active-class="z-10 -translate-y-1"
           >
-            <span
-              class="relative flex items-center justify-center w-32 px-4 text-xs font-black uppercase transition transition-colors duration-100 ease-in-out bg-white border-4 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-11 hover:-translate-y-1 rounded-t-xl"
-              :class="[isActive && isExactActive && '-translate-y-1']"
-            >
-              {{ title }}
-            </span>
+            {{ title }}
           </router-link>
         </nav>
       </div>
@@ -148,5 +144,10 @@ watch(
   { deep: true, immediate: true }
 );
 
-const tabs = ["Collected", "Activity"];
+const tabs = {
+  Collected: "collected",
+  Activity: "activity",
+  "Event Invitation": "event",
+  Print: "print",
+};
 </script>
