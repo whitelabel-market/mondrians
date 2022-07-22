@@ -53,7 +53,9 @@ const startServer = async () => {
   });
 
   app.disable("x-powered-by");
-  app.use(express.json());
+  app.use(
+    express.json({ type: ["application/json", "application/cloudevents+json"] })
+  );
   app.use(cookieParser());
   app.use(authRouter(config));
   app.use("/api/print", printRouter(config));

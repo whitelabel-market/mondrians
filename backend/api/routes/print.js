@@ -1,5 +1,9 @@
 import express from "express";
-import { getPoster, createPrintOrder } from "../handlers/index.js";
+import {
+  getPoster,
+  createPrintOrder,
+  sendEmailUpdate,
+} from "../handlers/index.js";
 import { validateRequest } from "../middleware/requestValidation.js";
 import {
   hasMondrian,
@@ -36,6 +40,11 @@ const printRouter = (config) => {
     "/order",
     [validateRequest(), verifyJWT(), hasMondrian(), canPrint()],
     async (req, res) => await createPrintOrder(req, res, config)
+  );
+
+  printerRouter.post(
+    "/update",
+    async (req, res) => await sendEmailUpdate(req, res, config)
   );
 
   return printerRouter;
