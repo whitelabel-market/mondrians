@@ -21,7 +21,7 @@ defineProps({ show: { type: Boolean, required: true } });
 
 <style scoped>
 #mobile-control span {
-  @apply absolute block h-[0.2rem] rounded-full left-2 right-2 bg-neutral-900 dark:bg-neutral-200 duration-500;
+  @apply absolute block h-[0.14rem] left-2 right-2 bg-neutral-900 dark:bg-neutral-200 duration-100 ease-out-circ;
 }
 #mobile-control span:nth-child(1) {
   @apply top-2;

@@ -28,61 +28,30 @@
         </div>
       </div>
 
-      <ul class="grid grid-cols-2 w-full gap-2">
-        <li>
-          <AppButton
-            full-width
-            color="gray"
-            size="sm"
-            :to="`/user/${address}/collected`"
+      <div>
+        <AppButton
+          full-width
+          color="crimson"
+          size="sm"
+          :to="`/mint`"
+          @click.prevent="$emit('update:modelValue', false)"
+          ><ViewGridAddIcon class="w-4 h-4" />
+          <span class="block">Create my Magic Mondrian</span>
+        </AppButton>
+      </div>
+
+      <ul
+        class="flex flex-col items-start w-full p-4 space-y-2 bg-white border-2 rounded dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
+      >
+        <li v-for="(link, name) in routes" :key="name" class="block">
+          <router-link
+            class="link flex items-center justify-start space-x-1"
+            :to="'/user/' + address + '/' + link.to"
             @click.prevent="$emit('update:modelValue', false)"
-            ><CollectionIcon class="w-4 h-4"></CollectionIcon>
-            <span class="block">My Collection</span>
-          </AppButton>
-        </li>
-        <li>
-          <AppButton
-            full-width
-            color="gray"
-            size="sm"
-            :to="`/user/${address}/activity`"
-            @click.prevent="$emit('update:modelValue', false)"
-            ><SwitchVerticalIcon class="w-4 h-4" />
-            <span class="block">My activity</span>
-          </AppButton>
-        </li>
-        <li>
-          <AppButton
-            full-width
-            color="gray"
-            size="sm"
-            :to="`/user/${address}/event`"
-            @click.prevent="$emit('update:modelValue', false)"
-            ><CalendarIcon class="w-4 h-4"></CalendarIcon>
-            <span class="block">Event Invite</span>
-          </AppButton>
-        </li>
-        <li>
-          <AppButton
-            full-width
-            color="gray"
-            size="sm"
-            :to="`/user/${address}/print`"
-            @click.prevent="$emit('update:modelValue', false)"
-            ><PrinterIcon class="w-4 h-4"></PrinterIcon>
-            <span class="block">Print</span>
-          </AppButton>
-        </li>
-        <li class="col-span-2">
-          <AppButton
-            full-width
-            color="gray"
-            size="sm"
-            :to="`/mint`"
-            @click.prevent="$emit('update:modelValue', false)"
-            ><ViewGridAddIcon class="w-4 h-4" />
-            <span class="block">Create</span>
-          </AppButton>
+          >
+            <component :is="link.icon" class="w-4 h-4" />
+            <span class="block">{{ name }}</span>
+          </router-link>
         </li>
       </ul>
 
@@ -226,6 +195,22 @@ const { balance } = useWalletExtended();
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const maticPrice = ref<string>("");
 const emailAddress = ref("");
+
+const routes = {
+  "My Collection": {
+    icon: CollectionIcon,
+    to: `collected`,
+  },
+  "My Activity": {
+    icon: SwitchVerticalIcon,
+    to: `activity`,
+  },
+  "Event Invitation": {
+    icon: CalendarIcon,
+    to: `event`,
+  },
+  Print: { icon: PrinterIcon, to: `print` },
+};
 
 const usdBalance = computed<string>(() => {
   if (balance.value && maticPrice.value) {

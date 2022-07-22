@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="relative z-10 transition-colors duration-100 after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 dark:after:bg-black after:rounded after:translate-x-1 after:translate-y-1 after:transition-colors after:duration-100"
-  >
+  <div class="shadow-default z-10 transition-colors duration-100">
     <div
       class="flex flex-col justify-between h-full gap-6 p-4 transition-all duration-100 border select-none text-neutral-200 bg-neutral-50 dark:bg-neutral-800 border-neutral-800 rounded bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
     >

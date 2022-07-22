@@ -1,6 +1,6 @@
 <template>
   <div
-    class="py-8 text-neutral-50 bg-crimson-500 dark:bg-crimson-800 mondrian-border-b bg-hero-pattern-charlie"
+    class="pb-8 pt-28 text-neutral-50 bg-crimson-500 dark:bg-crimson-800 mondrian-border-b bg-hero-pattern-charlie"
   >
     <div class="container px-8 mx-auto">
       <div class="py-24">

@@ -1,15 +1,16 @@
 <template>
   <div class="">
     <header
-      class="pt-20 bg-candlelight dark:bg-candlelight-600 mondrian-border-b bg-hero-pattern-charlie"
+      class="pt-32 bg-candlelight dark:bg-candlelight-600 mondrian-border-b bg-hero-pattern-charlie"
     >
       <div
         class="container flex flex-col items-center justify-start flex-1 w-full h-full mx-auto space-y-12"
       >
         <img
+          :alt="route.params.id"
           v-if="route?.params?.id"
           :src="makeBlockie(route.params.id as string)"
-          class="object-cover w-24 h-24 border-4 rounded border-neutral-800"
+          class="object-cover w-24 h-24 border-4 rounded border-black"
         />
 
         <div class="flex flex-col items-center space-y-4">

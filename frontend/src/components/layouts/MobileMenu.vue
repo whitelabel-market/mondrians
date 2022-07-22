@@ -11,11 +11,9 @@
         leave-to="translate-x-full"
       >
         <div
-          class="fixed top-0 left-0 flex flex-col w-full h-screen mt-20 lg:hidden z-80"
+          class="fixed top-0 left-0 flex flex-col w-full h-screen bg-white text-neutral-900 dark:bg-neutral-900 transition-colors duration-100 pt-20 lg:hidden z-70"
         >
-          <div
-            class="flex-1 p-8 space-y-8 overflow-y-auto transition-colors duration-100 bg-white mondrian-border-b text-neutral-900 dark:bg-neutral-900"
-          >
+          <div class="flex-1 p-8 space-y-8 overflow-y-auto mondrian-border-b">
             <ul class="flex flex-col gap-6 font-sans font-bold mobile-controls">
               <li
                 v-for="(to, name) in routes"

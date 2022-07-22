@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+
+  .shadow-default {
+    @apply rounded relative after:block after:absolute after:bottom-0 after:right-0 after:w-full after:h-full after:border-neutral-800 after:-z-10 after:bg-neutral-800 dark:after:bg-black after:rounded after:translate-x-1 after:translate-y-1 after:duration-100
+  }
+
+}
+
 @layer base {
   section {
     @apply py-20 md:py-40;
@@ -37,3 +45,5 @@
     @apply relative text-sm font-bold capitalize before:absolute before:block before:left-0 before:-bottom-1.5 before:bg-crimson before:h-0.5 before:w-0 hover:before:w-full active:before:w-full before:delay-75 before:duration-100 after:absolute after:block after:left-0 after:-bottom-0.5 after:bg-candlelight after:h-0.5 after:w-0 hover:after:w-full active:after:w-full after:duration-100;
   }
 }
+
+
