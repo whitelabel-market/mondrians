@@ -39,6 +39,7 @@ export function createWalletExtended(): Wallet {
   const {
     address,
     loading,
+    disconnect,
     provider: walletProvider,
     onAccountsChanged,
     onChainChanged,
@@ -70,6 +71,7 @@ export function createWalletExtended(): Wallet {
     try {
       return signer.value ? await signer.value.signMessage(message) : "";
     } catch (e: any) {
+      disconnect();
       throw new Error(e.message);
     }
   };
