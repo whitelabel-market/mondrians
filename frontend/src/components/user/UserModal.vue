@@ -28,18 +28,7 @@
         </div>
       </div>
 
-      <ul class="flex flex-col w-full space-y-2">
-        <li>
-          <AppButton
-            full-width
-            color="gray"
-            size="sm"
-            :to="`/mint`"
-            @click.prevent="$emit('update:modelValue', false)"
-            ><ViewGridAddIcon class="w-4 h-4" />
-            <span class="block">Create</span>
-          </AppButton>
-        </li>
+      <ul class="grid grid-cols-2 w-full gap-2">
         <li>
           <AppButton
             full-width
@@ -62,27 +51,40 @@
             <span class="block">My activity</span>
           </AppButton>
         </li>
+        <li>
+          <AppButton
+            full-width
+            color="gray"
+            size="sm"
+            :to="`/user/${address}/event`"
+            @click.prevent="$emit('update:modelValue', false)"
+            ><CalendarIcon class="w-4 h-4"></CalendarIcon>
+            <span class="block">Event Invite</span>
+          </AppButton>
+        </li>
+        <li>
+          <AppButton
+            full-width
+            color="gray"
+            size="sm"
+            :to="`/user/${address}/print`"
+            @click.prevent="$emit('update:modelValue', false)"
+            ><PrinterIcon class="w-4 h-4"></PrinterIcon>
+            <span class="block">Print</span>
+          </AppButton>
+        </li>
+        <li class="col-span-2">
+          <AppButton
+            full-width
+            color="gray"
+            size="sm"
+            :to="`/mint`"
+            @click.prevent="$emit('update:modelValue', false)"
+            ><ViewGridAddIcon class="w-4 h-4" />
+            <span class="block">Create</span>
+          </AppButton>
+        </li>
       </ul>
-
-      <form>
-        <AppInput
-          v-model="emailAddress"
-          id="user-modal-ticket-email"
-          label="Resend order confirmation"
-          type="email"
-          placeholder="Email address"
-          :inline-submit="validEmail"
-          @submit="registerForEventTicket"
-        >
-          <PaperAirplaneIcon
-            class="w-4 h-4 transform rotate-45 -translate-y-0.5"
-          />
-          <span
-            class="text-xs font-semibold text-neutral-900 dark:text-neutral-400"
-            >Send</span
-          >
-        </AppInput>
-      </form>
 
       <div
         class="flex flex-col p-4 space-y-2 bg-white border-2 rounded text-sm dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
@@ -175,7 +177,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import AppModal from "@/components/app/AppModal.vue";
-import AppTooltip from "@/components/app/AppTooltip.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
@@ -184,8 +185,9 @@ import {
   ClipboardCopyIcon,
   SearchIcon,
   SwitchVerticalIcon,
-  PaperAirplaneIcon,
   ViewGridAddIcon,
+  PrinterIcon,
+  CalendarIcon,
 } from "@heroicons/vue/outline";
 import { useFetch } from "@vueuse/core";
 import { getTokenHourData } from "@/services/graphql/types";
@@ -197,13 +199,7 @@ import {
 import { useClipboard } from "@vueuse/core";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import makeBlockie from "ethereum-blockies-base64";
-import { authInterface } from "@/services/BackendInterface";
-import TicketForm from "@/components/ticket/TicketForm.vue";
-import AppInput from "@/components/app/AppInput.vue";
-import {
-  CurrencyDollarIcon,
-  SwitchHorizontalIcon,
-} from "@heroicons/vue/outline";
+import { SwitchHorizontalIcon } from "@heroicons/vue/outline";
 defineEmits(["update:modelValue", "click"]);
 
 defineProps({
@@ -237,17 +233,6 @@ const usdBalance = computed<string>(() => {
   }
   return "0.00";
 });
-
-const validEmail = computed<boolean>(() =>
-  // eslint-disable-next-line no-useless-escape
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-    emailAddress.value
-  )
-);
-
-const registerForEventTicket = async () => {
-  await authInterface.sendMail(emailAddress.value);
-};
 
 const { data, execute, onFetchResponse } = useFetch(UNISWAP_SUBGRAPH_POLYGON, {
   timeout: 10000,

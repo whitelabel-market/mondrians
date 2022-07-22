@@ -15,8 +15,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/user/:id",
-    name: "UserProfile",
-    component: () => import("@/views/UserProfileView.vue"),
+    name: "User",
+    component: () => import("@/views/UserView.vue"),
     children: [
       {
         path: "",
@@ -24,8 +24,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "collected",
-        name: "CollectedItems",
-        component: () => import("@/views/UserProfileViewCollected.vue"),
+        name: "Collected",
+        component: () => import("@/views/user/UserCollectedView.vue"),
         meta: {
           title: "Collected Items",
         },
@@ -33,9 +33,25 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "activity",
         name: "Activity",
-        component: () => import("@/views/UserProfileViewActivity.vue"),
+        component: () => import("@/views/user/UserActivityView.vue"),
         meta: {
           title: "Activity",
+        },
+      },
+      {
+        path: "event",
+        name: "Event",
+        component: () => import("@/views/user/UserEventView.vue"),
+        meta: {
+          title: "Event",
+        },
+      },
+      {
+        path: "print",
+        name: "Print",
+        component: () => import("@/views/user/UserPrintView.vue"),
+        meta: {
+          title: "Print",
         },
       },
     ],

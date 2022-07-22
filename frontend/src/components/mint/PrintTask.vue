@@ -89,9 +89,16 @@
     </div>
 
     <div class="flex items-center justify-start pt-2 space-x-4 lg:col-span-2">
-      <AppButton :disabled="!pass" @click.prevent="submit"> Submit </AppButton>
+      <AppButton :disabled="!pass" @click.prevent="submit" :loading="loading">
+        Submit
+      </AppButton>
 
-      <AppButton :disabled="disabled" @click.prevent="emit('skip')" color="gray"
+      <AppButton
+        :disabled="disabled"
+        @click.prevent="emit('skip')"
+        color="gray"
+        :loading="loading"
+        v-if="skippable"
         >Skip for now</AppButton
       >
     </div>
@@ -117,6 +124,14 @@ defineProps({
     required: true,
   },
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  skippable: {
+    type: Boolean,
+    default: true,
+  },
+  loading: {
     type: Boolean,
     default: false,
   },
