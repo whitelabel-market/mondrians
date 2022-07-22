@@ -1,80 +1,82 @@
 <template>
-  <header
-    class="fixed top-0 left-0 w-full transition-colors duration-100 mondrian-border-b z-80"
-    :class="y > 0 ? 'bg-white dark:bg-neutral-900' : 'bg-transparent'"
-  >
-    <nav
-      class="container flex items-center justify-between w-full h-20 max-w-6xl px-8 mx-auto"
+  <div>
+    <header
+      class="fixed top-0 left-0 w-full transition-colors duration-100 mondrian-border-b z-80"
+      :class="y > 0 ? 'bg-white dark:bg-neutral-900' : 'bg-transparent'"
     >
-      <router-link :to="'/'" class="inline-block">
-        <LogoIcon
-          class="transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+      <nav
+        class="container flex items-center justify-between w-full h-20 max-w-6xl px-8 mx-auto"
+      >
+        <router-link :to="'/'" class="inline-block">
+          <LogoIcon
+            class="transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+          />
+        </router-link>
+        <AppHamburger
+          @click="showMobileMenu = !showMobileMenu"
+          :show="showMobileMenu"
         />
-      </router-link>
-      <AppHamburger
-        @click="showMobileMenu = !showMobileMenu"
-        :show="showMobileMenu"
-      />
-      <ul class="items-center hidden space-x-6 text-sm font-semibold lg:flex">
-        <li v-for="(to, name) in routes" :key="to">
-          <router-link
-            class="link transition-colors duration-100 dark:text-neutral-200"
-            :to="to"
-            >{{ name }}</router-link
-          >
-        </li>
-        <li>
-          <AppToggleDark />
-        </li>
-        <li>
-          <AppButton
-            v-if="!isConnected"
-            size="sm"
-            color="crimson"
-            :loading="loading"
-            @click.prevent="showConnectModal = true"
-          >
-            Connect Wallet
-          </AppButton>
-          <AppButton
-            v-else
-            :center="false"
-            size="sm"
-            :loading="loading"
-            @click.prevent="showUserModal = true"
-            color="blank"
-            flat
-          >
-            <img
-              v-if="blockie"
-              :src="blockie"
-              class="object-cover w-6 h-6 rounded-full"
-            />
-            <span
-              class="font-black transition-colors duration-100 slashed-zero dark:text-neutral-200"
-              >{{ ensAccount?.name || shortAddress }}</span
+        <ul class="items-center hidden space-x-6 text-sm font-semibold lg:flex">
+          <li v-for="(to, name) in routes" :key="to">
+            <router-link
+              class="link transition-colors duration-100 dark:text-neutral-200"
+              :to="to"
+              >{{ name }}</router-link
             >
-          </AppButton>
-        </li>
-      </ul>
-    </nav>
+          </li>
+          <li>
+            <AppToggleDark />
+          </li>
+          <li>
+            <AppButton
+              v-if="!isConnected"
+              size="sm"
+              color="crimson"
+              :loading="loading"
+              @click.prevent="showConnectModal = true"
+            >
+              Connect Wallet
+            </AppButton>
+            <AppButton
+              v-else
+              :center="false"
+              size="sm"
+              :loading="loading"
+              @click.prevent="showUserModal = true"
+              color="blank"
+              flat
+            >
+              <img
+                v-if="blockie"
+                :src="blockie"
+                class="object-cover w-6 h-6 rounded-full"
+              />
+              <span
+                class="font-black transition-colors duration-100 slashed-zero dark:text-neutral-200"
+                >{{ ensAccount?.name || shortAddress }}</span
+              >
+            </AppButton>
+          </li>
+        </ul>
+      </nav>
 
-    <WalletConnectModal v-model="showConnectModal" />
-    <UserModal
-      v-model="showUserModal"
+      <WalletConnectModal v-model="showConnectModal" />
+      <UserModal
+        v-model="showUserModal"
+        :privateAddress="shortAddress"
+        :blockie="blockie"
+        :ensAccount="ensAccount"
+      />
+    </header>
+    <MobileMenu
+      v-model="showMobileMenu"
       :privateAddress="shortAddress"
       :blockie="blockie"
       :ensAccount="ensAccount"
+      @connect="showConnectModal = true"
+      @click="showUserModal = true"
     />
-  </header>
-  <MobileMenu
-    v-model="showMobileMenu"
-    :privateAddress="shortAddress"
-    :blockie="blockie"
-    :ensAccount="ensAccount"
-    @connect="showConnectModal = true"
-    @click="showUserModal = true"
-  />
+  </div>
 </template>
 
 <script setup lang="ts">

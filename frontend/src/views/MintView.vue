@@ -26,7 +26,7 @@
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Adjust the number of Magic Mondrian NFT's you want to own!
+                Please adjust the number of Magic Mondrian NFT's you want to own
               </template>
               <QuantityTask
                 :disabled="task(0, 0).isReady.value"
@@ -37,8 +37,8 @@
         </StepperItem>
 
         <StepperItem
-          title="Generate Voucher"
           v-if="whitelistEnabled"
+          title="Generate Voucher"
           v-bind="task(0, 1)"
         >
           <template v-slot="{ index }">
@@ -54,7 +54,8 @@
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Creating your Magic Mondrian NFT
+                Please confirm the transaction to create your own Magic Mondrian
+                NFT
               </template>
             </MintStep>
           </template>
@@ -84,7 +85,8 @@
                 As an owner of a Magic Mondrian NFT you have the opportunity to
                 take part in an exclusive real life event. Register your email
                 address and we will send you the tickets and give further
-                information.
+                information. You can receive an invitation also in your user
+                profile.
               </template>
 
               <TicketTask
@@ -96,49 +98,69 @@
           </template>
         </StepperItem>
 
-        <StepperItem title="Print NFT" v-bind="task(2, 0)">
+        <StepperItem
+          title="Print NFT"
+          v-bind="task(whitelistEnabled ? 2 : 1, 0)"
+        >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
                 Order a printed artwork of your Magic Mondrian NFT. Currently,
-                only one printable version per purchase is allowed.
+                only one printable version per purchase is allowed. You can
+                issue additional print orders in your user profile.
               </template>
               <PrintTask
                 :tokens="tokens"
-                :disabled="task(2, 0).isReady.value || taskIndex.value < index"
-                @submit="next($event, { job: 2, task: index })"
-                @skip="skip({ job: 2, task: index })"
+                :disabled="
+                  task(whitelistEnabled ? 2 : 1, 0).isReady.value ||
+                  taskIndex.value < index
+                "
+                @submit="
+                  next($event, { job: whitelistEnabled ? 2 : 1, task: index })
+                "
+                @skip="skip({ job: whitelistEnabled ? 2 : 1, task: index })"
               />
             </MintStep>
           </template>
         </StepperItem>
 
-        <StepperItem title="Send print Payment" v-bind="task(2, 1)">
+        <StepperItem
+          title="Sending print payment"
+          v-bind="task(whitelistEnabled ? 2 : 1, 1)"
+        >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
-              <template v-slot:description> Send print Payment </template>
+              <template v-slot:description
+                >Please confirm the transaction to pay for your print order.
+                This is the only payment, no other fees will be charged later
+                on</template
+              >
             </MintStep>
           </template>
         </StepperItem>
 
-        <StepperItem title="Send print order" v-bind="task(2, 2)">
+        <StepperItem
+          title="Sending print order"
+          v-bind="task(whitelistEnabled ? 2 : 1, 2)"
+        >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
-              <template v-slot:description> Send print order </template>
+              <template v-slot:description>
+                Processing of your print order. We will send a confirmation
+                message to your email address</template
+              >
             </MintStep>
           </template>
         </StepperItem>
 
         <StepperItem title="Confirmation">
-          <template v-slot="{ index }">
-            <MintStep :isActive="taskIndex >= index">
-              <template v-slot:description
-                >Enjoy your newly created Magic Mondrian NFTs. The following
-                tasks have been completed:</template
-              >
-              <ConfirmationTask :finishedTasks="finishedTasks" />
-            </MintStep>
-          </template>
+          <MintStep :isActive="finishedTasks.mint">
+            <template v-slot:description
+              >Enjoy your newly created Magic Mondrian NFTs. The following tasks
+              have been completed:</template
+            >
+            <ConfirmationTask :finishedTasks="finishedTasks" />
+          </MintStep>
         </StepperItem>
       </StepperContainer>
     </div>
@@ -188,29 +210,32 @@ onMounted(() => {
   emit("loaded", true);
 });
 
-const setQuantity = (quantity: number) => quantity;
+const setQuantity = (quantity: number) => ({
+  quantity,
+  price: whitelistEnabled.value ? Price.whitelist : Price.default,
+});
 
-const getVoucher = async function (quantity: number) {
-  const price = whitelistEnabled.value ? Price.whitelist : Price.default;
+const getVoucher = async function (mintData: {
+  quantity: number;
+  price: string;
+}) {
   const voucher = await authInterface.getVoucher();
-  return { quantity, price, voucher };
+  return { ...mintData, voucher };
 };
 
-const mint = async function (
-  mintData: number | { quantity: number; voucher?: string }
-) {
+const mint = async function (mintData: {
+  quantity: number;
+  price: string;
+  voucher?: string;
+}) {
   const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
 
-  const price = whitelistEnabled.value ? Price.whitelist : Price.default;
-
-  const quantity = typeof mintData === "number" ? mintData : mintData.quantity;
-
   const tx = await mondrianInterface.mint(
-    quantity,
-    price,
-    mintData?.voucher || undefined
+    mintData.quantity,
+    mintData.price,
+    mintData.voucher
   );
 
   finishedTasks.mint = true;
@@ -244,13 +269,13 @@ const sendPrintOrder = async (printData: any) => {
   finishedTasks.print = true;
 };
 
-const tasks = whitelistEnabled.value
-  ? [
-      [setQuantity, getVoucher, mint, getTokens],
-      [sendTicket],
-      [setPrintData, sendPrintPayment, sendPrintOrder],
-    ]
-  : [[setQuantity, mint, getTokens], [print]];
+const tasks: any[] = [
+  whitelistEnabled.value
+    ? [setQuantity, getVoucher, mint, getTokens]
+    : [setQuantity, mint, getTokens],
+];
+whitelistEnabled.value && tasks.push([sendTicket]);
+tasks.push([setPrintData, sendPrintPayment, sendPrintOrder]);
 
 const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(...tasks);
 

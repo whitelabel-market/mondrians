@@ -35,7 +35,9 @@ defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 const slots = useSlots();
-const steps = slots.default?.() as unknown as typeof StepperItem[];
+const steps = (slots.default?.() as unknown as typeof StepperItem[]).filter(
+  (step) => step.children !== "v-if"
+);
 </script>
 
 <style scoped></style>
