@@ -27,7 +27,10 @@ module.exports = {
   },
   prodigi: {
     apiKey: process.env.PRODIGI_KEY || "",
-    callbackUrl: "https://f51f-158-181-76-197.ngrok.io/api/print/update",
+    callbackUrl:
+      process.env.NODE_ENV === "development"
+        ? "https://f51f-158-181-76-197.ngrok.io/api/print/update"
+        : "https://api.whitelabel-market.com/api/print/update",
     assetBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://f51f-158-181-76-197.ngrok.io/screenshots/"
@@ -59,7 +62,7 @@ module.exports = {
         : "https://api.whitelabel-market.com",
   },
   redis: {
-    host: "localhost",
+    host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
     port: 6379,
   },
   whitelisting: {
