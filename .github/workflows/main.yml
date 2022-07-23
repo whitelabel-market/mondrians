@@ -44,7 +44,7 @@ jobs:
         key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
         source: "config.js"
         target: "/opt/mondrians/"
-        #tar_tmp_path: "/opt/tartemp"
+        tar_tmp_path: "/home/amrap030/tmp"
         overwrite: true
   # deploy:
   #   runs-on: ubuntu-latest
