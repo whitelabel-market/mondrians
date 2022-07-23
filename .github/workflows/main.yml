@@ -6,7 +6,8 @@ on:
   workflow_dispatch
 
 jobs:
-  push_to_Docker_Hub:
+  push:
+    name: Push to Docker Hub
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # build docker image and push to docker hub
@@ -48,8 +49,9 @@ jobs:
         overwrite: true
   
   start:
+    name: Start Containers
     runs-on: ubuntu-latest
-    needs: [push_to_Docker_Hub, copy]
+    needs: [push, copy]
     steps:
       - name: Start docker containers
         uses: appleboy/ssh-action@v0.1.4
@@ -65,4 +67,4 @@ jobs:
             cd /opt/mondrians
             docker-compose down
             docker rmi $IMAGE_NAME
-            docker-compose up
+            docker-compose up -d
