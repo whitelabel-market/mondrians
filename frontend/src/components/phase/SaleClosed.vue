@@ -2,7 +2,7 @@
   <div class="flex flex-col items-start gap-4 lgs:max-w-[454px]">
     <div v-if="!soldOut" class="flex flex-col items-start w-full gap-4">
       <div
-        class="px-4 mx-auto text-5xl font-black text-center text-transparent animate md:text-6xl"
+        class="px-4 mx-auto text-5xl font-black text-center text-transparent md:text-6xl"
       >
         <span
           class="text-transparent outline outline-1 bg-clip-text bg-gradient-to-r from-dodgerblue via-candlelight to-crimson"
@@ -10,7 +10,7 @@
         >
       </div>
       <p
-        class="w-full px-6 text-base font-bold text-center transition-colors duration-100 animate md:text-xl text-neutral-900 dark:text-neutral-200"
+        class="w-full px-6 text-base font-bold text-center transition-colors duration-100 md:text-xl text-neutral-900 dark:text-neutral-200"
       >
         A
         <span
@@ -31,7 +31,7 @@
         Sold Out
       </span>
     </div>
-    <div class="mx-auto animate">
+    <div class="mx-auto">
       <AppButton> View on Opensea </AppButton>
     </div>
   </div>
@@ -60,11 +60,9 @@ const duration = 0.4;
 
 onMounted(() => {
   if (!props.loaded) {
-    gsap.set(".animate", { opacity: 0 });
     watch(
       () => props.loaded,
       () => {
-        gsap.set(".animate", { opacity: 1 });
         gsap.to("#nft-counter", {
           innerText: 1000,
           duration: 3,
@@ -72,14 +70,6 @@ onMounted(() => {
           snap: {
             innerText: 10,
           },
-        });
-        gsap.from(".animate", {
-          ...from,
-          stagger: {
-            amount: duration,
-          },
-          duration,
-          ease: "power2.inOut",
         });
       }
     );

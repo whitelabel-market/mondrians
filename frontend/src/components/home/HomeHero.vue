@@ -5,11 +5,7 @@
     <div
       class="relative z-10 grid items-center max-w-6xl mx-auto -mt-10 md:-mt-0 lgs:grid-cols-2"
     >
-      <img
-        src="@/assets/images/image-1.png"
-        alt="Magic Mondrian"
-        class="animate"
-      />
+      <img src="@/assets/images/image-1.png" alt="Magic Mondrian" />
       <SaleOpen
         v-if="whitelistEnabled || publicsaleEnabled"
         v-model="quantity"
