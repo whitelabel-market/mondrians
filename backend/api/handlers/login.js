@@ -38,7 +38,7 @@ export const login = async (req, res, config) => {
     return res.status(200).json({ csrfToken, message });
   } catch (e) {
     logger.error(e.toString());
-    return res.status(400).json(e.toString());
+    return res.status(400).send(e.toString());
   }
 };
 
@@ -92,6 +92,6 @@ export const callback = async (req, res, config) => {
     return res.status(200).json({ jwt: accessToken });
   } catch (e) {
     logger.error(e.toString());
-    return res.status(401).json("Unauthenticated");
+    return res.status(401).send("Unauthenticated");
   }
 };

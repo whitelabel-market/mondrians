@@ -21,7 +21,7 @@
             class="space-y-4 transition-colors duration-100 dark:text-neutral-200"
           >
             <div v-if="!!error.value" class="text-center text-red-500">
-              <p>{{ error.value }}</p>
+              <p>{{ getError }}</p>
             </div>
             <slot :index="index" />
           </div>
@@ -32,14 +32,14 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType, ref, Ref } from "vue";
+import { computed, PropType, ref, Ref } from "vue";
 import { DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import StepStatus from "@/components/mint/StepStatus.vue";
 import { gsap } from "gsap";
 
 const emit = defineEmits(["update:modelValue"]);
 
-defineProps({
+const props = defineProps({
   title: { type: String, default: "" },
   index: { type: Number, default: -1 },
   modelValue: {
@@ -55,7 +55,7 @@ defineProps({
     default: ref(false),
   },
   error: {
-    type: Object as PropType<Ref<Error | null>>,
+    type: Object as PropType<Ref<Error | object | null>>,
     default: ref(null),
   },
 });
@@ -68,4 +68,13 @@ const onEnter = async (el: HTMLElement, done: any) =>
 
 const onLeave = async (el: HTMLElement, done: any) =>
   toggle(el, "0").then(done);
+
+const getError = computed(() => {
+  if (typeof props.error.value === "object" && "reason" in props.error.value)
+    return props.error.value.reason;
+  if (typeof props.error.value === "object" && "message" in props.error.value)
+    return props.error.value.message;
+  if (typeof props.error.value === "string") return props.error.value;
+  else return "Something went wrong";
+});
 </script>

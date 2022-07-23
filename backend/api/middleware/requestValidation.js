@@ -66,7 +66,7 @@ export const validateRequest = (requireCsrf = true) => {
       await validate(requestData, req, res);
       return next();
     } catch (e) {
-      return res.status(403).json(e.toString());
+      return res.status(403).send(e.toString());
     }
   };
 };

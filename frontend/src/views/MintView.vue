@@ -186,6 +186,7 @@ import MondrianInterface from "@/services/MondrianInterface";
 import { ethers } from "ethers";
 import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
 import ConfirmationTask from "@/components/mint/ConfirmationTask.vue";
+import { notify } from "notiwind";
 
 const emit = defineEmits(["loaded"]);
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
@@ -277,10 +278,32 @@ const tasks: any[] = [
 whitelistEnabled.value && tasks.push([sendTicket]);
 tasks.push([setPrintData, sendPrintPayment, sendPrintOrder]);
 
-const { skip, next, jobs, taskIndex } = useAsyncTasksCycle(...tasks);
+const { skip, next, jobs, taskIndex, error, isError } = useAsyncTasksCycle(
+  ...tasks
+);
 
 watch(taskIndex, () => {
   step.value = taskIndex.value;
+});
+
+watch(isError, () => {
+  if (isError.value) {
+    let message;
+    try {
+      message = JSON.stringify(error.value);
+    } catch {
+      message = error.value;
+    }
+    notify(
+      {
+        group: "app",
+        title: "Something went wrong!",
+        text: "Please contact the support.",
+        data: message,
+      },
+      1000 * 60
+    ); // 1min
+  }
 });
 
 const task = (job: number, task: number) => {

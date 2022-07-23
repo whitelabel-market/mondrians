@@ -1,4 +1,4 @@
-import { ref, Ref } from "vue";
+import { computed, ComputedRef, ref, Ref } from "vue";
 import {
   useAsyncQueue,
   useAsyncState,
@@ -14,6 +14,8 @@ export interface AsyncCycle {
   skip: (from?: { task?: number; job?: number }) => void;
   locked: Ref<boolean>;
   jobs: Array<UseAsyncStateReturn<unknown, true>[]>;
+  error: Ref<any>;
+  isError: ComputedRef<boolean>;
   _createJob: (
     promises: ((...args: any[]) => Promise<any>)[]
   ) => UseAsyncStateReturn<unknown, true>[];
@@ -23,6 +25,8 @@ export default function useAsyncTasksCycle(...tasks: Array<Task[]>) {
   const locked = ref(false);
   const taskIndex = ref(0);
   const jobIndex = ref(0);
+  const error = ref<any>();
+  const isError = computed(() => !!error.value);
 
   const _createJob = (tasks: Task[]): UseAsyncStateReturn<unknown, true>[] => {
     return tasks.map((taskCb) =>
@@ -55,16 +59,19 @@ export default function useAsyncTasksCycle(...tasks: Array<Task[]>) {
     taskIndex.value = from?.task ?? taskIndex.value;
     const nextTasks = jobs[jobIndex.value];
     useAsyncQueue(
-      nextTasks.map(
-        (task, i) => async (args: any) =>
-          new Promise((resolve, reject) => {
-            return task
-              .execute(0, i <= 0 ? data : args)
-              .then((res) =>
-                task.error.value ? reject(task.error.value) : resolve(res)
-              );
-          })
-      ),
+      nextTasks.map((task, i) => async (args: any) => {
+        error.value = null;
+        return new Promise((resolve, reject) => {
+          return task.execute(0, i <= 0 ? data : args).then((res) => {
+            if (task.error.value) {
+              error.value = task.error.value;
+              return reject(task.error.value);
+            } else {
+              return resolve(res);
+            }
+          });
+        });
+      }),
       {
         interrupt: true,
         onFinished: () => {
@@ -84,6 +91,8 @@ export default function useAsyncTasksCycle(...tasks: Array<Task[]>) {
     jobs,
     taskIndex,
     jobIndex,
+    error,
+    isError,
     next,
     skip,
     _createJob,

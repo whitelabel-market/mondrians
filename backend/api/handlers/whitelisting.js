@@ -134,7 +134,7 @@ export const getMail = async (req, res, config) => {
     });
   } catch (e) {
     logger.error(e.toString());
-    return res.status(400).json(e.toString());
+    return res.status(400).send(e.toString());
   }
 };
 
@@ -200,6 +200,6 @@ export const getPass = async (req, res, config) => {
       res.end();
     });
   } catch (err) {
-    return res.status(400).json(err.toString());
+    return res.status(400).send(err.toString());
   }
 };

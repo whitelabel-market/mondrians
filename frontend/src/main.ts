@@ -13,6 +13,8 @@ import animateDirective from "@/directives/animate";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import CONFIG from "@/../../config";
+import Notifications from "notiwind";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
@@ -30,13 +32,14 @@ app.directive("animate", animateDirective);
 app.use(
   WalletConnectorVue({
     appName: "Magic Mondrian",
-    infuraId: "3f6ed0b245824ed7ba603a0d01e52a4b",
-    chainId: 80001,
+    infuraId: CONFIG.infura.id,
+    chainId: CONFIG.chainId,
     walletconnect: {
       //bridge: "https://bridge.walletconnect.org",
-      rpc: { 80001: "https://matic-mumbai.chainstacklabs.com" },
+      rpc: { [CONFIG.chainId]: CONFIG.chainList.rpc[2] },
     },
   })
 );
 app.use(router);
+app.use(Notifications);
 app.mount("#app");

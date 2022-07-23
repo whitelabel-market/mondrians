@@ -21,6 +21,7 @@
     "ethers": "^5.6.2",
     "gsap": "^3.10.3",
     "node-polyfill-webpack-plugin": "^1.1.4",
+    "notiwind": "^1.2.6",
     "unleash-proxy-client": "^2.0.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"

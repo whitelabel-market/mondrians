@@ -10,6 +10,7 @@ declare module "*.svg" {
   export default content;
 }
 
+declare module "notiwind";
 declare module "caf";
 declare module "eth-provider";
 declare module "qrcode";

@@ -1,5 +1,6 @@
 module.exports = {
   hostUrl: "https://magic-mondrian.netlify.app/",
+  supportEmail: "support@mondrian.com",
   tokenImageForMetamaskWallet:
     "https://ipfs.io/ipfs/bafybeid7fmhgs7roxyctc5k2ciut3wgznpnhtx2tawhl2pf47s7e554cim/1.png",
   tokenSymbol: "MAMO",
@@ -19,7 +20,7 @@ module.exports = {
       "https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon",
   },
   infura: {
-    id: process.env.VUE_APP_INFURA_ID || "",
+    id: process.env.VUE_APP_INFURA_ID || "3f6ed0b245824ed7ba603a0d01e52a4b",
   },
   unleash: {
     clientKey: "proxy-client-key",
@@ -77,6 +78,7 @@ module.exports = {
     whitelistPrice: "0.00025",
     publicAmount: 100,
     publicPrice: "0.00025",
+    printPrice: "0.0001",
   },
   // get chainlist data from https://chainlist.org/_next/data/vGwPZ2PwoEZ6GXCGx7Sse/en/chain/<chainId>.json
   chainList: {

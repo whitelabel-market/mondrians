@@ -32,7 +32,7 @@ export const verifyJWT = () => {
       req.headers["authorization"] &&
       !req.headers["authorization"].startsWith("Bearer ")
     )
-      return res.status(403).json("Forbidden");
+      return res.status(403).send("Forbidden");
 
     const decoded = verifyAccessToken(
       req.headers["authorization"].split(" ")[1]
@@ -40,7 +40,7 @@ export const verifyJWT = () => {
 
     req.accessToken = decoded;
 
-    if (!decoded) return res.status(403).json("Forbidden");
+    if (!decoded) return res.status(403).send("Forbidden");
     else return next();
   };
 };
@@ -65,7 +65,7 @@ export const isWhitelisted = () => {
       (whitelisted) => whitelisted.toLowerCase() === address.toLowerCase()
     );
 
-    if (index < 0) return res.status(401).json("Unauthenticated");
+    if (index < 0) return res.status(401).send("Unauthenticated");
     else return next();
   };
 };
@@ -101,7 +101,8 @@ export const hasMondrian = () => {
 
     const balance = await contract.balanceOf(address);
 
-    if (balance.isZero()) return res.status(403).json("Forbidden");
+    if (balance.isZero())
+      return res.status(403).send("Not owner of a Mondrian");
     else return next();
   };
 };
@@ -115,7 +116,7 @@ export const onlyLocal = () => {
 
     const isLocal =
       req.connection.localAddress === req.connection.remoteAddress;
-    if (!isLocal) return res.status(403).json("Forbidden");
+    if (!isLocal) return res.status(403).send("Forbidden");
     else return next();
   };
 };
@@ -195,7 +196,7 @@ export const canPrint = () => {
 
     const hasPrintedOnce = await contract.hasPrintedOnce(address);
 
-    if (hasPrintedOnce) return res.status(403).json("Forbidden");
+    if (hasPrintedOnce) return res.status(403).send("Already printed once");
     else return next();
   };
 };
