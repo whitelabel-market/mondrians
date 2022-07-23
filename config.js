@@ -1,6 +1,6 @@
 module.exports = {
   hostUrl: "https://magic-mondrian.netlify.app/",
-  supportEmail: "support@mondrian.com",
+  supportEmail: "support@magic-mondrian.art",
   tokenImageForMetamaskWallet:
     "https://ipfs.io/ipfs/bafybeid7fmhgs7roxyctc5k2ciut3wgznpnhtx2tawhl2pf47s7e554cim/1.png",
   tokenSymbol: "MAMO",
