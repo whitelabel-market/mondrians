@@ -19,7 +19,7 @@
         <ul class="items-center hidden space-x-6 text-sm font-semibold lg:flex">
           <li v-for="(to, name) in routes" :key="to">
             <router-link
-              class="link transition-colors duration-100 dark:text-neutral-200"
+              class="transition-colors duration-100 link dark:text-neutral-200"
               :to="to"
               >{{ name }}</router-link
             >
@@ -90,7 +90,6 @@ import AppButton from "@/components/app/AppButton.vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MobileMenu from "@/components/layouts/MobileMenu.vue";
-import { gsap } from "gsap";
 import { useWindowScroll } from "@vueuse/core";
 
 const showConnectModal = ref(false);
@@ -101,7 +100,7 @@ const ensAccount = ref({});
 const { loading, isConnected, shortAddress } = useWallet();
 const { blockie } = useWalletExtended();
 
-const { x, y } = useWindowScroll();
+const { y } = useWindowScroll();
 
 const routes = {
   About: "/#About",

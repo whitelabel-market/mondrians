@@ -7,10 +7,10 @@
         class="container flex flex-col items-center justify-start flex-1 w-full h-full mx-auto space-y-12"
       >
         <img
-          :alt="route.params.id"
+          :alt="(route.params.id as string)"
           v-if="route?.params?.id"
           :src="makeBlockie(route.params.id as string)"
-          class="object-cover w-24 h-24 border-4 rounded border-black"
+          class="object-cover w-24 h-24 border-4 border-black rounded"
         />
 
         <div class="flex flex-col items-center space-y-4">
@@ -38,7 +38,7 @@
               v-if="ensAccount?.domains?.[0]"
               class="block mx-auto"
               target="_blank"
-              :href="`${ENS_BASE_URL}${ensAccount.id}`"
+              :href="`${CONFIG.ensBaseUrl}${ensAccount.id}`"
               >{{ "@" + ensAccount.domains[0].name }}</a
             >
           </div>
@@ -55,10 +55,10 @@
         </div>
 
         <nav
-          class="relative flex items-center justify-start md:justify-center w-full space-x-1 md:space-x-4 px-1"
+          class="relative flex items-center justify-start w-full px-1 space-x-1 md:justify-center md:space-x-4"
         >
           <router-link
-            class="relative inline-flex items-center justify-center text-center flex-1 md:flex-grow-0 md:flex-auto md:w-32 px-2 md:px-4 text-xs font-bold uppercase transition-colors duration-100 ease-in-out bg-white border-4 border-b-0 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-14 -translate-y-1 hover:-translate-y-2 rounded-t"
+            class="relative inline-flex items-center justify-center flex-1 px-2 text-xs font-bold text-center uppercase transition-colors duration-100 ease-in-out -translate-y-1 bg-white border-4 border-b-0 rounded-t md:flex-grow-0 md:flex-auto md:w-32 md:px-4 border-neutral-800 dark:border-black dark:bg-neutral-800 dark:text-neutral-200 text-neutral-900 h-14 hover:-translate-y-2"
             v-for="(to, title) in tabs"
             :key="title"
             :to="to"
@@ -82,7 +82,7 @@ import ShareButtons from "@/components/share/ShareButtons.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { ClipboardCopyIcon } from "@heroicons/vue/outline";
 import { useClipboard, useFetch } from "@vueuse/core";
-import { ENS_SUBGRAPH, ENS_BASE_URL } from "@/utils/constants";
+import CONFIG from "@/../../config";
 import { getShortAddress } from "@/utils/ethereum";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import { getEnsAccount, getEnsAccountReverse } from "@/services/graphql/types";
@@ -100,7 +100,7 @@ const route = useRoute();
 const ensAccount = ref<EnsAccount>();
 provide(ENS_ACCOUNT, ensAccount);
 
-const { post, onFetchResponse, data } = useFetch(ENS_SUBGRAPH, {
+const { post, onFetchResponse, data } = useFetch(CONFIG.subgraph.ens, {
   timeout: 10000,
   immediate: false,
 }).json();

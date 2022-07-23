@@ -1,7 +1,7 @@
 <template>
   <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
     <div
-      class="mx-auto text-6xl md:text-7xl font-black text-center text-transparent"
+      class="mx-auto text-6xl font-black text-center text-transparent md:text-7xl"
     >
       <span
         class="text-transparent bg-clip-text bg-gradient-to-r from-dodgerblue via-candlelight to-crimson"
@@ -29,7 +29,7 @@ import MintSettings from "@/components/mint/MintSettings.vue";
 
 const emit = defineEmits(["update:modelValue", "mint"]);
 
-const props = defineProps({
+defineProps({
   modelValue: {
     type: Number,
     required: true,

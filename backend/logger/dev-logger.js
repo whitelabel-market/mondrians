@@ -1,5 +1,6 @@
 import { createLogger, format, transports } from "winston";
 const { combine, timestamp, label, printf } = format;
+import CONFIG from "../../config.js";
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
   return `${label} | ${timestamp} [${level}]: ${message}`;
@@ -7,7 +8,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 
 export const buildDevLogger = () => {
   return createLogger({
-    level: process.env.LOG_LEVEL,
+    level: CONFIG.backend.logLevel,
     format: combine(
       format.colorize(),
       label({ label: "dapp-backend" }),

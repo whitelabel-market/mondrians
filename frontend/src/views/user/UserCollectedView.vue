@@ -1,7 +1,6 @@
 <template>
   <div>
     <TokenList :tokens="tokens" :is-finished="isFinished"></TokenList>
-
     <NoTokens
       :ensAccount="ensAccount"
       :error="error"
@@ -14,16 +13,12 @@
 <script setup lang="ts">
 import { ref, watch, inject, Ref } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
-import TokenCard from "@/components/tokens/TokenCard.vue";
-import TokenCardSkeleton from "@/components/tokens/TokenCardSkeleton.vue";
 import NoTokens from "@/components/user/NoTokens.vue";
-import { MAMO_SUBGRAPH } from "@/utils/constants";
+import CONFIG from "@/../../config";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { useFetch } from "@vueuse/core";
 import TokenList from "@/components/tokens/TokenList.vue";
-import AppButton from "@/components/app/AppButton.vue";
-import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
 
 const emits = defineEmits(["showHint"]);
 
@@ -33,7 +28,7 @@ const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
 // tokens fetch handling
 
 const { onFetchResponse, data, isFinished, error, aborted, post } = useFetch(
-  MAMO_SUBGRAPH,
+  CONFIG.subgraph.mamo,
   {
     timeout: 10000,
     immediate: false,

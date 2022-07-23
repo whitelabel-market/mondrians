@@ -1,11 +1,13 @@
+import CONFIG from "../../../../config";
+
 export const Price = {
-  whitelist: "0.00025",
-  default: "0.005",
+  whitelist: CONFIG.mint.whitelistPrice,
+  default: CONFIG.mint.publicPrice,
 };
 
 export const MaxMint = {
-  whitelist: 5,
-  default: 10,
+  whitelist: CONFIG.mint.whitelistAmount,
+  default: CONFIG.mint.publicAmount,
 };
 
 export enum SalePhase {

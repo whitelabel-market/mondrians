@@ -1,7 +1,7 @@
 import { createFetch } from "@vueuse/core";
 import type { BeforeFetchContext } from "@vueuse/core";
 import { unref } from "vue";
-import { API } from "@/utils/constants";
+import CONFIG from "../../../config";
 
 export interface AuthInterface {
   login: () => Promise<string>;
@@ -21,7 +21,7 @@ export const createAuthInterface = (address: string) => {
   let bearerToken = "";
 
   const useFetch = createFetch({
-    baseUrl: API,
+    baseUrl: CONFIG.backend.url,
     options: {
       async beforeFetch({ options }: BeforeFetchContext) {
         options.headers = {
@@ -93,7 +93,6 @@ export const createAuthInterface = (address: string) => {
       if (error.value) {
         throw unref(data);
       }
-      console.log("got data", data);
       return unref(data).signature;
     } catch (e: any) {
       throw new Error(e.toString());

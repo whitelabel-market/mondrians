@@ -1,12 +1,11 @@
 import { ref } from "vue";
 import { useFetch } from "@vueuse/core";
 import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, MAMO_SUBGRAPH } from "@/utils/constants";
+import CONFIG from "../../../config.js";
 import {
   getContract as getContractQuery,
   getTokensFromBlock as getTokensFromBlockQuery,
 } from "@/services/graphql/types";
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 
 const timeout = (time: number) => {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -22,7 +21,7 @@ export default function useSubgraph() {
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const { data } = await useFetch(MAMO_SUBGRAPH, { timeout: 10000 })
+      const { data } = await useFetch(CONFIG.subgraph.mamo, { timeout: 10000 })
         .post(
           JSON.stringify({
             query: getTokensFromBlockQuery,
@@ -44,14 +43,14 @@ export default function useSubgraph() {
   };
 
   const getContract = async function () {
-    return useFetch(MAMO_SUBGRAPH, {
+    return useFetch(CONFIG.subgraph.mamo, {
       timeout: 10000,
     })
       .post(
         JSON.stringify({
           query: getContractQuery,
           variables: {
-            id: CONTRACT_ADDRESS.toLocaleLowerCase(),
+            id: CONFIG.contract.toLocaleLowerCase(),
           },
         })
       )

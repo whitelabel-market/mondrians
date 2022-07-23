@@ -1,7 +1,7 @@
 <template>
-  <div class="shadow-default z-10 transition-colors duration-100">
+  <div class="z-10 transition-colors duration-100 shadow-default">
     <div
-      class="flex flex-col justify-between h-full gap-6 p-4 transition-all duration-100 border select-none text-neutral-200 bg-neutral-50 dark:bg-neutral-800 border-neutral-800 rounded bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
+      class="flex flex-col justify-between h-full gap-6 p-4 transition-all duration-100 border rounded select-none text-neutral-200 bg-neutral-50 dark:bg-neutral-800 border-neutral-800 bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
     >
       <div
         class="flex flex-col justify-center transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
@@ -11,7 +11,7 @@
           <a
             class="text-xs leading-tight truncate transition-colors duration-100 dark:text-neutral-400 dark:hover:text-neutral-200"
             target="_blank"
-            :href="`${EXPLORER_BASE_URL}block/${transfer.createdAtBlockNumber}`"
+            :href="`${CONFIG.explorerBaseUrl}block/${transfer.createdAtBlockNumber}`"
             >{{
               `${new Date(
                 transfer.createdAtTimestamp * 1000
@@ -22,7 +22,7 @@
       </div>
       <div class="flex flex-col gap-2">
         <a
-          :href="`${EXPLORER_BASE_URL}address/${transfer.from.id}`"
+          :href="`${CONFIG.explorerBaseUrl}address/${transfer.from.id}`"
           target="_blank"
           class="flex items-center space-x-2 truncate transition-colors duration-100 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
         >
@@ -41,15 +41,15 @@
             <ArrowSmDownIcon class="w-5 h-5" />
           </div>
           <a
-            class="px-4 py-1 border-2 cursor-pointer rounded border-dodgerblue text-dodgerblue"
-            :href="`${EXPLORER_BASE_URL}tx/${transfer.transactionHash}`"
+            class="px-4 py-1 border-2 rounded cursor-pointer border-dodgerblue text-dodgerblue"
+            :href="`${CONFIG.explorerBaseUrl}tx/${transfer.transactionHash}`"
             target="_blank"
           >
             mint()
           </a>
         </div>
         <a
-          :href="`${EXPLORER_BASE_URL}address/${transfer.to.id}`"
+          :href="`${CONFIG.explorerBaseUrl}address/${transfer.to.id}`"
           target="_blank"
           class="flex items-center space-x-2 truncate transition-colors duration-100 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
         >
@@ -107,7 +107,7 @@ import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 import makeBlockie from "ethereum-blockies-base64";
 import { getShortAddress, weiToGwei, weiToEth } from "@/utils/ethereum";
 import { ArrowSmDownIcon } from "@heroicons/vue/solid";
-import { EXPLORER_BASE_URL, UNISWAP_SUBGRAPH_POLYGON } from "@/utils/constants";
+import CONFIG from "../../../../config.js";
 import { computed, onMounted, ref } from "vue";
 import { useFetch } from "@vueuse/core";
 import { getTokenDayData } from "@/services/graphql/types";
@@ -130,7 +130,7 @@ const getPrice = computed(() => {
 
 onMounted(() => {
   const { data: dayDatas, onFetchResponse: onDayDataResponse } = useFetch(
-    UNISWAP_SUBGRAPH_POLYGON,
+    CONFIG.subgraph.uniswapPolygon,
     {
       timeout: 10000,
     }

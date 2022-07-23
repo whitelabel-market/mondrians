@@ -9,6 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import cookieParser from "cookie-parser";
+import CONFIG from "../config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,11 +17,7 @@ const __dirname = dirname(__filename);
 const app = express();
 
 const startServer = async () => {
-  const config = createConfig({
-    app: {
-      port: 3000,
-    },
-  });
+  const config = createConfig();
 
   const origin =
     process.env.NODE_ENV === "development"
@@ -38,7 +35,7 @@ const startServer = async () => {
   app.use("/screenshots", (req, res, next) => {
     const { apikey } = req.query;
     if (!apikey) return res.status(403).send("Forbidden");
-    if (apikey !== process.env.PRINT_KEY)
+    if (apikey !== CONFIG.backend.apiKey)
       return res.status(403).send("Forbidden");
     return next();
   });
@@ -61,11 +58,11 @@ const startServer = async () => {
   app.use("/api/print", printRouter(config));
   app.use("/api/whitelist", wlRouter(config));
 
-  app.listen(config.app.port, (err) => {
+  app.listen(CONFIG.backend.port, (err) => {
     if (err) {
       throw new Error(err);
     }
-    logger.info(`Listening on port ${config.app.port}`);
+    logger.info(`Listening on port ${CONFIG.backend.port}`);
   });
 };
 

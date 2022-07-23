@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
-import { IPFS_BASE_URL, OPENSEA_BASE_URL } from "@/utils/constants";
+import CONFIG from "@/../../config";
 import QRCode from "qrcode";
 import { getShortAddress } from "@/utils/ethereum";
 import { useDateFormat } from "@vueuse/core";
@@ -96,7 +96,7 @@ const props = defineProps({
 // link handling
 
 const imgSrc = computed(
-  () => `${IPFS_BASE_URL}${props.token.imageURI.replace("ipfs://", "")}`
+  () => `${CONFIG.ipfsBaseUrl}${props.token.imageURI.replace("ipfs://", "")}`
 );
 
 // qr code handling
@@ -106,11 +106,11 @@ const qrCode = ref("");
 
 onMounted(async () => {
   // qrCode.value = await QRCode.toDataURL(
-  //   `${OPENSEA_BASE_URL}/${props.token.id}`,
+  //   `${CONFIG.openseaBaseUrl}/${props.token.id}`,
   //   { type: "svg" }
   // );
   QRCode.toString(
-    `${OPENSEA_BASE_URL}/${props.token.id}`,
+    `${CONFIG.openseaBaseUrl}/${props.token.id}`,
     { type: "svg" },
     function (err: any, string: string) {
       if (err) throw err;

@@ -16,7 +16,7 @@
     </h3>
     <p class="leading-tight text-center text-neutral-900 dark:text-neutral-200">
       Looks like you connected to an unsupported network. Change network to
-      {{ NETWORK_NAME[0].toUpperCase() + NETWORK_NAME.slice(1) }}.
+      {{ chain.title }}.
     </p>
     <AppButton
       :fullWidth="true"
@@ -32,7 +32,7 @@ import AppModal from "@/components/app/AppModal.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
-import { NETWORK_NAME, CHAIN_ID } from "@/utils/constants";
+import CONFIG from "@/../../config";
 
 defineEmits(["update:modelValue"]);
 
@@ -49,33 +49,7 @@ const toHex = (num: number) => {
   return "0x" + num.toString(16);
 };
 
-const chain = {
-  name: "Mumbai",
-  title: "Polygon Testnet Mumbai",
-  chain: "Polygon",
-  rpc: [
-    "https://matic-mumbai.chainstacklabs.com",
-    "https://rpc-mumbai.maticvigil.com",
-    "https://matic-testnet-archive-rpc.bwarelabs.com",
-  ],
-  faucets: ["https://faucet.polygon.technology/"],
-  nativeCurrency: {
-    name: "MATIC",
-    symbol: "MATIC",
-    decimals: 18,
-  },
-  infoURL: "https://polygon.technology/",
-  shortName: "maticmum",
-  chainId: 80001,
-  networkId: 80001,
-  explorers: [
-    {
-      name: "polygonscan",
-      url: "https://mumbai.polygonscan.com",
-      standard: "EIP3091",
-    },
-  ],
-};
+const chain = CONFIG.chainList;
 
 const changeNetwork = async () => {
   if ((window as any).ethereum) {
@@ -83,7 +57,7 @@ const changeNetwork = async () => {
       // check if the chain to connect to is installed
       await provider.value?.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x" + CHAIN_ID.toString(16) }],
+        params: [{ chainId: "0x" + chain.chainId.toString(16) }],
       });
     } catch (error: any) {
       // This error code indicates that the chain has not been added to MetaMask

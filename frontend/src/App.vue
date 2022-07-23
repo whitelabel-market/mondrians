@@ -28,13 +28,14 @@ import LayoutFrame from "@/components/layouts/LayoutFrame.vue";
 import LayoutChangeNetworkModal from "@/components/layouts/LayoutChangeNetworkModal.vue";
 import LoadingMondrian from "@/components/icons/LoadingMondrian.vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
+import CONFIG from "@/../../config";
 
 const { activeChainId } = useWallet();
 const loaded = ref(false);
 
 const wrongNetwork = computed(() => {
   if (activeChainId.value) {
-    return activeChainId.value !== 80001;
+    return activeChainId.value !== CONFIG.chainList.chainId;
   }
   return false;
 });

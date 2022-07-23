@@ -30,7 +30,7 @@
                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-900',
                   'cursor-pointer group flex rounded-md w-full items-center px-2 py-2 text-sm font-medium',
                 ]"
-                :href="`${IPFS_BASE_URL}${token.imageURI.replace(
+                :href="`${CONFIG.ipfsBaseUrl}${token.imageURI.replace(
                   'ipfs://',
                   ''
                 )}`"
@@ -45,7 +45,7 @@
                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-900',
                   'cursor-pointer group flex rounded-md w-full items-center px-2 py-2 text-sm font-medium',
                 ]"
-                :href="`${OPENSEA_BASE_URL}/${token.id}`"
+                :href="`${CONFIG.openseaBaseUrl}/${token.id}`"
                 target="_blank"
               >
                 View on opensea
@@ -58,10 +58,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { DotsHorizontalIcon } from "@heroicons/vue/solid";
-import { IPFS_BASE_URL, OPENSEA_BASE_URL } from "@/utils/constants";
+import CONFIG from "../../../../config.js";
 
 defineProps({
   token: {

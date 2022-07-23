@@ -15,7 +15,7 @@ import {
 import { ethers } from "ethers";
 import { getShortAddress, weiToEth } from "@/utils/ethereum";
 import makeBlockie from "ethereum-blockies-base64";
-import { ENS_SUBGRAPH, INFURA_ID } from "@/utils/constants";
+import CONFIG from "../../../config";
 import { getEnsAccount } from "@/services/graphql/types";
 
 const { MetaMaskProvider, WalletLinkProvider, WalletConnectProvider } =
@@ -29,7 +29,7 @@ export type EnsAccount = {
   createdAt: string;
 };
 
-const { post, onFetchResponse, data } = useFetch(ENS_SUBGRAPH, {
+const { post, onFetchResponse, data } = useFetch(CONFIG.subgraph.ens, {
   timeout: 10000,
   immediate: false,
 }).json();
@@ -58,10 +58,10 @@ export interface Wallet {
 const connector = Connector.init(
   {
     appName: "Magic Mondrian",
-    infuraId: INFURA_ID,
+    infuraId: CONFIG.infura.id,
     chainId: 80001,
     walletconnect: {
-      rpc: { 80001: "https://rpc-mumbai.matic.today" },
+      rpc: { 80001: CONFIG.chainList.rpc[2] },
     },
   },
   [MetaMaskProvider, WalletLinkProvider, WalletConnectProvider]

@@ -255,10 +255,10 @@ const sendTicket = async function (email: string) {
 const setPrintData = (printData: any) => printData;
 
 const sendPrintPayment = async (printData: any) => {
-  const mondrianInterface: MondrianInterface = new MondrianInterface(
-    toRaw(provider.value as ethers.providers.Web3Provider)
-  );
-  await mondrianInterface.print();
+  // const mondrianInterface: MondrianInterface = new MondrianInterface(
+  //   toRaw(provider.value as ethers.providers.Web3Provider)
+  // );
+  // await mondrianInterface.print();
   return printData;
 };
 

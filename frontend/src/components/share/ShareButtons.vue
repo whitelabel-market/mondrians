@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
 import ShareButton from "@/components/share/ShareButton.vue";
-import { CONTRACT_ADDRESS } from "@/utils/constants";
+import CONFIG from "../../../../config.js";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useMediaQuery } from "@vueuse/core";
 
@@ -39,7 +39,7 @@ const items = reactive([
     content: {
       baseUrl: "https://www.facebook.com/sharer/sharer.php?",
       queryParams: {
-        u: `https://magic-mondrian.netlify.app/user/${props.address}/collected`,
+        u: `${CONFIG.hostUrl}user/${props.address}/collected`,
         quote: text,
       },
     },
@@ -50,10 +50,10 @@ const items = reactive([
     content: {
       baseUrl: "https://twitter.com/intent/tweet?",
       queryParams: {
-        url: `https://magic-mondrian.netlify.app/user/${props.address}/collected`,
+        url: `${CONFIG.hostUrl}user/${props.address}/collected`,
         text,
         hashtags: "ethereum,polygon,nonfungible,digitalasset,nft",
-        via: "whitelabelmarket",
+        via: "Magic Mondrian",
       },
     },
   },
@@ -64,9 +64,7 @@ const items = reactive([
       baseUrl: "mailto:?",
       queryParams: {
         subject: "Look at this collection!",
-        body:
-          text +
-          `\n\nhttps://magic-mondrian.netlify.app/user/${props.address}/collected`,
+        body: text + `\n\n${CONFIG.hostUrl}user/${props.address}/collected`,
       },
     },
   },
@@ -105,11 +103,10 @@ const shareItem = (content: ShareContent | undefined): void => {
 };
 
 const addToken = async () => {
-  const tokenAddress = CONTRACT_ADDRESS;
-  const tokenSymbol = "MAMO";
+  const tokenAddress = CONFIG.contract;
+  const tokenSymbol = CONFIG.tokenSymbol;
   const tokenDecimals = 0;
-  const tokenImage =
-    "https://ipfs.io/ipfs/bafybeid7fmhgs7roxyctc5k2ciut3wgznpnhtx2tawhl2pf47s7e554cim/1.png";
+  const tokenImage = CONFIG.tokenImageForMetamaskWallet;
 
   try {
     const wasAdded = await (window as any).ethereum.request({

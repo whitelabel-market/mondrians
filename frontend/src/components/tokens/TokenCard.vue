@@ -18,7 +18,7 @@
               flat
               onlyIcon
               class="duration-100 ease-out hover:-translate-y-1 hover:z-50"
-              :href="`${OPENSEA_BASE_URL}/${token.id}`"
+              :href="`${CONFIG.openseaBaseUrl}/${token.id}`"
             >
               <img
                 src="@/assets/images/pattern-1.png"
@@ -35,7 +35,7 @@
               flat
               onlyIcon
               class="duration-100 ease-out translate-x-4 hover:-translate-y-1 hover:z-50"
-              :href="`${EXPLORER_BASE_URL}address/${token.owner.id}`"
+              :href="`${CONFIG.explorerBaseUrl}address/${token.owner.id}`"
             >
               <img
                 :src="makeBlockie(token.owner.id)"
@@ -103,12 +103,8 @@ import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import PolygonAlternative from "@/components/icons/PolygonAlternative.vue";
 import makeBlockie from "ethereum-blockies-base64";
-import {
-  EXPLORER_BASE_URL,
-  IPFS_BASE_URL,
-  months,
-  OPENSEA_BASE_URL,
-} from "@/utils/constants";
+import { months } from "@/utils/constants";
+import CONFIG from "@/../../config";
 import QRCode from "qrcode";
 
 const props = defineProps({
@@ -129,7 +125,7 @@ const props = defineProps({
 // link handling
 
 const getIpfsLink = computed(
-  () => `${IPFS_BASE_URL}${props.token.imageURI.replace("ipfs://", "")}`
+  () => `${CONFIG.ipfsBaseUrl}${props.token.imageURI.replace("ipfs://", "")}`
 );
 
 // qr code handling
@@ -139,11 +135,11 @@ const qrCode = ref("");
 
 onMounted(async () => {
   // qrCode.value = await QRCode.toDataURL(
-  //   `${OPENSEA_BASE_URL}/${props.token.id}`,
+  //   `${CONFIG.openseaBaseUrl}/${props.token.id}`,
   //   { type: "svg" }
   // );
   QRCode.toString(
-    `${OPENSEA_BASE_URL}/${props.token.id}`,
+    `${CONFIG.openseaBaseUrl}/${props.token.id}`,
     { type: "svg" },
     function (err: any, string: string) {
       if (err) throw err;

@@ -19,7 +19,7 @@ import HomeInfo from "@/components/home/HomeInfo.vue";
 import HomeFaq from "@/components/home/HomeFaq.vue";
 import { onMounted, watch } from "vue";
 import { useFetch } from "@vueuse/core";
-import { CONTRACT_ADDRESS, MAMO_SUBGRAPH } from "@/utils/constants";
+import CONFIG from "../../../config.js";
 import { getContract } from "@/services/graphql/types";
 import { useBlock } from "@whitelabel-solutions/wallet-connector-vue";
 import useContract from "@/composables/useContract";
@@ -31,14 +31,17 @@ onMounted(() => emits("loaded", false));
 let { setContract } = useContract();
 
 const { onNewBlock } = useBlock();
-const { onFetchResponse, data, execute, isFinished } = useFetch(MAMO_SUBGRAPH, {
-  timeout: 10000,
-})
+const { onFetchResponse, data, execute, isFinished } = useFetch(
+  CONFIG.subgraph.mamo,
+  {
+    timeout: 10000,
+  }
+)
   .post(
     JSON.stringify({
       query: getContract,
       variables: {
-        id: CONTRACT_ADDRESS.toLocaleLowerCase(),
+        id: CONFIG.contract.toLocaleLowerCase(),
       },
     })
   )

@@ -9,7 +9,6 @@
         <li v-for="(question, index) in questions" :key="index" class="block">
           <AppDisclosure>
             <template #question> {{ question }}</template>
-
             <template #answer>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               ciusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -23,8 +22,6 @@
 
 <script setup lang="ts">
 import AppDisclosure from "@/components/app/AppDisclosure.vue";
-import AppButton from "@/components/app/AppButton.vue";
-import LogoIcon from "@/components/icons/LogoIcon.vue";
 
 const questions = [
   "When is the mint date?",

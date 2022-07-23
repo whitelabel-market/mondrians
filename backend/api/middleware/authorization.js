@@ -1,4 +1,3 @@
-import { logger } from "../../logger/index.js";
 import { config } from "../../utils/config.js";
 import {
   verifyAccessToken,
@@ -8,12 +7,13 @@ import {
 import axios from "axios";
 import { ethers } from "ethers";
 import { encrypt } from "../../utils/crypto.js";
+import CONFIG from "../../../config.js";
 
 const api = axios.create({
   baseURL:
     "https://raw.githubusercontent.com/whitelabel-market/mondrians/main/backend/utils",
   headers: {
-    Authorization: `token ${process.env.GH_PAT}`,
+    Authorization: `token ${CONFIG.whitelisting.ghPat}`,
     Accept: "application/vnd.github.v4.raw",
     "Cache-Control": "no-cache",
     Pragma: "no-cache",
@@ -86,17 +86,15 @@ export const hasMondrian = () => {
 
     // TODO: change to correct network
     const dic_net = {
-      name: "maticmum",
-      chainId: 80001,
+      name: CONFIG.chainList.shortName,
+      chainId: CONFIG.chainId,
       _defaultProvider: (providers) =>
-        new providers.JsonRpcProvider(
-          "https://matic-mumbai.chainstacklabs.com"
-        ),
+        new providers.JsonRpcProvider(CONFIG.chainList.rpc[2]),
     };
     const provider = ethers.getDefaultProvider(dic_net);
 
     const contract = new ethers.Contract(
-      process.env.CONTRACT_ADDRESS,
+      CONFIG.contract,
       ["function balanceOf(address owner) public view returns (uint256)"],
       provider
     );
@@ -132,7 +130,6 @@ export const isAuthenticated = () => {
     const address = req.headers && req.headers["x-viewer-address"];
 
     try {
-      console.log(req.cookies["refresh_token"]);
       if (req.cookies && req.cookies["refresh_token"]) {
         const decoded = verifyRefreshToken(req.cookies["refresh_token"]);
 
@@ -182,18 +179,16 @@ export const canPrint = () => {
 
     // TODO: change to correct network
     const dic_net = {
-      name: "maticmum",
-      chainId: 80001,
+      name: CONFIG.chainList.shortName,
+      chainId: CONFIG.chainId,
       _defaultProvider: (providers) =>
-        new providers.JsonRpcProvider(
-          "https://matic-testnet-archive-rpc.bwarelabs.com"
-        ),
+        new providers.JsonRpcProvider(CONFIG.chainList.rpc[2]),
     };
 
     const provider = ethers.getDefaultProvider(dic_net);
 
     const contract = new ethers.Contract(
-      process.env.CONTRACT_ADDRESS,
+      CONFIG.contract,
       ["function hasPrintedOnce(address) public view returns (bool)"],
       provider
     );

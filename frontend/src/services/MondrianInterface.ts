@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { CONTRACT_ADDRESS } from "@/utils/constants";
+import CONFIG from "../../../config.js";
 import magicMondrian from "@/utils/abis/MagicMondrian.json";
 
 export default class MondrianInterface {
@@ -9,7 +9,7 @@ export default class MondrianInterface {
   constructor(provider: ethers.providers.Web3Provider) {
     this.signer = provider.getSigner();
     this.contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
+      CONFIG.contract,
       magicMondrian.abi,
       provider
     );

@@ -35,7 +35,7 @@
 import { inject, Ref, ref, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import { getActivity } from "@/services/graphql/types";
-import { MAMO_SUBGRAPH } from "@/utils/constants";
+import CONFIG from "@/../../config";
 import Activity from "@/components/activity/Activity.vue";
 import ActivitySkeleton from "@/components/activity/ActivitySkeleton.vue";
 import NoTokens from "@/components/user/NoTokens.vue";
@@ -49,7 +49,7 @@ const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
 // transfers fetch handling
 
 const { onFetchResponse, data, isFinished, post, error, aborted } = useFetch(
-  MAMO_SUBGRAPH,
+  CONFIG.subgraph.mamo,
   {
     timeout: 10000,
     immediate: false,

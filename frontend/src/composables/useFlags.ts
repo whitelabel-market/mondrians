@@ -1,7 +1,7 @@
 import { ref, onMounted, reactive, toRefs, inject, watch } from "vue";
 import type { Ref } from "vue";
 import { UnleashClient } from "unleash-proxy-client";
-import { UNLEASH_URL, UNLEASH_CLIENT_KEY } from "@/utils/constants";
+import CONFIG from "../../../config";
 import { useWindowActive } from "@/composables/useWindowActive";
 
 export const TOGGLE_CONTEXT = Symbol();
@@ -25,8 +25,8 @@ export function createToggles(unleashClient?: UnleashClient): ToggleInterface {
   const active = useWindowActive();
 
   client.value = new UnleashClient({
-    url: UNLEASH_URL,
-    clientKey: UNLEASH_CLIENT_KEY,
+    url: CONFIG.unleash.url,
+    clientKey: CONFIG.unleash.clientKey,
     appName: "mondrians",
     environment: "production",
     disableMetrics: true,

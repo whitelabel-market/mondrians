@@ -20,16 +20,11 @@
 <script setup lang="ts">
 import { ref, watch, inject, Ref, toRaw } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
-import TokenCard from "@/components/tokens/TokenCard.vue";
-import TokenCardSkeleton from "@/components/tokens/TokenCardSkeleton.vue";
 import NoTokens from "@/components/user/NoTokens.vue";
-import { MAMO_SUBGRAPH } from "@/utils/constants";
+import CONFIG from "@/../../config";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { useFetch } from "@vueuse/core";
-import TokenList from "@/components/tokens/TokenList.vue";
-import AppButton from "@/components/app/AppButton.vue";
-import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
 import PrintTask from "@/components/mint/PrintTask.vue";
 import { authInterface } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
@@ -70,7 +65,7 @@ const print = async function (printData: any) {
 // tokens fetch handling
 
 const { onFetchResponse, data, isFinished, error, aborted, post } = useFetch(
-  MAMO_SUBGRAPH,
+  CONFIG.subgraph.mamo,
   {
     timeout: 10000,
     immediate: false,

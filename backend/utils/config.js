@@ -22,44 +22,6 @@ const schema = Joi.object({
   csrfSecret: Joi.string()
     .optional()
     .default(crypto.randomBytes(32).toString("hex")),
-  app: Joi.object({
-    port: Joi.number().optional().default(3000),
-  })
-    .optional()
-    .default(),
-  whitelisting: Joi.object({
-    strategy: Joi.string()
-      .optional()
-      .valid("merkle", "voucher")
-      .default("voucher"),
-    signerPkey: Joi.when("strategy", {
-      is: "voucher",
-      then: Joi.string().required(),
-      otherwise: Joi.string().optional(),
-    }),
-    chainId: Joi.when("strategy", {
-      is: "voucher",
-      then: Joi.string().required().default("4"),
-      otherwise: Joi.string().optional(),
-    }),
-    contractAddress: Joi.when("strategy", {
-      is: "voucher",
-      then: Joi.string().required(),
-      otherwise: Joi.string().optional(),
-    }),
-    domain: Joi.when("strategy", {
-      is: "voucher",
-      then: Joi.string().required(),
-      otherwise: Joi.string().optional(),
-    }),
-    version: Joi.when("strategy", {
-      is: "voucher",
-      then: Joi.string().required(),
-      otherwise: Joi.string().optional(),
-    }),
-  })
-    .optional()
-    .default(),
   authorization: Joi.object({
     required: Joi.boolean().optional().default(true),
     trustedOrigins: Joi.array()
@@ -92,17 +54,6 @@ const createConfig = (params = {}) => {
         signingAlgorithm: process.env.SIGNING_ALG,
       },
       csrfSecret: process.env.CSRF_SECRET,
-      app: {
-        port: process.env.APP_PORT,
-      },
-      whitelisting: {
-        strategy: process.env.WHITELISTING_STRATEGY,
-        signerPkey: process.env.SIGNER_PKEY,
-        chainId: process.env.CHAIN_ID,
-        contractAddress: process.env.CONTRACT_ADDRESS,
-        domain: process.env.WHITELISTING_DOMAIN,
-        version: process.env.WHITELISTING_VERSION,
-      },
       authorization: {
         required: process.env.AUTH_REQUIRED,
         trustedOrigins: process.env.TRUSTED_ORIGINS

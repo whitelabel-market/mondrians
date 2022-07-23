@@ -17,7 +17,7 @@
 import { ref, watch, inject, Ref } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
 import NoTokens from "@/components/user/NoTokens.vue";
-import { MAMO_SUBGRAPH } from "@/utils/constants";
+import CONFIG from "@/../../config";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { useFetch } from "@vueuse/core";
@@ -46,7 +46,7 @@ const sendTicket = async function (email: string) {
 // tokens fetch handling
 
 const { onFetchResponse, data, isFinished, error, aborted, post } = useFetch(
-  MAMO_SUBGRAPH,
+  CONFIG.subgraph.mamo,
   {
     timeout: 10000,
     immediate: false,

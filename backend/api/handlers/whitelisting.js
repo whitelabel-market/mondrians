@@ -5,6 +5,7 @@ import nodemailer from "nodemailer";
 import QRCode from "qrcode";
 import pkg from "passkit-generator";
 const { PKPass } = pkg;
+import CONFIG from "../../../config.js";
 
 /**
  * returns a voucher for whitelist sale
@@ -19,14 +20,13 @@ export const getVoucher = async (req, res, config) => {
     const address = accessToken.sub;
     logger.info(`Received voucher request from address: ${address}`);
 
-    const signer = new ethers.Wallet(process.env.SIGNER_PKEY);
+    const signer = new ethers.Wallet(CONFIG.whitelisting.signerPkey);
     const voucher = await signWhitelist(
-      config.whitelisting.chainId,
-      config.whitelisting.contractAddress,
+      CONFIG.chainId,
+      CONFIG.contract,
       signer,
       address
     );
-
     res.status(200).json({ signature: voucher });
   } catch (e) {
     logger.error(e.toString());
@@ -51,12 +51,12 @@ export const getMail = async (req, res, config) => {
     if (!email) throw "Missing email address";
 
     let transporter = nodemailer.createTransport({
-      host: "securesmtp.t-online.de",
-      port: 465,
+      host: CONFIG.email.host,
+      port: CONFIG.email.port,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: "kevin.hertwig@t-online.de", // generated ethereal user
-        pass: process.env.EMAIL_PW, // generated ethereal password
+        user: CONFIG.email.address, // generated ethereal user
+        pass: CONFIG.email.password, // generated ethereal password
       },
       tls: {
         rejectUnauthorized: false,
@@ -70,7 +70,7 @@ export const getMail = async (req, res, config) => {
     });
 
     let mailOptions = {
-      from: '"Whitelabel Solutions" <kevin.hertwig@t-online.de>', // sender address
+      from: `"Whitelabel Solutions" <${CONFIG.email.address}>`, // sender address
       to: email, // list of receivers
       subject: "Magic Mondrian Order Confirmation", // Subject line
       attachments: [
@@ -104,7 +104,9 @@ export const getMail = async (req, res, config) => {
         @media screen{@font-face{font-family:"Inter var";font-weight:100 900;font-style:normal;font-named-instance:"Regular";font-display:swap;src:url("Inter (web)/Inter-roman.var.woff2?v=3.19") format("woff2 supports variations(gvar)"),url("Inter (web)/Inter-roman.var.woff2?v=3.19") format("woff2-variations"),url("Inter (web)/Inter-roman.var.woff2?v=3.19") format("woff2");}}
         </style>
         <table class="t" style="width:100%;font-family:'Inter',-apple-system,'Segoe UI',sans-serif" cellpadding="0" cellspacing="0" role="presentation"><tr><td align="center" style="background-color:#fff">
-        <table class="e" style="width:600px" cellpadding="0" cellspacing="0" role="presentation"><tr><td style="padding-top:48px;text-align:center"> <a href="https://magic-mondrian.netlify.com"> <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 32 32" style="enable-background:new 0 0 32 32;aspect-ratio:1 / 1;width:80px" xml:space="preserve"><rect x="2" y="2" width="13" height="13" style="fill:#e10e24"></rect><rect x="2" y="17" width="13" height="13" style="fill:#fadc48"></rect><rect x="17" y="2" width="13" height="28" style="fill:#4481c3"></rect><rect x="15" width="2" height="32" style="fill:#010202"></rect><rect y="15" width="15" height="2" style="fill:#010202"></rect><rect width="2" height="32" style="fill:#010202"></rect><rect x="2" y="30" width="30" height="2" style="fill:#010202"></rect><rect x="2" width="30" height="2" style="fill:#010202"></rect><rect x="30" y="2" width="2" height="28" style="fill:#010202"></rect></svg></a>
+        <table class="e" style="width:600px" cellpadding="0" cellspacing="0" role="presentation"><tr><td style="padding-top:48px;text-align:center"> <a href="${
+          CONFIG.hostUrl
+        }"> <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 32 32" style="enable-background:new 0 0 32 32;aspect-ratio:1 / 1;width:80px" xml:space="preserve"><rect x="2" y="2" width="13" height="13" style="fill:#e10e24"></rect><rect x="2" y="17" width="13" height="13" style="fill:#fadc48"></rect><rect x="17" y="2" width="13" height="28" style="fill:#4481c3"></rect><rect x="15" width="2" height="32" style="fill:#010202"></rect><rect y="15" width="15" height="2" style="fill:#010202"></rect><rect width="2" height="32" style="fill:#010202"></rect><rect x="2" y="30" width="30" height="2" style="fill:#010202"></rect><rect x="2" width="30" height="2" style="fill:#010202"></rect><rect x="30" y="2" width="2" height="28" style="fill:#010202"></rect></svg></a>
         </td></tr><tr><td align="center" class="w8">
         <table style="width:100%" cellpadding="0" cellspacing="0" role="presentation"><tr><td class="q" style="border-radius:4px;background-color:#fff;padding:48px;text-align:left;font-size:16px;line-height:24px;color:#334155;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)"><p style="margin:0;margin-bottom:16px">Hello,</p><p style="margin:0;margin-bottom:16px"> You are now owner of a Magic Mondrian NFT. This is a ticket for the </p><p class="w" style="margin:0;margin-bottom:16px;font-size:24px;font-weight:600;color:#000"> Magic Mondrian Launch Event </p><p style="margin:0;margin-bottom:24px"> on Saturday, 5th of January 2022 at Bohnsdorfer Weg 129, 12524 Berlin. </p><p style="margin:0;margin-bottom:16px"> Please use the following QR Code to check in during the event. </p><div style="margin-bottom:16px;text-align:center;line-height:100%"> <img src="cid:qrcode" width="75%" alt="QR Code" style="border:0;max-width:100%;vertical-align:middle"></div><div style="margin:0;margin-bottom:16px;text-align:center;line-height:100%"> <a href="${
           process.env.NODE_ENV === "development"
@@ -149,10 +151,10 @@ export const getPass = async (req, res, config) => {
       {
         model: "./MAMO.pass",
         certificates: {
-          wwdr: process.env.WWDR_CERT.replace(/\\n/g, "\n"),
-          signerCert: process.env.SIGNER_CERT.replace(/\\n/g, "\n"),
-          signerKey: process.env.SIGNER_KEY.replace(/\\n/g, "\n"),
-          signerKeyPassphrase: process.env.PASSPHRASE,
+          wwdr: CONFIG.appleWallet.wwdrCert.replace(/\\n/g, "\n"),
+          signerCert: CONFIG.appleWallet.signerCert.replace(/\\n/g, "\n"),
+          signerKey: CONFIG.appleWallet.signerKey.replace(/\\n/g, "\n"),
+          signerKeyPassphrase: CONFIG.appleWallet.passPhrase,
         },
       },
       {

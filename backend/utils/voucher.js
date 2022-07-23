@@ -1,4 +1,4 @@
-import { config } from "./config.js";
+import CONFIG from "../../config.js";
 
 export const signWhitelist = async (
   chainId,
@@ -7,8 +7,8 @@ export const signWhitelist = async (
   mintingAddress
 ) => {
   const domain = {
-    name: config.whitelisting.domain,
-    version: config.whitelisting.version,
+    name: CONFIG.whitelisting.domain,
+    version: CONFIG.whitelisting.version,
     chainId,
     verifyingContract: contractAddress,
   };

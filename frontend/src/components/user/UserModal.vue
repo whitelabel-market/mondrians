@@ -21,7 +21,7 @@
           </h4>
           <a
             v-if="ensAccount?.name"
-            :href="`${ENS_BASE_URL}${address}`"
+            :href="`${CONFIG.ensBaseUrl}${address}`"
             class="font-semibold"
             >{{ "@" + ensAccount.name }}</a
           >
@@ -45,7 +45,7 @@
       >
         <li v-for="(link, name) in routes" :key="name" class="block">
           <router-link
-            class="link flex items-center justify-start space-x-1"
+            class="flex items-center justify-start space-x-1 link"
             :to="'/user/' + address + '/' + link.to"
             @click.prevent="$emit('update:modelValue', false)"
           >
@@ -56,7 +56,7 @@
       </ul>
 
       <div
-        class="flex flex-col p-4 space-y-2 bg-white border-2 rounded text-sm dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
+        class="flex flex-col p-4 space-y-2 text-sm bg-white border-2 rounded dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
       >
         <div class="flex items-start justify-between w-full">
           <div>
@@ -81,7 +81,7 @@
               color="gray"
               :tooltip="'Viw on Polygonscan'"
               only-icon
-              :href="`${EXPLORER_BASE_URL}address/${address}`"
+              :href="`${CONFIG.explorerBaseUrl}address/${address}`"
             >
               <SearchIcon class="w-4 h-4" />
             </AppButton>
@@ -103,14 +103,14 @@
         <div class="grid grid-cols-[5rem_1fr]">
           <div>Network:</div>
           <div>
-            <span class="font-semibold italic">Polygon</span>
+            <span class="italic font-semibold">Polygon</span>
           </div>
           <div>Balance:</div>
           <div>
             <div class="flex items-center pb-2 space-x-2">
               <span class="inline-flex items-center space-x-0.5">
                 <PolygonIcon class="block w-4 h-4" />
-                <span class="block font-semibold italic"
+                <span class="block italic font-semibold"
                   >{{ Number(balance).toFixed(2) }}
                 </span>
               </span>
@@ -118,7 +118,7 @@
               <SwitchHorizontalIcon class="w-3 h-3" />
               <span>
                 <span>$&nbsp;</span>
-                <span class="font-semibold italic"> {{ usdBalance }} </span>
+                <span class="italic font-semibold"> {{ usdBalance }} </span>
               </span>
             </div>
           </div>
@@ -160,11 +160,7 @@ import {
 } from "@heroicons/vue/outline";
 import { useFetch } from "@vueuse/core";
 import { getTokenHourData } from "@/services/graphql/types";
-import {
-  UNISWAP_SUBGRAPH_POLYGON,
-  EXPLORER_BASE_URL,
-  ENS_BASE_URL,
-} from "@/utils/constants";
+import CONFIG from "@/../../config";
 import { useClipboard } from "@vueuse/core";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import makeBlockie from "ethereum-blockies-base64";
@@ -219,9 +215,12 @@ const usdBalance = computed<string>(() => {
   return "0.00";
 });
 
-const { data, execute, onFetchResponse } = useFetch(UNISWAP_SUBGRAPH_POLYGON, {
-  timeout: 10000,
-})
+const { data, execute, onFetchResponse } = useFetch(
+  CONFIG.subgraph.uniswapPolygon,
+  {
+    timeout: 10000,
+  }
+)
   .post(
     JSON.stringify({
       query: getTokenHourData,
