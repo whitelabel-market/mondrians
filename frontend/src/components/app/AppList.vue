@@ -7,10 +7,10 @@
     <div class="relative mt-1">
       <ListboxButton
         :id="id"
-        class="flex items-center justify-start w-full h-12 px-4 text-current transition-colors bg-white border-2 rounded outline-none focus:ring-0 dark:focus:border-stone-700 border-stone-700 dark:bg-neutral-900 ease-in-circ"
+        class="flex items-center justify-start w-full h-12 px-4 text-current transition-colors bg-white border-2 rounded outline-none focus:ring-0 dark:border-stone-700 dark:bg-neutral-900 ease-in-circ border-stone-200"
         ><span
           class="block truncate"
-          :class="selected ? '' : 'dark:text-neutral-400 dark:bg-neutral-900'"
+          :class="selected ? '' : 'text-neutral-400 dark:bg-neutral-900'"
           >{{ selected?.name || placeholder }}</span
         >
         <span

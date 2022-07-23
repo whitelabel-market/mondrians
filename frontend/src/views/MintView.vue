@@ -91,6 +91,7 @@
 
               <TicketTask
                 :disabled="task(1, 0).isReady.value || taskIndex.value < index"
+                :loading="task(1, 0).isLoading.value"
                 @submit="next($event, { job: 1, task: index })"
                 @skip="skip({ job: 1, task: index })"
               />
@@ -289,11 +290,8 @@ watch(taskIndex, () => {
 watch(isError, () => {
   if (isError.value) {
     let message;
-    try {
-      message = JSON.stringify(error.value);
-    } catch {
-      message = error.value;
-    }
+    if (typeof error.value === "object") message = JSON.stringify(error.value);
+    else message = error.value;
     notify(
       {
         group: "app",

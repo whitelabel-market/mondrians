@@ -18,7 +18,6 @@
         @click.prevent="emit('skip')"
         color="gray"
         v-if="skippable"
-        :loading="loading"
         >Skip for now</AppButton
       >
     </div>
