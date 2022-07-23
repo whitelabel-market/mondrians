@@ -1,4 +1,4 @@
-name: Build docker image
+name: Deployment
 
 # Controls when the action will run.
 on:
