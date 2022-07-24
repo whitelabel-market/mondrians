@@ -1,18 +1,29 @@
 <template>
-  <div>
-    <div class="max-w-2xl" v-if="isFinished && tokens.length">
-      <PrintTask
-        :tokens="tokens"
-        :skippable="false"
-        :loading="loading"
-        @submit="print"
-      />
+  <div class="max-w-2xl mx-auto flex flex-col items-center space-y-8">
+    <div>
+      <p class="text-neutral-900 dark:text-neutral-50 text-center">
+        {{ MintDescription.print }} After submitting you will have to confirm a
+        transaction in your wallet to pay for your print order. This is the only
+        payment, no other fees will be charged later on. If the order was
+        successful you will receive a confirmation message to your inbox.
+      </p>
     </div>
+
+    <AppLoadingSpinner class="mx-auto" v-if="!isFinished" />
+
+    <PrintTask
+      v-else-if="tokens.length > 0"
+      :tokens="tokens"
+      :skippable="false"
+      :loading="loading"
+      @submit="print"
+    />
+
     <NoTokens
       :ensAccount="ensAccount"
       :error="error"
       :aborted="aborted"
-      v-if="isFinished && !tokens.length"
+      v-else
     />
   </div>
 </template>
@@ -30,6 +41,8 @@ import { authInterface } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
 import { ethers } from "ethers";
 import { useWalletExtended } from "@/composables/useWalletExtended";
+import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
+import { MintDescription } from "@/utils/constants";
 
 const emits = defineEmits(["showHint"]);
 
@@ -53,10 +66,7 @@ const print = async function (printData: any) {
 
     await mondrianInterface.print();
 
-    await authInterface.print({
-      ...printData,
-      countryCode: "de",
-    });
+    await authInterface.print(printData);
   } finally {
     loading.value = false;
   }

@@ -1,14 +1,25 @@
 <template>
-  <div>
-    <div class="max-w-2xl" v-if="isFinished && tokens.length">
-      <EventTask @submit="sendTicket" :loading="loading" :skippable="false" />
+  <div class="max-w-2xl mx-auto flex flex-col items-center space-y-8">
+    <div>
+      <p class="text-neutral-900 dark:text-neutral-50 text-center">
+        {{ MintDescription.event }}
+      </p>
     </div>
 
+    <AppLoadingSpinner v-if="!isFinished" />
+
+    <EventTask
+      v-else-if="tokens.length > 0"
+      @submit="sendTicket"
+      :loading="loading"
+      :skippable="false"
+    />
+
     <NoTokens
+      v-else
       :ensAccount="ensAccount"
       :error="error"
       :aborted="aborted"
-      v-if="isFinished && !tokens.length"
     />
   </div>
 </template>
@@ -23,6 +34,8 @@ import type { Token } from "@/utils/types";
 import { useFetch } from "@vueuse/core";
 import EventTask from "@/components/mint/EventTask.vue";
 import { authInterface } from "@/services/BackendInterface";
+import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
+import { MintDescription } from "@/utils/constants";
 
 const emits = defineEmits(["showHint"]);
 

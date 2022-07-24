@@ -7,9 +7,9 @@
         class="container flex flex-col items-center justify-start flex-1 w-full h-full mx-auto space-y-12"
       >
         <img
-          :alt="(route.params.id as string)"
+          :alt="route.params.id"
           v-if="route?.params?.id"
-          :src="makeBlockie(route.params.id as string)"
+          :src="makeBlockie(route.params.id)"
           class="object-cover w-24 h-24 border-4 border-black rounded"
         />
 
@@ -17,10 +17,17 @@
           <div class="text-center text-neutral-900">
             <div
               class="flex items-center space-x-2"
-              v-if="ensAccount ||(/^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string))"
+              v-if="ensAccount || /^0x[a-fA-F0-9]{40}$/g.test(route.params.id)"
             >
               <h1 class="text-2xl font-bold slashed-zero">
-                {{ getShortAddress(ensAccount?.id || (route.params.id as string)) }}
+                {{
+                  getShortAddress(
+                    ensAccount?.id ||
+                      (route.params.id.length
+                        ? route.params.id[0]
+                        : route.params.id)
+                  )
+                }}
               </h1>
               <AppButton
                 only-icon
@@ -28,7 +35,14 @@
                 flat
                 color="blank"
                 :tooltip="copied ? 'Copied' : 'Copy'"
-                @click.prevent="copy(ensAccount?.id || (route.params.id as string))"
+                @click.prevent="
+                  copy(
+                    ensAccount?.id ||
+                      (route.params.id.length
+                        ? route.params.id[0]
+                        : route.params.id)
+                  )
+                "
               >
                 <ClipboardCopyIcon class="w-6 h-6"></ClipboardCopyIcon>
               </AppButton>
@@ -48,7 +62,7 @@
             v-if="route?.params?.id"
           >
             <ShareButtons
-              :address="(route.params.id as string)"
+              :address="route.params.id"
               :hintVisible="hintVisible"
             />
           </div>
@@ -87,6 +101,7 @@ import { getShortAddress } from "@/utils/ethereum";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import { getEnsAccount, getEnsAccountReverse } from "@/services/graphql/types";
 import makeBlockie from "ethereum-blockies-base64";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 
@@ -94,6 +109,7 @@ const emits = defineEmits(["loaded"]);
 emits("loaded", true); // avoids loading animation
 
 const hintVisible = ref(false);
+const { isConnected } = useWallet();
 
 // ens handling
 const route = useRoute();
@@ -145,10 +161,16 @@ watch(
   { deep: true, immediate: true }
 );
 
-const tabs = {
-  Collected: "collected",
-  Activity: "activity",
-  "Event Invitation": "event",
-  Print: "print",
-};
+const tabs = computed(() => {
+  const tabs = {
+    Collected: "collected",
+    Activity: "activity",
+  };
+
+  const auth = {
+    "Event Invitation": "event",
+    Print: "print",
+  };
+  return isConnected.value ? { ...tabs, ...auth } : tabs;
+});
 </script>

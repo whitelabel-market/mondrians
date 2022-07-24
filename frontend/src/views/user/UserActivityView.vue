@@ -28,7 +28,13 @@
     :error="error"
     :aborted="aborted"
     v-if="isFinished && !transfers.length"
-  />
+  >
+    <template v-slot:title>No Activity</template>
+    <template v-slot:description="{ isSelf }">
+      It seems like {{ isSelf ? "you have" : "this address has" }} no activities
+      in this collection.
+    </template>
+  </NoTokens>
 </template>
 
 <script setup lang="ts">

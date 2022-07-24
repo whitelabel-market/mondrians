@@ -4,9 +4,8 @@
     height="100%"
     viewBox="0 0 400 600"
     preserveAspectRatio="xMinYMin meet"
-    v-if="token"
   >
-    <foreignObject width="100%" height="100%">
+    <foreignObject width="100%" height="100%" class="block rounded">
       <div
         class="flex flex-col relative space-y-[4%] !bg-white !text-black"
         xmlns="http://www.w3.org/1999/xhtml"
@@ -48,7 +47,7 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-7 gap-[4%] p-[1%] items-end">
+        <div class="grid grid-cols-7 gap-[4%] p-[2%] items-end">
           <div class="col-span-2">
             <p class="text-[32%] text-neutral-400 font-light w-full">
               © 2022 Whitelabel Solutions, Inc.

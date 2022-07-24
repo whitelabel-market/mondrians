@@ -1,22 +1,28 @@
 <template>
-  <form class="grid w-full gap-2 lg:grid-cols-2" autocomplete="off">
-    <div class="space-y-1 text-left lg:col-span-2">
+  <form class="grid w-full gap-2 grid-cols-1 lg:grid-cols-2" autocomplete="off">
+    <div class="space-y-1 text-left w-full col-span-1 lg:col-span-2">
       <span
-        class="inline-block text-xs font-semibold text-neutral-900 dark:text-neutral-400"
+        class="block text-xs font-semibold text-neutral-900 dark:text-neutral-400"
       >
         Select Item
       </span>
-      <TokenList dense slider :tokens="tokens" :is-finished="tokens.length > 0">
+
+      <TokenList slider :tokens="tokens" :is-finished="tokens.length > 0">
         <template v-slot:token="{ token }">
           <button
-            class="flex w-full h-full p-2 text-left duration-100 border-2 border-transparent rounded transition-color"
-            :class="{
-              'border-stone-200 dark:border-stone-700':
-                form.token.id === token.id,
-            }"
+            class="inline-flex text-left duration-100 border-2 rounded transition duration-100"
+            :class="
+              form.token.id === token.id
+                ? 'border-neutral-200 dark:border-stone-700'
+                : 'border-transparent'
+            "
             @click.prevent="form.token = token"
           >
-            <TokenCardPrint :token="token" />
+            <TokenCardPrint
+              :token="token"
+              class="transition duration-100"
+              :class="form.token.id === token.id ? 'scale-95' : 'scale-100'"
+            />
           </button>
         </template>
       </TokenList>

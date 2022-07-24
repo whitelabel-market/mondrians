@@ -13,32 +13,27 @@
     <div
       class="flex items-center justify-center w-10 h-10 p-2 transition-colors duration-100 bg-white rounded-full shadow-lg animate-bounce dark:bg-neutral-200 ring-1 ring-slate-900/5 dark:ring-slate-200/20"
     >
-      <ArrowSmUpIcon class="w-5 h-5 text-neutral-900" />
+      <div class="w-5 h-5 text-neutral-900">
+        <slot name="icon" :isSelf="isSelf">
+          <ArrowSmUpIcon />
+        </slot>
+      </div>
     </div>
     <h3 class="text-2xl font-bold">
-      {{ route.name === "Activity" ? "No activity" : "No tokens found" }}
+      <slot name="title" :isSelf="isSelf">No tokens found</slot>
     </h3>
     <div>
-      <p v-if="route.name === 'CollectedItems'">
-        {{
-          `It seems like ${
-            isSelf ? "you have" : "this address has"
-          } none of the rare Mondrians.`
-        }}
-      </p>
-      <p v-if="route.name === 'Activity'">
-        {{
-          `It seems like ${
-            isSelf ? "you have" : "this address has"
-          } no activities in this collection.`
-        }}
-      </p>
       <p>
-        {{
-          "You should consider to " +
-          (isSelf ? "create a Mondrian &#128640; and " : "") +
-          "make some noise to promote the collection &#128172;"
-        }}
+        <slot name="description" :isSelf="isSelf">
+          It seems like {{ isSelf ? "you have" : "this address has" }} none of
+          the rare Mondrians.
+        </slot>
+      </p>
+
+      <p>
+        You should consider to
+        {{ isSelf ? "create a Mondrian &#128640; and " : "" }} make some noise
+        to promote the collection &#128172;
       </p>
     </div>
     <AppButton :to="`/mint`" v-if="isSelf" color="candlelight">
