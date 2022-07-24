@@ -82,11 +82,8 @@
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                As an owner of a Magic Mondrian NFT you have the opportunity to
-                take part in an exclusive real life event. Register your email
-                address and we will send you the tickets and give further
-                information. You can receive an invitation also in your user
-                profile.
+                {{ MintDescription.event }} You may request this invitation at a
+                later point in time in your user profile
               </template>
 
               <TicketTask
@@ -106,9 +103,9 @@
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Order a printed artwork of your Magic Mondrian NFT. Currently,
-                only one printable version per purchase is allowed. You can
-                issue additional print orders in your user profile.
+                {{ MintDescription.print }}
+                You may issue more print orders at a later point in time in your
+                user profile
               </template>
               <PrintTask
                 :tokens="tokens"
@@ -148,7 +145,7 @@
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
                 Processing of your print order. We will send a confirmation
-                message to your email address</template
+                message to your inbox</template
               >
             </MintStep>
           </template>
@@ -188,7 +185,7 @@ import { ethers } from "ethers";
 import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
 import ConfirmationTask from "@/components/mint/ConfirmationTask.vue";
 import { notify } from "notiwind";
-
+import { MintDescription } from "@/utils/constants";
 const emit = defineEmits(["loaded"]);
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
 const presaleEnabled = useFlag(SalePhase.PreSale);
