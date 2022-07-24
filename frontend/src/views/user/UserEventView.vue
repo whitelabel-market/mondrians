@@ -1,7 +1,9 @@
 <template>
   <div class="max-w-2xl mx-auto flex flex-col items-center space-y-8">
     <div>
-      <p>{{ MintDescription.event }}</p>
+      <p class="text-neutral-900 dark:text-neutral-50 text-center">
+        {{ MintDescription.event }}
+      </p>
     </div>
 
     <AppLoadingSpinner v-if="!isFinished" />

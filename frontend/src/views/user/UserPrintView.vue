@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-2xl mx-auto flex flex-col items-center space-y-8">
     <div>
-      <p>
+      <p class="text-neutral-900 dark:text-neutral-50 text-center">
         {{ MintDescription.print }} After submitting you will have to confirm a
         transaction in your wallet to pay for your print order. This is the only
         payment, no other fees will be charged later on. If the order was
