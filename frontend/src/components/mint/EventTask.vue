@@ -40,7 +40,7 @@ defineProps({
   },
   skippable: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   loading: {
     type: Boolean,
