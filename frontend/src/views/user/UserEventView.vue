@@ -1,10 +1,10 @@
 <template>
-  <div class="max-w-2xl space-y-8">
+  <div class="max-w-2xl mx-auto flex flex-col items-center space-y-8">
     <div>
-      <p class="text-center md:text-left">{{ MintDescription.event }}</p>
+      <p>{{ MintDescription.event }}</p>
     </div>
 
-    <AppLoadingSpinner v-if="!isFinished" class="mx-auto" />
+    <AppLoadingSpinner v-if="!isFinished" />
 
     <EventTask
       v-else-if="tokens.length > 0"

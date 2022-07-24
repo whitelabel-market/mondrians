@@ -1,7 +1,7 @@
 <template>
-  <div class="max-w-2xl space-y-8">
+  <div class="max-w-2xl mx-auto flex flex-col items-center space-y-8">
     <div>
-      <p class="text-center md:text-left">
+      <p>
         {{ MintDescription.print }} After submitting you will have to confirm a
         transaction in your wallet to pay for your print order. This is the only
         payment, no other fees will be charged later on. If the order was
@@ -66,10 +66,7 @@ const print = async function (printData: any) {
 
     await mondrianInterface.print();
 
-    await authInterface.print({
-      ...printData,
-      countryCode: "de",
-    });
+    await authInterface.print(printData);
   } finally {
     loading.value = false;
   }
