@@ -1,6 +1,12 @@
 module.exports = {
-  hostUrl: "https://magic-mondrian.netlify.app/",
-  supportEmail: "support@magic-mondrian.art",
+  hostUrl:
+    process.env.NODE_ENV === "development"
+      ? "https://magic-mondrian.netlify.app/"
+      : "https://www.magic-mondrian.art",
+  supportEmail:
+    process.env.NODE_ENV === "development"
+      ? "kevin.hertwig@t-online.de"
+      : "support@magic-mondrian.art",
   tokenImageForMetamaskWallet:
     "https://ipfs.io/ipfs/bafybeid7fmhgs7roxyctc5k2ciut3wgznpnhtx2tawhl2pf47s7e554cim/1.png",
   tokenSymbol: "MAMO",
