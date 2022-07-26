@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <div class="relative flex flex-col w-full mx-auto space-y-4 text-center">
-      <p class="w-full mx-auto text-lg z-100">
+      <p class="z-20 w-full mx-auto text-lg">
         <slot name="description"></slot>
       </p>
 
@@ -9,7 +9,7 @@
 
       <div
         v-if="!isActive"
-        class="absolute z-50 transition-colors duration-100 -inset-2 bg-white/80 dark:bg-neutral-900/80"
+        class="absolute z-10 transition-colors duration-100 -inset-2 bg-white/80 dark:bg-neutral-900/80"
       />
     </div>
   </div>
