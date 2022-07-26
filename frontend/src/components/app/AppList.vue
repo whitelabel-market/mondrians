@@ -4,7 +4,6 @@
     v-model="selected"
     @update:modelValue="$emit('selected', selected)"
     name="country"
-    ref="testo"
   >
     <div class="relative mt-1">
       <ListboxButton
@@ -69,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import {
   Listbox,
   ListboxButton,
@@ -90,7 +89,4 @@ defineProps({
 });
 
 const selected = ref();
-const testo = ref();
-
-onMounted(() => console.log(testo));
 </script>
