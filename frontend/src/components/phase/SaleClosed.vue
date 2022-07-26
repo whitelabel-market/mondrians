@@ -55,8 +55,8 @@ const props = defineProps({
 
 const maxSupply = ref(100);
 
-const from = { y: 20, autoAlpha: 0 };
-const duration = 0.4;
+// const from = { y: 20, autoAlpha: 0 };
+// const duration = 0.4;
 
 onMounted(() => {
   if (!props.loaded) {

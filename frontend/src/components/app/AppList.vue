@@ -3,11 +3,12 @@
     as="div"
     v-model="selected"
     @update:modelValue="$emit('selected', selected)"
+    name="country"
+    ref="testo"
   >
     <div class="relative mt-1">
       <ListboxButton
-        :id="id"
-        class="flex items-center justify-start w-full h-12 px-4 text-current transition-colors bg-white border-2 rounded outline-none focus:ring-0 dark:border-stone-700 dark:bg-neutral-900 ease-in-circ border-stone-200"
+        class="flex items-center justify-start w-full h-12 px-4 text-current transition-colors bg-white border-2 rounded outline-none focus:ring-2 dark:focus:ring-blue-400 dark:border-stone-700 dark:bg-neutral-900 ease-in-circ border-stone-200"
         ><span
           class="block truncate"
           :class="selected ? '' : 'text-neutral-400 dark:bg-neutral-900'"
@@ -33,6 +34,7 @@
           class="absolute z-50 w-full py-1 mt-1 overflow-auto text-base bg-white border-2 rounded-md shadow-lg border-stone-700 dark:bg-neutral-900 max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <ListboxOption
+            static
             v-slot="{ active, selected }"
             v-for="item in items"
             :key="item.name"
@@ -67,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import {
   Listbox,
   ListboxButton,
@@ -81,10 +83,6 @@ defineProps({
     type: Object,
     required: true,
   },
-  id: {
-    type: String,
-    required: true,
-  },
   placeholder: {
     type: String,
     required: true,
@@ -92,4 +90,7 @@ defineProps({
 });
 
 const selected = ref();
+const testo = ref();
+
+onMounted(() => console.log(testo));
 </script>

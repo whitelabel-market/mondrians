@@ -8,6 +8,13 @@ import axios from "axios";
 import { ethers } from "ethers";
 import { encrypt } from "../../utils/crypto.js";
 import CONFIG from "../../../config.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const api = axios.create({
   baseURL:
@@ -173,12 +180,15 @@ export const canPrint = () => {
     const headerAddress = req.headers && req.headers["x-viewer-address"];
     const { address: queryAddress } = req.query;
     const { accessToken } = req;
+    const { token } = req.body;
+
+    if (!token.hasOwnProperty("id"))
+      return res.status(400).json("Invalid request body");
 
     const address = accessToken
       ? accessToken.sub
       : headerAddress || queryAddress;
 
-    // TODO: change to correct network
     const dic_net = {
       name: CONFIG.chainList.shortName,
       chainId: CONFIG.chainId,
@@ -190,13 +200,33 @@ export const canPrint = () => {
 
     const contract = new ethers.Contract(
       CONFIG.contract,
-      ["function hasPrintedOnce(address) public view returns (bool)"],
+      [
+        "function hasPrintedOnce(address, uint256) public view returns (bool)",
+        "function ownerOf(uint256) public view returns (address)",
+      ],
       provider
     );
 
-    const hasPrintedOnce = await contract.hasPrintedOnce(address);
+    try {
+      const owner = await contract.ownerOf(token.id);
+      if (owner.toLowerCase() !== address.toLowerCase())
+        return res.status(403).send(`Not owner of token with id ${token.id}`);
 
-    if (hasPrintedOnce) return res.status(403).send("Already printed once");
-    else return next();
+      const hasPayedForPrint = await contract.hasPrintedOnce(address, token.id);
+      if (!hasPayedForPrint) return res.status(403).send("Not paid for print");
+
+      const files = fs.readdirSync(path.join(__dirname, "../../screenshots/"));
+      const index = files.findIndex((file) =>
+        file.toLowerCase().startsWith(`${address.toLowerCase()}_${token.id}`)
+      );
+      if (index > -1)
+        return res
+          .status(403)
+          .send(`Already printed Token with id ${token.id}`);
+
+      return next();
+    } catch (e) {
+      return res.status(400).send(e.toString());
+    }
   };
 };

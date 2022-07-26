@@ -46,7 +46,6 @@
 import { computed } from "vue";
 import { ArrowSmUpIcon } from "@heroicons/vue/solid";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
-import { useRoute } from "vue-router";
 import AppButton from "@/components/app/AppButton.vue";
 
 const props = defineProps({
@@ -62,7 +61,6 @@ const props = defineProps({
 });
 
 const { address } = useWallet();
-const route = useRoute();
 
 const isSelf = computed(
   () => address.value.toLowerCase() === props.ensAccount?.id?.toLowerCase()

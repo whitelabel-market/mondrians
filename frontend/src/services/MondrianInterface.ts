@@ -77,7 +77,7 @@ export default class MondrianInterface {
   }
 
   // Function to send ether/matic to contract for printing
-  async print() {
+  async print(token: any) {
     const price = CONFIG.mint.printPrice;
     try {
       if (!this.signer) {
@@ -85,21 +85,17 @@ export default class MondrianInterface {
       }
 
       const contract = await this.contract.connect(this.signer);
-      const tx = await contract.print({
+      const tx = await contract.print(token.id, {
         value: ethers.utils.parseEther(price),
       });
 
       return await tx.wait();
     } catch (e: any) {
-      if (e?.error?.data?.message) {
-        throw new Error(e.error.data.message);
-      } else if (e?.error?.message) {
-        throw new Error(e.error.message);
-      } else if (e?.message) {
-        throw new Error(e.message);
-      } else {
-        throw new Error("Something went wrong");
-      }
+      const error: any = {};
+      Object.keys(e).forEach((key) => {
+        error[key] = e[key];
+      });
+      throw error;
     }
   }
 }
