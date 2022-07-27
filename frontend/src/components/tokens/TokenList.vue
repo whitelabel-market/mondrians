@@ -30,7 +30,7 @@
 
     <div
       v-else
-      class="grid w-full gap-8 grid-cols-2 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+      class="grid w-full gap-8 grid-cols-1 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
     >
       <template v-for="token of isFinished ? tokens : 5" :key="token.id">
         <slot v-if="isFinished" name="token" :token="token">

@@ -101,7 +101,6 @@ import { getShortAddress } from "@/utils/ethereum";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import { getEnsAccount, getEnsAccountReverse } from "@/services/graphql/types";
 import makeBlockie from "ethereum-blockies-base64";
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 
@@ -109,7 +108,6 @@ const emits = defineEmits(["loaded"]);
 emits("loaded", true); // avoids loading animation
 
 const hintVisible = ref(false);
-const { isConnected } = useWallet();
 
 // ens handling
 const route = useRoute();
@@ -137,8 +135,13 @@ onFetchResponse(() => {
 const isValidEthAddress = computed(() =>
   /^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string)
 );
-
 const isEnsName = computed(() => (route.params.id as string).endsWith(".eth"));
+const isCurrentUserRoute = computed(
+  () =>
+    route.params.id &&
+    ensAccount.value &&
+    route.params.id === ensAccount.value.id
+);
 
 watch(
   route,
@@ -171,6 +174,7 @@ const tabs = computed(() => {
     "Event Invitation": "event",
     Print: "print",
   };
-  return isConnected.value ? { ...tabs, ...auth } : tabs;
+
+  return isCurrentUserRoute.value ? { ...tabs, ...auth } : tabs;
 });
 </script>

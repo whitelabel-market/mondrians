@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import scrollBehavior from "@/router/scrollBehavior";
-import authGuard from "@/router/authGuard";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -43,7 +42,6 @@ const routes: Array<RouteRecordRaw> = [
         path: "event",
         name: "Event",
         component: () => import("@/views/user/UserEventView.vue"),
-        beforeEnter: authGuard,
         meta: {
           title: "Event",
         },
@@ -52,7 +50,6 @@ const routes: Array<RouteRecordRaw> = [
         path: "print",
         name: "Print",
         component: () => import("@/views/user/UserPrintView.vue"),
-        beforeEnter: authGuard,
         meta: {
           title: "Print",
         },
