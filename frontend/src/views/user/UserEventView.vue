@@ -49,7 +49,6 @@ import { authInterface } from "@/services/BackendInterface";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { MintDescription } from "@/utils/constants";
 import AppAlert from "@/components/app/AppAlert.vue";
-import { notify } from "notiwind";
 
 const emits = defineEmits(["showHint"]);
 

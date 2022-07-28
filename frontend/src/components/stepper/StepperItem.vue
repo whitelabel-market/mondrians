@@ -15,7 +15,7 @@
       </div>
     </DisclosureButton>
     <Transition @enter="onEnter" @leave="onLeave" :css="false">
-      <div v-show="modelValue" class="p-8">
+      <div v-if="modelValue" class="p-8">
         <DisclosurePanel static>
           <div
             class="space-y-4 transition-colors duration-100 dark:text-neutral-200"

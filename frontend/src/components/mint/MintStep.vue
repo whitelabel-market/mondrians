@@ -5,12 +5,9 @@
         <slot name="description"></slot>
       </p>
 
-      <slot />
-
-      <div
-        v-if="!isActive"
-        class="absolute z-10 transition-colors duration-100 -inset-2 bg-white/80 dark:bg-neutral-900/80"
-      />
+      <div :class="{ '!opacity-20 !pointer-events-none': !isActive }">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
