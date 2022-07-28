@@ -16,7 +16,7 @@
                 ? 'dark:border-neutral-200 border-stone-700'
                 : 'border-transparent'
             "
-            @click.prevent="form.token = token"
+            @click.prevent="!disabled && (form.token = token)"
           >
             <TokenCardPrint
               :token="token"
@@ -36,6 +36,7 @@
         placeholder="Name"
         label="Name"
         :error="form.name.length ? errorFields?.name?.[0]?.message : ''"
+        :disabled="disabled"
       />
     </div>
 
@@ -47,6 +48,7 @@
         placeholder="Email Address"
         label="Email Address"
         :error="form.email.length ? errorFields?.email?.[0]?.message : ''"
+        :disabled="disabled"
       />
     </div>
 
@@ -58,6 +60,7 @@
         placeholder="Street and house number"
         label="Street and house number"
         :error="form.street.length ? errorFields?.street?.[0]?.message : ''"
+        :disabled="disabled"
       />
     </div>
 
@@ -68,6 +71,7 @@
       placeholder="Zip Code"
       label="Zip Code"
       :error="form.zipCode.length ? errorFields?.zipCode?.[0]?.message : ''"
+      :disabled="disabled"
     />
 
     <AppInput
@@ -77,6 +81,7 @@
       placeholder="City"
       label="City"
       :error="form.city.length ? errorFields?.city?.[0]?.message : ''"
+      :disabled="disabled"
     />
 
     <div class="z-10 -space-y-1 text-left lg:col-span-2">

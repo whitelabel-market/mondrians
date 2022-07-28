@@ -9,6 +9,19 @@
       </p>
     </div>
 
+    <AppAlert v-model="showError" title="Something went wrong">
+      {{ error }}
+    </AppAlert>
+
+    <AppAlert
+      v-model="showSuccess"
+      :variant="'success'"
+      title="Congratulations"
+    >
+      Your order was successful. You will soon receive a confirmation message to
+      your inbox.
+    </AppAlert>
+
     <AppLoadingSpinner class="mx-auto" v-if="!isFinished" />
 
     <PrintTask
@@ -43,10 +56,15 @@ import { ethers } from "ethers";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { MintDescription } from "@/utils/constants";
+import { notify } from "notiwind";
+import AppAlert from "@/components/app/AppAlert.vue";
 
 const emits = defineEmits(["showHint"]);
 
 const loading = ref(false);
+const error = ref(null);
+const showError = ref(false);
+const showSuccess = ref(false);
 
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
@@ -64,9 +82,12 @@ const print = async function (printData: any) {
       toRaw(provider.value as ethers.providers.Web3Provider)
     );
 
-    await mondrianInterface.print();
-
+    await mondrianInterface.print(printData.token);
     await authInterface.print(printData);
+    showSuccess.value = true;
+  } catch (err: any) {
+    error.value = err;
+    showError.value = true;
   } finally {
     loading.value = false;
   }
@@ -74,7 +95,7 @@ const print = async function (printData: any) {
 
 // tokens fetch handling
 
-const { onFetchResponse, data, isFinished, error, aborted, post } = useFetch(
+const { onFetchResponse, data, isFinished, aborted, post } = useFetch(
   CONFIG.subgraph.mamo,
   {
     timeout: 10000,

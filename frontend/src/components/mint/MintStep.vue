@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <div class="relative flex flex-col w-full mx-auto space-y-4 text-center">
-      <p class="z-20 w-full mx-auto text-lg">
+      <p class="z-20 w-full mx-auto">
         <slot name="description"></slot>
       </p>
 
