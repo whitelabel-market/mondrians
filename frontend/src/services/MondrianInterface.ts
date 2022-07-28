@@ -5,8 +5,10 @@ import magicMondrian from "@/utils/abis/MagicMondrian.json";
 export default class MondrianInterface {
   private contract: ethers.Contract;
   private signer: ethers.Signer;
+  private provider: ethers.providers.Web3Provider;
 
   constructor(provider: ethers.providers.Web3Provider) {
+    this.provider = provider;
     this.signer = provider.getSigner();
     this.contract = new ethers.Contract(
       CONFIG.contract,
@@ -78,7 +80,15 @@ export default class MondrianInterface {
 
   // Function to send ether/matic to contract for printing
   async print(token: any) {
-    const price = CONFIG.mint.printPrice;
+    const contract = new ethers.Contract(
+      CONFIG.contract,
+      ["function printPrice() public view returns (uint256)"],
+      this.provider
+    );
+
+    const priceHex = await contract.printPrice();
+    const price = ethers.utils.formatEther(priceHex);
+
     try {
       if (!this.signer) {
         throw new Error("Wallet not connected");
