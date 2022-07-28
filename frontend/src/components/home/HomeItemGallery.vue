@@ -2,6 +2,7 @@
   <section
     id="Gallery"
     class="transition-colors duration-100 bg-white mondrian-border-b dark:bg-neutral-900"
+    ref="outer"
   >
     <div class="px-8 overflow-hidden">
       <div class="space-y-4 md:hidden">
@@ -12,6 +13,7 @@
             index % 2 === 0 ? '-ml-20 justify-start' : '-mr-20 justify-end'
           "
           :key="'mobile ' + index"
+          ref="innerMobile"
         >
           <div
             class="flex-grow-0 flex-shrink-0 border-4 border-black shadow-xl"
@@ -36,6 +38,7 @@
           "
           :key="'desktop ' + index"
           v-animate.stagger
+          ref="innerDesktop"
         >
           <div
             class="flex-grow-0 flex-shrink-0 border-4 border-black shadow-xl"
@@ -53,3 +56,34 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { gsap } from "gsap";
+
+const outer = ref(null);
+const innerMobile = ref<Array<any>>([]);
+const innerDesktop = ref<Array<any>>([]);
+
+const slideOnScroll = (els: Array<any>, by: number) =>
+  els.forEach((el, i) => {
+    const [xStart, xEnd] = i % 2 === 0 ? [by, -1 * by] : [-1 * by, by];
+    gsap.fromTo(
+      el,
+      { xPercent: xStart },
+      {
+        xPercent: xEnd,
+        scrollTrigger: {
+          trigger: outer.value,
+          scrub: 0,
+          start: "top bottom",
+        },
+      }
+    );
+  });
+
+onMounted(() => {
+  slideOnScroll(innerMobile.value, 32);
+  slideOnScroll(innerDesktop.value, 16);
+});
+</script>
