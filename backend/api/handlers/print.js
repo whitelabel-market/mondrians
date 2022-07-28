@@ -37,7 +37,7 @@ const api = axios.create({
 export const sendEmailUpdate = async (req, res, config) => {
   const order = req.body;
 
-  if (order?.data?.order?.status?.details?.shipping === "Complete") {
+  if (order?.data?.order?.status?.details?.shipping === "InProgress") {
     let transporter = nodemailer.createTransport({
       host: CONFIG.email.host,
       port: CONFIG.email.port,
