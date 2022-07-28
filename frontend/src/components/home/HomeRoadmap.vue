@@ -3,11 +3,11 @@
     id="Roadmap"
     class="text-neutral-50 bg-dodgerblue-500 dark:bg-dodgerblue-900 mondrian-border-b"
   >
-    <div
-      class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-7"
-      v-animate
-    >
-      <div class="grid items-stretch gap-6 lgs:col-span-5 md:grid-cols-3">
+    <div class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-7">
+      <div
+        class="grid items-stretch gap-6 lgs:col-span-5 md:grid-cols-3"
+        v-animate.stagger
+      >
         <div class="max-w-2xl space-y-6 md:col-span-3">
           <h2 class="section-title">Roadmap</h2>
           <p class="">
@@ -38,6 +38,7 @@
         </div>
       </div>
       <img
+        v-animate
         src="@/assets/images/image-2.png"
         alt="Roadmap"
         class="order-first w-full max-w-sm mx-auto lgs:order-none lgs:col-span-2"

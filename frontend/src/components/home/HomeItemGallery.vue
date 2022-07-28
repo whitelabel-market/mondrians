@@ -3,7 +3,7 @@
     id="Gallery"
     class="transition-colors duration-100 bg-white mondrian-border-b dark:bg-neutral-900"
   >
-    <div class="px-8 overflow-hidden" v-animate>
+    <div class="px-8 overflow-hidden">
       <div class="space-y-4 md:hidden">
         <div
           class="flex space-x-4"
@@ -16,6 +16,7 @@
           <div
             class="flex-grow-0 flex-shrink-0 border-4 border-black shadow-xl"
             v-for="col in 5"
+            v-animate.stagger
             :key="'mobile ' + col + index"
           >
             <img
@@ -34,6 +35,7 @@
             index % 2 === 0 ? '-ml-40 justify-start' : '-mr-40 justify-end'
           "
           :key="'desktop ' + index"
+          v-animate.stagger
         >
           <div
             class="flex-grow-0 flex-shrink-0 border-4 border-black shadow-xl"

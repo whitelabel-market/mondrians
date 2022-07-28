@@ -5,9 +5,8 @@
   >
     <div
       class="container grid items-center max-w-4xl gap-4 px-8 mx-auto md:grid-cols-2 md:gap-20"
-      v-animate
     >
-      <div class="space-y-8">
+      <div class="space-y-8" v-animate.stagger>
         <h2 class="section-title">What are the Mondrians?</h2>
         <p>
           Mondrians is a drop of custom digital paintings, created by Piet
@@ -20,6 +19,7 @@
         </div>
       </div>
       <img
+        v-animate
         src="@/assets/images/image-5.png"
         alt="What are the Mondrian's?"
         class="order-first mdx:mx-auto md:order-none"

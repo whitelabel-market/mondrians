@@ -4,7 +4,7 @@
       <div
         v-if="!presaleOpen"
         class="flex flex-col justify-center mx-auto space-y-8 transition-colors duration-100 dark:text-neutral-200"
-        v-animate
+        v-animate.stagger
       >
         <h2
           class="flex flex-col items-center text-3xl font-black text-center uppercase md:text-4xl"
