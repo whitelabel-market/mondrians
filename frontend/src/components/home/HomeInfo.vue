@@ -5,9 +5,8 @@
   >
     <div
       class="container grid items-center max-w-4xl gap-12 px-8 mx-auto md:grid-cols-2 md:gap-20"
-      v-animate
     >
-      <div class="space-y-6">
+      <div class="space-y-6" v-animate.stagger>
         <div class="section-title">Creator</div>
 
         <div class="space-y-1">
@@ -27,6 +26,7 @@
         </div>
       </div>
       <img
+        v-animate
         src="@/assets/images/image-3.png"
         alt="Creator"
         class="md:order-first"

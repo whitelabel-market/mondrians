@@ -1,6 +1,6 @@
 <template>
-  <form class="grid w-full gap-2 grid-cols-1 lg:grid-cols-2" autocomplete="off">
-    <div class="space-y-1 text-left w-full col-span-1 lg:col-span-2">
+  <form class="grid w-full grid-cols-1 gap-2 lg:grid-cols-2">
+    <div class="w-full col-span-1 space-y-1 text-left lg:col-span-2">
       <span
         class="block text-xs font-semibold text-neutral-900 dark:text-neutral-400"
       >
@@ -10,13 +10,13 @@
       <TokenList slider :tokens="tokens" :is-finished="tokens.length > 0">
         <template v-slot:token="{ token }">
           <button
-            class="inline-flex text-left duration-100 border-2 rounded transition duration-100"
+            class="inline-flex text-left transition duration-100 border-2 rounded"
             :class="
               form.token.id === token.id
-                ? 'border-neutral-200 dark:border-stone-700'
+                ? 'dark:border-neutral-200 border-stone-700'
                 : 'border-transparent'
             "
-            @click.prevent="form.token = token"
+            @click.prevent="!disabled && (form.token = token)"
           >
             <TokenCardPrint
               :token="token"
@@ -36,6 +36,7 @@
         placeholder="Name"
         label="Name"
         :error="form.name.length ? errorFields?.name?.[0]?.message : ''"
+        :disabled="disabled"
       />
     </div>
 
@@ -47,6 +48,7 @@
         placeholder="Email Address"
         label="Email Address"
         :error="form.email.length ? errorFields?.email?.[0]?.message : ''"
+        :disabled="disabled"
       />
     </div>
 
@@ -58,6 +60,7 @@
         placeholder="Street and house number"
         label="Street and house number"
         :error="form.street.length ? errorFields?.street?.[0]?.message : ''"
+        :disabled="disabled"
       />
     </div>
 
@@ -68,6 +71,7 @@
       placeholder="Zip Code"
       label="Zip Code"
       :error="form.zipCode.length ? errorFields?.zipCode?.[0]?.message : ''"
+      :disabled="disabled"
     />
 
     <AppInput
@@ -77,9 +81,10 @@
       placeholder="City"
       label="City"
       :error="form.city.length ? errorFields?.city?.[0]?.message : ''"
+      :disabled="disabled"
     />
 
-    <div class="-space-y-1 text-left lg:col-span-2">
+    <div class="z-10 -space-y-1 text-left lg:col-span-2">
       <label
         for="country"
         class="inline-block text-xs font-semibold text-left text-neutral-900 dark:text-neutral-400"
@@ -88,14 +93,18 @@
       </label>
       <AppList
         :items="COUNTRIES"
-        id="country"
         placeholder="Country"
         @selected="form.country = $event"
+        class="z-50"
       />
     </div>
 
     <div class="flex items-center justify-start pt-2 space-x-4 lg:col-span-2">
-      <AppButton :disabled="!pass" @click.prevent="submit" :loading="loading">
+      <AppButton
+        :disabled="!pass || !form.token.hasOwnProperty('id')"
+        @click.prevent="submit"
+        :loading="loading"
+      >
         Submit
       </AppButton>
 

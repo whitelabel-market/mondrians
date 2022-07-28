@@ -1,16 +1,13 @@
 <template>
   <div class="relative">
     <div class="relative flex flex-col w-full mx-auto space-y-4 text-center">
-      <p class="z-10 text-lg w-full mx-auto">
+      <p class="z-20 w-full mx-auto">
         <slot name="description"></slot>
       </p>
 
-      <slot />
-
-      <div
-        v-if="!isActive"
-        class="absolute z-0 -inset-2 bg-white/80 dark:bg-neutral-900/80 transition-colors duration-100"
-      />
+      <div :class="{ '!opacity-20 !pointer-events-none': !isActive }">
+        <slot />
+      </div>
     </div>
   </div>
 </template>

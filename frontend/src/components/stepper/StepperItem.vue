@@ -15,14 +15,15 @@
       </div>
     </DisclosureButton>
     <Transition @enter="onEnter" @leave="onLeave" :css="false">
-      <div v-show="modelValue" class="p-8">
+      <div v-if="modelValue" class="p-8">
         <DisclosurePanel static>
           <div
             class="space-y-4 transition-colors duration-100 dark:text-neutral-200"
           >
-            <div v-if="!!error.value" class="text-center text-red-500">
+            <AppAlert title="Something went wrong" v-model="showError">
               <p>{{ getError }}</p>
-            </div>
+            </AppAlert>
+
             <slot :index="index" />
           </div>
         </DisclosurePanel>
@@ -32,10 +33,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, PropType, ref, Ref } from "vue";
+import { computed, PropType, ref, Ref, watch } from "vue";
 import { DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import StepStatus from "@/components/mint/StepStatus.vue";
 import { gsap } from "gsap";
+import AppAlert from "@/components/app/AppAlert.vue";
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -60,6 +62,8 @@ const props = defineProps({
   },
 });
 
+const showError = ref(false);
+
 const toggle = (el: HTMLElement, height: string) =>
   gsap.to(el, { height, duration: 0.1, ease: "power1.inOut" });
 
@@ -76,5 +80,9 @@ const getError = computed(() => {
     return props.error.value.message;
   if (typeof props.error.value === "string") return props.error.value;
   else return "Something went wrong";
+});
+
+watch(props.error, () => {
+  showError.value = !!props.error;
 });
 </script>

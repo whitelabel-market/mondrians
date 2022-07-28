@@ -1,24 +1,24 @@
 <template>
-  <Disclosure
-    as="div"
-    v-slot="{ open }"
-    class="w-full bg-candlelight-200 dark:bg-candlelight-500 border-2 border-black shadow-default"
-  >
-    <DisclosureButton
-      class="flex items-center justify-between w-full p-4 cursor-pointer"
+  <Disclosure as="div" v-slot="{ open }" class="w-full shadow-default">
+    <div
+      class="w-full bg-candlelight-200 dark:bg-candlelight-500 border-2 border-black rounded"
     >
-      <span class="text-lg font-bold"><slot name="question" /></span>
-      <ChevronDownIcon
-        class="w-6 h-6 transition duration-150 ease-in-out"
-        :class="open ? 'transform rotate-180' : ''"
-      />
-    </DisclosureButton>
+      <DisclosureButton
+        class="flex items-center justify-between w-full p-4 cursor-pointer"
+      >
+        <span class="text-lg font-bold"><slot name="question" /></span>
+        <ChevronDownIcon
+          class="w-6 h-6 transition duration-150 ease-in-out"
+          :class="open ? 'transform rotate-180' : ''"
+        />
+      </DisclosureButton>
 
-    <Transition @enter="onEnter" @leave="onLeave" :css="false">
-      <div v-show="open" class="h-0 overflow-hidden">
-        <div class="p-4 pt-0"><slot name="answer" /></div>
-      </div>
-    </Transition>
+      <Transition @enter="onEnter" @leave="onLeave" :css="false">
+        <div v-show="open" class="h-0 overflow-hidden">
+          <div class="p-4 pt-0"><slot name="answer" /></div>
+        </div>
+      </Transition>
+    </div>
   </Disclosure>
 </template>
 

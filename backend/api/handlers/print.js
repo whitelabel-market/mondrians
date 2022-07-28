@@ -329,7 +329,7 @@ export const createPrintOrder = async (req, res, config) => {
     );
 
     // capture screenshot and store it into screenshots directory.
-    const fileName = `${address}_${new Date()
+    const fileName = `${address}_${token.id}_${new Date()
       .toISOString()
       .replaceAll(":", "_")
       .replaceAll(".", "_")}.jpeg`;

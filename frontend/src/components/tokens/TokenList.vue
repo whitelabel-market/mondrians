@@ -16,11 +16,7 @@
         </div>
       </template>
 
-      <div
-        class="w-48 mr-4"
-        v-for="token of isFinished ? tokens : 5"
-        :key="token.id"
-      >
+      <div class="w-48 mr-4" v-for="(token, i) of _tokens" :key="i">
         <TokenCardSkeleton v-if="!isFinished" />
         <slot v-else name="token" :token="token">
           <TokenCard :token="token" />
@@ -30,9 +26,9 @@
 
     <div
       v-else
-      class="grid w-full gap-8 grid-cols-2 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+      class="grid w-full gap-8 grid-cols-1 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
     >
-      <template v-for="token of isFinished ? tokens : 5" :key="token.id">
+      <template v-for="(token, i) of _tokens" :key="i">
         <slot v-if="isFinished" name="token" :token="token">
           <TokenCard :token="token" />
         </slot>
@@ -48,8 +44,9 @@ import TokenCardSkeleton from "@/components/tokens/TokenCardSkeleton.vue";
 import VueHorizontal from "vue-horizontal";
 import AppButton from "@/components/app/AppButton.vue";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/vue/solid";
+import { computed } from "vue";
 
-defineProps({
+const props = defineProps({
   tokens: {
     type: Array,
     required: true,
@@ -63,4 +60,6 @@ defineProps({
     default: false,
   },
 });
+
+const _tokens = computed(() => (props.isFinished ? props.tokens : 5));
 </script>

@@ -19,7 +19,17 @@ import Notifications from "notiwind";
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
-const app = createApp({
+const walletCtx = WalletConnectorVue({
+  appName: "Magic Mondrian",
+  infuraId: CONFIG.infura.id,
+  chainId: CONFIG.chainId,
+  walletconnect: {
+    //bridge: "https://bridge.walletconnect.org",
+    rpc: { [CONFIG.chainId]: CONFIG.chainList.rpc[2] },
+  },
+});
+
+export const app = createApp({
   setup() {
     provide(TOGGLE_CONTEXT, createToggles());
     provide(WALLET_CONTEXT, createWalletExtended());
@@ -27,19 +37,11 @@ const app = createApp({
   render: () => h(App),
 });
 
+app.use(walletCtx);
+app.config.globalProperties.$wallet = walletCtx;
+
 app.directive("animate", animateDirective);
 
-app.use(
-  WalletConnectorVue({
-    appName: "Magic Mondrian",
-    infuraId: CONFIG.infura.id,
-    chainId: CONFIG.chainId,
-    walletconnect: {
-      //bridge: "https://bridge.walletconnect.org",
-      rpc: { [CONFIG.chainId]: CONFIG.chainList.rpc[2] },
-    },
-  })
-);
 app.use(router);
 app.use(Notifications);
 app.mount("#app");

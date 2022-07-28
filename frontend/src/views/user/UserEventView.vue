@@ -6,6 +6,18 @@
       </p>
     </div>
 
+    <AppAlert v-model="showError" title="Something went wrong">
+      {{ error }}
+    </AppAlert>
+
+    <AppAlert
+      v-model="showSuccess"
+      :variant="'success'"
+      title="Congratulations"
+    >
+      You received an invitation in your mailbox.
+    </AppAlert>
+
     <AppLoadingSpinner v-if="!isFinished" />
 
     <EventTask
@@ -36,10 +48,14 @@ import EventTask from "@/components/mint/EventTask.vue";
 import { authInterface } from "@/services/BackendInterface";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { MintDescription } from "@/utils/constants";
+import AppAlert from "@/components/app/AppAlert.vue";
 
 const emits = defineEmits(["showHint"]);
 
 const loading = ref(false);
+const error = ref(null);
+const showError = ref(false);
+const showSuccess = ref(false);
 
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
@@ -51,6 +67,10 @@ const sendTicket = async function (email: string) {
     }
     loading.value = true;
     await authInterface.sendMail(email);
+    showSuccess.value = true;
+  } catch (err: any) {
+    error.value = err;
+    showError.value = true;
   } finally {
     loading.value = false;
   }
@@ -58,7 +78,7 @@ const sendTicket = async function (email: string) {
 
 // tokens fetch handling
 
-const { onFetchResponse, data, isFinished, error, aborted, post } = useFetch(
+const { onFetchResponse, data, isFinished, aborted, post } = useFetch(
   CONFIG.subgraph.mamo,
   {
     timeout: 10000,

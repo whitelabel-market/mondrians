@@ -257,7 +257,7 @@ const sendPrintPayment = async (printData: any) => {
   const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
-  await mondrianInterface.print();
+  await mondrianInterface.print(printData.token);
   return printData;
 };
 

@@ -2,8 +2,9 @@
   <footer class="transition-colors duration-100 bg-white dark:bg-neutral-900">
     <div class="container w-full max-w-4xl px-8 py-24 mx-auto space-y-24">
       <div
+        v-if="!presaleOpen"
         class="flex flex-col justify-center mx-auto space-y-8 transition-colors duration-100 dark:text-neutral-200"
-        v-animate
+        v-animate.stagger
       >
         <h2
           class="flex flex-col items-center text-3xl font-black text-center uppercase md:text-4xl"
@@ -50,6 +51,10 @@
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
+import { useFlag } from "@/composables/useFlags";
+import { SalePhase } from "@/utils/constants";
+
+const presaleOpen = useFlag(SalePhase.PreSale);
 
 const Home = {
   About: "/#About",

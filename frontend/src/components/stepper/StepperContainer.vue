@@ -7,16 +7,6 @@
         :modelValue="modelValue === i"
         @update:modelValue="emit('update:modelValue', $event)"
       />
-
-      <div
-        v-if="i < steps.length - 1"
-        class="absolute transform translate-y-8 bottom-4 top-8 left-8"
-      >
-        <!-- <span
-          class="block absolute left-0 top-0 h-full border-r-1 w-1 dark:border-white border-black transform -translate-x-1.5"
-        >
-        </span> -->
-      </div>
     </Disclosure>
   </div>
 </template>
