@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { config } from "./config.js";
+import CONFIG from "../../config.js";
 
 export const generateAccessToken = (payload) => {
   return jwt.sign(payload, config.jwt.jwtSecret, {
@@ -16,13 +17,21 @@ export const generateRefreshToken = (payload) => {
 };
 
 export const verifyAccessToken = (token) => {
-  const payload = jwt.verify(token, config.jwt.jwtSecret);
-  return payload;
+  try {
+    const payload = jwt.verify(token, config.jwt.jwtSecret);
+    return payload;
+  } catch (e) {
+    throw e.toString();
+  }
 };
 
 export const verifyRefreshToken = (token) => {
-  const payload = jwt.verify(token, config.jwt.refreshSecret);
-  return payload;
+  try {
+    const payload = jwt.verify(token, config.jwt.refreshSecret);
+    return payload;
+  } catch (e) {
+    throw e.toString();
+  }
 };
 
 export const setRefreshToken = (res, token) => {
@@ -34,6 +43,6 @@ export const setRefreshToken = (res, token) => {
     domain:
       process.env.NODE_ENV === "development"
         ? "localhost"
-        : "api.whitelabel-market.com",
+        : CONFIG.backend.url.replace("https://", ""),
   });
 };
