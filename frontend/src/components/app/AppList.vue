@@ -8,29 +8,25 @@
     v-slot="{ open }"
   >
     <div class="relative mt-1">
-      <div>
+      <ComboboxButton
+        as="div"
+        class="relative flex items-center justify-between text-current dark:text-neutral-200"
+      >
         <ComboboxInput
-          class="flex items-center justify-start w-full h-12 px-4 text-current transition-colors bg-white border-2 rounded outline-none placeholder:text-neutral-400 dark:placeholder:text-neutral-400 focus:border-current focus:ring-0 dark:focus:border-neutral-200 focus:border-neutral-800 dark:border-stone-700 dark:bg-neutral-900 ease-in-circ border-stone-200"
-          placeholder="Countrys"
-          :displayValue="(item) => item?.name"
-          :onChange="(event) => (query.value = event.target.value)"
-          :onFocus="
-            (e) => {
-              if (e.relatedTarget?.id?.includes('headlessui-combobox-button'))
-                return;
-              !open && e.target.nextSibling.click();
-            }
-          "
+          class="flex items-center justify-start w-full h-12 px-4 transition-colors bg-white border-2 rounded outline-none placeholder:text-neutral-400 dark:placeholder:text-neutral-400 focus:border-current focus:ring-0 dark:focus:border-neutral-200 focus:border-neutral-800 dark:border-stone-700 dark:bg-neutral-900 ease-in-circ border-stone-200"
+          @change="query = $event.target.value"
+          :display-value="(item) => item?.name"
+          placeholder="Country"
         />
-        <ComboboxButton
-          class="absolute inset-y-0 right-0 flex items-center pr-4"
+        <div
+          class="absolute right-0 flex items-center h-full mr-4 text-gray-400 cursor-pointer"
         >
           <SelectorIcon
-            class="w-5 h-5 text-neutral-400 dark:hover:text-neutral-200 hover:text-neutral-800"
+            class="w-5 h-5 cursor-pointer text-neutral-400 dark:hover:text-neutral-200 hover:text-stone-700 hover"
             aria-hidden="true"
           />
-        </ComboboxButton>
-      </div>
+        </div>
+      </ComboboxButton>
       <transition
         enter-active-class="z-50 transition duration-100 ease-out"
         enter-from-class="z-50 transform scale-95 opacity-0"
@@ -61,21 +57,22 @@
               <li
                 :class="[
                   active || selected
-                    ? 'bg-stone-200 dark:bg-stone-700'
+                    ? 'bg-stone-200 dark:bg-stone-700 dark:text-neutral-200'
                     : 'dark:text-neutral-200',
                   'relative cursor-pointer select-none py-2 px-4 pr-4 flex items-center justify-between',
                 ]"
+                @click.prevent="query = ''"
               >
                 <span
                   :class="[
                     selected ? 'font-medium' : 'font-normal',
-                    'block truncate',
+                    'block truncate ',
                   ]"
                   >{{ item.name }}</span
                 >
                 <span
                   v-if="selected"
-                  class="flex items-center pl-3 text-dodgerblue"
+                  class="flex items-center pl-3 text-green-500"
                 >
                   <CheckIcon class="w-5 h-5" aria-hidden="true" />
                 </span>
@@ -89,7 +86,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
+import { useActiveElement } from "@vueuse/core";
 import {
   Combobox,
   ComboboxInput,
@@ -108,6 +106,14 @@ const props = defineProps({
     type: String,
     required: true,
   },
+});
+
+const activeElement = useActiveElement();
+watch(activeElement, (el) => {
+  if (el?.id?.startsWith("headlessui-combobox")) {
+    query.value = "Ger";
+    query.value = "";
+  }
 });
 
 const selected = ref();
