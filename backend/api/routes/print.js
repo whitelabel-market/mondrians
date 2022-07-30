@@ -1,9 +1,5 @@
 import express from "express";
-import {
-  getPoster,
-  createPrintOrder,
-  sendEmailUpdate,
-} from "../handlers/index.js";
+import { createPrintOrder, sendEmailUpdate } from "../handlers/index.js";
 import { validateRequest } from "../middleware/requestValidation.js";
 import {
   hasMondrian,
@@ -19,17 +15,6 @@ import {
  */
 const printRouter = (config) => {
   const printerRouter = express.Router();
-
-  /**
-   * gets a new poster
-   *
-   * @returns {Express.Handler} - getPoster
-   */
-  printerRouter.get(
-    "/poster",
-    [onlyLocal()],
-    async (req, res) => await getPoster(req, res, config)
-  );
 
   /**
    * creates a new print order

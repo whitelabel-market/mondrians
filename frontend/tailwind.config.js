@@ -79,6 +79,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ["Inter", ...defaultTheme.fontFamily.sans],
+      mill: ["Milliard", ...defaultTheme.fontFamily.sans],
     },
     transitionTimingFunction: {
       "out-circ": "cubic-bezier(0,0.55,0.45,1)",

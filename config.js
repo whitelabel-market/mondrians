@@ -1,7 +1,7 @@
 module.exports = {
   hostUrl:
     process.env.NODE_ENV === "development"
-      ? "https://magic-mondrian.netlify.app/"
+      ? "http://localhost:8080"
       : "https://www.magic-mondrian.art",
   supportEmail:
     process.env.NODE_ENV === "development"

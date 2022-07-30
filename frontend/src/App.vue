@@ -2,9 +2,10 @@
   <div>
     <LayoutChangeNetworkModal v-model="wrongNetwork" />
     <div class="relative flex flex-col min-h-screen mx-auto">
-      <LayoutFrame class="z-90" />
+      <LayoutFrame class="z-90" v-if="route.name !== 'Screenshot'" />
       <LayoutHeader
         class="transition-colors duration-100 bg-white z-80 dark:bg-neutral-900"
+        v-if="route.name !== 'Screenshot'"
       />
       <div
         v-if="!loaded"
@@ -15,7 +16,7 @@
       <main class="flex flex-col justify-center flex-1 w-full">
         <router-view @loaded="loaded = $event" />
       </main>
-      <LayoutFooter />
+      <LayoutFooter v-if="route.name !== 'Screenshot'" />
     </div>
   </div>
   <AppNotification />
@@ -31,6 +32,9 @@ import LoadingMondrian from "@/components/icons/LoadingMondrian.vue";
 import AppNotification from "@/components/app/AppNotification.vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import CONFIG from "@/../../config";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 const { activeChainId } = useWallet();
 const loaded = ref(false);

@@ -2,65 +2,98 @@
   <svg
     width="100%"
     height="100%"
-    viewBox="0 0 400 600"
-    preserveAspectRatio="xMinYMin meet"
+    viewBox="0 0 400 535"
+    class="aspect-[3/4] h-full w-full bg-white rounded"
   >
-    <foreignObject width="100%" height="100%" class="block rounded">
+    <foreignObject width="100%" height="100%">
       <div
-        class="flex flex-col relative space-y-[4%] !bg-white !text-black"
-        xmlns="http://www.w3.org/1999/xhtml"
+        class="flex flex-col h-full w-full relative p-[5.5%] !bg-white !text-black"
       >
-        <div class="p-[8%] pb-[4%]">
-          <AppImageLoad size="md">
+        <div
+          class="relative flex items-center justify-center w-full group aspect-square"
+          v-if="token?.id || tokenId"
+        >
+          <AppImageLoad size="md" color="secondary">
             <template v-slot:image>
-              <img :src="imgSrc" :alt="'Magic Mondrian ' + token.id" />
+              <img :src="imgSrc" id="mondrian" />
             </template>
           </AppImageLoad>
         </div>
 
-        <div class="flex justify-between space-x-[8%] p-[1%]">
-          <div class="flex flex-col space-y-[8%]">
-            <div class="font-black uppercase truncate text-[148%] leading-none">
-              <h4>
-                Magic Mondrian <br />#{{
-                  ("0000" + token.id).substr(token.id.toString().length)
+        <div class="font-mill flex justify-between mt-[3%]">
+          <div class="flex flex-col space-y-[1.5%]">
+            <div
+              class="font-black italic uppercase truncate text-[140%] leading-none"
+            >
+              <h4 v-if="token?.id || tokenId">
+                Magic Mondrian #{{
+                  ("0000" + (token?.id || tokenId)).substr(
+                    (token?.id || tokenId).toString().length
+                  )
                 }}
               </h4>
             </div>
-            <div class="w-9/12">
-              <ul class="flex flex-col leading-tight">
+            <div class="w-[58.5%]">
+              <ul
+                class="flex flex-col leading-tight"
+                v-if="token?.id || tokenId"
+              >
                 <li
-                  class="flex w-full items-center justify-between text-[84%] uppercase whitespace-nowrap"
+                  class="flex w-full items-center justify-between text-[90%] uppercase whitespace-nowrap"
                   v-for="(value, key) in tokenDetails"
                   :key="key"
                 >
-                  <span class="block font-extralight">{{ key }}:</span>
-                  <span class="block font-semibold text-right">{{
-                    value
-                  }}</span>
+                  <span class="block font-light">{{ key }}:</span>
+                  <span class="block font-bold text-right">{{ value }}</span>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="transform flex-1 pl-[12%]">
-            <g v-html="qrCode" class="aspect-square w-full !fill-transparent" />
-          </div>
+          <img
+            :src="qrCode"
+            alt=""
+            class="aspect-square w-[18%] h-[18%] -translate-y-[5%] translate-x-[8%]"
+          />
         </div>
 
-        <div class="grid grid-cols-7 gap-[4%] p-[2%] items-end">
-          <div class="col-span-2">
-            <p class="text-[32%] text-neutral-400 font-light w-full">
-              © 2022 Whitelabel Solutions, Inc.
+        <div
+          class="font-mill h-full grid grid-cols-11 gap-[4%] items-end -mt-[1%]"
+        >
+          <div class="col-span-5">
+            <p
+              class="text-[32%] text-neutral-400 font-light w-full leading-none"
+            >
+              © 2022 Whitelabel Solutions, Inc. Powered by Piet Mondrian.
             </p>
           </div>
 
-          <div class="col-span-5 flex items-start space-x-[4%]">
-            <img
-              src="@/assets/images/logo.png"
+          <div class="flex items-center justify-center col-span-1">
+            <svg
+              version="1.0"
+              id="Ebene_1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              x="0px"
+              y="0px"
+              viewBox="0 0 32 32"
+              style="enable-background: new 0 0 32 32"
+              xml:space="preserve"
               alt="Magic Mondrian Logo"
-              class="aspect-square w-[6%]"
-            />
-            <p class="text-[42%]">
+              class="aspect-square w-[100%]"
+            >
+              <rect x="2" y="2" class="st0" width="13" height="13" />
+              <rect x="2" y="17" class="st1" width="13" height="13" />
+              <rect x="17" y="2" class="st2" width="13" height="28" />
+              <rect x="15" class="st3" width="2" height="32" />
+              <rect y="15" class="st3" width="15" height="2" />
+              <rect class="st3" width="2" height="32" />
+              <rect x="2" y="30" class="st3" width="30" height="2" />
+              <rect x="2" class="st3" width="30" height="2" />
+              <rect x="30" y="2" class="st3" width="2" height="28" />
+            </svg>
+          </div>
+          <div class="flex items-start col-span-5">
+            <p class="text-[42%] align-end leading-none" id="description">
               Mondrians is a drop of custom digital paintings, created by Piet
               Mondrian, aiming to express culture, uniqueness and creativity.
               Through size, shape and color Mondrian's embraces what it means to
@@ -74,56 +107,77 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import CONFIG from "@/../../config";
 import QRCode from "qrcode";
 import { getShortAddress } from "@/utils/ethereum";
-import { useDateFormat } from "@vueuse/core";
+import { useDateFormat, asyncComputed } from "@vueuse/core";
+
+const emits = defineEmits(["loaded"]);
+
+emits("loaded", false);
+
+onMounted(() => {
+  emits("loaded", true);
+});
+
+const route = useRoute();
 
 const props = defineProps({
   token: {
     type: Object,
-    required: true,
-  },
-  highlight: {
-    type: Boolean,
-    default: false,
   },
 });
+
+const { url, timestamp, mintAddress, tokenId } = route.query;
 
 // link handling
 
 const imgSrc = computed(
-  () => `${CONFIG.ipfsBaseUrl}${props.token.imageURI.replace("ipfs://", "")}`
+  () =>
+    `${CONFIG.ipfsBaseUrl}${(props?.token?.imageURI || url).replace(
+      "ipfs://",
+      ""
+    )}`
 );
 
 // qr code handling
 
-const qrCode = ref("");
-//const is = ref();
-
-onMounted(async () => {
-  // qrCode.value = await QRCode.toDataURL(
-  //   `${CONFIG.openseaBaseUrl}/${props.token.id}`,
-  //   { type: "svg" }
-  // );
-  QRCode.toString(
-    `${CONFIG.openseaBaseUrl}/${props.token.id}`,
-    { type: "svg" },
-    function (err: any, string: string) {
-      if (err) throw err;
-      qrCode.value = string;
-    }
-  );
+const qrCode = asyncComputed(async () => {
+  return await QRCode.toDataURL(props?.token?.owner?.id || mintAddress, {
+    type: "image/png",
+    quality: 1,
+    width: 1582.7,
+  });
 });
 
 const tokenDetails = computed(() => ({
   "Mint Date": useDateFormat(
-    props.token.createdAtTimestamp * 1000,
+    props?.token?.createdAtTimestamp * 1000 || timestamp * 1000,
     "MM/DD/YYYY"
   ).value,
   Blockchain: "Polygon",
-  Owner: getShortAddress(props.token.owner.id),
+  Owner: getShortAddress(props?.token?.owner?.id || mintAddress),
 }));
 </script>
+
+<style>
+.st0 {
+  fill: #e10e24;
+}
+.st1 {
+  fill: #fadc48;
+}
+.st2 {
+  fill: #4481c3;
+}
+.st3 {
+  fill: #010202;
+}
+#description {
+  text-align: justify;
+  hyphens: auto;
+}
+</style>

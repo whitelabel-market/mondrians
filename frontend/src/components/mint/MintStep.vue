@@ -5,7 +5,7 @@
         <slot name="description"></slot>
       </p>
 
-      <div :class="{ '!opacity-20 !pointer-events-none': !isActive }">
+      <div :class="{ '!opacity-40 !pointer-events-none': !isActive }">
         <slot />
       </div>
     </div>

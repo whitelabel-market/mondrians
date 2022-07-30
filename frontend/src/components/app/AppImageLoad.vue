@@ -8,7 +8,7 @@
   />
   <slot v-else-if="failed" name="error" />
   <slot v-else-if="loading" name="preloader"
-    ><AppLoadingSpinner :size="size"
+    ><AppLoadingSpinner :size="size" :color="color"
   /></slot>
 </template>
 
@@ -23,6 +23,10 @@ defineProps({
   size: {
     type: String as () => "xs" | "sm" | "md" | "lg",
     default: "xs",
+  },
+  color: {
+    type: String as () => "primary" | "secondary" | "white",
+    default: "primary",
   },
 });
 
