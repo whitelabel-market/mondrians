@@ -1,8 +1,8 @@
 <template>
   <Combobox
     as="div"
-    v-model="selected"
-    @update:modelValue="$emit('selected', selected)"
+    v-model="selectedItem"
+    @update:modelValue="$emit('selected', selectedItem)"
     name="country"
     nullable
     v-slot="{ open }"
@@ -34,6 +34,7 @@
         leave-active-class="z-50 transition duration-75 ease-out"
         leave-from-class="z-50 transform scale-100 opacity-100"
         leave-to-class="z-50 transform scale-95 opacity-0"
+        @after-leave="query = ''"
       >
         <div v-show="open" class="z-50">
           <ComboboxOptions
@@ -61,7 +62,6 @@
                     : 'dark:text-neutral-200',
                   'relative cursor-pointer select-none py-2 px-4 pr-4 flex items-center justify-between',
                 ]"
-                @click.prevent="query = ''"
               >
                 <span
                   :class="[
@@ -86,8 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { useActiveElement } from "@vueuse/core";
+import { computed, ref } from "vue";
 import {
   Combobox,
   ComboboxInput,
@@ -108,15 +107,7 @@ const props = defineProps({
   },
 });
 
-const activeElement = useActiveElement();
-watch(activeElement, (el) => {
-  if (el?.id?.startsWith("headlessui-combobox")) {
-    query.value = "Ger";
-    query.value = "";
-  }
-});
-
-const selected = ref();
+const selectedItem = ref();
 const query = ref("");
 
 const filtered = computed(() =>
