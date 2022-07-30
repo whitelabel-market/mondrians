@@ -7,7 +7,7 @@
     nullable
     v-slot="{ open }"
   >
-    <div class="relative mt-1">
+    <div class="relative">
       <ComboboxLabel
         class="inline-block text-xs font-semibold text-neutral-900 dark:text-neutral-400"
         >{{ label }}</ComboboxLabel
