@@ -85,14 +85,9 @@
     />
 
     <div class="z-10 -space-y-1 text-left lg:col-span-2">
-      <label
-        for="country"
-        class="inline-block text-xs font-semibold text-left text-neutral-900 dark:text-neutral-400"
-      >
-        Country
-      </label>
       <AppList
         :items="COUNTRIES"
+        label="Country"
         placeholder="Country"
         @selected="form.country = $event"
         class="z-50"

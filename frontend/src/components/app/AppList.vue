@@ -8,6 +8,10 @@
     v-slot="{ open }"
   >
     <div class="relative mt-1">
+      <ComboboxLabel
+        class="inline-block text-xs font-semibold text-neutral-900 dark:text-neutral-400"
+        >{{ label }}</ComboboxLabel
+      >
       <ComboboxButton
         as="div"
         class="relative flex items-center justify-between text-current dark:text-neutral-200"
@@ -93,6 +97,7 @@ import {
   ComboboxOptions,
   ComboboxOption,
   ComboboxButton,
+  ComboboxLabel,
 } from "@headlessui/vue";
 import { CheckIcon, SelectorIcon } from "@heroicons/vue/solid";
 
@@ -104,6 +109,9 @@ const props = defineProps({
   placeholder: {
     type: String,
     required: true,
+  },
+  label: {
+    type: String,
   },
 });
 
