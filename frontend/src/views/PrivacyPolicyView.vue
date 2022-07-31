@@ -302,24 +302,60 @@
             in dieser Datenschutzerklärung gesondert behandelt.
           </p>
 
-          <h2 class="text-xl font-bold">Kontaktformular</h2>
+          <h2 class="text-xl font-bold">
+            Datenverarbeitung zur Bestellabwicklung
+          </h2>
           <p>
-            Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden
-            Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort
-            angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den
-            Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir
-            nicht ohne Ihre Einwilligung weiter. Die Verarbeitung der in das
-            Kontaktformular eingegebenen Daten erfolgt somit ausschließlich auf
-            Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Sie
-            können diese Einwilligung jederzeit widerrufen. Dazu reicht eine
-            formlose Mitteilung per E-Mail an uns. Die Rechtmäßigkeit der bis
-            zum Widerruf erfolgten Datenverarbeitungsvorgänge bleibt vom
-            Widerruf unberührt. Die von Ihnen im Kontaktformular eingegebenen
-            Daten verbleiben bei uns, bis Sie uns zur Löschung auffordern, Ihre
-            Einwilligung zur Speicherung widerrufen oder der Zweck für die
-            Datenspeicherung entfällt (z. B. nach abgeschlossener Bearbeitung
-            Ihrer Anfrage). Zwingende gesetzliche Bestimmungen – insbesondere
-            Aufbewahrungsfristen – bleiben unberührt.
+            Soweit für die Vertragsabwicklung zu Liefer- und Zahlungszwecken
+            erforderlich, werden die von uns erhobenen personenbezogenen Daten
+            gemäß Art. 6 Abs. 1 lit. b DSGVO an das beauftragte
+            Transportunternehmen und das beauftragte Kreditinstitut
+            weitergegeben
+          </p>
+          <p>
+            Sofern wir Ihnen auf Grundlage eines entsprechenden Vertrages
+            Aktualisierungen für Waren mit digitalen Elementen oder für digitale
+            Produkte schulden, verarbeiten wir die von Ihnen bei der Bestellung
+            übermittelten Kontaktdaten (Name, Anschrift, Mailadresse), um Sie im
+            Rahmen unserer gesetzlichen Informationspflichten gemäß Art. 6 Abs.
+            1 lit. c DSGVO auf geeignetem Kommunikationsweg (etwa postalisch
+            oder per Mail) über anstehende Aktualisierungen im gesetzlich
+            vorgesehenen Zeitraum persönlich zu informieren. Ihre Kontaktdaten
+            werden hierbei streng zweckgebunden für Mitteilungen über von uns
+            geschuldete Aktualisierungen verwendet und zu diesem Zweck durch uns
+            nur insoweit verarbeitet, wie dies für die jeweilige Information
+            erforderlich ist. Zur Abwicklung Ihrer Bestellung arbeiten wir
+            ferner mit dem / den nachstehenden Dienstleister(n) zusammen, die
+            uns ganz oder teilweise bei der Durchführung geschlossener Verträge
+            unterstützen. An diese Dienstleister werden nach Maßgabe der
+            folgenden Informationen gewisse personenbezogene Daten übermittelt.
+          </p>
+          <p>
+            Zur Erfüllung unserer vertraglichen Pflichten unseren Kunden
+            gegenüber arbeiten wir mit externen Versandpartnern zusammen. Wir
+            geben Ihren Namen sowie Ihre Lieferadresse und, soweit für die
+            Lieferung erforderlich Ihre Telefonnummer, ausschließlich zu Zwecken
+            der Warenlieferung Art. 6 Abs. 1 lit. b DSGVO an einen von uns
+            ausgewählten Versandpartner weiter.
+          </p>
+
+          <h3 class="text-sm font-bold">
+            Einsatz von speziellen Dienstleistern zur Druck-Bestellbearbeitung
+            und -abwicklung
+          </h3>
+
+          <p>
+            Die Bestellabwicklung erfolgt über den Dienstanbieter "Prodigi"
+            (Betriebsnummer 10844939; 215 Creative Quarter, 8a Morgan Arcade,
+            The Hayes, Cardiff, CF10 1AF, UK). Name, Anschrift sowie
+            gegebenenfalls weitere personenbezogene Daten werden gemäß Art. 6
+            Abs. 1 lit. b DSGVO ausschließlich zur Abwicklung der
+            Online-Bestellung an Prodigi weitergegeben. Die Weitergabe Ihrer
+            Daten erfolgt hierbei nur, soweit dies für die Abwicklung der
+            Bestellung tatsächlich erforderlich ist. Einzelheiten zum Impressum
+            von Prodigi und die Datenschutzerklärung sind auf der Internetseite
+            von Prodigi unter "https://www.prodigi.com/terms-of-use/" und
+            "https://www.prodigi.com/privacy-and-cookie-policy/" einsehbar.
           </p>
 
           <h2 class="text-xl font-bold">

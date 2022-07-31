@@ -80,8 +80,9 @@ const Mint = {
 };
 
 const Legal = {
-  "Privacy policy": "/privacy-policy",
   "Terms of service": "/terms-of-service",
+  "Return policy": "/return-policy",
+  "Privacy policy": "/privacy-policy",
 };
 
 const routes = { Home, User, Mint, Legal };
