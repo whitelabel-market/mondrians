@@ -30,15 +30,19 @@
       </div>
     </div>
     <div class="text-white bg-black bg-hero-pattern-charlie">
-      <div class="container w-full max-w-4xl p-8 mx-auto text-xs">
+      <div class="container w-full max-w-4xl p-8 mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8">
           <div>
-            <p>© {{ new Date().getFullYear() }} Whitelabel Solutions</p>
+            <p class="text-xs">
+              Copyright © {{ new Date().getFullYear() }} Decentum
+            </p>
           </div>
           <div>
             <ul class="flex items-center space-x-8">
               <li v-for="(to, name) in Legal" :key="to">
-                <router-link class="" :to="to">{{ name }}</router-link>
+                <router-link class="link text-xs" :to="to">{{
+                  name
+                }}</router-link>
               </li>
             </ul>
           </div>
@@ -76,8 +80,9 @@ const Mint = {
 };
 
 const Legal = {
-  "Privacy Policy": "/privacy",
-  "Terms of usage": "/terms",
+  "Terms of service": "/terms-of-service",
+  "Return policy": "/return-policy",
+  "Privacy policy": "/privacy-policy",
 };
 
 const routes = { Home, User, Mint, Legal };
