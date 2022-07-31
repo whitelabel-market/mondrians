@@ -11,7 +11,7 @@
       <input
         v-bind="$attrs"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="emit('update:modelValue', $event.target.value)"
         :id="id"
         :name="id"
         ref="inputRef"
@@ -21,14 +21,7 @@
           error ? 'border-red-500' : 'border-stone-200 dark:border-stone-700'
         "
       />
-      <button
-        v-if="inlineSubmit"
-        class="absolute top-0 right-0 flex items-center justify-center h-full px-4 py-2 text-xs text-current rounded"
-        type="submit"
-        @click.prevent="inlineSubmit && $emit('submit', modelValue)"
-      >
-        <slot />
-      </button>
+      <slot />
     </div>
 
     <p class="text-red-500" v-if="error">{{ error }}</p>
@@ -38,7 +31,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-defineProps(["modelValue", "label", "id", "type", "inlineSubmit", "error"]);
+defineProps(["modelValue", "label", "id", "type", "error"]);
 const emit = defineEmits(["update:modelValue", "submit", "inputRefLoaded"]);
 const inputRef = ref();
 
