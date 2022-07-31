@@ -19,6 +19,17 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/ScreenshotView.vue"),
   },
   {
+    path: "/terms-of-service",
+    name: "TermsOfService",
+    component: () => import("@/views/TermsOfServiceView.vue"),
+  },
+  {
+    path: "/privacy-policy",
+    name: "PrivacyPolicy",
+    component: () => import("@/views/PrivacyPolicyView.vue"),
+  },
+
+  {
     path: "/user/:id",
     name: "User",
     component: () => import("@/views/UserView.vue"),

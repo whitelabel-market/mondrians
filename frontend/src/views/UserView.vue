@@ -83,9 +83,7 @@
         </nav>
       </div>
     </header>
-    <section
-      class="container justify-center px-8 mx-auto sm:px-4 text-neutral-900 dark:text-neutral-50"
-    >
+    <section class="container justify-center px-8 mx-auto sm:px-4">
       <router-view @showHint="hintVisible = true"></router-view>
     </section>
   </div>
