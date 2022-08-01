@@ -41,14 +41,18 @@ export const verifyJWT = () => {
     )
       return res.status(403).send("Forbidden");
 
-    const decoded = verifyAccessToken(
-      req.headers["authorization"].split(" ")[1]
-    );
+    try {
+      const decoded = verifyAccessToken(
+        req.headers["authorization"].split(" ")[1]
+      );
 
-    req.accessToken = decoded;
+      req.accessToken = decoded;
+      if (!decoded) return res.status(403).send("Forbidden");
+    } catch (e) {
+      return res.status(401).send("Unauthenticated");
+    }
 
-    if (!decoded) return res.status(403).send("Forbidden");
-    else return next();
+    return next();
   };
 };
 
@@ -217,7 +221,7 @@ export const canPrint = () => {
 
       const files = fs.readdirSync(path.join(__dirname, "../../screenshots/"));
       const index = files.findIndex((file) =>
-        file.toLowerCase().startsWith(`${address.toLowerCase()}_${token.id}`)
+        file.toLowerCase().startsWith(`${address.toLowerCase()}_${token.id}_`)
       );
       if (index > -1)
         return res
