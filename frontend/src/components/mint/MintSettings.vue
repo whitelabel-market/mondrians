@@ -4,7 +4,7 @@
       <AppButton
         only-icon
         :disabled="disabled || !canDecrease"
-        size="xs"
+        size="sm"
         @click.prevent="$emit('update:modelValue', modelValue - 1)"
         rounded="full"
       >
@@ -23,7 +23,7 @@
 
       <AppButton
         only-icon
-        size="xs"
+        size="sm"
         :disabled="disabled || !canIncrease"
         @click.prevent="$emit('update:modelValue', modelValue + 1)"
         rounded="full"

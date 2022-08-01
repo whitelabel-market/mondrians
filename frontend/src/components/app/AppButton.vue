@@ -218,14 +218,16 @@ export default defineComponent({
             }
           },
         },
-        [
-          h(
-            "span",
-            { class: classesContent.value },
-            slots.default && slots.default()
-          ),
-          props.loading && loadingNode(),
-        ]
+        {
+          default: () => [
+            h(
+              "span",
+              { class: classesContent.value },
+              slots.default && slots.default()
+            ),
+            props.loading && loadingNode(),
+          ],
+        }
       );
 
     const buttonNodeWithTooltip = () =>
