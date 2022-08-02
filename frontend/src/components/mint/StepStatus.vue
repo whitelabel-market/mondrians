@@ -5,11 +5,14 @@
       :size="'sm'"
       class="text-current transform"
     />
-    <ExclamationCircleIcon v-else-if="error.value" class="text-red-500" />
-    <CheckIcon v-else-if="isReady.value" class="text-green-500" />
+    <ExclamationCircleIcon
+      v-else-if="error.value"
+      class="w-8 h-8 text-red-500"
+    />
+    <CheckIcon v-else-if="isReady.value" class="w-8 h-8 text-green-500" />
     <span
       v-else
-      class="flex items-center justify-center w-8 h-8 font-bold text-sm text-white duration-100 rounded-full bg-neutral-900 dark:bg-white dark:text-black"
+      class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white duration-100 rounded-full bg-neutral-900 dark:bg-white dark:text-black"
       >{{ index + 1 }}</span
     >
   </div>
