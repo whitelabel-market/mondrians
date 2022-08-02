@@ -84,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import WalletConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
 import UserModal from "@/components/user/UserModal.vue";
 import AppHamburger from "@/components/app/AppHamburger.vue";
@@ -117,4 +117,12 @@ const routes = {
   Creator: "/#Creator",
   Faq: "/#Faq",
 };
+
+watch(route, () => {
+  showMobileMenu.value = false;
+});
+
+watch(isConnected, () => {
+  if (!isConnected.value) showMobileMenu.value = false;
+});
 </script>
