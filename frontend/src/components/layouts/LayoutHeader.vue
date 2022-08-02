@@ -2,7 +2,11 @@
   <div>
     <header
       class="fixed top-0 left-0 w-full transition-colors duration-100 mondrian-border-b z-80"
-      :class="y > 0 ? 'bg-white dark:bg-neutral-900' : 'bg-transparent'"
+      :class="
+        y > 0 || route.name === 'Home'
+          ? 'bg-white dark:bg-neutral-900'
+          : 'bg-transparent'
+      "
     >
       <nav
         class="container flex items-center justify-between w-full h-20 max-w-6xl px-8 mx-auto"
@@ -91,6 +95,9 @@ import AppToggleDark from "@/components/app/AppToggleDark.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MobileMenu from "@/components/layouts/MobileMenu.vue";
 import { useWindowScroll } from "@vueuse/core";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 const showConnectModal = ref(false);
 const showUserModal = ref(false);
