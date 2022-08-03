@@ -37,11 +37,11 @@ module.exports = {
     callbackUrl:
       process.env.NODE_ENV === "development"
         ? "https://f51f-158-181-76-197.ngrok.io/api/print/update"
-        : "https://api.magic-mondrian.art/api/print/update",
+        : "https://api2.magic-mondrian.art/api/print/update",
     assetBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://f51f-158-181-76-197.ngrok.io/screenshots/"
-        : "https://api.magic-mondrian.art/screenshots/",
+        : "https://api2.magic-mondrian.art/screenshots/",
     apiBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://api.sandbox.prodigi.com/v4.0"
@@ -65,8 +65,8 @@ module.exports = {
     apiKey: process.env.PRINT_KEY || "",
     url:
       process.env.NODE_ENV === "development"
-        ? "https://api.magic-mondrian.art"
-        : "https://api.magic-mondrian.art",
+        ? "https://api2.magic-mondrian.art"
+        : "https://api2.magic-mondrian.art",
   },
   redis: {
     host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
