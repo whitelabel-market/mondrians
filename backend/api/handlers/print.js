@@ -156,6 +156,7 @@ export const createPrintOrder = async (req, res, config) => {
     browser = await puppeteer.launch({
       headless: true,
       args: ["--no-sandbox"],
+      dumpio: true,
     });
 
     // create new page object
