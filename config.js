@@ -30,18 +30,18 @@ module.exports = {
   },
   unleash: {
     clientKey: "proxy-client-key",
-    url: "https://unleash.whitelabel-market.com/proxy",
+    url: "https://unleash.magic-mondrian.art/proxy",
   },
   prodigi: {
     apiKey: process.env.PRODIGI_KEY || "",
     callbackUrl:
       process.env.NODE_ENV === "development"
         ? "https://f51f-158-181-76-197.ngrok.io/api/print/update"
-        : "https://api.whitelabel-market.com/api/print/update",
+        : "https://api.magic-mondrian.art/api/print/update",
     assetBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://f51f-158-181-76-197.ngrok.io/screenshots/"
-        : "https://api.whitelabel-market.com/screenshots/",
+        : "https://api.magic-mondrian.art/screenshots/",
     apiBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://api.sandbox.prodigi.com/v4.0"
@@ -60,13 +60,13 @@ module.exports = {
     passPhrase: "_mam0drOp2022_",
   },
   backend: {
-    port: process.env.NODE_ENV === "development" ? "3000" : "8080",
+    port: process.env.NODE_ENV === "development" ? "3000" : "8081",
     logLevel: process.env.NODE_ENV === "development" ? "info" : "error",
     apiKey: process.env.PRINT_KEY || "",
     url:
       process.env.NODE_ENV === "development"
         ? "https://api.magic-mondrian.art"
-        : "https://api.whitelabel-market.com",
+        : "https://api.magic-mondrian.art",
   },
   redis: {
     host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
