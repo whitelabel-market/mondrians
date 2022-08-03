@@ -153,7 +153,10 @@ export const createPrintOrder = async (req, res, config) => {
 
   try {
     // launch headless Chromium browser
-    browser = await puppeteer.launch({ headless: true });
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox"],
+    });
 
     // create new page object
     const page = await browser.newPage();
