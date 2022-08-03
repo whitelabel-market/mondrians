@@ -25,6 +25,7 @@ export interface Wallet {
   // state
   blockie: Ref<string>;
   balance: Ref<string>;
+  authInterfaceCreated: Ref<boolean>;
 
   // shortcuts to useful instances
   provider: ShallowRef<ethers.providers.Web3Provider | undefined>;
@@ -52,6 +53,7 @@ export function createWalletExtended(): Wallet {
   // state
   const balance = ref<string>("0");
   const blockie = ref<string>("");
+  const authInterfaceCreated = ref<boolean>(false);
 
   // useful instances
   const provider = shallowRef<ethers.providers.Web3Provider | undefined>();
@@ -107,6 +109,7 @@ export function createWalletExtended(): Wallet {
           await authInterface.callback(signature);
         }
       }
+      authInterfaceCreated.value = true;
     }
   });
 
@@ -128,6 +131,7 @@ export function createWalletExtended(): Wallet {
         await authInterface.callback(signature);
       }
     }
+    authInterfaceCreated.value = true;
   });
 
   onChainChanged(async () => {
@@ -145,6 +149,7 @@ export function createWalletExtended(): Wallet {
 
   const wallet: Wallet = {
     blockie,
+    authInterfaceCreated,
     provider,
     balance,
     signer,

@@ -348,3 +348,30 @@ export const createPrintOrder = async (req, res, config) => {
     logger.error(err);
   }
 };
+
+/**
+ * returns all tokens that are already printed by an address
+ *
+ * @param {Object} req - express request object
+ * @param {Object} res - express request object
+ * @returns {HTML} - new poster
+ */
+export const getPrintedTokens = async (req, res, config) => {
+  const { accessToken } = req;
+  const address = accessToken.sub;
+
+  try {
+    const dir = fs.readdirSync(path.join(__dirname, "../../screenshots/"));
+    const files = dir.filter((file) =>
+      file.toLowerCase().startsWith(`${address.toLowerCase()}`)
+    );
+
+    if (files.length)
+      return res
+        .status(200)
+        .json({ tokens: files.map((file) => file.split("_")[1]) });
+    else return res.status(204).send();
+  } catch (e) {
+    return res.status(400).send(e.toString());
+  }
+};

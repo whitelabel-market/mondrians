@@ -26,7 +26,7 @@
 
     <PrintTask
       v-else-if="tokens.length > 0"
-      :tokens="tokens"
+      :tokens="availableTokensForPrint"
       :skippable="false"
       :loading="loading"
       @submit="print"
@@ -42,13 +42,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, inject, Ref, toRaw } from "vue";
+import { ref, watch, inject, Ref, toRaw, computed, onMounted } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
 import NoTokens from "@/components/user/NoTokens.vue";
 import CONFIG from "@/../../config";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
-import { useFetch } from "@vueuse/core";
+import { useFetch, watchOnce } from "@vueuse/core";
 import PrintTask from "@/components/mint/PrintTask.vue";
 import { authInterface } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
@@ -64,10 +64,11 @@ const loading = ref(false);
 const error = ref(null);
 const showError = ref(false);
 const showSuccess = ref(false);
+const printedTokens = ref<string[]>([]);
 
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
-const { provider } = useWalletExtended();
+const { provider, authInterfaceCreated } = useWalletExtended();
 
 const print = async function (printData: any) {
   if (loading.value) {
@@ -110,6 +111,21 @@ onFetchResponse(() => {
   }
 });
 
+const getPrintedTokens = async () => {
+  if (authInterfaceCreated.value) {
+    const { tokens } = await authInterface.getPrintedTokens();
+    printedTokens.value = tokens;
+  }
+};
+
+onMounted(async () => {
+  getPrintedTokens();
+});
+
+watchOnce(authInterfaceCreated, async () => {
+  getPrintedTokens();
+});
+
 watch(
   () => ensAccount,
   () => {
@@ -125,5 +141,9 @@ watch(
     }
   },
   { deep: true }
+);
+
+const availableTokensForPrint = computed(() =>
+  tokens.value.filter((token: any) => !printedTokens.value.includes(token.id))
 );
 </script>
