@@ -154,7 +154,6 @@ export const createPrintOrder = async (req, res, config) => {
   try {
     // launch headless Chromium browser
     browser = await puppeteer.launch({
-      defaultViewport: { width: 7086, height: 9448 },
       headless: true,
       args: [
         "--no-sandbox",
@@ -168,9 +167,14 @@ export const createPrintOrder = async (req, res, config) => {
     const page = await browser.newPage();
 
     // set viewport width and height
+    // await page.setViewport({
+    //   width: 7086,
+    //   height: 9448,
+    // });
+
     await page.setViewport({
-      width: 7086,
-      height: 9448,
+      width: 300,
+      height: 400,
     });
 
     await page.goto(
