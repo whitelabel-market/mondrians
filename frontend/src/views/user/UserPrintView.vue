@@ -54,6 +54,7 @@ import { authInterface } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
 import { ethers } from "ethers";
 import { useWalletExtended } from "@/composables/useWalletExtended";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { MintDescription } from "@/utils/constants";
 import AppAlert from "@/components/app/AppAlert.vue";
@@ -69,6 +70,7 @@ const printedTokens = ref<string[]>([]);
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
 const { provider, authInterfaceCreated } = useWalletExtended();
+const { address } = useWallet();
 
 const print = async function (printData: any) {
   if (loading.value) {
@@ -82,7 +84,7 @@ const print = async function (printData: any) {
       toRaw(provider.value as ethers.providers.Web3Provider)
     );
 
-    await mondrianInterface.print(printData.token);
+    await mondrianInterface.print(printData.token, address.value);
     await authInterface.print(printData);
     showSuccess.value = true;
   } catch (err: any) {

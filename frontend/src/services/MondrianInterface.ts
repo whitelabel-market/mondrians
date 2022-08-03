@@ -79,20 +79,29 @@ export default class MondrianInterface {
   }
 
   // Function to send ether/matic to contract for printing
-  async print(token: any) {
-    const contract = new ethers.Contract(
+  async print(token: any, address: string) {
+    const contractApi = new ethers.Contract(
       CONFIG.contract,
-      ["function printPrice() public view returns (uint256)"],
+      [
+        "function printPrice() public view returns (uint256)",
+        "function hasPrintedOnce(address, uint256) public view returns (bool)",
+      ],
       this.provider
     );
-
-    const priceHex = await contract.printPrice();
-    const price = ethers.utils.formatEther(priceHex);
 
     try {
       if (!this.signer) {
         throw new Error("Wallet not connected");
       }
+
+      const priceHex = await contractApi.printPrice();
+      const price = ethers.utils.formatEther(priceHex);
+      // return if already printed and let backend decide
+      const hasPayedForPrint = await contractApi.hasPrintedOnce(
+        address,
+        token.id
+      );
+      if (hasPayedForPrint) return;
 
       const contract = await this.contract.connect(this.signer);
       const tx = await contract.print(token.id, {
