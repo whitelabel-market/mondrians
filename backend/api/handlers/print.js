@@ -155,8 +155,12 @@ export const createPrintOrder = async (req, res, config) => {
     // launch headless Chromium browser
     browser = await puppeteer.launch({
       headless: true,
-      args: ["--no-sandbox"],
-      dumpio: true,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+      ],
     });
 
     // create new page object
