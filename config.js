@@ -65,7 +65,7 @@ module.exports = {
     apiKey: process.env.PRINT_KEY || "",
     url:
       process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
+        ? "https://api.magic-mondrian.art"
         : "https://api.whitelabel-market.com",
   },
   redis: {
