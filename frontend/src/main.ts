@@ -23,6 +23,7 @@ const walletCtx = WalletConnectorVue({
   appName: "Magic Mondrian",
   infuraId: CONFIG.infura.id,
   chainId: CONFIG.chainId,
+  rpcUri: CONFIG.chainList.rpc[2],
   walletconnect: {
     //bridge: "https://bridge.walletconnect.org",
     rpc: { [CONFIG.chainId]: CONFIG.chainList.rpc[2] },
