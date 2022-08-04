@@ -52,7 +52,6 @@ const validate = async (data, req, res) => {
 
 export const validateRequest = (requireCsrf = true) => {
   return async (req, res, next) => {
-    console.log(req);
     const requestData = {
       preflightCsrf: req.headers.hasOwnProperty("x-csrf") ? true : false,
       csrfHeader: req.headers && req.headers["x-csrf-token"],
