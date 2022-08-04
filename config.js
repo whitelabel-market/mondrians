@@ -30,7 +30,7 @@ module.exports = {
   },
   unleash: {
     clientKey: "proxy-client-key",
-    url: "https://unleash.magic-mondrian.art/proxy",
+    url: "https://unleash2.magic-mondrian.art/proxy",
   },
   prodigi: {
     apiKey: process.env.PRODIGI_KEY || "",
