@@ -19,6 +19,10 @@ const app = express();
 const startServer = async () => {
   const config = createConfig();
 
+  app.use("/", (req, res) => {
+    console.log(req);
+  });
+
   const origin =
     process.env.NODE_ENV === "development"
       ? ["http://localhost:8080"]
@@ -27,7 +31,7 @@ const startServer = async () => {
   app.use(
     cors({
       origin,
-      methods: ["GET", "POST", "DELETE", "UPDATE", "PUT"],
+      methods: ["GET", "POST", "HEAD", "OPTIONS"],
       credentials: true,
     })
   );
