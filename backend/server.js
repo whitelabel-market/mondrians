@@ -19,8 +19,9 @@ const app = express();
 const startServer = async () => {
   const config = createConfig();
 
-  app.use("/", (req, res) => {
+  app.use("/", (req, res, next) => {
     console.log(req);
+    next();
   });
 
   const origin =
