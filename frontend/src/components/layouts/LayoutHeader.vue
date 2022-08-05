@@ -85,7 +85,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import WalletConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
+import WalletConnectModal from "@/components/wallet/WalletConnectModal.vue";
 import UserModal from "@/components/user/UserModal.vue";
 import AppHamburger from "@/components/app/AppHamburger.vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";

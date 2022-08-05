@@ -68,7 +68,8 @@
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Receiving your minted NFT
+                Receiving your minted NFT. This may take some time, depending on
+                the current network traffic
               </template>
             </MintStep>
           </template>
@@ -162,11 +163,23 @@
         </StepperItem>
       </StepperContainer>
     </div>
+
+    <TransactionModal
+      v-model="showMintTransactionModal"
+      task="Mint NFT"
+      :price="mintPrice"
+    />
+
+    <TransactionModal
+      v-model="showPrintTransactionModal"
+      task="Print NFT"
+      :price="printPrice"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, toRaw, reactive } from "vue";
+import { ref, onMounted, watch, toRaw, reactive, computed } from "vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import { Price, SalePhase } from "@/utils/constants";
@@ -186,16 +199,24 @@ import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
 import ConfirmationTask from "@/components/mint/ConfirmationTask.vue";
 import { notify } from "notiwind";
 import { MintDescription } from "@/utils/constants";
+import TransactionModal from "@/components/wallet/TransactionModal.vue";
+
 const emit = defineEmits(["loaded"]);
+
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
 const presaleEnabled = useFlag(SalePhase.PreSale);
 const { address } = useWallet();
 const { provider } = useWalletExtended();
 const { getTokenByAddress } = useSubgraph();
 
+const mintPrice = computed(() =>
+  whitelistEnabled.value ? Price.whitelist : Price.default
+);
+
 const tokens = ref([]);
 const step = ref(0);
-
+const showMintTransactionModal = ref(false);
+const showPrintTransactionModal = ref(false);
 const finishedTasks = reactive({
   mint: false,
   getTokens: false,
@@ -211,37 +232,35 @@ onMounted(() => {
 
 const setQuantity = (quantity: number) => ({
   quantity,
-  price: whitelistEnabled.value ? Price.whitelist : Price.default,
+  price: mintPrice.value,
 });
 
 const getVoucher = async function (mintData: {
   quantity: number;
   price: string;
 }) {
-  const voucher = await authInterface.getVoucher();
-  return { ...mintData, voucher };
+  const signature = await authInterface.getVoucher();
+  return { ...mintData, signature };
 };
 
-const mint = async function (mintData: {
-  quantity: number;
-  price: string;
-  voucher?: string;
-}) {
+const mint = async function (mintData: any) {
+  showMintTransactionModal.value = true;
+
   const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
-
-  const tx = await mondrianInterface.mint(
-    mintData.quantity,
-    mintData.price,
-    mintData.voucher
-  );
-
+  let tx = null;
+  try {
+    tx = await mondrianInterface.mint(mintData, { txWait: false });
+  } finally {
+    showMintTransactionModal.value = false;
+  }
+  const receipt = await tx?.wait();
   finishedTasks.mint = true;
-  return tx;
+  return receipt;
 };
 
-const getTokens = async function (tx: ethers.ContractTransaction) {
+const getTokens = async function (tx: ethers.ContractReceipt) {
   tokens.value = await getTokenByAddress(address.value, tx);
   finishedTasks.getTokens = true;
 };
@@ -254,10 +273,23 @@ const sendTicket = async function (email: string) {
 const setPrintData = (printData: any) => printData;
 
 const sendPrintPayment = async (printData: any) => {
+  showPrintTransactionModal.value = true;
   const mondrianInterface: MondrianInterface = new MondrianInterface(
     toRaw(provider.value as ethers.providers.Web3Provider)
   );
-  await mondrianInterface.print(printData.token, address.value);
+  let tx = null;
+  try {
+    tx = await mondrianInterface.print(
+      {
+        token: printData.token,
+        address: address.value,
+      },
+      { txWait: false }
+    );
+  } finally {
+    showPrintTransactionModal.value = false;
+  }
+  await tx?.wait();
   return printData;
 };
 
@@ -265,6 +297,8 @@ const sendPrintOrder = async (printData: any) => {
   await authInterface.print(printData);
   finishedTasks.print = true;
 };
+
+const printPrice = Price.print;
 
 const tasks: any[] = [
   whitelistEnabled.value

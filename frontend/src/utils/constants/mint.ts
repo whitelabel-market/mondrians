@@ -3,6 +3,7 @@ import CONFIG from "../../../../config";
 export const Price = {
   whitelist: CONFIG.mint.whitelistPrice,
   default: CONFIG.mint.publicPrice,
+  print: CONFIG.mint.printPrice,
 };
 
 export const MaxMint = {

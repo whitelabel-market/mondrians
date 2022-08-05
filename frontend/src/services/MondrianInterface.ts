@@ -2,6 +2,24 @@ import { ethers } from "ethers";
 import CONFIG from "../../../config.js";
 import magicMondrian from "@/utils/abis/MagicMondrian.json";
 
+interface txOptions {
+  txWait: boolean;
+}
+interface MintParams {
+  quantity: number;
+  price: string;
+  signature?: string;
+}
+
+type MintOptions = txOptions;
+
+interface PrintParams {
+  token: any;
+  address: string;
+}
+
+type PrintOptions = txOptions;
+
 export default class MondrianInterface {
   private contract: ethers.Contract;
   private signer: ethers.Signer;
@@ -23,23 +41,23 @@ export default class MondrianInterface {
    * @param price Price of a token
    * @param signature Voucher to authorize mint in case of Whitelist Sale
    */
-  async mint(quantity: number, price: string, signature?: string) {
+  async mint(params: MintParams, options?: MintOptions) {
     try {
       if (!this.signer) {
         throw new Error("Wallet not connected");
       }
+      const isWhitelistMint = !!params.signature;
       const address = await this.signer.getAddress();
       const signedContract = await this.contract.connect(this.signer);
-      if (signature) {
-        return await this.whitelistMint(
-          address,
-          signedContract,
-          quantity,
-          price,
-          signature
-        );
+      const tx = await this[isWhitelistMint ? "whitelistMint" : "publicMint"](
+        params,
+        address,
+        signedContract
+      );
+      if (options?.txWait) {
+        await tx.wait();
       }
-      return await this.publicMint(address, signedContract, quantity, price);
+      return tx;
     } catch (e: any) {
       const error: any = {};
       Object.keys(e).forEach((key) => {
@@ -51,35 +69,28 @@ export default class MondrianInterface {
 
   // Internal mint function for Whitelist Sale
   private async whitelistMint(
+    { quantity, price, signature }: MintParams,
     address: string,
-    contract: ethers.Contract,
-    quantity: number,
-    price: string,
-    signature: string
+    contract: ethers.Contract
   ) {
-    const tx = await contract.whitelistMint(address, quantity, signature, {
+    return contract.whitelistMint(address, quantity, signature, {
       value: ethers.utils.parseEther(price).mul(quantity),
     });
-
-    return await tx.wait();
   }
 
   // Internal mint function for Public Sale
   private async publicMint(
+    { quantity, price }: MintParams,
     address: string,
-    contract: ethers.Contract,
-    quantity: number,
-    price: string
+    contract: ethers.Contract
   ) {
-    const tx = await contract.publicSaleMint(address, quantity, {
+    return contract.publicSaleMint(address, quantity, {
       value: ethers.utils.parseEther(price).mul(quantity),
     });
-
-    return await tx.wait();
   }
 
   // Function to send ether/matic to contract for printing
-  async print(token: any, address: string) {
+  async print({ token, address }: PrintParams, options?: MintOptions) {
     const contractApi = new ethers.Contract(
       CONFIG.contract,
       [
@@ -107,8 +118,11 @@ export default class MondrianInterface {
       const tx = await contract.print(token.id, {
         value: ethers.utils.parseEther(price),
       });
+      if (options?.txWait) {
+        await tx.wait();
+      }
 
-      return await tx.wait();
+      return tx;
     } catch (e: any) {
       const error: any = {};
       Object.keys(e).forEach((key) => {

@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
+import LayoutConnectModal from "@/components/wallet/WalletConnectModal.vue";
 import { useFlag } from "@/composables/useFlags";
 import { SalePhase } from "@/utils/constants/mint";
 import MintSettings from "@/components/mint/MintSettings.vue";

@@ -27,7 +27,7 @@
 import { ref } from "vue";
 import SaleClosed from "@/components/phase/SaleClosed.vue";
 import SaleOpen from "@/components/phase/SaleOpen.vue";
-import LayoutConnectModal from "@/components/wallet-connect/WalletConnectModal.vue";
+import LayoutConnectModal from "@/components/wallet/WalletConnectModal.vue";
 import useContract from "@/composables/useContract";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useFlag } from "@/composables/useFlags";
