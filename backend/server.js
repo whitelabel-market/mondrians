@@ -19,11 +19,6 @@ const app = express();
 const startServer = async () => {
   const config = createConfig();
 
-  app.use("/", (req, res, next) => {
-    console.log(req);
-    next();
-  });
-
   const origin =
     process.env.NODE_ENV === "development"
       ? ["http://localhost:8080"]
