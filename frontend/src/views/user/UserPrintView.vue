@@ -38,6 +38,12 @@
       :aborted="aborted"
       v-else
     />
+
+    <TransactionModal
+      v-model="showPrintTransactionModal"
+      task="Print NFT"
+      :price="printPrice"
+    />
   </div>
 </template>
 
@@ -56,11 +62,13 @@ import { ethers } from "ethers";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
-import { MintDescription } from "@/utils/constants";
+import { MintDescription, Price } from "@/utils/constants";
 import AppAlert from "@/components/app/AppAlert.vue";
+import TransactionModal from "@/components/wallet/TransactionModal.vue";
 
 const emits = defineEmits(["showHint"]);
 
+const showPrintTransactionModal = ref(false);
 const loading = ref(false);
 const error = ref(null);
 const showError = ref(false);
@@ -71,20 +79,15 @@ const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
 const { provider, authInterfaceCreated } = useWalletExtended();
 const { address } = useWallet();
+const printPrice = Price.print;
 
 const print = async function (printData: any) {
   if (loading.value) {
     return;
   }
-
   try {
     loading.value = true;
-
-    const mondrianInterface: MondrianInterface = new MondrianInterface(
-      toRaw(provider.value as ethers.providers.Web3Provider)
-    );
-
-    await mondrianInterface.print(printData.token, address.value);
+    await sendPrintTx(printData);
     await authInterface.print(printData);
     showSuccess.value = true;
   } catch (err: any) {
@@ -93,6 +96,26 @@ const print = async function (printData: any) {
   } finally {
     loading.value = false;
   }
+};
+
+const sendPrintTx = async function (printData: any) {
+  const mondrianInterface: MondrianInterface = new MondrianInterface(
+    toRaw(provider.value as ethers.providers.Web3Provider)
+  );
+  showPrintTransactionModal.value = true;
+  let tx = null;
+  try {
+    tx = await mondrianInterface.print(
+      {
+        token: printData.token,
+        address: address.value,
+      },
+      { txWait: false }
+    );
+  } finally {
+    showPrintTransactionModal.value = false;
+  }
+  return tx?.wait();
 };
 
 // tokens fetch handling

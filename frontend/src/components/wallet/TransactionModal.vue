@@ -24,13 +24,9 @@
             <div v-if="task">
               <h3 class="font-bold">{{ task }}</h3>
             </div>
-            <div class="flex items-center space-x-2" v-if="price">
-              <span class="inline-flex items-center space-x-0.5">
-                <PolygonIcon class="block w-4 h-4" />
-                <span class="block">{{ Number(price).toFixed(2) }} </span>
-              </span>
-
-              <span> ($ {{ usdBalance }} USD) </span>
+            <div class="inline-flex items-center space-x-0.5" v-if="price">
+              <PolygonIcon class="block w-4 h-4" />
+              <span class="block">{{ price }} </span>
             </div>
           </div>
         </div>
@@ -45,10 +41,6 @@
 import AppModal from "@/components/app/AppModal.vue";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import PolygonIcon from "@/components/icons/PolygonIcon.vue";
-import { computed, ref } from "vue";
-import { useFetch } from "@vueuse/core";
-import CONFIG from "../../../../config";
-import { getTokenHourData } from "@/services/graphql/types";
 
 defineEmits(["update:modelValue"]);
 
@@ -65,29 +57,5 @@ const props = defineProps({
     type: String,
     required: false,
   },
-});
-
-const maticPrice = ref<string | null>(null);
-
-const usdBalance = computed<string>(() => {
-  return props.price && maticPrice.value
-    ? (Number(props.price) * Number(maticPrice.value)).toFixed(2)
-    : "0.00";
-});
-
-const { data, onFetchResponse } = useFetch(CONFIG.subgraph.uniswapPolygon, {
-  timeout: 10000,
-})
-  .post(
-    JSON.stringify({
-      query: getTokenHourData,
-    })
-  )
-  .json();
-
-onFetchResponse(() => {
-  if (data?.value?.data?.tokenHourDatas?.length) {
-    maticPrice.value = data.value.data.tokenHourDatas[0].close;
-  }
 });
 </script>
