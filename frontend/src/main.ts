@@ -16,12 +16,13 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import CONFIG from "@/../../config";
 import Notifications from "notiwind";
 import { createHead } from "@vueuse/head";
-import initHeadObject from "./head.config";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
-const head = createHead(initHeadObject);
+const head = createHead({
+  titleTemplate: `Magic Mondrian — %s`,
+});
 
 const wallet = WalletConnectorVue({
   appName: "Magic Mondrian",
