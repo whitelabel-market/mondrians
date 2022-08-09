@@ -108,7 +108,12 @@
 <script lang="ts" setup>
 import LayoutViewHeader from "@/components/layouts/LayoutViewHeader.vue";
 import { onMounted } from "vue";
+import { useHead } from "@vueuse/head";
 const emit = defineEmits(["loaded"]);
+
+useHead({
+  title: "Terms of Service",
+});
 
 onMounted(() => {
   emit("loaded", true);

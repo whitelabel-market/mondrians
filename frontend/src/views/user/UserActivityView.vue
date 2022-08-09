@@ -46,11 +46,16 @@ import Activity from "@/components/activity/Activity.vue";
 import ActivitySkeleton from "@/components/activity/ActivitySkeleton.vue";
 import NoTokens from "@/components/user/NoTokens.vue";
 import { EnsAccount, ENS_ACCOUNT } from "@/utils/types";
+import { useHead } from "@vueuse/head";
 
 const emits = defineEmits(["showHint"]);
 
 const transfers = ref<any[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
+
+useHead({
+  title: `Activity`,
+});
 
 // transfers fetch handling
 

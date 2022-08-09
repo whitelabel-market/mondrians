@@ -2438,6 +2438,11 @@
     "@vueuse/shared" "8.6.0"
     vue-demi "*"
 
+"@vueuse/head@^0.7.9":
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-0.7.9.tgz#888ab87667ab6dbe6edba10d176fa91c1b0ec021"
+  integrity sha512-5wnRiH2XIUSLLXJDLDDTcpvAg5QXgTIVZl46AU7to/T91KHsdBLHSE4WhRO7kP0jbkAhlxnx64E29cQtwBrMjg==
+
 "@vueuse/integrations@^8.7.5":
   version "8.7.5"
   resolved "https://registry.yarnpkg.com/@vueuse/integrations/-/integrations-8.7.5.tgz#a47f78d964939c3ac4070088e67883fb3c8ca77a"

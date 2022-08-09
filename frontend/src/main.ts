@@ -15,11 +15,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import CONFIG from "@/../../config";
 import Notifications from "notiwind";
+import { createHead } from "@vueuse/head";
+import initHeadObject from "./head.config";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
-const walletCtx = WalletConnectorVue({
+const head = createHead(initHeadObject);
+
+const wallet = WalletConnectorVue({
   appName: "Magic Mondrian",
   infuraId: CONFIG.infura.id,
   chainId: CONFIG.chainId,
@@ -30,7 +34,7 @@ const walletCtx = WalletConnectorVue({
   },
 });
 
-export const app = createApp({
+const app = createApp({
   setup() {
     provide(TOGGLE_CONTEXT, createToggles());
     provide(WALLET_CONTEXT, createWalletExtended());
@@ -38,11 +42,9 @@ export const app = createApp({
   render: () => h(App),
 });
 
-app.use(walletCtx);
-app.config.globalProperties.$wallet = walletCtx;
-
 app.directive("animate", animateDirective);
-
+app.use(wallet);
+app.use(head);
 app.use(router);
 app.use(Notifications);
 app.mount("#app");

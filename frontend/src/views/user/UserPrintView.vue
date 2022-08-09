@@ -80,8 +80,13 @@ import AppAlert from "@/components/app/AppAlert.vue";
 import TransactionModal from "@/components/wallet/TransactionModal.vue";
 import { notify } from "notiwind";
 import { getError } from "@/utils/error";
+import { useHead } from "@vueuse/head";
 
 const emits = defineEmits(["showHint"]);
+
+useHead({
+  title: `Print`,
+});
 
 const showPrintTransactionModal = ref(false);
 const loading = ref(false);

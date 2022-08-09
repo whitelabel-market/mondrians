@@ -55,8 +55,13 @@ import { MintDescription } from "@/utils/constants";
 import AppAlert from "@/components/app/AppAlert.vue";
 import { notify } from "notiwind";
 import { getError } from "@/utils/error";
+import { useHead } from "@vueuse/head";
 
 const emits = defineEmits(["showHint"]);
+
+useHead({
+  title: `Event Invitation`,
+});
 
 const loading = ref(false);
 const error = ref(null);

@@ -1,5 +1,4 @@
 export const getError = (error: any) => {
-  console.log("error", error);
   if (error && typeof error === "object" && "reason" in error)
     return error.reason;
   if (error && typeof error === "object" && "message" in error)

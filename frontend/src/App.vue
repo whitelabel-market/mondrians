@@ -33,6 +33,7 @@ import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import CONFIG from "@/../../config";
 import { useRoute } from "vue-router";
 import LayoutNotification from "@/components/layouts/LayoutNotification.vue";
+import { useHead } from "@vueuse/head";
 
 const route = useRoute();
 

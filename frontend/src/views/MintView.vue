@@ -200,6 +200,7 @@ import ConfirmationTask from "@/components/mint/ConfirmationTask.vue";
 import { notify } from "notiwind";
 import { MintDescription } from "@/utils/constants";
 import TransactionModal from "@/components/wallet/TransactionModal.vue";
+import { useHead } from "@vueuse/head";
 
 const emit = defineEmits(["loaded"]);
 
@@ -208,6 +209,10 @@ const presaleEnabled = useFlag(SalePhase.PreSale);
 const { address } = useWallet();
 const { provider } = useWalletExtended();
 const { getTokenByAddress } = useSubgraph();
+
+useHead({
+  title: "Mint",
+});
 
 const mintPrice = computed(() =>
   whitelistEnabled.value ? Price.whitelist : Price.default

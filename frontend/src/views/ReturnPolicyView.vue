@@ -99,8 +99,13 @@
 <script lang="ts" setup>
 import LayoutViewHeader from "@/components/layouts/LayoutViewHeader.vue";
 import { onMounted } from "vue";
+import { useHead } from "@vueuse/head";
 
 const emit = defineEmits(["loaded"]);
+
+useHead({
+  title: "Return Policy",
+});
 
 onMounted(() => {
   emit("loaded", true);

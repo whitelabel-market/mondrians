@@ -20,14 +20,7 @@
               v-if="ensAccount || /^0x[a-fA-F0-9]{40}$/g.test(route.params.id)"
             >
               <h1 class="text-2xl font-bold slashed-zero">
-                {{
-                  getShortAddress(
-                    ensAccount?.id ||
-                      (route.params.id.length
-                        ? route.params.id[0]
-                        : route.params.id)
-                  )
-                }}
+                {{ getShortAddress(ensAccount?.id || route.params.id) }}
               </h1>
               <AppButton
                 only-icon
@@ -101,6 +94,7 @@ import { getShortAddress } from "@/utils/ethereum";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import { getEnsAccount, getEnsAccountReverse } from "@/services/graphql/types";
 import makeBlockie from "ethereum-blockies-base64";
+import { useHead } from "@vueuse/head";
 
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 
@@ -113,6 +107,12 @@ const hintVisible = ref(false);
 const route = useRoute();
 const ensAccount = ref<EnsAccount>();
 provide(ENS_ACCOUNT, ensAccount);
+
+useHead({
+  title: (ensAccount.value?.domains?.[0] ||
+    ensAccount.value?.id ||
+    route.params.id) as string,
+});
 
 const { post, onFetchResponse, data } = useFetch(CONFIG.subgraph.ens, {
   timeout: 10000,

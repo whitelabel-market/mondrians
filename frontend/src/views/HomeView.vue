@@ -23,6 +23,11 @@ import CONFIG from "../../../config.js";
 import { getContract } from "@/services/graphql/types";
 import { useBlock } from "@whitelabel-solutions/wallet-connector-vue";
 import useContract from "@/composables/useContract";
+import { useHead } from "@vueuse/head";
+
+useHead({
+  title: "A drop of custom digital paintings by Piet Mondrian",
+});
 
 const emits = defineEmits(["loaded"]);
 

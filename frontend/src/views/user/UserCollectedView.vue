@@ -19,11 +19,16 @@ import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { useFetch } from "@vueuse/core";
 import TokenList from "@/components/tokens/TokenList.vue";
+import { useHead } from "@vueuse/head";
 
 const emits = defineEmits(["showHint"]);
 
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
+
+useHead({
+  title: `Collected`,
+});
 
 // tokens fetch handling
 
