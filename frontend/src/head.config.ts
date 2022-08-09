@@ -23,23 +23,23 @@ export default {
     },
     { name: "theme-color", content: config.color },
     {
-      name: "og:description",
+      property: "og:description",
       content: config.description,
     },
     {
-      name: "og:type",
+      property: "og:type",
       content: config.type,
     },
     {
-      name: "og:image",
+      property: "og:image",
       content: config.image.src,
     },
     {
-      name: "og:image:width",
+      property: "og:image:width",
       content: config.image.width,
     },
     {
-      name: "og:image:height",
+      property: "og:image:height",
       content: config.image.height,
     },
   ],
