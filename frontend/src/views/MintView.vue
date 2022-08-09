@@ -318,18 +318,11 @@ watch(taskIndex, () => {
 
 watch(isError, () => {
   if (isError.value) {
-    let message;
-    if (typeof error.value === "object") message = JSON.stringify(error.value);
-    else message = error.value;
-    notify(
-      {
-        group: "app",
-        title: "Something went wrong!",
-        text: "Please contact the support.",
-        data: message,
-      },
-      1000 * 60
-    ); // 1min
+    notify({
+      group: "app",
+      type: "error",
+      title: "Something went wrong",
+    });
   }
 });
 

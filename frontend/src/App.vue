@@ -18,8 +18,8 @@
       </main>
       <LayoutFooter v-if="route.name !== 'Screenshot'" />
     </div>
+    <LayoutNotification />
   </div>
-  <AppNotification />
 </template>
 
 <script setup lang="ts">
@@ -29,10 +29,10 @@ import LayoutHeader from "@/components/layouts/LayoutHeader.vue";
 import LayoutFrame from "@/components/layouts/LayoutFrame.vue";
 import LayoutChangeNetworkModal from "@/components/layouts/LayoutChangeNetworkModal.vue";
 import LoadingMondrian from "@/components/icons/LoadingMondrian.vue";
-import AppNotification from "@/components/app/AppNotification.vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import CONFIG from "@/../../config";
 import { useRoute } from "vue-router";
+import LayoutNotification from "@/components/layouts/LayoutNotification.vue";
 
 const route = useRoute();
 

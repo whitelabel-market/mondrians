@@ -6,8 +6,12 @@
       </p>
     </div>
 
-    <AppAlert v-model="showError" title="Something went wrong">
-      {{ error }}
+    <AppAlert
+      v-model="showError"
+      title="Something went wrong"
+      :report="errorMessage"
+    >
+      {{ errorMessage }}
     </AppAlert>
 
     <AppAlert
@@ -37,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, inject, Ref } from "vue";
+import { ref, watch, inject, Ref, computed, unref } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
 import NoTokens from "@/components/user/NoTokens.vue";
 import CONFIG from "@/../../config";
@@ -49,6 +53,8 @@ import { authInterface } from "@/services/BackendInterface";
 import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
 import { MintDescription } from "@/utils/constants";
 import AppAlert from "@/components/app/AppAlert.vue";
+import { notify } from "notiwind";
+import { getError } from "@/utils/error";
 
 const emits = defineEmits(["showHint"]);
 
@@ -69,8 +75,15 @@ const sendTicket = async function (email: string) {
     await authInterface.sendMail(email);
     showSuccess.value = true;
   } catch (err: any) {
+    console.log("err", err);
     error.value = err;
     showError.value = true;
+    notify({
+      group: "app",
+      type: "error",
+      title: "Something went wrong",
+      text: errorMessage,
+    });
   } finally {
     loading.value = false;
   }
@@ -110,4 +123,6 @@ watch(
   },
   { deep: true }
 );
+
+const errorMessage = computed(() => getError(unref(error)));
 </script>

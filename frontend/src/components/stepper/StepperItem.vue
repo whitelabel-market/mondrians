@@ -20,8 +20,12 @@
           <div
             class="space-y-4 transition-colors duration-100 dark:text-neutral-200"
           >
-            <AppAlert title="Something went wrong" v-model="showError">
-              <p>{{ getError }}</p>
+            <AppAlert
+              title="Something went wrong"
+              v-model="showError"
+              :report="errorMessage"
+            >
+              <p>{{ errorMessage }}</p>
             </AppAlert>
 
             <slot :index="index" />
@@ -33,11 +37,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, PropType, ref, Ref, watch } from "vue";
+import { computed, PropType, ref, Ref, unref, watch } from "vue";
 import { DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import StepStatus from "@/components/mint/StepStatus.vue";
 import { gsap } from "gsap";
 import AppAlert from "@/components/app/AppAlert.vue";
+import { getError } from "@/utils/error";
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -73,16 +78,9 @@ const onEnter = async (el: HTMLElement, done: any) =>
 const onLeave = async (el: HTMLElement, done: any) =>
   toggle(el, "0").then(done);
 
-const getError = computed(() => {
-  if (typeof props.error.value === "object" && "reason" in props.error.value)
-    return props.error.value.reason;
-  if (typeof props.error.value === "object" && "message" in props.error.value)
-    return props.error.value.message;
-  if (typeof props.error.value === "string") return props.error.value;
-  else return "Something went wrong";
-});
-
 watch(props.error, () => {
   showError.value = !!props.error;
 });
+
+const errorMessage = computed(() => getError(unref(props.error)));
 </script>

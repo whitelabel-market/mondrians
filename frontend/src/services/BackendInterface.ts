@@ -105,14 +105,14 @@ export const createAuthInterface = (address: string) => {
       email,
     });
     if (error.value) {
-      throw unref(data);
+      throw unref(error.value);
     }
   };
 
   const print = async (printData: any): Promise<void> => {
     const { data, error } = await useFetch(`api/print/order`).post(printData);
     if (error.value) {
-      throw unref(data);
+      throw unref(error.value);
     }
   };
 
