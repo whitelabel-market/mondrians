@@ -121,7 +121,15 @@ const layersSetup = (layersOrder) => {
     bypassDNA:
       layerObj.options?.["bypassDNA"] !== undefined
         ? layerObj.options?.["bypassDNA"]
-        : false
+        : false,
+    valueAsType:
+      layerObj.options?.["valueAsType"] !== undefined
+        ? layerObj.options?.["valueAsType"]
+        : false,
+    skipValue:
+      layerObj.options?.["skipValue"] !== undefined
+        ? layerObj.options?.["skipValue"]
+        : "__NONE"
   }));
   return layers;
 };
@@ -177,11 +185,17 @@ const addMetadata = (_dna, _edition) => {
 };
 
 const addAttributes = (_element) => {
-  let selectedElement = _element.layer.selectedElement;
-  attributesList.push({
-    trait_type: _element.layer.name,
-    value: selectedElement.name,
-  });
+  const selectedElement = _element.layer.selectedElement;
+  const valueAsType = _element.layer.valueAsType;
+  const skipValue = _element.layer.skipValue;
+
+  if(skipValue !== selectedElement.name && !(valueAsType && attributesList.some((a)=> (a.trait_type === selectedElement.name || a.trait_type === _element.layer.name)))){
+    attributesList.push({
+      trait_type: valueAsType ? selectedElement.name : _element.layer.name,
+      value: valueAsType ? "" : selectedElement.name,
+    });
+  }
+
 };
 
 const loadLayerImg = async (_layer) => {
@@ -205,6 +219,8 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
       name: layer.name,
       blend: layer.blend,
       opacity: layer.opacity,
+      valueAsType: layer.valueAsType,
+      skipValue: layer.skipValue,
       selectedElement: selectedElement,
     };
   });

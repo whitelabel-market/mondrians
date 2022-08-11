@@ -4,7 +4,7 @@ const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
-const layersDir = `${basePath}/layers`;
+const layersDir = `${basePath}/layer_svgs`;
 
 const { layerConfigurations } = require(path.join(basePath, "/src/config.js"));
 

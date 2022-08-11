@@ -31,18 +31,19 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 10,
+    growEditionSizeTo: 1000,
+
     layersOrder: [
       { name: "Background" },
       { name: "Line" },
-      { name: "1" },
-      { name: "2" },
-      { name: "3" },
-      { name: "4" },
-      { name: "5" },
-      { name: "6" },
-      { name: "7" },
-      { name: "8" },
+      { name: "1", options: {valueAsType: true} },
+      { name: "2", options: {valueAsType: true} },
+      { name: "3", options: {valueAsType: true} },
+      { name: "4", options: {valueAsType: true} },
+      { name: "5", options: {valueAsType: true} },
+      { name: "6", options: {valueAsType: true} },
+      { name: "7", options: {valueAsType: true} },
+      { name: "8", options: {valueAsType: true} },
     ],
   },
 ];
