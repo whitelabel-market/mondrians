@@ -9,10 +9,10 @@ const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 const network = NETWORK.eth;
 
 //Image format - select the input format for the layers,  supported values "png", "svg"
-const IMG_FORMAT = "png"; 
+const IMG_FORMAT = "svg";
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
+const namePrefix = "MAMO";
 const description = "Remember to replace this description";
 const baseUri = "ipfs://NewUriToReplace";
 
@@ -31,15 +31,18 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 10,
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Line" },
+      { name: "1" },
+      { name: "2" },
+      { name: "3" },
+      { name: "4" },
+      { name: "5" },
+      { name: "6" },
+      { name: "7" },
+      { name: "8" },
     ],
   },
 ];
@@ -62,7 +65,7 @@ const gif = {
 
 const text = {
   only: false,
-  color: "#ffffff",
+  color: "#000000",
   size: 20,
   xGap: 40,
   yGap: 40,
@@ -79,9 +82,9 @@ const pixelFormat = {
 
 const background = {
   generate: true,
-  brightness: "80%",
+  brightness: "0%",
   static: false,
-  default: "#000000",
+  default: "#ffffff",
 };
 
 const extraMetadata = {};
