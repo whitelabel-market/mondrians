@@ -50,24 +50,20 @@
         <div
           class="relative flex items-center justify-center w-full group aspect-square"
         >
-          <AppImageLoad size="md">
-            <template v-slot:image>
-              <a
-                class="block w-full aspect-square"
-                :href="getIpfsLink"
-                target="_blank"
-              >
-                <object
-                  v-if="svg"
-                  v-html="svg"
-                  id="mondrian"
-                  width="100%"
-                  height="100%"
-                ></object>
-                <!-- <img :src="getIpfsLink" :alt="'Magic Mondrian ' + token.id" /> -->
-              </a>
-            </template>
-          </AppImageLoad>
+          <a
+            class="block w-full aspect-square"
+            :href="getIpfsLink"
+            target="_blank"
+          >
+            <object
+              v-if="svg"
+              v-html="svg"
+              id="mondrian"
+              width="100%"
+              height="100%"
+            ></object>
+            <!-- <img :src="getIpfsLink" :alt="'Magic Mondrian ' + token.id" /> -->
+          </a>
         </div>
         <div
           class="flex transition-colors duration-100 text-neutral-900 dark:text-neutral-200"

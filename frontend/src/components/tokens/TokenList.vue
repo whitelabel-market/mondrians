@@ -26,7 +26,7 @@
 
     <div
       v-else
-      class="grid w-full gap-8 grid-cols-1 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+      class="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lgs:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
     >
       <template v-for="(token, i) of _tokens" :key="i">
         <slot v-if="isFinished" name="token" :token="token">

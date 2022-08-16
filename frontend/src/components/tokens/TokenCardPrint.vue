@@ -13,18 +13,14 @@
           class="relative flex items-center justify-center w-full group aspect-square"
           v-if="token?.id || tokenId"
         >
-          <AppImageLoad size="md" color="secondary">
-            <template v-slot:image>
-              <object
-                v-if="svg"
-                v-html="svg"
-                id="mondrian"
-                width="100%"
-                height="100%"
-              ></object>
-              <!-- <img :src="imgSrc" id="mondrian" /> -->
-            </template>
-          </AppImageLoad>
+          <object
+            v-if="svg"
+            v-html="svg"
+            id="mondrian"
+            width="100%"
+            height="100%"
+          ></object>
+          <!-- <img :src="imgSrc" id="mondrian" /> -->
         </div>
 
         <div class="font-mill flex justify-between mt-[3%]">
