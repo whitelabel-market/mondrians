@@ -167,14 +167,9 @@ export const createPrintOrder = async (req, res, config) => {
     const page = await browser.newPage();
 
     // set viewport width and height
-    // await page.setViewport({
-    //   width: 7086,
-    //   height: 9448,
-    // });
-
     await page.setViewport({
-      width: 300,
-      height: 400,
+      width: 7086,
+      height: 9448,
     });
 
     await page.goto(
