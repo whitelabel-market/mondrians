@@ -40,3 +40,9 @@ watch(loaded, () => {
   if (loaded.value === true) emits("loaded");
 });
 </script>
+
+<style>
+* {
+  shape-rendering: crispEdges;
+}
+</style>

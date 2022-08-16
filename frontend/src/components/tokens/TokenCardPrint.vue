@@ -15,7 +15,14 @@
         >
           <AppImageLoad size="md" color="secondary">
             <template v-slot:image>
-              <img :src="imgSrc" id="mondrian" />
+              <object
+                v-if="svg"
+                v-html="svg"
+                id="mondrian"
+                width="100%"
+                height="100%"
+              ></object>
+              <!-- <img :src="imgSrc" id="mondrian" /> -->
             </template>
           </AppImageLoad>
         </div>
@@ -107,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import CONFIG from "@/../../config";
@@ -135,13 +142,26 @@ const { url, timestamp, mintAddress, tokenId } = route.query;
 
 // link handling
 
-const imgSrc = computed(
-  () =>
-    `${CONFIG.ipfsBaseUrl}${(props?.token?.imageURI || url).replace(
-      "ipfs://",
-      ""
-    )}`
-);
+const svg = ref();
+
+onMounted(async () => {
+  const data = await fetch(
+    url
+      ? `${CONFIG.ipfsBaseUrl}${(url as string).replace("ipfs://", "")}`
+      : `${CONFIG.ipfsBaseUrl}${props?.token?.imageURI.replace("ipfs://", "")}`
+  );
+  svg.value = (await data.text())
+    .replace(new RegExp(`width="[0-9]*px"`, "g"), `width="100%"`)
+    .replace(new RegExp(`height="[0-9]*px"`, "g"), `height="100%"`);
+});
+
+// const imgSrc = computed(
+//   () =>
+//     `${CONFIG.ipfsBaseUrl}${(props?.token?.imageURI || url).replace(
+//       "ipfs://",
+//       ""
+//     )}`
+// );
 
 // qr code handling
 
@@ -179,5 +199,9 @@ const tokenDetails = computed(() => ({
 #description {
   text-align: justify;
   hyphens: auto;
+}
+
+* {
+  shape-rendering: crispEdges;
 }
 </style>
