@@ -165,9 +165,8 @@ const mintDate = computed(() => {
   return `${month} ${year}`;
 });
 </script>
-
 <style>
 * {
-  image-rendering: crisp-edges;
+  shape-rendering: crispEdges;
 }
 </style>

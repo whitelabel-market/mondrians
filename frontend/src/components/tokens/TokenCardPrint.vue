@@ -112,7 +112,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import CONFIG from "@/../../config";
 import QRCode from "qrcode";
 import { getShortAddress } from "@/utils/ethereum";
