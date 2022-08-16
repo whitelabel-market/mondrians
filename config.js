@@ -16,7 +16,7 @@ module.exports = {
   openseaBaseUrl: "https://testnets.opensea.io/assets/mumbai/",
   chainId: 80001,
   networkName: "maticmum",
-  contract: "0x2561965ee2467F5825FfaB94f03cdDF9531a4801",
+  contract: "0xdF31d768841d1817E61b13b0496C4E7E74eD66a3",
   subgraph: {
     mamo: "https://api.thegraph.com/subgraphs/name/amrap030/mamo-drop",
     ens: "https://api.thegraph.com/subgraphs/name/ensdomains/ens",
@@ -65,7 +65,7 @@ module.exports = {
     apiKey: process.env.PRINT_KEY || "",
     url:
       process.env.NODE_ENV === "development"
-        ? "https://api2.magic-mondrian.art"
+        ? "http://localhost:3000"
         : "https://api2.magic-mondrian.art",
   },
   redis: {
