@@ -48,7 +48,7 @@ const wrongNetwork = computed(() => {
 });
 </script>
 
-<style>
+<!-- <style>
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -65,4 +65,4 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
   color: #e5e5e5;
 }
-</style>
+</style> -->
