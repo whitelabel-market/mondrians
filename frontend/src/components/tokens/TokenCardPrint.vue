@@ -20,7 +20,10 @@
             width="100%"
             height="100%"
           ></object>
-          <!-- <img :src="imgSrc" id="mondrian" /> -->
+          <div
+            v-else
+            class="w-[10%] h-[10%] border-2 rounded-full spinner border-r-black"
+          ></div>
         </div>
 
         <div class="font-mill flex justify-between mt-[3%]">
@@ -28,7 +31,7 @@
             <div
               class="font-black italic uppercase truncate text-[140%] leading-none"
             >
-              <h4 v-if="token?.id || tokenId">
+              <h4 v-if="token?.id || tokenId" class="font-mill">
                 Magic Mondrian #{{
                   ("0000" + (token?.id || tokenId)).substr(
                     (token?.id || tokenId).toString().length
@@ -46,8 +49,10 @@
                   v-for="(value, key) in tokenDetails"
                   :key="key"
                 >
-                  <span class="block font-light">{{ key }}:</span>
-                  <span class="block font-bold text-right">{{ value }}</span>
+                  <span class="block font-light font-mill">{{ key }}:</span>
+                  <span class="block font-bold text-right font-mill">{{
+                    value
+                  }}</span>
                 </li>
               </ul>
             </div>
@@ -64,7 +69,7 @@
         >
           <div class="col-span-5">
             <p
-              class="text-[32%] text-neutral-400 font-light w-full leading-none"
+              class="text-[32%] text-neutral-400 font-light w-full leading-none font-mill"
             >
               © 2022 Whitelabel Solutions, Inc. Powered by Piet Mondrian.
             </p>
@@ -96,7 +101,10 @@
             </svg>
           </div>
           <div class="flex items-start col-span-5">
-            <p class="text-[42%] align-end leading-none" id="description">
+            <p
+              class="text-[42%] align-end leading-none font-mill"
+              id="description"
+            >
               Mondrians is a drop of custom digital paintings, created by Piet
               Mondrian, aiming to express culture, uniqueness and creativity.
               Through size, shape and color Mondrian's embraces what it means to
@@ -150,14 +158,6 @@ onMounted(async () => {
     .replace(new RegExp(`height="[0-9]*px"`, "g"), `height="100%"`);
 });
 
-// const imgSrc = computed(
-//   () =>
-//     `${CONFIG.ipfsBaseUrl}${(props?.token?.imageURI || url).replace(
-//       "ipfs://",
-//       ""
-//     )}`
-// );
-
 // qr code handling
 
 const qrCode = asyncComputed(async () => {
@@ -196,7 +196,18 @@ const tokenDetails = computed(() => ({
   hyphens: auto;
 }
 
-* {
-  shape-rendering: crispEdges;
+.spinner {
+  position: relative;
+  animation: 0.66s linear 0s infinite normal none running loader;
+  user-select: none;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
