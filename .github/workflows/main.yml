@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.DIGITALOCEAN_USERNAME }}
           key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           source: "config.js"
-          target: "/opt/docker/mondrians"
+          target: "/opt/mondrians"
           tar_tmp_path: "/home/amrap030/tmp"
           overwrite: true
 
@@ -62,7 +62,7 @@ jobs:
           username: ${{ secrets.DIGITALOCEAN_USERNAME }}
           key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           source: "screenshot"
-          target: "/opt/docker/mondrians/screenshot-api"
+          target: "/opt/mondrians/screenshot-api"
           tar_tmp_path: "/home/amrap030/tmp"
           overwrite: true
   
