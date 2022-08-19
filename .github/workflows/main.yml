@@ -74,7 +74,7 @@ jobs:
       - name: Start docker containers
         uses: appleboy/ssh-action@v0.1.4
         env:
-          IMAGE_NAME: "amrap030/whitelabel-backend"
+          IMAGE_NAME: "amrap030/whitelabel-backend:latest"
           CONTAINER_NAME: "whitelabel-backend"
         with:
           host: ${{ secrets.DIGITALOCEAN_HOST }}
@@ -86,4 +86,5 @@ jobs:
             cd /opt/docker/mondrians
             docker-compose down
             docker rmi $IMAGE_NAME
+            docker pull $IMAGE_NAME
             docker-compose up -d
