@@ -83,7 +83,7 @@ jobs:
           key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           envs: IMAGE_NAME,CONTAINER_NAME
           script: |
-            cd /opt/docker/mondrians
+            cd /opt/mondrians
             docker-compose down
             docker rmi $IMAGE_NAME
             docker pull $IMAGE_NAME
