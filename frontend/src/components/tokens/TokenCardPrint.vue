@@ -26,12 +26,12 @@
           ></div>
         </div>
 
-        <div class="font-mill flex justify-between mt-[3%]">
+        <div class="font-sans flex justify-between mt-[3%]">
           <div class="flex flex-col space-y-[1.5%]">
             <div
               class="font-black italic uppercase truncate text-[140%] leading-none"
             >
-              <h4 v-if="token?.id || tokenId" class="font-mill">
+              <h4 v-if="token?.id || tokenId" class="font-sans">
                 Magic Mondrian #{{
                   ("0000" + (token?.id || tokenId)).substr(
                     (token?.id || tokenId).toString().length
@@ -49,8 +49,8 @@
                   v-for="(value, key) in tokenDetails"
                   :key="key"
                 >
-                  <span class="block font-light font-mill">{{ key }}:</span>
-                  <span class="block font-bold text-right font-mill">{{
+                  <span class="block font-sans font-light">{{ key }}:</span>
+                  <span class="block font-sans font-bold text-right">{{
                     value
                   }}</span>
                 </li>
@@ -65,11 +65,11 @@
         </div>
 
         <div
-          class="font-mill h-full grid grid-cols-11 gap-[4%] items-end -mt-[1%]"
+          class="font-sans h-full grid grid-cols-11 gap-[4%] items-end -mt-[1%]"
         >
           <div class="col-span-5">
             <p
-              class="text-[32%] text-neutral-400 font-light w-full leading-none font-mill"
+              class="text-[32%] text-neutral-400 font-light w-full leading-none font-sans"
             >
               © 2022 Whitelabel Solutions, Inc. Powered by Piet Mondrian.
             </p>
@@ -102,7 +102,7 @@
           </div>
           <div class="flex items-start col-span-5">
             <p
-              class="text-[42%] align-end leading-none font-mill"
+              class="text-[42%] align-end leading-none font-sans"
               id="description"
             >
               Mondrians is a drop of custom digital paintings, created by Piet
