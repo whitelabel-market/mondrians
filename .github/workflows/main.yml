@@ -32,26 +32,42 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/whitelabel-backend:latest
 
-  copy:
-    name: Copy
+  copy_config:
+    name: Copy config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: copy config to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DIGITALOCEAN_HOST }}
+          username: ${{ secrets.DIGITALOCEAN_USERNAME }}
+          key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          source: "config.js"
+          target: "/opt/docker/mondrians"
+          tar_tmp_path: "/home/amrap030/tmp"
+          overwrite: true
+
+  copy_screenshot_api:
+    name: Copy screenshot api
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: copy config to server
+    - name: copy screenshot api to server
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.DIGITALOCEAN_HOST }}
         username: ${{ secrets.DIGITALOCEAN_USERNAME }}
         key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-        source: "config.js"
-        target: "/opt/mondrians/"
+        source: "screenshot"
+        target: "/opt/docker/mondrians"
         tar_tmp_path: "/home/amrap030/tmp"
         overwrite: true
   
   start:
     name: Start Containers
     runs-on: ubuntu-latest
-    needs: [push, copy]
+    needs: [push, copy_config, copy_screenshot_api]
     steps:
       - name: Start docker containers
         uses: appleboy/ssh-action@v0.1.4
@@ -64,7 +80,7 @@ jobs:
           key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           envs: IMAGE_NAME,CONTAINER_NAME
           script: |
-            cd /opt/mondrians
+            cd /opt/docker/mondrians
             docker-compose down
             docker rmi $IMAGE_NAME
             docker-compose up -d
