@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"sync"
@@ -44,9 +43,6 @@ func createScreenshot(w http.ResponseWriter, r *http.Request) {
 		chromedp.EmulateViewport(7086, 9448),
 		chromedp.FullScreenshot(&buf, 100),
 	); err != nil {
-		log.Fatal(err)
-	}
-	if err := ioutil.WriteFile("fullScreenshot.png", buf, 0o644); err != nil {
 		log.Fatal(err)
 	}
 
