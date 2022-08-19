@@ -78,6 +78,7 @@ jobs:
           CONTAINER_NAME: "whitelabel-backend"
         with:
           host: ${{ secrets.DIGITALOCEAN_HOST }}
+          port: 69
           username: ${{ secrets.DIGITALOCEAN_USERNAME }}
           key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           envs: IMAGE_NAME,CONTAINER_NAME
