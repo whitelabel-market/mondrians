@@ -30,18 +30,18 @@ module.exports = {
   },
   unleash: {
     clientKey: "proxy-client-key",
-    url: "https://unleash2.magic-mondrian.art/proxy",
+    url: "https://proxy.magic-mondrian.art/",
   },
   prodigi: {
     apiKey: process.env.PRODIGI_KEY || "",
     callbackUrl:
       process.env.NODE_ENV === "development"
-        ? "https://f51f-158-181-76-197.ngrok.io/api/print/update"
-        : "https://api2.magic-mondrian.art/api/print/update",
+        ? "https://f51f-158-181-76-197.ngrok.io/v1/print/update"
+        : "https://api.magic-mondrian.art/v1/print/update",
     assetBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://f51f-158-181-76-197.ngrok.io/screenshots/"
-        : "https://api2.magic-mondrian.art/screenshots/",
+        : "https://api.magic-mondrian.art/screenshots/",
     apiBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://api.sandbox.prodigi.com/v4.0"
@@ -66,7 +66,7 @@ module.exports = {
     url:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000"
-        : "https://api2.magic-mondrian.art",
+        : "https://api.magic-mondrian.art",
   },
   redis: {
     host: process.env.NODE_ENV === "development" ? "localhost" : "redis",
