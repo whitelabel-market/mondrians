@@ -149,41 +149,41 @@ export const createPrintOrder = async (req, res, config) => {
     fs.mkdirSync(path.join(__dirname, "../../screenshots"));
   }
 
-  let browser = null;
+  // let browser = null;
 
   try {
-    // launch headless Chromium browser
-    browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-gpu",
-        "--disable-dev-shm-usage",
-      ],
-    });
+    // // launch headless Chromium browser
+    // browser = await puppeteer.launch({
+    //   headless: true,
+    //   args: [
+    //     "--no-sandbox",
+    //     "--disable-setuid-sandbox",
+    //     "--disable-gpu",
+    //     "--disable-dev-shm-usage",
+    //   ],
+    // });
 
-    // create new page object
-    const page = await browser.newPage();
+    // // create new page object
+    // const page = await browser.newPage();
 
-    // set viewport width and height
-    await page.setViewport({
-      width: 7086,
-      height: 9448,
-    });
+    // // set viewport width and height
+    // await page.setViewport({
+    //   width: 7086,
+    //   height: 9448,
+    // });
 
-    await page.goto(
-      `${CONFIG.hostUrl}/screenshot?mintAddress=${address}&tokenId=${token.id}&timestamp=${token.createdAtTimestamp}&url=${token.imageURI}`,
-      { waitUntil: "domcontentloaded" }
-    );
-    await Promise.all([
-      page.waitForSelector("#mondrian", {
-        visible: true,
-      }),
-      page.waitForNavigation({
-        waitUntil: "networkidle0",
-      }),
-    ]);
+    // await page.goto(
+    //   `${CONFIG.hostUrl}/screenshot?mintAddress=${address}&tokenId=${token.id}&timestamp=${token.createdAtTimestamp}&url=${token.imageURI}`,
+    //   { waitUntil: "domcontentloaded" }
+    // );
+    // await Promise.all([
+    //   page.waitForSelector("#mondrian", {
+    //     visible: true,
+    //   }),
+    //   page.waitForNavigation({
+    //     waitUntil: "networkidle0",
+    //   }),
+    // ]);
 
     // capture screenshot and store it into screenshots directory.
     const fileName = `${address}_${token.id}_${new Date()
@@ -191,12 +191,26 @@ export const createPrintOrder = async (req, res, config) => {
       .replaceAll(":", "_")
       .replaceAll(".", "_")}.jpeg`;
 
-    const image = await page.screenshot({
-      path: path.join(__dirname, `../../screenshots/${fileName}`),
-    });
+    const image = await axios.get(
+      `http://${
+        process.env.NODE_ENV === "development" ? "localhost" : "screenly"
+      }:3333/screenshot?url=${
+        CONFIG.hostUrl
+      }/screenshot?mintAddress=${address}&tokenId=${token.id}&timestamp=${
+        token.createdAtTimestamp
+      }&url=${token.imageURI}`,
+      {
+        responseType: "arraybuffer",
+      }
+    );
+    // const image = await page.screenshot({
+    //   path: path.join(__dirname, `../../screenshots/${fileName}`),
+    // });
 
     // set image density from 72 dpi to 300 dpi for print
-    const data = await sharp(image).withMetadata({ density: 300 }).toBuffer();
+    const data = await sharp(image.data)
+      .withMetadata({ density: 300 })
+      .toBuffer();
 
     fs.writeFile(
       path.join(__dirname, `../../screenshots/${fileName}`),
@@ -245,7 +259,7 @@ export const createPrintOrder = async (req, res, config) => {
       },
     });
 
-    await browser.close();
+    // await browser.close();
     logger.info(`Order successfully created for address: ${address}`);
 
     let transporter = nodemailer.createTransport({
