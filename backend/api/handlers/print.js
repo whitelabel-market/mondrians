@@ -1,8 +1,6 @@
-import QRCode from "qrcode";
 import { logger } from "../../logger/index.js";
 import sharp from "sharp";
 import fs from "fs";
-import puppeteer from "puppeteer";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -149,42 +147,7 @@ export const createPrintOrder = async (req, res, config) => {
     fs.mkdirSync(path.join(__dirname, "../../screenshots"));
   }
 
-  // let browser = null;
-
   try {
-    // // launch headless Chromium browser
-    // browser = await puppeteer.launch({
-    //   headless: true,
-    //   args: [
-    //     "--no-sandbox",
-    //     "--disable-setuid-sandbox",
-    //     "--disable-gpu",
-    //     "--disable-dev-shm-usage",
-    //   ],
-    // });
-
-    // // create new page object
-    // const page = await browser.newPage();
-
-    // // set viewport width and height
-    // await page.setViewport({
-    //   width: 7086,
-    //   height: 9448,
-    // });
-
-    // await page.goto(
-    //   `${CONFIG.hostUrl}/screenshot?mintAddress=${address}&tokenId=${token.id}&timestamp=${token.createdAtTimestamp}&url=${token.imageURI}`,
-    //   { waitUntil: "domcontentloaded" }
-    // );
-    // await Promise.all([
-    //   page.waitForSelector("#mondrian", {
-    //     visible: true,
-    //   }),
-    //   page.waitForNavigation({
-    //     waitUntil: "networkidle0",
-    //   }),
-    // ]);
-
     // capture screenshot and store it into screenshots directory.
     const fileName = `${address}_${token.id}_${new Date()
       .toISOString()
@@ -203,9 +166,6 @@ export const createPrintOrder = async (req, res, config) => {
         responseType: "arraybuffer",
       }
     );
-    // const image = await page.screenshot({
-    //   path: path.join(__dirname, `../../screenshots/${fileName}`),
-    // });
 
     // set image density from 72 dpi to 300 dpi for print
     const data = await sharp(image.data)
