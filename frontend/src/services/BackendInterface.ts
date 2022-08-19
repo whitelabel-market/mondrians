@@ -86,7 +86,7 @@ export const createAuthInterface = (address: string) => {
 
   const getVoucher = async (): Promise<string> => {
     try {
-      const { data, error } = await useFetch("api/whitelist/voucher", {
+      const { data, error } = await useFetch("v1/whitelist/voucher", {
         timeout: 10000,
       })
         .get()
@@ -101,7 +101,7 @@ export const createAuthInterface = (address: string) => {
   };
 
   const sendMail = async (email: string): Promise<void> => {
-    const { data, error } = await useFetch(`api/whitelist/email`).post({
+    const { error } = await useFetch(`v1/whitelist/email`).post({
       email,
     });
     if (error.value) {
@@ -110,14 +110,14 @@ export const createAuthInterface = (address: string) => {
   };
 
   const print = async (printData: any): Promise<void> => {
-    const { data, error } = await useFetch(`api/print/order`).post(printData);
+    const { error } = await useFetch(`v1/print/order`).post(printData);
     if (error.value) {
       throw unref(error.value);
     }
   };
 
   const getPrintedTokens = async (): Promise<{ tokens: string[] }> => {
-    const { data, error } = await useFetch(`api/print/tokens`).get().json();
+    const { data, error } = await useFetch(`v1/print/tokens`).get().json();
     if (error.value) {
       throw unref(data);
     }

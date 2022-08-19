@@ -55,8 +55,8 @@ const startServer = async () => {
   );
   app.use(cookieParser());
   app.use(authRouter(config));
-  app.use("/api/print", printRouter(config));
-  app.use("/api/whitelist", wlRouter(config));
+  app.use("/v1/print", printRouter(config));
+  app.use("/v1/whitelist", wlRouter(config));
 
   app.listen(CONFIG.backend.port, (err) => {
     if (err) {
