@@ -155,15 +155,13 @@ export const createPrintOrder = async (req, res, config) => {
       .replaceAll(".", "_")}.jpeg`;
 
     const image = await axios.get(
-      encodeURIComponent(
-        `http://${
-          process.env.NODE_ENV === "development" ? "localhost" : "screenly"
-        }:3333/screenshot?url=${
-          CONFIG.hostUrl
-        }/screenshot?mintAddress=${address}&tokenId=${token.id}&timestamp=${
-          token.createdAtTimestamp
-        }&url=${token.imageURI}`
-      ),
+      `http://${
+        process.env.NODE_ENV === "development" ? "localhost" : "screenly"
+      }:3333/screenshot?url=${
+        CONFIG.hostUrl
+      }/screenshot?mintAddress=${address}&tokenId=${token.id}&timestamp=${
+        token.createdAtTimestamp
+      }&url=${token.imageURI}`,
       {
         responseType: "arraybuffer",
       }
