@@ -157,9 +157,11 @@ export const createPrintOrder = async (req, res, config) => {
     const image = await axios.get(
       `http://${
         process.env.NODE_ENV === "development" ? "localhost" : "screenly"
-      }:3333/screenshot?url=${CONFIG.hostUrl}/screenshot?${encodeURIComponent(
-        `mintAddress=${address}&tokenId=${token.id}&timestamp=${token.createdAtTimestamp}&url=${token.imageURI}`
-      )}`,
+      }:3333/screenshot?url=${
+        CONFIG.hostUrl
+      }/screenshot?mintAddress=${address}&tokenId=${token.id}&timestamp=${
+        token.createdAtTimestamp
+      }&url=${encodeURIComponent(token.imageURI)}`,
       {
         responseType: "arraybuffer",
       }
