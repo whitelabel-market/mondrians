@@ -4,7 +4,7 @@
     <div class="relative flex flex-col min-h-screen mx-auto">
       <LayoutFrame class="z-90" v-if="route.name !== 'Screenshot'" />
       <LayoutHeader
-        class="transition-colors duration-100 bg-white z-80 dark:bg-neutral-900"
+        class="transition-colors duration-200 bg-white z-80 dark:bg-neutral-900"
         v-if="route.name !== 'Screenshot'"
       />
       <div
@@ -33,7 +33,6 @@ import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import CONFIG from "@/../../config";
 import { useRoute } from "vue-router";
 import LayoutNotification from "@/components/layouts/LayoutNotification.vue";
-import { useHead } from "@vueuse/head";
 
 const route = useRoute();
 
@@ -48,7 +47,7 @@ const wrongNetwork = computed(() => {
 });
 </script>
 
-<!-- <style>
+<style>
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -65,4 +64,4 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
   color: #e5e5e5;
 }
-</style> -->
+</style>

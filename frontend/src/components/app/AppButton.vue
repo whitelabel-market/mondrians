@@ -88,7 +88,7 @@ export default defineComponent({
         "bg-candlelight text-neutral-900 dark:bg-candlelight-600 dark:text-neutral-900 border-2 border-neutral-800",
       dodgerblue: "bg-dodgerblue text-white border-2 border-neutral-800",
       disabled:
-        "border-2 border-neutral-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed transition-colors duration-100",
+        "border-2 border-neutral-200 bg-neutral-100 text-neutral-300 dark:bg-neutral-800 dark:border-neutral-900 dark:text-neutral-900 cursor-not-allowed transition-colors duration-1000",
     };
 
     const ButtonWrapperSizeIcon: Indexable<string> = {

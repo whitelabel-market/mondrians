@@ -17,7 +17,7 @@
         type="text"
         id="mint"
         name="mint"
-        class="block w-20 mx-auto text-center transition-colors duration-100 border-2 rounded-full outline-none focus:ring-0 focus:outline-none cursor-default !border-neutral-800 dark:text-neutral-200 dark:bg-neutral-800 !dark:border-neutral-800"
+        class="block w-20 mx-auto text-center transition-colors duration-1000 border-2 rounded-full outline-none focus:ring-0 focus:outline-none cursor-default !border-neutral-800 dark:text-neutral-200 dark:bg-neutral-800 !dark:border-neutral-800"
         :placeholder="modelValue.toString()"
       />
 
@@ -32,7 +32,7 @@
       </AppButton>
     </div>
     <div
-      class="flex items-center justify-center mt-4 space-x-1 italic font-semibold transition-colors duration-100 dark:text-neutral-200"
+      class="flex items-center justify-center mt-4 space-x-1 italic font-semibold transition-colors duration-1000 dark:text-neutral-200"
     >
       <PolygonIcon class="w-3" />
       <span>{{ Number(price) * modelValue }} </span>

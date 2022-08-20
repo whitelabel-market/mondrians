@@ -16,17 +16,18 @@
 
   <div
     v-if="!presaleEnabled"
-    class="transition-colors duration-100 bg-white dark:bg-neutral-900"
+    class="transition-colors duration-1000 bg-white dark:bg-neutral-900"
   >
     <div
-      class="container max-w-4xl py-8 mx-auto transition-colors lg:px-8 dark:text-neutral-200"
+      class="container max-w-4xl py-8 mx-auto transition-colors duration-1000 lg:px-8 dark:text-neutral-200"
     >
       <StepperContainer v-model="step">
         <StepperItem title="Select quantity" v-bind="task(0, 0)">
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Please adjust the number of Magic Mondrian NFT's you want to own
+                Please adjust the number of Magic Mondrian NFT's you want to
+                own.
               </template>
               <QuantityTask
                 :disabled="task(0, 0).isReady.value"
@@ -38,13 +39,13 @@
 
         <StepperItem
           v-if="whitelistEnabled"
-          title="Generate Voucher"
+          title="Voucher"
           v-bind="task(0, 1)"
         >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Confirming that your address is eligible for whitelist sale
+                Granting access to the whitelist sale, if you are eligible.
               </template>
             </MintStep>
           </template>
@@ -55,7 +56,7 @@
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
                 Please confirm the transaction to create your own Magic Mondrian
-                NFT
+                NFT(s).
               </template>
             </MintStep>
           </template>
@@ -68,15 +69,15 @@
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
-                Receiving your minted NFT. This may take some time, depending on
-                the current network traffic
+                Receiving your NFT(s). This may take some time, depending on the
+                current network traffic.
               </template>
             </MintStep>
           </template>
         </StepperItem>
 
         <StepperItem
-          title="Receive Event Invitation"
+          title="Event Invitation"
           v-if="whitelistEnabled"
           v-bind="task(1, 0)"
         >
@@ -106,7 +107,7 @@
               <template v-slot:description>
                 {{ MintDescription.print }}
                 You may issue more print orders at a later point in time in your
-                user profile
+                user profile.
               </template>
               <PrintTask
                 :tokens="tokens"
@@ -124,29 +125,28 @@
         </StepperItem>
 
         <StepperItem
-          title="Sending print payment"
+          title="Print payment"
           v-bind="task(whitelistEnabled ? 2 : 1, 1)"
         >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description
-                >Please confirm the transaction to pay for your print order.
-                This is the only payment, no other fees will be charged later
-                on</template
+                >Please confirm the transaction for the payment of your print
+                order. You won't be charged any other fees.</template
               >
             </MintStep>
           </template>
         </StepperItem>
 
         <StepperItem
-          title="Sending print order"
+          title="Print order"
           v-bind="task(whitelistEnabled ? 2 : 1, 2)"
         >
           <template v-slot="{ index }">
             <MintStep :isActive="taskIndex >= index">
               <template v-slot:description>
                 Processing of your print order. We will send a confirmation
-                message to your inbox</template
+                message to your inbox.</template
               >
             </MintStep>
           </template>
@@ -155,8 +155,8 @@
         <StepperItem title="Confirmation">
           <MintStep :isActive="finishedTasks.mint">
             <template v-slot:description
-              >Enjoy your newly created Magic Mondrian NFTs. The following tasks
-              have been completed:</template
+              >Enjoy your newly created Magic Mondrian NFT(s). The following
+              tasks have been completed:</template
             >
             <ConfirmationTask :finishedTasks="finishedTasks" />
           </MintStep>
@@ -313,9 +313,7 @@ const tasks: any[] = [
 whitelistEnabled.value && tasks.push([sendTicket]);
 tasks.push([setPrintData, sendPrintPayment, sendPrintOrder]);
 
-const { skip, next, jobs, taskIndex, error, isError } = useAsyncTasksCycle(
-  ...tasks
-);
+const { skip, next, jobs, taskIndex, isError } = useAsyncTasksCycle(...tasks);
 
 watch(taskIndex, () => {
   step.value = taskIndex.value;

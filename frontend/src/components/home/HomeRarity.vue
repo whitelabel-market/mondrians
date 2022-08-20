@@ -1,10 +1,10 @@
 <template>
   <section
     id="Rarity"
-    class="transition-colors duration-100 bg-white mondrian-border-b dark:bg-neutral-900"
+    class="transition-colors duration-1000 bg-white mondrian-border-b dark:bg-neutral-900"
   >
     <div
-      class="container grid items-center max-w-4xl gap-4 px-8 mx-auto transition-colors duration-100 md:grid-cols-2 md:gap-20 dark:text-neutral-200"
+      class="container grid items-center max-w-4xl gap-4 px-8 mx-auto transition-colors duration-1000 md:grid-cols-2 md:gap-20 dark:text-neutral-200"
     >
       <div class="space-y-6" v-animate.stagger>
         <h2 class="section-title">Rarity</h2>

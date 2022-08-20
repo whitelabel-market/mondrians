@@ -8,22 +8,26 @@
       }
     "
   >
-    <AppLoadingSpinner class="mx-auto" />
-    <h3
-      class="text-2xl font-bold text-center text-neutral-900 dark:text-neutral-200"
-    >
-      Wrong network
-    </h3>
-    <p class="leading-tight text-center text-neutral-900 dark:text-neutral-200">
-      Looks like you connected to an unsupported network. Change network to
-      {{ chain.title }}.
-    </p>
-    <AppButton
-      :fullWidth="true"
-      @click.prevent="changeNetwork()"
-      class="outline-none focus:outline-none"
-      >Change network</AppButton
-    >
+    <div class="p-4 space-y-4 md:p-8">
+      <h3
+        class="text-2xl font-bold text-center text-neutral-900 dark:text-neutral-200"
+      >
+        Wrong network
+      </h3>
+      <AppLoadingSpinner class="mx-auto" size="sm" />
+      <p
+        class="leading-tight text-center text-neutral-900 dark:text-neutral-200"
+      >
+        Looks like you connected to an unsupported network. Change network to
+        {{ chain.title }}.
+      </p>
+      <AppButton
+        :fullWidth="true"
+        @click.prevent="changeNetwork()"
+        class="outline-none focus:outline-none"
+        >Change network</AppButton
+      >
+    </div>
   </AppModal>
 </template>
 

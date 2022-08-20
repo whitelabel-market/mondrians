@@ -1,15 +1,15 @@
 <template>
-  <div class="z-10 transition-colors duration-100 shadow-default">
+  <div class="z-10 transition-colors duration-1000 shadow-default">
     <div
       class="flex flex-col justify-between h-full gap-6 p-4 transition-all duration-100 border rounded select-none text-neutral-200 bg-neutral-50 dark:bg-neutral-800 border-neutral-800 bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
     >
       <div
-        class="flex flex-col justify-center transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+        class="flex flex-col justify-center transition-colors duration-1000 text-neutral-900 dark:text-neutral-200"
       >
         <div class="flex items-center justify-between">
           <span class="font-bold leading-tight truncate">Transaction</span>
           <a
-            class="text-xs leading-tight truncate transition-colors duration-100 dark:text-neutral-400 dark:hover:text-neutral-200"
+            class="text-xs leading-tight truncate transition-colors duration-1000 dark:text-neutral-400 dark:hover:text-neutral-200"
             target="_blank"
             :href="`${CONFIG.explorerBaseUrl}block/${transfer.createdAtBlockNumber}`"
             >{{
@@ -24,7 +24,7 @@
         <a
           :href="`${CONFIG.explorerBaseUrl}address/${transfer.from.id}`"
           target="_blank"
-          class="flex items-center space-x-2 truncate transition-colors duration-100 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
+          class="flex items-center space-x-2 truncate transition-colors duration-1000 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
         >
           <img
             :src="makeBlockie(transfer.from.id)"
@@ -36,7 +36,7 @@
         </a>
         <div class="flex items-center gap-4">
           <div
-            class="flex items-center justify-center w-8 transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+            class="flex items-center justify-center w-8 transition-colors duration-1000 text-neutral-900 dark:text-neutral-200"
           >
             <ArrowSmDownIcon class="w-5 h-5" />
           </div>
@@ -51,7 +51,7 @@
         <a
           :href="`${CONFIG.explorerBaseUrl}address/${transfer.to.id}`"
           target="_blank"
-          class="flex items-center space-x-2 truncate transition-colors duration-100 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
+          class="flex items-center space-x-2 truncate transition-colors duration-1000 cursor-pointer text-neutral-900 dark:text-neutral-400 hover:text-neutral-400 dark:hover:text-neutral-200"
         >
           <img
             :src="makeBlockie(transfer.to.id)"
@@ -64,7 +64,7 @@
       </div>
       <div
         v-if="tokenDayDatas?.length"
-        class="flex flex-col transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+        class="flex flex-col transition-colors duration-1000 text-neutral-900 dark:text-neutral-200"
       >
         <div class="flex items-center justify-between">
           <span class="flex flex-col items-start text-sm font-semibold"

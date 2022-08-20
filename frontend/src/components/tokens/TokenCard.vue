@@ -1,8 +1,8 @@
 <template>
   <div class="pb-1 pr-1">
-    <div class="z-10 transition-colors duration-100 shadow-default">
+    <div class="z-10 transition-colors duration-1000 shadow-default">
       <div
-        class="flex flex-col justify-between h-full gap-4 transition-all duration-100 border rounded select-none bg-neutral-50 dark:bg-neutral-800 bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
+        class="flex flex-col justify-between h-full gap-4 transition-all border rounded select-none bg-neutral-50 dark:bg-neutral-800 bg-hero-pattern-token dark:bg-dark-hero-pattern-token"
         :class="[
           dense ? 'p-2' : 'p-4',
           highlight ? 'border-black dark:border-white' : 'border-neutral-800',
@@ -66,7 +66,7 @@
           </a>
         </div>
         <div
-          class="flex transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+          class="flex transition-colors duration-1000 text-neutral-900 dark:text-neutral-200"
           :class="
             dense ? 'flex-col justify-start ' : 'items-center justify-between'
           "
@@ -80,7 +80,7 @@
         </div>
         <div
           v-if="!dense"
-          class="flex items-end justify-between transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+          class="flex items-end justify-between transition-colors duration-1000 text-neutral-900 dark:text-neutral-200"
         >
           <div class="flex flex-col items-start">
             <span class="font-medium leading-tight uppercase text-xxs"
@@ -102,7 +102,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import AppImageLoad from "@/components/app/AppImageLoad.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import PolygonAlternative from "@/components/icons/PolygonAlternative.vue";
 import makeBlockie from "ethereum-blockies-base64";

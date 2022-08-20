@@ -11,7 +11,7 @@
       </span>
     </div>
     <p
-      class="mt-2 text-2xl font-black text-center transition-colors duration-100 md:text-3xl md:mt-4 dark:text-neutral-200"
+      class="mt-2 text-2xl font-black text-center transition-colors duration-1000 md:text-3xl md:mt-4 dark:text-neutral-200"
     >
       {{ contract.totalSupply }} / {{ contract.maxSupply }}
     </p>

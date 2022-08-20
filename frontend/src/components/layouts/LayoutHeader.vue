@@ -1,7 +1,7 @@
 <template>
   <div>
     <header
-      class="fixed top-0 left-0 w-full transition-colors duration-100 mondrian-border-b z-80"
+      class="fixed top-0 left-0 w-full mondrian-border-b z-80"
       :class="
         y > 0 || route.name === 'Home'
           ? 'bg-white dark:bg-neutral-900'
@@ -13,7 +13,7 @@
       >
         <router-link :to="'/'" class="inline-block">
           <LogoIcon
-            class="transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+            class="transition-colors duration-1000 text-neutral-900 dark:text-neutral-200"
           />
         </router-link>
         <AppHamburger
@@ -22,11 +22,9 @@
         />
         <ul class="items-center hidden space-x-6 text-sm font-semibold lg:flex">
           <li v-for="(to, name) in routes" :key="to">
-            <router-link
-              class="transition-colors duration-100 link dark:text-neutral-200"
-              :to="to"
-              >{{ name }}</router-link
-            >
+            <router-link class="link dark:text-neutral-200" :to="to">{{
+              name
+            }}</router-link>
           </li>
           <li>
             <AppToggleDark />
@@ -55,10 +53,9 @@
                 :src="blockie"
                 class="object-cover w-6 h-6 rounded-full"
               />
-              <span
-                class="font-black transition-colors duration-100 slashed-zero dark:text-neutral-200"
-                >{{ ensAccount?.name || shortAddress }}</span
-              >
+              <span class="font-black slashed-zero dark:text-neutral-200">{{
+                ensAccount?.name || shortAddress
+              }}</span>
             </AppButton>
           </li>
         </ul>

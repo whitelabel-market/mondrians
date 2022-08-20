@@ -18,8 +18,6 @@ interface PrintParams {
   address: string;
 }
 
-type PrintOptions = txOptions;
-
 export default class MondrianInterface {
   private contract: ethers.Contract;
   private signer: ethers.Signer;
