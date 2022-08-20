@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pb-8 pt-28 mondrian-border-b bg-hero-pattern-charlie"
+    class="pb-8 transition-colors duration-200 pt-28 mondrian-border-b bg-hero-pattern-charlie"
     :class="ClassByVariant[variant]"
   >
     <div class="container px-8 mx-auto">

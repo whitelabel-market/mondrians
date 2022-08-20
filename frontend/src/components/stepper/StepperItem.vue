@@ -11,14 +11,18 @@
           :isReady="isReady"
           :error="error"
         />
-        <h3 class="font-bold">{{ title }}</h3>
+        <h3
+          class="font-bold transition-colors duration-200 text-neutral-800 dark:text-neutral-200"
+        >
+          {{ title }}
+        </h3>
       </div>
     </DisclosureButton>
     <Transition @enter="onEnter" @leave="onLeave" :css="false">
       <div v-if="modelValue" class="p-8">
         <DisclosurePanel static>
           <div
-            class="space-y-4 transition-colors duration-1000 dark:text-neutral-200"
+            class="space-y-4 transition-colors duration-200 dark:text-neutral-200"
           >
             <AppAlert
               title="Something went wrong"

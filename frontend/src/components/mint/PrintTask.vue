@@ -2,7 +2,7 @@
   <form class="grid w-full grid-cols-1 gap-2 lg:grid-cols-2">
     <div class="w-full col-span-1 space-y-1 text-left lg:col-span-2">
       <span
-        class="block text-xs font-semibold text-neutral-900 dark:text-neutral-400"
+        class="block text-xs font-semibold transition-colors duration-200 text-neutral-900 dark:text-neutral-400"
       >
         Select Item
       </span>

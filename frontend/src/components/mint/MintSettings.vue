@@ -11,15 +11,19 @@
         <MinusSmIcon class="w-4 h-4" />
       </AppButton>
 
-      <input
-        :value="modelValue"
-        readonly
-        type="text"
-        id="mint"
-        name="mint"
-        class="block w-20 mx-auto text-center transition-colors duration-1000 border-2 rounded-full outline-none focus:ring-0 focus:outline-none cursor-default !border-neutral-800 dark:text-neutral-200 dark:bg-neutral-800 !dark:border-neutral-800"
-        :placeholder="modelValue.toString()"
-      />
+      <div
+        class="transition-colors duration-200 bg-white rounded-full dark:bg-neutral-800"
+      >
+        <input
+          :value="modelValue"
+          readonly
+          type="text"
+          id="mint"
+          name="mint"
+          class="block w-20 mx-auto text-center transition-colors duration-200 bg-transparent border-2 rounded-full outline-none cursor-default dark:duration-200 border-neutral-800 dark:border-neutral-900 focus:ring-0 focus:outline-none dark:text-neutral-200 text-neutral-800"
+          :placeholder="modelValue.toString()"
+        />
+      </div>
 
       <AppButton
         only-icon
@@ -32,10 +36,13 @@
       </AppButton>
     </div>
     <div
-      class="flex items-center justify-center mt-4 space-x-1 italic font-semibold transition-colors duration-1000 dark:text-neutral-200"
+      class="flex items-center justify-center mt-4 space-x-1 italic font-semibold"
     >
       <PolygonIcon class="w-3" />
-      <span>{{ Number(price) * modelValue }} </span>
+      <span
+        class="transition-colors duration-200 text-neutral-800 dark:text-neutral-200"
+        >{{ Number(price) * modelValue }}
+      </span>
     </div>
     <div class="flex items-center justify-center mt-4">
       <AppButton

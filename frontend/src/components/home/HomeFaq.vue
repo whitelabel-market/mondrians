@@ -1,7 +1,7 @@
 <template>
   <section
     id="Faq"
-    class="space-y-8 bg-candlelight dark:bg-candlelight-600 mondrian-border-b text-neutral-900"
+    class="space-y-8 transition-colors duration-200 bg-candlelight dark:bg-candlelight-600 mondrian-border-b text-neutral-900"
   >
     <div class="container max-w-4xl px-8 mx-auto space-y-8">
       <h2 class="text-center section-title" v-animate>FAQ</h2>

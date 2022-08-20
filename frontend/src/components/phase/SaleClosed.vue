@@ -10,7 +10,7 @@
         >
       </div>
       <p
-        class="w-full px-6 text-base font-bold text-center transition-colors duration-1000 md:text-xl text-neutral-900 dark:text-neutral-200"
+        class="w-full px-6 text-base font-bold text-center transition-colors duration-200 md:text-xl text-neutral-900 dark:text-neutral-200"
       >
         A
         <span

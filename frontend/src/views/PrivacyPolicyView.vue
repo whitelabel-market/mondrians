@@ -6,10 +6,12 @@
       </h1>
     </LayoutViewHeader>
 
-    <section>
-      <div class="container max-w-4xl mx-auto px-8 space-y-8">
+    <section
+      class="transition-colors duration-200 bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200"
+    >
+      <div class="container max-w-4xl px-8 mx-auto space-y-8">
         <div class="space-y-2">
-          <h2 class="text-2xl uppercase font-bold">
+          <h2 class="text-2xl font-bold uppercase">
             Datenschutz auf einen Blick
           </h2>
           <h3 class="text-sm font-bold">Allgemeine Hinweise</h3>
@@ -89,7 +91,7 @@
         </div>
 
         <div class="space-y-2">
-          <h2 class="text-2xl uppercase font-bold">
+          <h2 class="text-2xl font-bold uppercase">
             Allgemeine Hinweise und Pflichtinformationen
           </h2>
           <h2 class="text-xl font-bold">Datenschutz</h2>
@@ -271,7 +273,7 @@
         </div>
 
         <div class="space-y-2">
-          <h2 class="text-2xl uppercase font-bold">
+          <h2 class="text-2xl font-bold uppercase">
             Datenerfassung auf unserer Website
           </h2>
           <h2 class="text-xl font-bold">Cookies</h2>
@@ -384,7 +386,7 @@
         </div>
 
         <div class="space-y-2">
-          <h2 class="text-2xl uppercase font-bold">
+          <h2 class="text-2xl font-bold uppercase">
             Analyse-Tools und Werbung
           </h2>
           <h2 class="text-xl font-bold">Google Analytics</h2>
@@ -483,7 +485,7 @@
         </div>
 
         <div class="space-y-2">
-          <h2 class="text-2xl uppercase font-bold">Plugins und tools</h2>
+          <h2 class="text-2xl font-bold uppercase">Plugins und tools</h2>
           <h2 class="text-xl font-bold">YouTube mit erweitertem Datenschutz</h2>
           <p>
             Unsere Website nutzt Plugins der Website YouTube. Betreiber der

@@ -1,7 +1,9 @@
 <template>
-  <div class="max-w-2xl mx-auto flex flex-col items-center space-y-8">
+  <div class="flex flex-col items-center max-w-2xl mx-auto space-y-8">
     <div>
-      <p class="text-neutral-900 dark:text-neutral-50 text-center">
+      <p
+        class="text-center transition-colors duration-200 text-neutral-800 dark:text-neutral-200"
+      >
         {{ MintDescription.event }}
       </p>
     </div>

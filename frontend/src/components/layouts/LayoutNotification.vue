@@ -8,7 +8,7 @@
         enter="transform ease-out duration-300"
         enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
         enter-to="translate-y-0 opacity-100 sm:translate-x-0"
-        leave="ease-in duration-1000"
+        leave="ease-in duration-200"
         leave-from="opacity-100"
         leave-to="opacity-0"
         move="duration-500"

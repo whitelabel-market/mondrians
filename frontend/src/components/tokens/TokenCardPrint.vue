@@ -37,7 +37,7 @@
                 }}
               </h4>
             </div>
-            <div class="w-[63%]">
+            <div class="w-[66%]">
               <ul
                 class="flex flex-col leading-tight"
                 v-if="token?.id || tokenId"

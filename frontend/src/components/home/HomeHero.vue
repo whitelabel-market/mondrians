@@ -1,6 +1,6 @@
 <template>
   <section
-    class="transition-colors duration-1000 bg-white mondrian-border-b dark:bg-neutral-900"
+    class="transition-colors duration-200 bg-white mondrian-border-b dark:bg-neutral-900"
   >
     <div
       class="relative z-10 grid items-center max-w-6xl mx-auto mt-8 md:-mt-0 lgs:grid-cols-2"
