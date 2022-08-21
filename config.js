@@ -3,6 +3,10 @@ module.exports = {
     process.env.NODE_ENV === "development"
       ? "http://localhost:8080"
       : "https://www.magic-mondrian.art",
+  screenshotUrl:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3333"
+      : "https://screenshot.magic-mondrian.art",
   supportEmail:
     process.env.NODE_ENV === "development"
       ? "kevin.hertwig@t-online.de"
@@ -45,7 +49,8 @@ module.exports = {
     apiBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://api.sandbox.prodigi.com/v4.0"
-        : "https://api.prodigi.com/v4.0",
+        : "https://api.sandbox.prodigi.com/v4.0",
+    //: "https://api.prodigi.com/v4.0",
   },
   email: {
     address: "kevin.hertwig@t-online.de",
