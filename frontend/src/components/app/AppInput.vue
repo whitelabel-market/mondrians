@@ -12,10 +12,10 @@
         :class="
           error ? 'border-red-500' : 'border-stone-200 dark:border-stone-700'
         "
-        class="transition-colors duration-200 border-2 rounded focus:border-neutral-800 dark:focus:border-neutral-200"
+        class="transition-colors duration-200 bg-white border-2 rounded dark:bg-neutral-800 focus:border-neutral-800 dark:focus:border-neutral-200"
       >
         <div
-          class="transition-colors duration-200 bg-white dark:bg-neutral-800"
+          class="transition-colors duration-200 bg-transparent text-neutral-800 dark:text-neutral-200"
         >
           <input
             v-bind="$attrs"
