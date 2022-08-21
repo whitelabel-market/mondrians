@@ -36,11 +36,11 @@ module.exports = {
     apiKey: process.env.PRODIGI_KEY || "",
     callbackUrl:
       process.env.NODE_ENV === "development"
-        ? "https://f51f-158-181-76-197.ngrok.io/v1/print/update"
+        ? "https://81c2-158-181-76-197.eu.ngrok.io/v1/print/update"
         : "https://api.magic-mondrian.art/v1/print/update",
     assetBaseUrl:
       process.env.NODE_ENV === "development"
-        ? "https://f51f-158-181-76-197.ngrok.io/screenshots/"
+        ? "https://81c2-158-181-76-197.eu.ngrok.io/screenshots/"
         : "https://api.magic-mondrian.art/screenshots/",
     apiBaseUrl:
       process.env.NODE_ENV === "development"
