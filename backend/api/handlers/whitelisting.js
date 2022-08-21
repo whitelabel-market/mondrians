@@ -59,7 +59,7 @@ export const getMail = async (req, res, config) => {
         pass: CONFIG.email.password, // generated ethereal password
       },
       tls: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: true,
       },
     });
 

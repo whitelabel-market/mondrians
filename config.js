@@ -53,9 +53,15 @@ module.exports = {
     //: "https://api.prodigi.com/v4.0",
   },
   email: {
-    address: "kevin.hertwig@t-online.de",
-    password: process.env.EMAIL_PW || "",
-    host: "securesmtp.t-online.de",
+    address:
+      process.env.NODE_ENV === "development"
+        ? "kevin.hertwig@t-online.de"
+        : "support@magic-mondrian.art",
+    password: process.env.EMAIL_PW,
+    host:
+      process.env.NODE_ENV === "development"
+        ? "securesmtp.t-online.de"
+        : "smtp.titan.email",
     port: 465,
   },
   appleWallet: {
