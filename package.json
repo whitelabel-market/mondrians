@@ -4,7 +4,7 @@
   "description": "Magic Mondrian NFT launch monorepo",
   "main": "index.js",
   "repository": "https://github.com/whitelabel-market/mondrians.git",
-  "author": "Whitelabel Solutions",
+  "author": "Decentum",
   "license": "MIT",
   "private": true,
   "workspaces": [
