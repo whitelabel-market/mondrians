@@ -48,20 +48,24 @@ const wrongNetwork = computed(() => {
 </script>
 
 <style>
-/* Change Autocomplete styles in Chrome*/
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
+/* Change Autocomplete styles in Chrome */
+html.dark :-webkit-autofill,
+html.dark :-webkit-autofill:hover,
+html.dark :-webkit-autofill:focus {
   -webkit-text-fill-color: #e5e5e5;
-  -webkit-box-shadow: 0 0 0px 1000px #262626 inset;
-  box-shadow: 0 0 0px 1000px #262626 inset;
-  transition: background-color 5000s ease-in-out 0s;
+  -webkit-box-shadow: 0 0 0px 1000px bg-transparent inset;
+  box-shadow: 0 0 0px 1000px transparent inset;
+  transition: all 60000s 60000s; /* delay all transitions to remove background */
   color: #e5e5e5;
+}
+
+:-webkit-autofill,
+:-webkit-autofill:hover,
+:-webkit-autofill:focus {
+  -webkit-text-fill-color: #171717;
+  -webkit-box-shadow: 0 0 0px 1000px bg-transparent inset;
+  box-shadow: 0 0 0px 1000px transparent inset;
+  transition: all 60000s 60000s; /* delay all transitions to remove background */
+  color: #171717;
 }
 </style>
