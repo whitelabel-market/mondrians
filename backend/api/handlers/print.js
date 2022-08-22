@@ -169,9 +169,19 @@ export const createPrintOrder = async (req, res, config) => {
       .withMetadata({ density: 300 })
       .toBuffer();
 
+    const dataSmall = await sharp(image.data).resize(100).toBuffer();
+
     fs.writeFile(
       path.join(__dirname, `../../screenshots/${fileName}`),
       data,
+      (err) => {
+        if (err) return console.error(err);
+      }
+    );
+
+    fs.writeFile(
+      path.join(__dirname, `../../screenshots/lq/${fileName}`),
+      dataSmall,
       (err) => {
         if (err) return console.error(err);
       }
@@ -277,7 +287,7 @@ export const createPrintOrder = async (req, res, config) => {
           `${fileName}?apikey=${CONFIG.backend.apiKey}`
         }" target="_blank"> <img src="${
         CONFIG.prodigi.assetBaseUrl +
-        `${fileName}?apikey=${CONFIG.backend.apiKey}`
+        `lq/${fileName}?apikey=${CONFIG.backend.apiKey}`
       }" alt="NFT Poster" style="width:40px"></a>
         </td><td style="width:100%;text-align:left"> <span style="margin-left:16px;font-family:'Inter',-apple-system,'Segoe UI',sans-serif;font-size:16px;font-weight:600;line-height:24px;color:#000">Magic Mondrian #${(
           "0000" + token.id
