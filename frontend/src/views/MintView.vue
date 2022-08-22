@@ -206,7 +206,7 @@ const emit = defineEmits(["loaded"]);
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
 const presaleEnabled = useFlag(SalePhase.PreSale);
 const { address } = useWallet();
-const { provider } = useWalletExtended();
+const { provider, printedTokens } = useWalletExtended();
 const { getTokenByAddress } = useSubgraph();
 
 useHead({
@@ -300,6 +300,7 @@ const sendPrintPayment = async (printData: any) => {
 const sendPrintOrder = async (printData: any) => {
   await authInterface.print(printData);
   finishedTasks.print = true;
+  printedTokens.value.push(printData.token.id);
 };
 
 const printPrice = Price.print;
