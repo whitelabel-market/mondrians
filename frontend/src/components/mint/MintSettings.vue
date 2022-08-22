@@ -59,8 +59,9 @@
 import PolygonIcon from "../icons/PolygonIcon.vue";
 import AppButton from "@/components/app/AppButton.vue";
 import { PlusSmIcon, MinusSmIcon } from "@heroicons/vue/solid";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { MaxMint, Price } from "@/utils/constants";
+import { useMagicKeys } from "@vueuse/core";
 
 const emit = defineEmits(["update:modelValue", "submit"]);
 
@@ -84,4 +85,10 @@ const maxMint = props.whitelistEnabled ? MaxMint.whitelist : MaxMint.default;
 
 const canDecrease = computed(() => props.modelValue > 1);
 const canIncrease = computed(() => props.modelValue < maxMint);
+
+const { enter } = useMagicKeys();
+
+watch(enter, (v) => {
+  if (v) emit("submit", props.modelValue);
+});
 </script>

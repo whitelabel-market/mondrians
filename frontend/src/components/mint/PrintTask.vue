@@ -1,5 +1,5 @@
 <template>
-  <form class="grid w-full grid-cols-1 gap-2 lg:grid-cols-2">
+  <form class="grid w-full grid-cols-1 gap-2 lg:grid-cols-2" @submit.prevent>
     <div class="w-full col-span-1 space-y-1 text-left lg:col-span-2">
       <span
         class="block text-xs font-semibold transition-colors duration-200 text-neutral-900 dark:text-neutral-400"
@@ -118,13 +118,14 @@
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import AppInput from "@/components/app/AppInput.vue";
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import TokenList from "@/components/tokens/TokenList.vue";
 import TokenCardPrint from "@/components/tokens/TokenCardPrint.vue";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
 import { Rules } from "async-validator";
 import AppList from "@/components/app/AppList.vue";
 import { COUNTRIES } from "@/utils/constants/countries";
+import { useMagicKeys } from "@vueuse/core";
 
 const emit = defineEmits(["submit", "skip"]);
 
@@ -199,4 +200,10 @@ const submit = () => {
     emit("submit", { ...form });
   }
 };
+
+const { enter } = useMagicKeys();
+
+watch(enter, (v) => {
+  if (v) submit();
+});
 </script>
