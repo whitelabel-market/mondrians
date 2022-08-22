@@ -26,6 +26,7 @@ export interface Wallet {
   blockie: Ref<string>;
   balance: Ref<string>;
   authInterfaceCreated: Ref<boolean>;
+  printedTokens: Ref<string[]>;
 
   // shortcuts to useful instances
   provider: ShallowRef<ethers.providers.Web3Provider | undefined>;
@@ -54,6 +55,7 @@ export function createWalletExtended(): Wallet {
   const balance = ref<string>("0");
   const blockie = ref<string>("");
   const authInterfaceCreated = ref<boolean>(false);
+  const printedTokens = ref<string[]>([]);
 
   // useful instances
   const provider = shallowRef<ethers.providers.Web3Provider | undefined>();
@@ -155,6 +157,7 @@ export function createWalletExtended(): Wallet {
     signer,
     signMessage,
     getBalance,
+    printedTokens,
   };
 
   return wallet;
