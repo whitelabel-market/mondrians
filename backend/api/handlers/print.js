@@ -202,10 +202,10 @@ export const createPrintOrder = async (req, res, config) => {
           assets: [
             {
               printArea: "Default",
-              // url:
-              //   CONFIG.prodigi.assetBaseUrl +
-              //   `${fileName}?apikey=${CONFIG.backend.apiKey}`,
-              url: `https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=962&q=80`,
+              url:
+                CONFIG.prodigi.assetBaseUrl +
+                `${fileName}?apikey=${CONFIG.backend.apiKey}`,
+              //url: `https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=962&q=80`,
             },
           ],
         },
@@ -229,7 +229,7 @@ export const createPrintOrder = async (req, res, config) => {
         pass: CONFIG.email.password, // generated ethereal password
       },
       tls: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: true,
       },
     });
 
