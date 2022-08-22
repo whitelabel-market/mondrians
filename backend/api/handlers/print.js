@@ -332,8 +332,8 @@ export const createPrintOrder = async (req, res, config) => {
       res.end();
     });
   } catch (err) {
-    console.log(err);
     logger.error(err);
+    return res.status(400).send(err.toString());
   }
 };
 
