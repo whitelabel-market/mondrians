@@ -1,5 +1,5 @@
 <template>
-  <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px]">
+  <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px] space-y-2">
     <div
       class="mx-auto text-6xl font-black text-center text-transparent md:text-7xl"
     >
@@ -11,23 +11,27 @@
       </span>
     </div>
     <p
-      class="mt-2 text-2xl font-black text-center transition-colors md:text-3xl md:mt-4 dark:duration-200 dark:text-neutral-200"
+      class="text-2xl font-black text-center transition-colors md:text-3xl md:mt-4 dark:duration-200 dark:text-neutral-200"
     >
       {{ contract.totalSupply }} / {{ contract.maxSupply }}
     </p>
-    <MintSettings
+    <div class="flex justify-center">
+      <AppButton color="crimson" to="/mint">Create your own</AppButton>
+    </div>
+    <!-- <MintSettings
       :model-value="modelValue"
       @update:modelValue="emit('update:modelValue', $event)"
       :whitelistEnabled="whitelistEnabled"
       @submit="emit('mint', $event)"
-    />
+    /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import MintSettings from "@/components/mint/MintSettings.vue";
+import AppButton from "@/components/app/AppButton.vue";
+//import MintSettings from "@/components/mint/MintSettings.vue";
 
-const emit = defineEmits(["update:modelValue", "mint"]);
+//const emit = defineEmits(["update:modelValue", "mint"]);
 
 defineProps({
   modelValue: {
