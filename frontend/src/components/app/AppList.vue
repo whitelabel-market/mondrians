@@ -13,10 +13,7 @@
         >{{ label }}</ComboboxLabel
       >
       <div
-        :class="
-          error ? 'border-red-500' : 'border-stone-200 dark:border-stone-700'
-        "
-        class="transition-colors duration-200 border-2 rounded focus:border-neutral-800 dark:focus:border-neutral-200"
+        class="transition-colors duration-200 border-2 rounded border-stone-200 dark:border-stone-700 focus:border-neutral-800 dark:focus:border-neutral-200"
       >
         <ComboboxButton
           as="div"
