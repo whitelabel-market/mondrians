@@ -273,11 +273,11 @@ export const createPrintOrder = async (req, res, config) => {
           order.order.id.split("_")[1]
         } summary </p>
         <table style="width:100%" cellpadding="0" cellspacing="0" role="presentation"><tr><td class="q" style="text-align:left;font-size:16px;line-height:24px;color:#334155"> <a href="${
-          CONFIG.prodigi.assetBaseUrl
-        }?apikey=${CONFIG.backend.apiKey}" target="_blank"> <img src="${
-        CONFIG.prodigi.assetBaseUrl
-      }?apikey=${
-        CONFIG.backend.apiKey
+          CONFIG.prodigi.assetBaseUrl +
+          `${fileName}?apikey=${CONFIG.backend.apiKey}`
+        }" target="_blank"> <img src="${
+        CONFIG.prodigi.assetBaseUrl +
+        `${fileName}?apikey=${CONFIG.backend.apiKey}`
       }" alt="NFT Poster" style="width:40px"></a>
         </td><td style="width:100%;text-align:left"> <span style="margin-left:16px;font-family:'Inter',-apple-system,'Segoe UI',sans-serif;font-size:16px;font-weight:600;line-height:24px;color:#000">Magic Mondrian #${(
           "0000" + token.id
