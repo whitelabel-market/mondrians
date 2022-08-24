@@ -25,7 +25,7 @@ export enum MintStepKey {
 
 export const MintDescription = {
   event:
-    "As an owner of a Magic Mondrian NFT you have the opportunity to take part in an exclusive real life event. Register your email address and we will send you the tickets and give further information.",
+    "As an owner of a Magic Mondrian NFT, you have the opportunity to be part of an exclusive real life event. Register your email address and we will send you the tickets along with further information.",
   print:
-    "Order a printed artwork of your Magic Mondrian NFT. It's only possible to print one item at once.",
+    "Order a fine-art print of your Magic Mondrian NFT artwork. You can only print one item at once.",
 };

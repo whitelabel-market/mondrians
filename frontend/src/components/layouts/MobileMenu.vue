@@ -11,14 +11,14 @@
         leave-to="translate-x-full"
       >
         <div
-          class="fixed top-0 left-0 flex flex-col w-full h-screen bg-white text-neutral-900 dark:bg-neutral-900 transition-colors duration-100 pt-20 lg:hidden z-70"
+          class="fixed top-0 left-0 flex flex-col w-full h-screen bg-white text-neutral-900 dark:bg-neutral-900 transition-colors duration-200 pt-20 lg:hidden z-70"
         >
           <div class="flex-1 p-8 space-y-8 overflow-y-auto mondrian-border-b">
             <ul class="flex flex-col gap-6 font-sans font-bold mobile-controls">
               <li
                 v-for="(to, name) in routes"
                 :key="to"
-                class="text-xl font-bold transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+                class="text-xl font-bold transition-colors duration-200 text-neutral-900 dark:text-neutral-200"
               >
                 <router-link
                   class="block outline-none focus:outline-none"
@@ -53,16 +53,16 @@
                     class="object-cover w-8 h-8 rounded-full"
                   />
                   <span
-                    class="text-sm font-black lowercase transition-colors duration-100 text-neutral-800 dark:text-neutral-200 slashed-zero"
+                    class="text-sm font-black lowercase transition-colors duration-200 text-neutral-800 dark:text-neutral-200 slashed-zero"
                     >{{ ensAccount?.name || privateAddress }}</span
                   >
                 </div>
               </AppButton>
               <div
-                class="relative flex items-center justify-between p-4 transition-colors duration-100 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded"
+                class="relative flex items-center justify-between p-4 transition-colors duration-200 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded"
               >
                 <span
-                  class="transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+                  class="transition-colors duration-200 text-neutral-900 dark:text-neutral-200"
                   >Appearence</span
                 >
                 <AppToggleDark />

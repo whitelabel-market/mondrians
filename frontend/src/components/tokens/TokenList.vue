@@ -45,6 +45,7 @@ import VueHorizontal from "vue-horizontal";
 import AppButton from "@/components/app/AppButton.vue";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/vue/solid";
 import { computed } from "vue";
+import { Token } from "@/utils/types";
 
 const props = defineProps({
   tokens: {
@@ -61,5 +62,11 @@ const props = defineProps({
   },
 });
 
-const _tokens = computed(() => (props.isFinished ? props.tokens : 5));
+const _tokens = computed(() =>
+  props.isFinished
+    ? (props.tokens as Token[])
+        .slice()
+        .sort((a: Token, b: Token) => Number(a.id) - Number(b.id))
+    : 5
+);
 </script>

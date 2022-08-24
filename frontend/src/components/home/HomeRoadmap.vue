@@ -1,7 +1,7 @@
 <template>
   <section
     id="Roadmap"
-    class="text-neutral-50 bg-dodgerblue-500 dark:bg-dodgerblue-900 mondrian-border-b"
+    class="transition-colors duration-200 text-neutral-50 bg-dodgerblue-500 dark:bg-dodgerblue-900 mondrian-border-b"
   >
     <div class="container grid items-center gap-4 px-8 mx-auto lgs:grid-cols-7">
       <div
@@ -13,28 +13,28 @@
           <p class="">
             This roadmap outlines our goals and where we want to take
             Mondrian’s. We have a lot of ideas and concepts that we are working
-            on:
+            on.
           </p>
         </div>
-        <div
-          class="p-4 space-y-2 bg-dodgerblue-50 dark:bg-dodgerblue-800 text-neutral-900 dark:text-white border-4 border-black rounded md:p-8"
-          :class="step?.classes || ''"
-          v-for="(step, index) of steps"
-          :key="step.title"
-        >
+        <div v-for="(step, index) of steps" :key="step.title">
           <div
-            class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-semibold rounded-full text-neutral-200 bg-neutral-800"
+            class="p-4 space-y-2 transition-colors duration-200 border-4 border-black rounded bg-dodgerblue-50 dark:bg-dodgerblue-800 text-neutral-800 dark:text-neutral-200 md:p-8"
+            :class="step?.classes || ''"
           >
-            <span class="block">{{ index + 1 }}</span>
+            <div
+              class="inline-flex items-center justify-center flex-grow-0 flex-shrink-0 w-6 h-6 text-sm font-semibold rounded-full text-neutral-200 bg-neutral-800"
+            >
+              <span class="block">{{ index + 1 }}</span>
+            </div>
+
+            <h6 class="font-bold uppercase">
+              {{ step.title }}
+            </h6>
+
+            <p class="text-sm">
+              {{ step.description }}
+            </p>
           </div>
-
-          <h6 class="font-bold uppercase">
-            {{ step.title }}
-          </h6>
-
-          <p class="text-sm">
-            {{ step.description }}
-          </p>
         </div>
       </div>
       <img

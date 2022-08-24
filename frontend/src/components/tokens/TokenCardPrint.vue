@@ -6,9 +6,7 @@
     class="aspect-[3/4] h-full w-full bg-white rounded"
   >
     <foreignObject width="100%" height="100%">
-      <div
-        class="flex flex-col h-full w-full relative p-[5.5%] !bg-white !text-black"
-      >
+      <div class="flex flex-col w-full relative p-[5.5%] !bg-white !text-black">
         <div
           class="relative flex items-center justify-center w-full group aspect-square"
           v-if="token?.id || tokenId"
@@ -39,7 +37,7 @@
                 }}
               </h4>
             </div>
-            <div class="w-[63%]">
+            <div class="w-[66%]">
               <ul
                 class="flex flex-col leading-tight"
                 v-if="token?.id || tokenId"
@@ -60,18 +58,18 @@
           <img
             :src="qrCode"
             alt=""
-            class="aspect-square w-[18%] h-[18%] -translate-y-[5%] translate-x-[8%]"
+            class="aspect-square w-[18%] h-[18%] -translate-y-[8%] translate-x-[9%] -mr-[0.2%]"
           />
         </div>
 
         <div
-          class="font-mill h-full grid grid-cols-11 gap-[4%] items-end -mt-[1%]"
+          class="font-mill h-full grid grid-cols-11 gap-[4%] items-end mt-[1.2%]"
         >
           <div class="col-span-5">
             <p
-              class="text-[32%] text-neutral-400 font-light w-full leading-none font-mill -mb-[0.9%]"
+              class="text-[32%] text-neutral-400 font-light w-full leading-none font-mill translate-y-[1%]"
             >
-              © 2022 Whitelabel Solutions, Inc. Powered by Piet Mondrian.
+              © 2022 Decentum, Inc. Powered by Piet Mondrian.
             </p>
           </div>
 
@@ -102,7 +100,7 @@
           </div>
           <div class="flex items-start col-span-5">
             <p
-              class="text-[42%] align-end leading-none font-mill -mb-[1%]"
+              class="text-[42%] align-end leading-none font-mill translate-y-[1%]"
               id="description"
             >
               Mondrians is a drop of custom digital paintings, created by Piet

@@ -25,9 +25,11 @@
             leave-to="opacity-0 translate-y-12"
           >
             <div
-              class="relative flex flex-col items-stretch w-full max-w-md max-h-full space-y-4 transition-all transform bg-white border-8 border-black shadow-xl dark:bg-neutral-800 text-black dark:text-white bg-hero-pattern-charlie rounded"
+              class="relative flex flex-col items-stretch w-full max-w-md max-h-full text-black transition-all transform bg-white border-4 border-black rounded shadow-xl dark:bg-neutral-800 text-color bg-hero-pattern-charlie"
             >
-              <div class="absolute top-0 right-0 p-2 flex">
+              <div
+                class="absolute flex items-start justify-between text-sm rounded top-2 right-2"
+              >
                 <AppButton
                   size="xs"
                   color="blank"
@@ -35,24 +37,23 @@
                   flat
                   rounded="full"
                   @click.prevent="$emit('update:modelValue', false)"
-                  ><slot name="button"><XIcon class="w-4 h-4" /></slot
+                  ><slot name="button"
+                    ><XIcon
+                      class="w-5 h-5 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200" /></slot
                 ></AppButton>
               </div>
-
               <div
-                class="flex items-center justify-center flex-shrink-0 py-2 px-4 md:px-8"
+                class="flex items-center justify-center flex-shrink-0 py-2 pt-4 md:pt-8"
                 v-if="title"
               >
                 <h3
-                  class="text-2xl font-bold text-center text-neutral-900 dark:text-neutral-200 leading-none"
+                  class="text-2xl font-bold leading-none text-center text-color"
                 >
                   {{ title }}
                 </h3>
               </div>
 
-              <div class="flex-1 overflow-auto p-4 md:p-8">
-                <slot />
-              </div>
+              <slot />
             </div>
           </TransitionChild>
         </div>
@@ -69,7 +70,7 @@ import {
   DialogOverlay,
 } from "@headlessui/vue";
 import AppButton from "@/components/app/AppButton.vue";
-import { XIcon } from "@heroicons/vue/outline";
+import { XIcon } from "@heroicons/vue/solid";
 
 defineEmits(["update:modelValue"]);
 defineProps({

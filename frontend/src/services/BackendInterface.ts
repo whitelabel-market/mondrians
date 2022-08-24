@@ -1,19 +1,18 @@
 import { createFetch } from "@vueuse/core";
 import type { BeforeFetchContext } from "@vueuse/core";
-import { unref } from "vue";
+import { ref, unref } from "vue";
 import CONFIG from "../../../config";
-
 export interface AuthInterface {
-  login: () => Promise<string>;
+  login: () => Promise<string | undefined>;
   callback: (signature: string) => Promise<void>;
   getVoucher: () => Promise<string>;
   sendMail: (email: string) => Promise<void>;
   print: (printData: any) => Promise<void>;
-  getPrintedTokens: () => Promise<{ tokens: string[] }>;
   reset: () => void;
 }
 
 export let authInterface: AuthInterface;
+export const printedTokens = ref<string[]>([]);
 
 export const createAuthInterface = (address: string) => {
   const xViewerAddress = address;
@@ -43,7 +42,7 @@ export const createAuthInterface = (address: string) => {
     },
   });
 
-  const login = async (): Promise<string> => {
+  const login = async (): Promise<string | undefined> => {
     try {
       const { data, error } = await useFetch("login", { timeout: 10000 })
         .post()
@@ -51,15 +50,14 @@ export const createAuthInterface = (address: string) => {
       if (error.value) {
         throw unref(data);
       }
-      const message = unref(data).message;
-      xCsrfToken = unref(data).csrfToken;
-      if (unref(data)?.jwt) {
-        bearerToken = unref(data)?.jwt;
+      const message = unref(data)?.message;
+      xCsrfToken = unref(data)?.csrfToken;
+      bearerToken = unref(data)?.jwt;
+      if (bearerToken) {
+        getPrintedTokens();
+        return;
       }
-      if (message) {
-        return message;
-      }
-      return "";
+      if (message) return message;
     } catch (e: any) {
       throw new Error(e);
     }
@@ -76,6 +74,7 @@ export const createAuthInterface = (address: string) => {
       const jwt = unref(data).jwt;
       if (jwt) {
         bearerToken = jwt;
+        getPrintedTokens();
       } else {
         throw "No bearer token returned";
       }
@@ -116,12 +115,12 @@ export const createAuthInterface = (address: string) => {
     }
   };
 
-  const getPrintedTokens = async (): Promise<{ tokens: string[] }> => {
+  const getPrintedTokens = async (): Promise<void> => {
     const { data, error } = await useFetch(`v1/print/tokens`).get().json();
     if (error.value) {
       throw unref(data);
     }
-    return unref(data) as { tokens: string[] };
+    printedTokens.value = unref(data)?.tokens;
   };
 
   const reset = () => {
@@ -133,7 +132,6 @@ export const createAuthInterface = (address: string) => {
     login,
     callback,
     getVoucher,
-    getPrintedTokens,
     sendMail,
     print,
     reset,

@@ -6,10 +6,12 @@
       </h1>
     </LayoutViewHeader>
 
-    <section>
-      <div class="container max-w-4xl mx-auto px-8 space-y-8">
+    <section
+      class="transition-colors duration-200 bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200"
+    >
+      <div class="container max-w-4xl px-8 mx-auto space-y-8">
         <div class="space-y-2">
-          <h2 class="text-2xl uppercase font-bold">
+          <h2 class="text-2xl font-bold uppercase">
             Wenn Sie einen Kauf tätigen, erklären Sie sich mit unseren
             Verkaufsbedingungen und den folgenden Rückgabebedingungen
             einverstanden

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Magic Mondrian NFT launch backend",
   "main": "server.js",
-  "author": "Whitelabel Solutions",
+  "author": "Decentum",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config server.js dotenv_config_path=./../.env"

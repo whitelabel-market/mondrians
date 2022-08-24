@@ -1,23 +1,28 @@
 <template>
-  <footer class="transition-colors duration-100 bg-white dark:bg-neutral-900">
-    <div class="container w-full max-w-4xl px-8 py-24 mx-auto space-y-24">
+  <footer class="transition-colors duration-200 bg-white dark:bg-neutral-900">
+    <div
+      class="container w-full max-w-4xl px-8 py-24 mx-auto space-y-24 duration-200 text-neutral-800 dark:text-neutral-200"
+    >
       <div
         v-if="!presaleOpen"
-        class="flex flex-col justify-center mx-auto space-y-8 transition-colors duration-100 dark:text-neutral-200"
+        class="flex flex-col justify-center mx-auto space-y-8"
         v-animate.stagger
       >
         <h2
           class="flex flex-col items-center text-3xl font-black text-center uppercase md:text-4xl"
         >
           Get your
-          <LogoIcon class="!text-3xl md:!text-4xl" /> NFT now
+          <LogoIcon
+            class="!text-3xl md:!text-4xl transition-colors duration-200 text-neutral-800 dark:text-neutral-200"
+          />
+          NFT now
         </h2>
         <div class="mx-auto">
           <AppButton color="crimson" to="/mint">Create your own</AppButton>
         </div>
       </div>
       <div
-        class="grid grid-cols-2 gap-4 py-16 transition-colors duration-100 dark:text-neutral-200 gap-y-16 md:grid-cols-4 md:gap-20"
+        class="grid grid-cols-2 gap-4 py-16 gap-y-16 md:grid-cols-4 md:gap-20"
       >
         <div v-for="(items, title) in routes" :key="title">
           <span class="block mb-8">{{ title }}</span>

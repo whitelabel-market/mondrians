@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col w-full space-y-4">
+  <form class="flex flex-col w-full space-y-4" @submit.prevent>
     <AppInput
       v-model="form.email"
       id="mint-stepper-ticket-email"
@@ -27,9 +27,10 @@
 <script setup lang="ts">
 import AppButton from "@/components/app/AppButton.vue";
 import AppInput from "@/components/app/AppInput.vue";
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
 import { Rules } from "async-validator";
+import { useMagicKeys } from "@vueuse/core";
 
 const emit = defineEmits(["submit", "skip"]);
 
@@ -70,4 +71,10 @@ const submit = () => {
     emit("submit", form.email);
   }
 };
+
+const { enter } = useMagicKeys();
+
+watch(enter, (v) => {
+  if (v) submit();
+});
 </script>

@@ -8,8 +8,8 @@
       }
     "
   >
-    <div class="flex flex-col space-y-4">
-      <div class="flex items-center self-center pb-4 space-x-2">
+    <div class="flex flex-col p-4 space-y-4 md:p-8">
+      <div class="flex items-center self-center space-x-2">
         <img
           :src="makeBlockie(address)"
           :alt="address"
@@ -41,22 +41,22 @@
       </div>
 
       <ul
-        class="flex flex-col items-start w-full p-4 space-y-2 bg-white border-2 rounded dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
+        class="flex flex-col items-start w-full p-4 space-y-2 bg-white border-2 rounded dark:bg-neutral-900 border-neutral-800 dark:text-neutral-200"
       >
         <li v-for="(link, name) in routes" :key="name" class="block">
           <router-link
-            class="flex items-center justify-start space-x-1 link"
+            class="flex items-center justify-start space-x-2 link"
             :to="'/user/' + address + '/' + link.to"
             @click.prevent="$emit('update:modelValue', false)"
           >
-            <component :is="link.icon" class="w-4 h-4" />
-            <span class="block">{{ name }}</span>
+            <component :is="link.icon" class="w-5 h-5" />
+            <span>{{ name }}</span>
           </router-link>
         </li>
       </ul>
 
       <div
-        class="flex flex-col p-4 space-y-2 text-sm bg-white border-2 rounded dark:bg-neutral-900 border-stone-200 dark:border-stone-700"
+        class="flex flex-col p-4 space-y-2 text-sm bg-white border-2 rounded dark:bg-neutral-900 border-neutral-800 dark:text-neutral-200"
       >
         <div class="flex items-start justify-between w-full">
           <div>
@@ -100,13 +100,13 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-[5rem_1fr]">
+        <div class="grid grid-cols-[4.5rem_1fr]">
           <div>Network:</div>
           <div>
             <span class="italic font-semibold">Polygon</span>
           </div>
           <div>Balance:</div>
-          <div>
+          <div class="-ml-1">
             <div class="flex items-center pb-2 space-x-2">
               <span class="inline-flex items-center space-x-0.5">
                 <PolygonIcon class="block w-4 h-4" />
@@ -118,7 +118,9 @@
               <SwitchHorizontalIcon class="w-3 h-3" />
               <span>
                 <span>$&nbsp;</span>
-                <span class="italic font-semibold"> {{ usdBalance }} </span>
+                <span class="italic font-semibold">
+                  {{ usdBalance }}
+                </span>
               </span>
             </div>
           </div>
@@ -157,6 +159,7 @@ import {
   ViewGridAddIcon,
   PrinterIcon,
   CalendarIcon,
+  SwitchHorizontalIcon,
 } from "@heroicons/vue/outline";
 import { useFetch } from "@vueuse/core";
 import { getTokenHourData } from "@/services/graphql/types";
@@ -164,7 +167,6 @@ import CONFIG from "@/../../config";
 import { useClipboard } from "@vueuse/core";
 import { useWalletExtended } from "@/composables/useWalletExtended";
 import makeBlockie from "ethereum-blockies-base64";
-import { SwitchHorizontalIcon } from "@heroicons/vue/outline";
 defineEmits(["update:modelValue", "click"]);
 
 defineProps({

@@ -4,21 +4,25 @@
     @update:modelValue="$emit('update:modelValue', $event)"
     title="Confirm transaction"
   >
-    <div class="flex flex-col w-full space-y-4 items-center">
+    <div
+      class="flex flex-col items-center w-full px-4 pt-4 pb-4 space-y-4 md:px-8 md:pb-8"
+    >
       <div>
         <AppLoadingSpinner size="sm" />
       </div>
-
       <div>
-        <p>You'll be asked to approve the transaction from your wallet</p>
+        <p class="text-center">
+          Please approve the transaction from within your wallet for the
+          following price.
+        </p>
       </div>
 
       <div
-        class="shadow-default border border-black self-stretch"
+        class="self-stretch border border-black shadow-default"
         v-if="task || price"
       >
         <div
-          class="rounded text-sm flex items-start justify-between p-4 dark:bg-neutral-900 bg-white"
+          class="flex items-start justify-between p-4 text-sm bg-white rounded dark:bg-neutral-900"
         >
           <div>
             <div v-if="task">
@@ -31,7 +35,6 @@
           </div>
         </div>
       </div>
-
       <slot />
     </div>
   </AppModal>
@@ -44,7 +47,7 @@ import PolygonIcon from "@/components/icons/PolygonIcon.vue";
 
 defineEmits(["update:modelValue"]);
 
-const props = defineProps({
+defineProps({
   modelValue: {
     type: Boolean,
     required: true,

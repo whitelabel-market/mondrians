@@ -1,17 +1,17 @@
 <template>
   <div
-    class="flex flex-col items-center mx-auto space-y-8 text-center transition-colors duration-100 flex-0 text-neutral-900 dark:text-neutral-200"
+    class="flex flex-col items-center mx-auto space-y-8 text-center transition-colors duration-200 flex-0 text-neutral-900 dark:text-neutral-200"
     v-if="error || aborted"
   >
     <h3 class="text-2xl font-bold">Something went wrong</h3>
     <p>Please reload the page.</p>
   </div>
   <div
-    class="flex flex-col items-center mx-auto space-y-8 text-center transition-colors duration-100 flex-0 text-neutral-900 dark:text-neutral-200"
+    class="flex flex-col items-center mx-auto space-y-8 text-center transition-colors duration-200 flex-0 text-neutral-900 dark:text-neutral-200"
     v-else
   >
     <div
-      class="flex items-center justify-center w-10 h-10 p-2 transition-colors duration-100 bg-white rounded-full shadow-lg animate-bounce dark:bg-neutral-200 ring-1 ring-slate-900/5 dark:ring-slate-200/20"
+      class="flex items-center justify-center w-10 h-10 p-2 transition-colors duration-200 bg-white rounded-full shadow-lg animate-bounce dark:bg-neutral-200 ring-1 ring-slate-900/5 dark:ring-slate-200/20"
     >
       <div class="w-5 h-5 text-neutral-900">
         <slot name="icon" :isSelf="isSelf">

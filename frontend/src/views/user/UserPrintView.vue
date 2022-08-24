@@ -1,7 +1,9 @@
 <template>
   <div class="flex flex-col items-center max-w-2xl mx-auto space-y-8">
     <div>
-      <p class="text-center text-neutral-900 dark:text-neutral-50">
+      <p
+        class="text-center transition-colors duration-200 text-neutral-900 dark:text-neutral-200"
+      >
         {{ MintDescription.print }} After submitting you will have to confirm a
         transaction in your wallet to pay for your print order. This is the only
         payment, no other fees will be charged later on. If the order was
@@ -52,24 +54,15 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  watch,
-  inject,
-  Ref,
-  toRaw,
-  computed,
-  onMounted,
-  unref,
-} from "vue";
+import { ref, watch, inject, Ref, toRaw, computed, unref } from "vue";
 import { getTokensForAccount } from "@/services/graphql/types";
 import NoTokens from "@/components/user/NoTokens.vue";
 import CONFIG from "@/../../config";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
-import { useFetch, watchOnce } from "@vueuse/core";
+import { useFetch } from "@vueuse/core";
 import PrintTask from "@/components/mint/PrintTask.vue";
-import { authInterface } from "@/services/BackendInterface";
+import { authInterface, printedTokens } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
 import { ethers } from "ethers";
 import { useWalletExtended } from "@/composables/useWalletExtended";
@@ -93,11 +86,10 @@ const loading = ref(false);
 const error = ref(null);
 const showError = ref(false);
 const showSuccess = ref(false);
-const printedTokens = ref<string[]>([]);
 
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
-const { provider, authInterfaceCreated } = useWalletExtended();
+const { provider } = useWalletExtended();
 const { address } = useWallet();
 const printPrice = Price.print;
 
@@ -110,6 +102,16 @@ const print = async function (printData: any) {
     await sendPrintTx(printData);
     await authInterface.print(printData);
     showSuccess.value = true;
+    notify(
+      {
+        group: "app",
+        type: "success",
+        title: "Success",
+        text: "Your order was successful.",
+      },
+      4000
+    );
+    printedTokens.value.push(printData.token.id);
   } catch (err: any) {
     error.value = err;
     showError.value = true;
@@ -162,21 +164,6 @@ onFetchResponse(() => {
   }
 });
 
-const getPrintedTokens = async () => {
-  if (authInterfaceCreated.value) {
-    const { tokens } = await authInterface.getPrintedTokens();
-    printedTokens.value = tokens;
-  }
-};
-
-onMounted(async () => {
-  getPrintedTokens();
-});
-
-watchOnce(authInterfaceCreated, async () => {
-  getPrintedTokens();
-});
-
 watch(
   () => ensAccount,
   () => {
@@ -194,9 +181,11 @@ watch(
   { deep: true }
 );
 
-const availableTokensForPrint = computed(() =>
-  tokens.value.filter((token: any) => !printedTokens.value.includes(token.id))
-);
+const availableTokensForPrint = computed(() => {
+  return tokens.value.filter(
+    (token: any) => !printedTokens.value.includes(token.id)
+  );
+});
 
 const errorMessage = computed(() => getError(unref(error)));
 </script>

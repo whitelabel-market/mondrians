@@ -4,7 +4,7 @@
     <div class="relative flex flex-col min-h-screen mx-auto">
       <LayoutFrame class="z-90" v-if="route.name !== 'Screenshot'" />
       <LayoutHeader
-        class="transition-colors duration-100 bg-white z-80 dark:bg-neutral-900"
+        class="transition-colors duration-200 bg-white z-80 dark:bg-neutral-900"
         v-if="route.name !== 'Screenshot'"
       />
       <div
@@ -33,7 +33,6 @@ import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import CONFIG from "@/../../config";
 import { useRoute } from "vue-router";
 import LayoutNotification from "@/components/layouts/LayoutNotification.vue";
-import { useHead } from "@vueuse/head";
 
 const route = useRoute();
 
@@ -48,21 +47,25 @@ const wrongNetwork = computed(() => {
 });
 </script>
 
-<!-- <style>
-/* Change Autocomplete styles in Chrome*/
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
+<style>
+/* Change Autocomplete styles in Chrome */
+html.dark :-webkit-autofill,
+html.dark :-webkit-autofill:hover,
+html.dark :-webkit-autofill:focus {
   -webkit-text-fill-color: #e5e5e5;
-  -webkit-box-shadow: 0 0 0px 1000px #262626 inset;
-  box-shadow: 0 0 0px 1000px #262626 inset;
-  transition: background-color 5000s ease-in-out 0s;
+  -webkit-box-shadow: 0 0 0px 1000px bg-transparent inset;
+  box-shadow: 0 0 0px 1000px transparent inset;
+  transition: all 60000s 60000s; /* delay all transitions to remove background */
   color: #e5e5e5;
 }
-</style> -->
+
+:-webkit-autofill,
+:-webkit-autofill:hover,
+:-webkit-autofill:focus {
+  -webkit-text-fill-color: #171717;
+  -webkit-box-shadow: 0 0 0px 1000px bg-transparent inset;
+  box-shadow: 0 0 0px 1000px transparent inset;
+  transition: all 60000s 60000s; /* delay all transitions to remove background */
+  color: #171717;
+}
+</style>

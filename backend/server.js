@@ -45,6 +45,11 @@ const startServer = async () => {
     express.static(path.join(__dirname, "./screenshots"))
   );
 
+  app.use(
+    "/screenshots/lq",
+    express.static(path.join(__dirname, "./screenshots/lq"))
+  );
+
   app.get("/status", (req, res) => {
     return res.status(200).json();
   });

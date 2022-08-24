@@ -48,28 +48,11 @@ jobs:
           target: "/opt/mondrians"
           tar_tmp_path: "/home/amrap030/tmp"
           overwrite: true
-
-  copy_screenshot_api:
-    name: Copy screenshot api
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: copy screenshot api to server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.DIGITALOCEAN_HOST }}
-          port: 69
-          username: ${{ secrets.DIGITALOCEAN_USERNAME }}
-          key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-          source: "screenshot"
-          target: "/opt/mondrians/screenshot-api"
-          tar_tmp_path: "/home/amrap030/tmp"
-          overwrite: true
   
   start:
     name: Start Containers
     runs-on: ubuntu-latest
-    needs: [push, copy_config, copy_screenshot_api]
+    needs: [push, copy_config]
     steps:
       - name: Start docker containers
         uses: appleboy/ssh-action@v0.1.4
@@ -83,6 +66,7 @@ jobs:
           key: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           envs: IMAGE_NAME,CONTAINER_NAME
           script: |
+            sudo su
             cd /opt/mondrians
             docker-compose down
             docker rmi $IMAGE_NAME

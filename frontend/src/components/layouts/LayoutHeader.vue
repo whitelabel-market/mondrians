@@ -1,19 +1,14 @@
 <template>
   <div>
     <header
-      class="fixed top-0 left-0 w-full transition-colors duration-100 mondrian-border-b z-80"
-      :class="
-        y > 0 || route.name === 'Home'
-          ? 'bg-white dark:bg-neutral-900'
-          : 'bg-transparent'
-      "
+      class="fixed top-0 left-0 w-full transition-colors duration-200 bg-white mondrian-border-b z-80 dark:bg-neutral-900"
     >
       <nav
         class="container flex items-center justify-between w-full h-20 max-w-6xl px-8 mx-auto"
       >
         <router-link :to="'/'" class="inline-block">
           <LogoIcon
-            class="transition-colors duration-100 text-neutral-900 dark:text-neutral-200"
+            class="transition-colors duration-200 text-neutral-800 dark:text-neutral-200"
           />
         </router-link>
         <AppHamburger
@@ -23,7 +18,7 @@
         <ul class="items-center hidden space-x-6 text-sm font-semibold lg:flex">
           <li v-for="(to, name) in routes" :key="to">
             <router-link
-              class="transition-colors duration-100 link dark:text-neutral-200"
+              class="transition-colors duration-200 link text-neutral-800 dark:text-neutral-200"
               :to="to"
               >{{ name }}</router-link
             >
@@ -56,7 +51,7 @@
                 class="object-cover w-6 h-6 rounded-full"
               />
               <span
-                class="font-black transition-colors duration-100 slashed-zero dark:text-neutral-200"
+                class="font-black duration-200 slashed-zero transitioncolors text-neutral-800 dark:text-neutral-200"
                 >{{ ensAccount?.name || shortAddress }}</span
               >
             </AppButton>
@@ -94,7 +89,6 @@ import AppButton from "@/components/app/AppButton.vue";
 import AppToggleDark from "@/components/app/AppToggleDark.vue";
 import LogoIcon from "@/components/icons/LogoIcon.vue";
 import MobileMenu from "@/components/layouts/MobileMenu.vue";
-import { useWindowScroll } from "@vueuse/core";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -106,8 +100,6 @@ const showMobileMenu = ref(false);
 const ensAccount = ref({});
 const { loading, isConnected, shortAddress } = useWallet();
 const { blockie } = useWalletExtended();
-
-const { y } = useWindowScroll();
 
 const routes = {
   About: "/#About",

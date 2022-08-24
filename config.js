@@ -3,6 +3,10 @@ module.exports = {
     process.env.NODE_ENV === "development"
       ? "http://localhost:8080"
       : "https://www.magic-mondrian.art",
+  screenshotUrl:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3333"
+      : "https://screenshot.magic-mondrian.art",
   supportEmail:
     process.env.NODE_ENV === "development"
       ? "kevin.hertwig@t-online.de"
@@ -36,21 +40,28 @@ module.exports = {
     apiKey: process.env.PRODIGI_KEY || "",
     callbackUrl:
       process.env.NODE_ENV === "development"
-        ? "https://f51f-158-181-76-197.ngrok.io/v1/print/update"
+        ? "https://81c2-158-181-76-197.eu.ngrok.io/v1/print/update"
         : "https://api.magic-mondrian.art/v1/print/update",
     assetBaseUrl:
       process.env.NODE_ENV === "development"
-        ? "https://f51f-158-181-76-197.ngrok.io/screenshots/"
+        ? "https://81c2-158-181-76-197.eu.ngrok.io/screenshots/"
         : "https://api.magic-mondrian.art/screenshots/",
     apiBaseUrl:
       process.env.NODE_ENV === "development"
         ? "https://api.sandbox.prodigi.com/v4.0"
-        : "https://api.prodigi.com/v4.0",
+        : "https://api.sandbox.prodigi.com/v4.0",
+    //: "https://api.prodigi.com/v4.0",
   },
   email: {
-    address: "kevin.hertwig@t-online.de",
-    password: process.env.EMAIL_PW || "",
-    host: "securesmtp.t-online.de",
+    address:
+      process.env.NODE_ENV === "development"
+        ? "kevin.hertwig@t-online.de"
+        : "support@magic-mondrian.art",
+    password: process.env.EMAIL_PW,
+    host:
+      process.env.NODE_ENV === "development"
+        ? "securesmtp.t-online.de"
+        : "smtp.titan.email",
     port: 465,
   },
   appleWallet: {

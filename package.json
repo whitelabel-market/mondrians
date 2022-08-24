@@ -4,7 +4,7 @@
   "description": "Magic Mondrian NFT launch monorepo",
   "main": "index.js",
   "repository": "https://github.com/whitelabel-market/mondrians.git",
-  "author": "Whitelabel Solutions",
+  "author": "Decentum",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -16,7 +16,8 @@
     "dev": "yarn frontend:dev && yarn backend:dev",
     "frontend:dev": "yarn workspace frontend serve",
     "frontend:build": "yarn workspace frontend build",
-    "frontend:lint": "yarn workspace frontend lint"
+    "frontend:lint": "yarn workspace frontend lint",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",
@@ -28,5 +29,6 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  }
+  },
+  "dependencies": {}
 }

@@ -1,7 +1,7 @@
 <template>
   <Disclosure as="div" v-slot="{ open }" class="w-full shadow-default">
     <div
-      class="w-full bg-candlelight-200 dark:bg-candlelight-500 border-2 border-black rounded"
+      class="w-full transition-colors duration-200 border-2 border-black rounded bg-candlelight-200 dark:bg-candlelight-500"
     >
       <DisclosureButton
         class="flex items-center justify-between w-full p-4 cursor-pointer"
