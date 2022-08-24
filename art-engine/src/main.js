@@ -126,6 +126,10 @@ const layersSetup = (layersOrder) => {
       layerObj.options?.["valueAsType"] !== undefined
         ? layerObj.options?.["valueAsType"]
         : false,
+    ranking:
+      layerObj.options?.["ranking"] !== undefined
+        ? layerObj.options?.["ranking"]
+        : false,
     skipValue:
       layerObj.options?.["skipValue"] !== undefined
         ? layerObj.options?.["skipValue"]
@@ -152,7 +156,6 @@ const addMetadata = (_dna, _edition) => {
     date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
   };
   if (network == NETWORK.sol) {
     tempMetadata = {
@@ -186,16 +189,29 @@ const addMetadata = (_dna, _edition) => {
 
 const addAttributes = (_element) => {
   const selectedElement = _element.layer.selectedElement;
-  const valueAsType = _element.layer.valueAsType;
+  const valueAsType = _element.layer.valueAsType
+  const ranking = _element.layer.ranking;
   const skipValue = _element.layer.skipValue;
 
-  if(skipValue !== selectedElement.name && !(valueAsType && attributesList.some((a)=> (a.trait_type === selectedElement.name || a.trait_type === _element.layer.name)))){
-    attributesList.push({
-      trait_type: valueAsType ? selectedElement.name : _element.layer.name,
-      value: valueAsType ? "" : selectedElement.name,
-    });
+  if(skipValue === selectedElement.name){
+    return
   }
 
+  const trait_type = valueAsType ? selectedElement.name : _element.layer.name
+  let value = valueAsType ? "" : selectedElement.name
+  let indexOf = attributesList.findIndex(a => (a.trait_type === trait_type))
+  if(indexOf < 0){
+    attributesList.push({
+      trait_type,
+      value: ranking ? 1 : value,
+    });
+  } else if(ranking) {
+
+    attributesList[indexOf] = ({
+      trait_type,
+      value: attributesList[indexOf].value + 1,
+    });
+  }
 };
 
 const loadLayerImg = async (_layer) => {
@@ -220,6 +236,7 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
       blend: layer.blend,
       opacity: layer.opacity,
       valueAsType: layer.valueAsType,
+      ranking: layer.ranking,
       skipValue: layer.skipValue,
       selectedElement: selectedElement,
     };

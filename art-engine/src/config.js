@@ -13,7 +13,7 @@ const IMG_FORMAT = "svg";
 
 // General metadata for Ethereum
 const namePrefix = "MAMO";
-const description = "Remember to replace this description";
+const description = "Magic Mondrian is a drop of 1000 custom digital paintings inspired by Piet Mondrian. The paintings are randomly generated and split by uniquely arranged colors.";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
@@ -36,14 +36,14 @@ const layerConfigurations = [
     layersOrder: [
       { name: "Background" },
       { name: "Line" },
-      { name: "1", options: {valueAsType: true} },
-      { name: "2", options: {valueAsType: true} },
-      { name: "3", options: {valueAsType: true} },
-      { name: "4", options: {valueAsType: true} },
-      { name: "5", options: {valueAsType: true} },
-      { name: "6", options: {valueAsType: true} },
-      { name: "7", options: {valueAsType: true} },
-      { name: "8", options: {valueAsType: true} },
+      { name: "1", options: {ranking: true, valueAsType: true } },
+      { name: "2", options: {ranking: true, valueAsType: true } },
+      { name: "3", options: {ranking: true, valueAsType: true } },
+      { name: "4", options: {ranking: true, valueAsType: true } },
+      { name: "5", options: {ranking: true, valueAsType: true } },
+      { name: "6", options: {ranking: true, valueAsType: true } },
+      { name: "7", options: {ranking: true, valueAsType: true } },
+      { name: "8", options: {ranking: true, valueAsType: true } },
     ],
   },
 ];
