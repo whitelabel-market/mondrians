@@ -11,17 +11,12 @@
           class="relative flex items-center justify-center w-full group aspect-square"
           v-if="token?.id || tokenId"
         >
-          <object
-            v-if="svg"
-            v-html="svg"
+          <img
+            class="block w-full"
+            :src="'/images/' + tokenId + '.svg'"
+            :alt="'screenshot ' + tokenId"
             id="mondrian"
-            width="100%"
-            height="100%"
-          ></object>
-          <div
-            v-else
-            class="w-[10%] h-[10%] border-2 rounded-full spinner border-r-black"
-          ></div>
+          />
         </div>
 
         <div class="font-mill flex justify-between mt-[3%]">
@@ -139,22 +134,7 @@ const props = defineProps({
   },
 });
 
-const { url, timestamp, mintAddress, tokenId } = route.query;
-
-// link handling
-
-const svg = ref();
-
-onMounted(async () => {
-  const data = await fetch(
-    url
-      ? `${CONFIG.ipfsBaseUrl}${(url as string).replace("ipfs://", "")}`
-      : `${CONFIG.ipfsBaseUrl}${props?.token?.imageURI.replace("ipfs://", "")}`
-  );
-  svg.value = (await data.text())
-    .replace(new RegExp(`width="[0-9]*px"`, "g"), `width="100%"`)
-    .replace(new RegExp(`height="[0-9]*px"`, "g"), `height="100%"`);
-});
+const { timestamp, mintAddress, tokenId } = route.query;
 
 // qr code handling
 
