@@ -111,35 +111,30 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
-import CONFIG from "@/../../config";
+import { computed } from "vue";
 import QRCode from "qrcode";
 import { getShortAddress } from "@/utils/ethereum";
 import { useDateFormat, asyncComputed } from "@vueuse/core";
 
-const emits = defineEmits(["loaded"]);
-
-emits("loaded", false);
-
-onMounted(() => {
-  emits("loaded", true);
-});
-
-const route = useRoute();
-
 const props = defineProps({
-  token: {
-    type: Object,
+  owner: {
+    type: String,
+    required: true,
+  },
+  createdAtTimestamp: {
+    type: String,
+    required: true,
+  },
+  tokenId: {
+    type: String,
+    required: true,
   },
 });
-
-const { timestamp, mintAddress, tokenId } = route.query;
 
 // qr code handling
 
 const qrCode = asyncComputed(async () => {
-  return await QRCode.toDataURL(props?.token?.owner?.id || mintAddress, {
+  return await QRCode.toDataURL(props.owner, {
     type: "image/png",
     quality: 1,
     width: 1582.7,
@@ -147,12 +142,10 @@ const qrCode = asyncComputed(async () => {
 });
 
 const tokenDetails = computed(() => ({
-  "Mint Date": useDateFormat(
-    props?.token?.createdAtTimestamp * 1000 || timestamp * 1000,
-    "MM/DD/YYYY"
-  ).value,
+  "Mint Date": useDateFormat(props.createdAtTimestamp * 1000, "MM/DD/YYYY")
+    .value,
   Blockchain: "Polygon",
-  Owner: getShortAddress(props?.token?.owner?.id || mintAddress),
+  Owner: getShortAddress(props.owner),
 }));
 </script>
 

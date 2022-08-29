@@ -19,7 +19,9 @@
             @click.prevent="!disabled && (form.token = token)"
           >
             <TokenCardPrint
-              :token="token"
+              :token-id="token?.id"
+              :owner="token?.owner?.id"
+              :created-at-timestamp="token?.createdAtTimestamp || ''"
               class="transition duration-100"
               :class="form.token.id === token.id ? 'scale-95' : 'scale-100'"
             />
