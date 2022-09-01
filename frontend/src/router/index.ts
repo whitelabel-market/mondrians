@@ -1,91 +1,17 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
+import type { App } from "vue";
+import { createRouter, createWebHistory } from "vue-router";
+import routes from "@/router/routes";
 import scrollBehavior from "@/router/scrollBehavior";
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    name: "Home",
-    component: HomeView,
-  },
-  {
-    path: "/mint",
-    name: "Mint",
-    component: () => import("@/views/MintView.vue"),
-  },
-  {
-    path: "/screenshot",
-    name: "Screenshot",
-    component: () => import("@/views/ScreenshotView.vue"),
-  },
-  {
-    path: "/terms-of-service",
-    name: "Terms Of Service",
-    component: () => import("@/views/TermsOfServiceView.vue"),
-  },
-  {
-    path: "/privacy-policy",
-    name: "Privacy Policy",
-    component: () => import("@/views/PrivacyPolicyView.vue"),
-  },
-  {
-    path: "/return-policy",
-    name: "Return Policy",
-    component: () => import("@/views/ReturnPolicyView.vue"),
-  },
-  {
-    path: "/user/:id",
-    name: "User",
-    component: () => import("@/views/UserView.vue"),
-    children: [
-      {
-        path: "",
-        redirect: { name: "CollectedItems" },
-      },
-      {
-        path: "collected",
-        name: "Collected",
-        component: () => import("@/views/user/UserCollectedView.vue"),
-        meta: {
-          title: "Collected Items",
-        },
-      },
-      {
-        path: "activity",
-        name: "Activity",
-        component: () => import("@/views/user/UserActivityView.vue"),
-        meta: {
-          title: "Activity",
-        },
-      },
-      {
-        path: "event",
-        name: "Event",
-        component: () => import("@/views/user/UserEventView.vue"),
-        meta: {
-          title: "Event",
-        },
-      },
-      {
-        path: "print",
-        name: "Print",
-        component: () => import("@/views/user/UserPrintView.vue"),
-        meta: {
-          title: "Print",
-        },
-      },
-    ],
-  },
-  {
-    path: "/:pathMatch(.*)*",
-    redirect: "/",
-  },
-];
-
-const router = createRouter({
+// app router
+export const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  strict: true,
   scrollBehavior,
 });
 
-export default router;
+// config router
+export function setupRouter(app: App<Element>) {
+  app.use(router);
+}

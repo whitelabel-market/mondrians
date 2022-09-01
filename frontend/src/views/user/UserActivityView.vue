@@ -42,9 +42,9 @@ import { inject, Ref, ref, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import { getActivity } from "@/services/graphql/types";
 import CONFIG from "@/../../config";
-import Activity from "@/components/activity/Activity.vue";
-import ActivitySkeleton from "@/components/activity/ActivitySkeleton.vue";
-import NoTokens from "@/components/user/NoTokens.vue";
+import Activity from "@/views/user/components/Activity.vue";
+import ActivitySkeleton from "@/views/user/components/ActivitySkeleton.vue";
+import NoTokens from "@/views/user/components/NoTokens.vue";
 import { EnsAccount, ENS_ACCOUNT } from "@/utils/types";
 import { useHead } from "@vueuse/head";
 

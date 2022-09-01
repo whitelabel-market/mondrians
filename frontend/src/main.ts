@@ -6,7 +6,7 @@ import {
   WALLET_CONTEXT,
 } from "./composables/useWalletExtended";
 import App from "./App.vue";
-import router from "./router";
+import { setupRouter } from "./router";
 import "@/assets/css/app.css";
 import "@/assets/css/fonts.css";
 import animateDirective from "@/directives/animate";
@@ -16,6 +16,7 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import CONFIG from "@/../../config";
 import Notifications from "notiwind";
 import { createHead } from "@vueuse/head";
+import { setupStore } from "@/store";
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
@@ -43,9 +44,15 @@ const app = createApp({
   render: () => h(App),
 });
 
+// Configure store
+setupStore(app);
+
 app.directive("animate", animateDirective);
 app.use(wallet);
 app.use(head);
-app.use(router);
+
+// Configure routing
+setupRouter(app);
+
 app.use(Notifications);
 app.mount("#app");

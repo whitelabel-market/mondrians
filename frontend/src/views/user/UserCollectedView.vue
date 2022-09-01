@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TokenList :tokens="tokens" :is-finished="isFinished"></TokenList>
+    <MamoTokenList :tokens="tokens" :is-finished="isFinished"></MamoTokenList>
     <NoTokens
       :ensAccount="ensAccount"
       :error="error"
@@ -12,14 +12,14 @@
 
 <script setup lang="ts">
 import { ref, watch, inject, Ref } from "vue";
-import { getTokensForAccount } from "@/services/graphql/types";
-import NoTokens from "@/components/user/NoTokens.vue";
+import { useFetch } from "@vueuse/core";
+import { useHead } from "@vueuse/head";
 import CONFIG from "@/../../config";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
-import { useFetch } from "@vueuse/core";
-import TokenList from "@/components/tokens/TokenList.vue";
-import { useHead } from "@vueuse/head";
+import { getTokensForAccount } from "@/services/graphql/types";
+import NoTokens from "@/views/user/components/NoTokens.vue";
+import { MamoTokenList } from "@/components/TokenList";
 
 const emits = defineEmits(["showHint"]);
 

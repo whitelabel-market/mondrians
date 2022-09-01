@@ -11,26 +11,26 @@
       </p>
     </div>
 
-    <AppAlert
+    <MamoAlert
       v-model="showError"
       title="Something went wrong"
       :report="errorMessage"
     >
       {{ errorMessage }}
-    </AppAlert>
+    </MamoAlert>
 
-    <AppAlert
+    <MamoAlert
       v-model="showSuccess"
       :variant="'success'"
       title="Congratulations"
     >
       Your order was successful. You will soon receive a confirmation message to
       your inbox.
-    </AppAlert>
+    </MamoAlert>
 
-    <AppLoadingSpinner class="mx-auto" v-if="!isFinished" />
+    <MamoLoader class="mx-auto" v-if="!isFinished" />
 
-    <PrintTask
+    <MamoPrintForm
       v-else-if="tokens.length > 0"
       :tokens="availableTokensForPrint"
       :skippable="false"
@@ -45,7 +45,7 @@
       v-else
     />
 
-    <TransactionModal
+    <MamoTransactionModal
       v-model="showPrintTransactionModal"
       task="Print NFT"
       :price="printPrice"
@@ -55,25 +55,26 @@
 
 <script setup lang="ts">
 import { ref, watch, inject, Ref, toRaw, computed, unref } from "vue";
-import { getTokensForAccount } from "@/services/graphql/types";
-import NoTokens from "@/components/user/NoTokens.vue";
-import CONFIG from "@/../../config";
-import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
-import type { Token } from "@/utils/types";
+import { ethers } from "ethers";
+import { notify } from "notiwind";
 import { useFetch } from "@vueuse/core";
-import PrintTask from "@/components/mint/PrintTask.vue";
+import { useHead } from "@vueuse/head";
+import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
+
+import CONFIG from "@/../../config";
 import { authInterface, printedTokens } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
-import { ethers } from "ethers";
-import { useWalletExtended } from "@/composables/useWalletExtended";
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
-import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
-import { MintDescription, Price } from "@/utils/constants";
-import AppAlert from "@/components/app/AppAlert.vue";
-import TransactionModal from "@/components/wallet/TransactionModal.vue";
-import { notify } from "notiwind";
+import { getTokensForAccount } from "@/services/graphql/types";
+import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
+import type { Token } from "@/utils/types";
 import { getError } from "@/utils/error";
-import { useHead } from "@vueuse/head";
+import { MintDescription, Price } from "@/utils/constants";
+import { useWalletExtended } from "@/composables/useWalletExtended";
+import NoTokens from "@/views/user/components/NoTokens.vue";
+import { MamoPrintForm } from "@/components/PrintForm";
+import { MamoLoader } from "@/components/Loader";
+import { MamoAlert } from "@/components/Alert";
+import { MamoTransactionModal } from "@/components/WalletModal";
 
 const emits = defineEmits(["showHint"]);
 

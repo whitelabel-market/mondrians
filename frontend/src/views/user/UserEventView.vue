@@ -8,25 +8,25 @@
       </p>
     </div>
 
-    <AppAlert
+    <MamoAlert
       v-model="showError"
       title="Something went wrong"
       :report="errorMessage"
     >
       {{ errorMessage }}
-    </AppAlert>
+    </MamoAlert>
 
-    <AppAlert
+    <MamoAlert
       v-model="showSuccess"
       :variant="'success'"
       title="Congratulations"
     >
       You received an invitation in your mailbox.
-    </AppAlert>
+    </MamoAlert>
 
-    <AppLoadingSpinner v-if="!isFinished" />
+    <MamoLoader v-if="!isFinished" />
 
-    <EventTask
+    <MamoEventForm
       v-else-if="tokens.length > 0"
       @submit="sendTicket"
       :loading="loading"
@@ -44,20 +44,20 @@
 
 <script setup lang="ts">
 import { ref, watch, inject, Ref, computed, unref } from "vue";
-import { getTokensForAccount } from "@/services/graphql/types";
-import NoTokens from "@/components/user/NoTokens.vue";
+import { notify } from "notiwind";
+import { useFetch } from "@vueuse/core";
+import { useHead } from "@vueuse/head";
 import CONFIG from "@/../../config";
+import { authInterface } from "@/services/BackendInterface";
+import { getTokensForAccount } from "@/services/graphql/types";
+import { MintDescription } from "@/utils/constants";
+import { getError } from "@/utils/error";
 import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
-import { useFetch } from "@vueuse/core";
-import EventTask from "@/components/mint/EventTask.vue";
-import { authInterface } from "@/services/BackendInterface";
-import AppLoadingSpinner from "@/components/app/AppLoadingSpinner.vue";
-import { MintDescription } from "@/utils/constants";
-import AppAlert from "@/components/app/AppAlert.vue";
-import { notify } from "notiwind";
-import { getError } from "@/utils/error";
-import { useHead } from "@vueuse/head";
+import NoTokens from "@/views/user/components/NoTokens.vue";
+import { MamoLoader } from "@/components/Loader";
+import { MamoAlert } from "@/components/Alert";
+import { MamoEventForm } from "@/components/EventForm";
 
 const emits = defineEmits(["showHint"]);
 

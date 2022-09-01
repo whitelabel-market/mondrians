@@ -23,6 +23,7 @@
     "gsap": "^3.10.3",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "notiwind": "^1.2.6",
+    "pinia": "^2.0.21",
     "unleash-proxy-client": "^2.0.1",
     "vue": "^3.2.13",
     "vue-horizontal": "^1.0.2",

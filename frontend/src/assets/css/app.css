@@ -9,6 +9,27 @@
 }
 
 @layer base {
+  /* Change Autocomplete styles in Chrome */
+  html.dark :-webkit-autofill,
+  html.dark :-webkit-autofill:hover,
+  html.dark :-webkit-autofill:focus {
+    -webkit-text-fill-color: #e5e5e5;
+    -webkit-box-shadow: 0 0 0px 1000px bg-transparent inset;
+    box-shadow: 0 0 0px 1000px transparent inset;
+    transition: all 60000s 60000s; /* delay all transitions to remove background */
+    color: #e5e5e5;
+  }
+
+  :-webkit-autofill,
+  :-webkit-autofill:hover,
+  :-webkit-autofill:focus {
+    -webkit-text-fill-color: #171717;
+    -webkit-box-shadow: 0 0 0px 1000px bg-transparent inset;
+    box-shadow: 0 0 0px 1000px transparent inset;
+    transition: all 60000s 60000s; /* delay all transitions to remove background */
+    color: #171717;
+  }
+
   section {
     @apply py-20 md:py-40;
   }

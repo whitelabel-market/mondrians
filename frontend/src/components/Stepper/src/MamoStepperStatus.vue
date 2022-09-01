@@ -1,0 +1,44 @@
+<template>
+  <div :class="['flex items-center justify-center w-8 h-8']">
+    <MamoLoader
+      v-if="isLoading.value"
+      :size="'sm'"
+      class="text-current transform"
+    />
+    <ExclamationCircleIcon
+      v-else-if="error.value"
+      class="w-8 h-8 text-red-500"
+    />
+    <CheckIcon v-else-if="isReady.value" class="w-8 h-8 text-green-500" />
+    <span
+      v-else
+      class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white transition-colors duration-200 rounded-full bg-neutral-900 dark:bg-white dark:text-black"
+      >{{ index + 1 }}</span
+    >
+  </div>
+</template>
+
+<script setup lang="ts">
+import { MamoLoader } from "@/components/Loader";
+import { CheckIcon, ExclamationCircleIcon } from "@heroicons/vue/outline";
+import { PropType, Ref } from "vue";
+
+defineProps({
+  index: {
+    type: Number,
+    required: true,
+  },
+  isReady: {
+    type: Object as PropType<Ref<boolean>>,
+    required: true,
+  },
+  isLoading: {
+    type: Object as PropType<Ref<boolean>>,
+    required: true,
+  },
+  error: {
+    type: Object as PropType<Ref<Error | null>>,
+    required: true,
+  },
+});
+</script>

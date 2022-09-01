@@ -37,7 +37,7 @@ export default class MondrianInterface {
    * Mint new tokens
    * @param quantity Amount of tokens to be minted
    * @param price Price of a token
-   * @param signature Voucher to authorize mint in case of Whitelist Sale
+   * @param signature Voucher to authorize components in case of Whitelist Sale
    */
   async mint(params: MintParams, options?: MintOptions) {
     try {
@@ -65,7 +65,7 @@ export default class MondrianInterface {
     }
   }
 
-  // Internal mint function for Whitelist Sale
+  // Internal components function for Whitelist Sale
   private async whitelistMint(
     { quantity, price, signature }: MintParams,
     address: string,
@@ -76,7 +76,7 @@ export default class MondrianInterface {
     });
   }
 
-  // Internal mint function for Public Sale
+  // Internal components function for Public Sale
   private async publicMint(
     { quantity, price }: MintParams,
     address: string,
