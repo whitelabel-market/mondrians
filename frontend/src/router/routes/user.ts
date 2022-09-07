@@ -1,4 +1,5 @@
 import { withLayoutDefault } from "@/router/helper/layoutHelper";
+import { PERMISSION_MODE } from "@/router/constants";
 
 const title = "User";
 
@@ -33,6 +34,7 @@ export default withLayoutDefault({
       component: () => import("@/views/user/UserEventView.vue"),
       meta: {
         title: "Event",
+        [PERMISSION_MODE.Owner]: "id",
       },
     },
     {
@@ -41,6 +43,7 @@ export default withLayoutDefault({
       component: () => import("@/views/user/UserPrintView.vue"),
       meta: {
         title: "Print",
+        [PERMISSION_MODE.Owner]: "id",
       },
     },
   ],

@@ -54,12 +54,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, inject, Ref, toRaw, computed, unref } from "vue";
+import { ref, watch, inject, Ref, computed, unref } from "vue";
 import { ethers } from "ethers";
 import { notify } from "notiwind";
 import { useFetch } from "@vueuse/core";
 import { useHead } from "@vueuse/head";
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 
 import CONFIG from "@/../../config";
 import { authInterface, printedTokens } from "@/services/BackendInterface";
@@ -69,12 +68,13 @@ import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { getError } from "@/utils/error";
 import { MintDescription, Price } from "@/utils/constants";
-import { useWalletExtended } from "@/composables/useWalletExtended";
 import NoTokens from "@/views/user/components/NoTokens.vue";
 import { MamoPrintForm } from "@/components/PrintForm";
 import { MamoLoader } from "@/components/Loader";
 import { MamoAlert } from "@/components/Alert";
 import { MamoTransactionModal } from "@/components/WalletModal";
+import { useUserStore } from "@/store/modules/user";
+import { storeToRefs } from "pinia";
 
 const emits = defineEmits(["showHint"]);
 
@@ -90,8 +90,7 @@ const showSuccess = ref(false);
 
 const tokens = ref<Token[]>([]);
 const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
-const { provider } = useWalletExtended();
-const { address } = useWallet();
+const { address, provider } = storeToRefs(useUserStore());
 const printPrice = Price.print;
 
 const print = async function (printData: any) {
@@ -129,7 +128,7 @@ const print = async function (printData: any) {
 
 const sendPrintTx = async function (printData: any) {
   const mondrianInterface: MondrianInterface = new MondrianInterface(
-    toRaw(provider.value as ethers.providers.Web3Provider)
+    provider as ethers.providers.Web3Provider
   );
   showPrintTransactionModal.value = true;
   let tx = null;

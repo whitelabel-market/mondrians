@@ -30,16 +30,7 @@
             </ul>
             <div class="flex flex-col gap-4">
               <MamoButton
-                v-if="!isConnected"
-                full-width
-                color="crimson"
-                :loading="loading"
-                @click.prevent="emit('connect', true)"
-              >
-                Connect Wallet
-              </MamoButton>
-              <MamoButton
-                v-else
+                v-if="isConnected"
                 :center="false"
                 size="sm"
                 :loading="loading"
@@ -49,7 +40,8 @@
               >
                 <div class="z-50 flex items-center w-full gap-4">
                   <img
-                    :src="makeBlockie(address)"
+                    :src="image"
+                    :alt="address"
                     class="object-cover w-8 h-8 rounded-full"
                   />
                   <span
@@ -58,6 +50,16 @@
                   >
                 </div>
               </MamoButton>
+              <MamoButton
+                v-else
+                full-width
+                color="crimson"
+                :loading="loading"
+                @click.prevent="emit('connect', true)"
+              >
+                Connect Wallet
+              </MamoButton>
+
               <div
                 class="relative flex items-center justify-between p-4 transition-colors duration-200 bg-neutral-200 dark:text-neutral-400 bg-opacity-60 text-neutral-600 dark:bg-neutral-800 dark:bg-opacity-80 rounded"
               >
@@ -76,12 +78,12 @@
 </template>
 
 <script setup lang="ts">
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { TransitionRoot, TransitionChild, Dialog } from "@headlessui/vue";
-import makeBlockie from "ethereum-blockies-base64";
 import { MamoButton } from "@/components/Button";
 import LayoutHeaderThemeToggle from "./LayoutHeaderThemeToggle.vue";
 import { getRoutes } from "@/utils/constants";
+import { useUserStore } from "@/store/modules/user";
+import { storeToRefs } from "pinia";
 
 const emit = defineEmits(["update:modelValue", "connect", "click"]);
 
@@ -90,7 +92,7 @@ defineProps({
     type: Boolean,
     required: true,
   },
-  blockie: {
+  image: {
     type: String,
     required: true,
   },
@@ -103,7 +105,7 @@ defineProps({
   },
 });
 
-const { loading, isConnected, address } = useWallet();
+const { address, loading, isConnected } = storeToRefs(useUserStore());
 
 const routes = getRoutes().Home;
 </script>

@@ -28,11 +28,9 @@
 import { ref } from "vue";
 import { MamoModal } from "@/components/Modal";
 import { MamoButton } from "@/components/Button";
-import {
-  Providers,
-  useWallet,
-} from "@whitelabel-solutions/wallet-connector-vue";
+import { Providers } from "@whitelabel-solutions/wallet-connector-vue";
 import type { IProvider } from "@whitelabel-solutions/wallet-connector-vue";
+import { useUserStore } from "@/store/modules/user";
 
 const emits = defineEmits(["update:modelValue", "connected"]);
 
@@ -43,7 +41,7 @@ defineProps({
   },
 });
 
-const { connect } = useWallet();
+const { connectWallet } = useUserStore();
 
 const { MetaMaskProvider, WalletLinkProvider, WalletConnectProvider } =
   Providers;
@@ -51,7 +49,7 @@ const providers = [MetaMaskProvider, WalletLinkProvider, WalletConnectProvider];
 const loading = ref(false);
 
 const tryConnect = async (provider: IProvider) => {
-  await connect(provider);
+  await connectWallet(provider);
   emits("update:modelValue", false);
   emits("connected");
 };

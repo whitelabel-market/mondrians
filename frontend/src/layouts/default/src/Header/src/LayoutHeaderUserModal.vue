@@ -10,11 +10,7 @@
   >
     <div class="flex flex-col p-4 space-y-4 md:p-8">
       <div class="flex items-center self-center space-x-2">
-        <img
-          :src="makeBlockie(address)"
-          :alt="address"
-          class="object-cover w-8 h-8 rounded"
-        />
+        <img :src="image" :alt="address" class="object-cover w-8 h-8 rounded" />
         <div>
           <h4 class="block text-xl font-bold slashed-zero leading-0">
             {{ ensAccount?.name ? "@" + ensAccount.name : privateAddress }}
@@ -62,7 +58,7 @@
           <div>
             <div class="flex items-center space-x-2">
               <img
-                :src="makeBlockie(address)"
+                :src="image"
                 :alt="address"
                 class="object-cover w-4 h-4 rounded-full"
               />
@@ -146,11 +142,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 import { MamoModal } from "@/components/Modal";
 import { MamoButton } from "@/components/Button";
 import { PolygonIcon } from "@/components/Icon";
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import {
   CollectionIcon,
   ClipboardCopyIcon,
@@ -165,8 +160,8 @@ import { useFetch } from "@vueuse/core";
 import { getTokenHourData } from "@/services/graphql/types";
 import CONFIG from "../../../../../../../config";
 import { useClipboard } from "@vueuse/core";
-import { useWalletExtended } from "@/composables/useWalletExtended";
-import makeBlockie from "ethereum-blockies-base64";
+import { useUserStore } from "@/store/modules/user";
+import { storeToRefs } from "pinia";
 
 defineEmits(["update:modelValue", "click"]);
 
@@ -179,7 +174,7 @@ defineProps({
     type: String,
     default: "",
   },
-  blockie: {
+  image: {
     type: String,
     default: "",
   },
@@ -189,8 +184,10 @@ defineProps({
   },
 });
 
-const { address, disconnect } = useWallet();
-const { balance } = useWalletExtended();
+const userStore = useUserStore();
+const { disconnect } = userStore;
+const { address, balance } = storeToRefs(userStore);
+
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const maticPrice = ref<string>("");
 const emailAddress = ref("");
@@ -212,8 +209,8 @@ const routes = {
 };
 
 const usdBalance = computed<string>(() => {
-  if (balance.value && maticPrice.value) {
-    return (Number(balance.value) * Number(maticPrice.value)).toFixed(2);
+  if (balance && maticPrice.value) {
+    return (Number(balance) * Number(maticPrice.value)).toFixed(2);
   }
   return "0.00";
 });
@@ -241,9 +238,9 @@ onFetchResponse(() => {
   }
 });
 
-watch(balance, async () => {
-  if (Number(balance.value) > 0) {
-    execute();
-  }
-});
+// watch(balance, async () => {
+//   if (Number(balance.value) > 0) {
+//     execute();
+//   }
+// });
 </script>

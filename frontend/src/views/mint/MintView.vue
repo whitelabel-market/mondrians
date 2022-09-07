@@ -184,7 +184,6 @@ import { authInterface } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
 import useSubgraph from "@/composables/useSubgraph";
 import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
-import { useWalletExtended } from "@/composables/useWalletExtended";
 import { Price, SalePhase, MintDescription } from "@/utils/constants";
 import { useFlag } from "@/composables/useFlags";
 import QuantityTask from "@/views/mint/components/QuantityTask.vue";
@@ -196,13 +195,14 @@ import { MamoStepper, MamoStepperItem } from "@/components/Stepper";
 import { MamoTransactionModal } from "@/components/WalletModal";
 import { MamoLogoIcon } from "@/components/Icon";
 import { MamoViewHeader } from "@/components/ViewHeader";
+import { useUserStore } from "@/store/modules/user";
 
 const emit = defineEmits(["loaded"]);
 
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
 const presaleEnabled = useFlag(SalePhase.PreSale);
 const { address } = useWallet();
-const { provider, printedTokens } = useWalletExtended();
+const { provider } = useUserStore();
 const { getTokenByAddress } = useSubgraph();
 
 useHead({
@@ -296,7 +296,7 @@ const sendPrintPayment = async (printData: any) => {
 const sendPrintOrder = async (printData: any) => {
   await authInterface.print(printData);
   finishedTasks.print = true;
-  printedTokens.value.push(printData.token.id);
+  // printedTokens.value.push(printData.token.id);
 };
 
 const printPrice = Price.print;

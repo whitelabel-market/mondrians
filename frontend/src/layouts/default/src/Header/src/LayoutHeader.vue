@@ -42,8 +42,8 @@
               flat
             >
               <img
-                v-if="blockie"
-                :src="blockie"
+                :src="image"
+                :alt="address"
                 class="object-cover w-6 h-6 rounded-full"
               />
               <span
@@ -59,14 +59,14 @@
       <LayoutHeaderUserModal
         v-model="showUserModal"
         :privateAddress="shortAddress"
-        :blockie="blockie"
+        :image="image"
         :ensAccount="ensAccount"
       />
     </header>
     <LayoutHeaderMenu
       v-model="showMobileMenu"
       :privateAddress="shortAddress"
-      :blockie="blockie"
+      :image="image"
       :ensAccount="ensAccount"
       @connect="showConnectModal = true"
       @click="showUserModal = true"
@@ -77,8 +77,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
-import { useWalletExtended } from "@/composables/useWalletExtended";
 import { MamoButton } from "@/components/Button/";
 import { MamoConnectWalletModal } from "@/components/WalletModal";
 import LayoutHeaderUserModal from "./LayoutHeaderUserModal.vue";
@@ -87,6 +85,8 @@ import LayoutHeaderLogo from "./LayoutHeaderLogo.vue";
 import LayoutHeaderMenuToggle from "./LayoutHeaderMenuToggle.vue";
 import LayoutHeaderThemeToggle from "./LayoutHeaderThemeToggle.vue";
 import { getRoutes } from "@/utils/constants";
+import { useUserStore } from "@/store/modules/user";
+import { storeToRefs } from "pinia";
 
 const route = useRoute();
 
@@ -95,8 +95,9 @@ const showUserModal = ref(false);
 const showMobileMenu = ref(false);
 
 const ensAccount = ref({});
-const { loading, isConnected, shortAddress } = useWallet();
-const { blockie } = useWalletExtended();
+const { loading, isConnected, address, shortAddress, image } = storeToRefs(
+  useUserStore()
+);
 
 const routes = getRoutes().Home;
 
@@ -104,7 +105,7 @@ watch(route, () => {
   showMobileMenu.value = false;
 });
 
-watch(isConnected, () => {
-  if (!isConnected.value) showMobileMenu.value = false;
-});
+// watch(isConnected, () => {
+//   if (!isConnected) showMobileMenu.value = false;
+// });
 </script>

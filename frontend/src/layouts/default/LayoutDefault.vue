@@ -1,13 +1,13 @@
 <template>
   <div>
-    <LayoutLoader v-if="!loaded" />
+    <LayoutLoader />
     <LayoutFrame />
     <LayoutNetworkModal v-model="wrongNetwork" />
     <LayoutNotification />
 
     <div class="relative flex flex-col min-h-screen mx-auto">
       <LayoutHeader />
-      <LayoutBody @loaded="loaded = $event" />
+      <LayoutBody />
       <LayoutFooter />
     </div>
   </div>
@@ -22,11 +22,9 @@ import { LayoutNotification } from "./src/Notification";
 import { LayoutLoader } from "./src/Loader";
 import { LayoutNetworkModal } from "./src/NetworkModal";
 import { computed, ref } from "vue";
-import { useRoute } from "vue-router";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import CONFIG from "@/../../config";
 
-const route = useRoute();
 const { activeChainId } = useWallet();
 const loaded = ref(false);
 const wrongNetwork = computed(() => {

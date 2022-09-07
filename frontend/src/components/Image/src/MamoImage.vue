@@ -41,7 +41,7 @@ watch(loaded, () => {
 });
 </script>
 
-<style>
+<style scoped>
 * {
   shape-rendering: crispEdges;
 }
