@@ -5,19 +5,22 @@
     <div
       class="relative z-10 grid items-center max-w-6xl mx-auto mt-8 md:-mt-0 lgs:grid-cols-2"
     >
-      <img src="@/assets/images/image-1.png" alt="Magic Mondrian" />
-      <SaleOpen
-        v-if="whitelistEnabled || publicsaleEnabled"
-        v-model="quantity"
-        :whitelistEnabled="whitelistEnabled"
-        :contract="contract"
-        @mint="mintIfConnected"
-      />
-      <SaleClosed
-        v-else
-        :soldOut="contract.maxSupply === contract.totalSupply"
-        :loaded="loaded"
-      />
+      <template v-if="loaded">
+        <img src="@/assets/images/image-1.png" alt="Magic Mondrian" v-animate />
+
+        <SaleOpen
+          v-if="whitelistEnabled || publicsaleEnabled"
+          v-model="quantity"
+          :whitelistEnabled="whitelistEnabled"
+          :contract="contract"
+          @mint="mintIfConnected"
+        />
+        <SaleClosed
+          v-else
+          :loaded="loaded"
+          :soldOut="contract.maxSupply === contract.totalSupply"
+        />
+      </template>
     </div>
   </section>
   <MamoConnectWalletModal v-model="showConnectModal" />

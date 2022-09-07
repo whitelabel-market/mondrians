@@ -25,7 +25,10 @@ export function createPageLoadingGuard(router: Router) {
     return true;
   });
 
-  router.afterEach(async () => {
+  router.afterEach(async (to, from) => {
+    if (to.meta.loading === PAGE_LOADING.Manual) {
+      return true;
+    }
     // prevent flicker
     await promiseTimeout(400);
     appStore.setPageLoading(false);

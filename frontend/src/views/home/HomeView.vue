@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import CONFIG from "../../../../config";
 import { getContract } from "@/services/graphql/types";
@@ -24,12 +23,14 @@ import HomeRoadmap from "./components/HomeRoadmap.vue";
 import HomeRarity from "./components/HomeRarity.vue";
 import HomeInfo from "./components/HomeInfo.vue";
 import HomeFaq from "./components/HomeFaq.vue";
+import { useAppStore } from "@/store/modules/app";
 
 useHead({
   title: "A drop of custom digital paintings by Piet Mondrian",
 });
 
-let { setContract } = useContract();
+const { setPageLoading } = useAppStore();
+const { setContract } = useContract();
 
 const { onNewBlock } = useBlock();
 const { onFetchResponse, data, execute, isFinished } = useFetch(
@@ -50,13 +51,7 @@ const { onFetchResponse, data, execute, isFinished } = useFetch(
 
 onFetchResponse(() => {
   if (data?.value?.data?.contract) setContract(data.value.data.contract);
-});
-
-watch(isFinished, () => {
-  if (isFinished) {
-    // TODO: set store manually
-    console.log("page loaded");
-  }
+  setPageLoading(false);
 });
 
 onNewBlock(() => {

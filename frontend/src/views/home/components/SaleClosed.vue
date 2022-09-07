@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-col items-start gap-4 lgs:max-w-[454px]">
+  <div
+    class="flex flex-col items-start gap-4 lgs:max-w-[454px]"
+    v-animate.stagger
+  >
     <div v-if="!soldOut" class="flex flex-col items-start w-full gap-4">
       <div
         class="px-4 mx-auto text-5xl font-black text-center text-transparent md:text-6xl"

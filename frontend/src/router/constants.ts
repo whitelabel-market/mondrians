@@ -7,6 +7,7 @@ export enum PAGE_LOADING {
   Default,
   Always,
   Never,
+  Manual,
 }
 
 export const LAYOUT_DEFAULT = () =>

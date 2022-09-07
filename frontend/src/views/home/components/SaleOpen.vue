@@ -1,5 +1,8 @@
 <template>
-  <div class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px] space-y-2">
+  <div
+    class="lgs:ml-8 mt-6 lgs:mt-0 lgs:max-w-[454px] space-y-2"
+    v-animate.stagger
+  >
     <div
       class="mx-auto text-6xl font-black text-center text-transparent md:text-7xl"
     >
