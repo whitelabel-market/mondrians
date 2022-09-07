@@ -175,7 +175,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, toRaw, reactive, computed } from "vue";
+import { ref, watch, toRaw, reactive, computed } from "vue";
 import { ethers } from "ethers";
 import { notify } from "notiwind";
 import { useHead } from "@vueuse/head";
@@ -196,8 +196,6 @@ import { MamoTransactionModal } from "@/components/WalletModal";
 import { MamoLogoIcon } from "@/components/Icon";
 import { MamoViewHeader } from "@/components/ViewHeader";
 import { useUserStore } from "@/store/modules/user";
-
-const emit = defineEmits(["loaded"]);
 
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
 const presaleEnabled = useFlag(SalePhase.PreSale);

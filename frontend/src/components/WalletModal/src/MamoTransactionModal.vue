@@ -53,21 +53,7 @@ import { PolygonIcon } from "@/components/Icon";
 import { useCurrency } from "@/composables/useCurrency";
 
 defineEmits(["update:modelValue"]);
-
-defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true,
-  },
-  task: {
-    type: String,
-    required: false,
-  },
-  price: {
-    type: String,
-    required: false,
-  },
-});
+defineProps(["modelValue", "task", "price"]);
 
 const { maticToUsd } = useCurrency();
 </script>

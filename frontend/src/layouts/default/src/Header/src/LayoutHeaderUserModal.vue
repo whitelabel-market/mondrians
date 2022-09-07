@@ -128,7 +128,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { MamoModal } from "@/components/Modal";
 import { MamoButton } from "@/components/Button";
 import { PolygonIcon } from "@/components/Icon";

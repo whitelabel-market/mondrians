@@ -21,12 +21,11 @@ import { LayoutFrame } from "./src/Frame";
 import { LayoutNotification } from "./src/Notification";
 import { LayoutLoader } from "./src/Loader";
 import { LayoutNetworkModal } from "./src/NetworkModal";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import CONFIG from "@/../../config";
 
 const { activeChainId } = useWallet();
-const loaded = ref(false);
 const wrongNetwork = computed(() => {
   if (activeChainId.value) {
     return activeChainId.value !== CONFIG.chainList.chainId;

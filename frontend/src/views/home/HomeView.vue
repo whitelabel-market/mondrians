@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from "vue";
+import { watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import CONFIG from "../../../../config";
 import { getContract } from "@/services/graphql/types";
@@ -28,10 +28,6 @@ import HomeFaq from "./components/HomeFaq.vue";
 useHead({
   title: "A drop of custom digital paintings by Piet Mondrian",
 });
-
-const emits = defineEmits(["loaded"]);
-
-onMounted(() => emits("loaded", false));
 
 let { setContract } = useContract();
 
@@ -58,7 +54,8 @@ onFetchResponse(() => {
 
 watch(isFinished, () => {
   if (isFinished) {
-    emits("loaded", true);
+    // TODO: set store manually
+    console.log("page loaded");
   }
 });
 

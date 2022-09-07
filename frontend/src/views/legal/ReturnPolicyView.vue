@@ -100,16 +100,9 @@
 </template>
 <script lang="ts" setup>
 import { MamoViewHeader } from "@/components/ViewHeader";
-import { onMounted } from "vue";
 import { useHead } from "@vueuse/head";
-
-const emit = defineEmits(["loaded"]);
 
 useHead({
   title: "Return Policy",
-});
-
-onMounted(() => {
-  emit("loaded", true);
 });
 </script>

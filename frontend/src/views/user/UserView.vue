@@ -97,9 +97,6 @@ import { MamoButton, MamoShareButtonGroup } from "@/components/Button";
 
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 
-const emits = defineEmits(["loaded"]);
-emits("loaded", true); // avoids loading animation
-
 const hintVisible = ref(false);
 
 // ens handling

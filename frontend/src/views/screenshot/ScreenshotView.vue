@@ -10,13 +10,10 @@
 import { MamoTokenPrint } from "@/components/Token";
 import { useHead } from "@vueuse/head";
 import { useRoute } from "vue-router";
-import { onMounted } from "vue";
 
 useHead({
   title: "Screenshot",
 });
-
-const emit = defineEmits(["loaded"]);
 
 const route = useRoute();
 
@@ -25,6 +22,4 @@ const { createdAtTimestamp, owner, tokenId } = route.query as {
   owner: string;
   tokenId: string;
 };
-
-onMounted(() => emit("loaded", true));
 </script>

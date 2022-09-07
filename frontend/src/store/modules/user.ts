@@ -64,7 +64,6 @@ export const useUserStore = defineStore("mamo-user", () => {
 
   // methods
   const refreshState = async () => {
-    console.log("refreshState");
     provider.value = new ethers.providers.Web3Provider(
       toRaw(
         walletProvider.value
