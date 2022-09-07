@@ -1,4 +1,5 @@
 import { withLayoutDefault } from "@/router/helper/layoutHelper";
+import { PAGE_LOADING } from "@/router/constants";
 
 const title = "Legal";
 
@@ -16,6 +17,7 @@ export default withLayoutDefault({
       component: () => import("@/views/legal/TermsOfServiceView.vue"),
       meta: {
         title: "Terms Of Service",
+        loading: PAGE_LOADING.Always,
       },
     },
     {
@@ -24,6 +26,7 @@ export default withLayoutDefault({
       component: () => import("@/views/legal/PrivacyPolicyView.vue"),
       meta: {
         title: "Privacy Policy",
+        loading: PAGE_LOADING.Always,
       },
     },
     {
@@ -32,6 +35,7 @@ export default withLayoutDefault({
       component: () => import("@/views/legal/ReturnPolicyView.vue"),
       meta: {
         title: "Return Policy",
+        loading: PAGE_LOADING.Always,
       },
     },
   ],

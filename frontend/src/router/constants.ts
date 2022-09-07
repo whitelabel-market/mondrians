@@ -3,6 +3,12 @@ export enum PERMISSION_MODE {
   Owner,
 }
 
+export enum PAGE_LOADING {
+  Default,
+  Always,
+  Never,
+}
+
 export const LAYOUT_DEFAULT = () =>
   import("@/layouts/default/LayoutDefault.vue");
 
