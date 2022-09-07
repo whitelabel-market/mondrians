@@ -209,10 +209,12 @@ useHead({
   title: "Mint",
 });
 
-const mintPrice = computed(() =>
-  whitelistEnabled.value ? Price.whitelist : Price.default
-);
+const mintPrice = computed(() => {
+  const price = whitelistEnabled.value ? Price.whitelist : Price.default;
+  return mintQuantity.value * Number(price);
+});
 
+const mintQuantity = ref(1);
 const tokens = ref([]);
 const step = ref(0);
 const showMintTransactionModal = ref(false);
@@ -224,16 +226,13 @@ const finishedTasks = reactive({
   print: false,
 });
 
-emit("loaded", false);
-
-onMounted(() => {
-  emit("loaded", true);
-});
-
-const setQuantity = (quantity: number) => ({
-  quantity,
-  price: mintPrice.value,
-});
+const setQuantity = (quantity: number) => {
+  mintQuantity.value = quantity;
+  return {
+    quantity,
+    price: mintPrice.value,
+  };
+};
 
 const getVoucher = async function (mintData: {
   quantity: number;
@@ -245,9 +244,8 @@ const getVoucher = async function (mintData: {
 
 const mint = async function (mintData: any) {
   showMintTransactionModal.value = true;
-
   const mondrianInterface: MondrianInterface = new MondrianInterface(
-    toRaw(provider.value as ethers.providers.Web3Provider)
+    toRaw(provider) as ethers.providers.Web3Provider
   );
   let tx = null;
   try {
@@ -275,7 +273,7 @@ const setPrintData = (printData: any) => printData;
 const sendPrintPayment = async (printData: any) => {
   showPrintTransactionModal.value = true;
   const mondrianInterface: MondrianInterface = new MondrianInterface(
-    toRaw(provider.value as ethers.providers.Web3Provider)
+    toRaw(provider) as ethers.providers.Web3Provider
   );
   let tx = null;
   try {

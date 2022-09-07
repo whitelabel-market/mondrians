@@ -24,13 +24,19 @@
         <div
           class="flex items-start justify-between p-4 text-sm bg-white rounded dark:bg-neutral-900"
         >
-          <div>
+          <div class="w-full">
             <div v-if="task">
               <h3 class="font-bold">{{ task }}</h3>
             </div>
-            <div class="inline-flex items-center space-x-0.5" v-if="price">
-              <PolygonIcon class="block w-4 h-4" />
-              <span class="block">{{ price }} </span>
+            <div class="grid grid-cols-2 items-center" v-if="price">
+              <div class="inline-flex items-center space-x-0.5">
+                <PolygonIcon class="block w-4 h-4" />
+                <span class="block">{{ price }} </span>
+              </div>
+              <div class="inline-flex items-center space-x-0.5">
+                <span class="block">$</span>
+                <span class="block">{{ maticToUsd(price, 5) }} </span>
+              </div>
             </div>
           </div>
         </div>
@@ -44,6 +50,7 @@
 import { MamoModal } from "@/components/Modal";
 import { MamoLoader } from "@/components/Loader";
 import { PolygonIcon } from "@/components/Icon";
+import { useCurrency } from "@/composables/useCurrency";
 
 defineEmits(["update:modelValue"]);
 
@@ -61,4 +68,6 @@ defineProps({
     required: false,
   },
 });
+
+const { maticToUsd } = useCurrency();
 </script>

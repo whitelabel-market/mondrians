@@ -1,12 +1,7 @@
 <template>
   <MamoModal
     :modelValue="modelValue"
-    @update:modelValue="
-      ($event) => {
-        $emit('update:modelValue', $event);
-        emailAddress = '';
-      }
-    "
+    @update:modelValue="emit('update:modelValue', $event)"
   >
     <div class="flex flex-col p-4 space-y-4 md:p-8">
       <div class="flex items-center self-center space-x-2">
@@ -115,7 +110,7 @@
               <span>
                 <span>$&nbsp;</span>
                 <span class="italic font-semibold">
-                  {{ usdBalance }}
+                  {{ maticToUsd(balance) }}
                 </span>
               </span>
             </div>
@@ -123,16 +118,7 @@
         </div>
 
         <div>
-          <MamoButton
-            size="sm"
-            full-width
-            @click="
-              () => {
-                $emit('update:modelValue', false);
-                signOut();
-              }
-            "
-          >
+          <MamoButton size="sm" full-width @click="doDisconnect">
             Disconnect</MamoButton
           >
         </div>
@@ -142,7 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { MamoModal } from "@/components/Modal";
 import { MamoButton } from "@/components/Button";
 import { PolygonIcon } from "@/components/Icon";
@@ -156,14 +142,13 @@ import {
   CalendarIcon,
   SwitchHorizontalIcon,
 } from "@heroicons/vue/outline";
-import { useFetch } from "@vueuse/core";
-import { getTokenHourData } from "@/services/graphql/types";
 import CONFIG from "../../../../../../../config";
 import { useClipboard } from "@vueuse/core";
 import { useUserStore } from "@/store/modules/user";
 import { storeToRefs } from "pinia";
+import { useCurrency } from "@/composables/useCurrency";
 
-defineEmits(["update:modelValue", "click"]);
+const emit = defineEmits(["update:modelValue", "click"]);
 
 defineProps({
   modelValue: {
@@ -187,10 +172,8 @@ defineProps({
 const userStore = useUserStore();
 const { disconnect } = userStore;
 const { address, balance } = storeToRefs(userStore);
-
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
-const maticPrice = ref<string>("");
-const emailAddress = ref("");
+const { maticToUsd } = useCurrency();
 
 const routes = {
   "My Collection": {
@@ -208,39 +191,8 @@ const routes = {
   Print: { icon: PrinterIcon, to: `print` },
 };
 
-const usdBalance = computed<string>(() => {
-  if (balance && maticPrice.value) {
-    return (Number(balance) * Number(maticPrice.value)).toFixed(2);
-  }
-  return "0.00";
-});
-
-const { data, execute, onFetchResponse } = useFetch(
-  CONFIG.subgraph.uniswapPolygon,
-  {
-    timeout: 10000,
-  }
-)
-  .post(
-    JSON.stringify({
-      query: getTokenHourData,
-    })
-  )
-  .json();
-
-const signOut = (): void => {
-  setTimeout(disconnect, 500);
+const doDisconnect = async () => {
+  await disconnect();
+  emit("update:modelValue", false);
 };
-
-onFetchResponse(() => {
-  if (data?.value?.data?.tokenHourDatas?.length) {
-    maticPrice.value = data.value.data.tokenHourDatas[0].close;
-  }
-});
-
-// watch(balance, async () => {
-//   if (Number(balance.value) > 0) {
-//     execute();
-//   }
-// });
 </script>
