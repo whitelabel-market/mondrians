@@ -31,16 +31,12 @@ import { MamoButton } from "@/components/Button";
 import { Providers } from "@whitelabel-solutions/wallet-connector-vue";
 import type { IProvider } from "@whitelabel-solutions/wallet-connector-vue";
 import { useUserStore } from "@/store/modules/user";
+import { useAppStore } from "@/store/modules/app";
 
-const emits = defineEmits(["update:modelValue", "connected"]);
+const emits = defineEmits(["update:modelValue"]);
+defineProps(["modelValue"]);
 
-defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true,
-  },
-});
-
+const { setShowMobileMenu } = useAppStore();
 const { connectWallet } = useUserStore();
 
 const { MetaMaskProvider, WalletLinkProvider, WalletConnectProvider } =
@@ -51,11 +47,11 @@ const loading = ref(false);
 const tryConnect = async (provider: IProvider) => {
   await connectWallet(provider);
   emits("update:modelValue", false);
-  emits("connected");
+  setShowMobileMenu(false);
 };
 </script>
 
-<style>
+<style lang="postcss">
 #logo svg {
   @apply w-6 h-6;
 }

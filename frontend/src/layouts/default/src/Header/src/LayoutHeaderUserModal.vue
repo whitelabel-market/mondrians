@@ -1,14 +1,14 @@
 <template>
   <MamoModal
     :modelValue="modelValue"
-    @update:modelValue="emit('update:modelValue', $event)"
+    @update:modelValue="emits('update:modelValue', $event)"
   >
     <div class="flex flex-col p-4 space-y-4 md:p-8">
       <div class="flex items-center self-center space-x-2">
         <img :src="image" :alt="address" class="object-cover w-8 h-8 rounded" />
         <div>
           <h4 class="block text-xl font-bold slashed-zero leading-0">
-            {{ ensAccount?.name ? "@" + ensAccount.name : privateAddress }}
+            {{ ensAccount?.name ? "@" + ensAccount.name : shortAddress }}
           </h4>
           <a
             v-if="ensAccount?.name"
@@ -25,7 +25,7 @@
           color="crimson"
           size="sm"
           :to="`/mint`"
-          @click.prevent="$emit('update:modelValue', false)"
+          @click.prevent="emits('update:modelValue', false)"
           ><ViewGridAddIcon class="w-4 h-4" />
           <span class="block">Create my Magic Mondrian</span>
         </MamoButton>
@@ -36,9 +36,9 @@
       >
         <li v-for="(link, name) in routes" :key="name" class="block">
           <router-link
+            @click="emits('update:modelValue', false)"
             class="flex items-center justify-start space-x-2 link"
-            :to="'/user/' + address + '/' + link.to"
-            @click.prevent="$emit('update:modelValue', false)"
+            :to="isConnected ? '/user/' + address + '/' + link.to : '/'"
           >
             <component :is="link.icon" class="w-5 h-5" />
             <span>{{ name }}</span>
@@ -59,7 +59,7 @@
               />
               <div>
                 <h4 class="block font-semibold slashed-zero">
-                  {{ privateAddress }}
+                  {{ shortAddress }}
                 </h4>
               </div>
             </div>
@@ -108,7 +108,7 @@
 
               <SwitchHorizontalIcon class="w-3 h-3" />
               <span>
-                <span>$&nbsp;</span>
+                <span>$</span>
                 <span class="italic font-semibold">
                   {{ maticToUsd(balance) }}
                 </span>
@@ -142,35 +142,19 @@ import {
   SwitchHorizontalIcon,
 } from "@heroicons/vue/outline";
 import CONFIG from "../../../../../../../config";
-import { useClipboard } from "@vueuse/core";
+import { promiseTimeout, useClipboard } from "@vueuse/core";
 import { useUserStore } from "@/store/modules/user";
 import { storeToRefs } from "pinia";
 import { useCurrency } from "@/composables/useCurrency";
 
-const emit = defineEmits(["update:modelValue", "click"]);
+const emits = defineEmits(["update:modelValue"]);
 
-defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true,
-  },
-  privateAddress: {
-    type: String,
-    default: "",
-  },
-  image: {
-    type: String,
-    default: "",
-  },
-  ensAccount: {
-    type: Object,
-    default: () => ({}),
-  },
-});
-
+defineProps(["modelValue", "ensAccount"]);
 const userStore = useUserStore();
 const { disconnect } = userStore;
-const { address, balance } = storeToRefs(userStore);
+const { image, shortAddress, address, balance, isConnected } =
+  storeToRefs(userStore);
+
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
 const { maticToUsd } = useCurrency();
 
@@ -191,7 +175,9 @@ const routes = {
 };
 
 const doDisconnect = async () => {
-  await disconnect();
-  emit("update:modelValue", false);
+  emits("update:modelValue", false);
+  await promiseTimeout(50);
+  // call disconnect after emitting modelValue to fix screen locking
+  void disconnect();
 };
 </script>

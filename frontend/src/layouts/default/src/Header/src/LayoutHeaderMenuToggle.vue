@@ -3,10 +3,10 @@
     id="mobile-control"
     class="relative w-10 transition-all pointer-events-auto h-7 lg:hidden"
     aria-label="mobile navigation"
-    :aria-expanded="show"
+    :aria-expanded="getShowMobileMenu"
     aria-controls="mobile-controls"
-    :class="{ 'menu-active': show }"
-    @click="$emit('click')"
+    :class="{ 'menu-active': getShowMobileMenu }"
+    @click.prevent="toggleMobileMenu"
   >
     <span></span>
     <span></span>
@@ -15,8 +15,12 @@
 </template>
 
 <script setup lang="ts">
-defineEmits(["click"]);
-defineProps({ show: { type: Boolean, required: true } });
+import { useAppStore } from "@/store/modules/app";
+import { storeToRefs } from "pinia";
+
+const appStore = useAppStore();
+const { toggleMobileMenu } = appStore;
+const { getShowMobileMenu } = storeToRefs(appStore);
 </script>
 
 <style scoped>

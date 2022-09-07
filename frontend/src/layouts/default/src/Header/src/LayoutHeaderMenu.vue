@@ -1,5 +1,5 @@
 <template>
-  <TransitionRoot appear :show="modelValue" as="template">
+  <TransitionRoot appear :show="getShowMobileMenu" as="template">
     <Dialog as="div">
       <TransitionChild
         as="template"
@@ -23,7 +23,6 @@
                 <router-link
                   class="block outline-none focus:outline-none"
                   :to="to"
-                  @click="emit('update:modelValue', false)"
                   >{{ name }}</router-link
                 >
               </li>
@@ -34,7 +33,7 @@
                 :center="false"
                 size="sm"
                 :loading="loading"
-                @click.prevent="$emit('click')"
+                @click.prevent="$emit('user')"
                 color="blank"
                 flat
               >
@@ -46,7 +45,7 @@
                   />
                   <span
                     class="text-sm font-black lowercase transition-colors duration-200 text-neutral-800 dark:text-neutral-200 slashed-zero"
-                    >{{ ensAccount?.name || privateAddress }}</span
+                    >{{ ensAccount?.name || shortAddress }}</span
                   >
                 </div>
               </MamoButton>
@@ -84,28 +83,29 @@ import LayoutHeaderThemeToggle from "./LayoutHeaderThemeToggle.vue";
 import { getRoutes } from "@/utils/constants";
 import { useUserStore } from "@/store/modules/user";
 import { storeToRefs } from "pinia";
+import { useAppStore } from "@/store/modules/app";
+import { watch } from "vue";
 
-const emit = defineEmits(["update:modelValue", "connect", "click"]);
+const emit = defineEmits(["connect", "user"]);
 
 defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  privateAddress: {
-    type: String,
-    required: true,
-  },
   ensAccount: {
     type: Object,
   },
 });
+const appStore = useAppStore();
+const { setShowMobileMenu } = appStore;
+const { getShowMobileMenu } = storeToRefs(appStore);
 
-const { address, loading, isConnected } = storeToRefs(useUserStore());
+const { address, loading, shortAddress, image, isConnected } = storeToRefs(
+  useUserStore()
+);
 
 const routes = getRoutes().Home;
+
+watch(isConnected, async () => {
+  if (!isConnected.value) {
+    setShowMobileMenu(false);
+  }
+});
 </script>
