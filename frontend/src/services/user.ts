@@ -1,32 +1,46 @@
-import { usePost } from "@/composables/useRequest";
+import { useGet, usePost } from "@/composables/useRequest";
 
 enum Routes {
   GetLoginChallenge = "/login",
   SendLoginResponse = "/callback",
+  GetVoucher = "v1/whitelist/voucher",
 }
 
 export interface GetLoginChallengeResponse {
-  message: string;
+  message?: string;
+  jwt?: string;
   csrfToken: string;
-  jwt: string;
 }
 
 export interface SendLoginResponseResponse {
   jwt: string;
 }
 
-/**
- * @description: user request login challenge
- */
-export function getLoginChallenge() {
-  return usePost<GetLoginChallengeResponse>(Routes.GetLoginChallenge);
+export interface GetVoucherResponse {
+  signature: string;
 }
 
-/**
- * @description: user responses to login challenge
- */
-export function sendLoginResponse(signature: string) {
-  return usePost<SendLoginResponseResponse>(Routes.SendLoginResponse, {
-    signature,
-  });
-}
+export default {
+  /**
+   * @description: user request login challenge
+   */
+  getLoginChallenge() {
+    return usePost<GetLoginChallengeResponse>(Routes.GetLoginChallenge);
+  },
+
+  /**
+   * @description: user responses to login challenge
+   */
+  sendLoginResponse(signature: string) {
+    return usePost<SendLoginResponseResponse>(Routes.SendLoginResponse, {
+      payload: { signature },
+    }).execute();
+  },
+
+  /**
+   * @description: get user voucher
+   */
+  getVoucher() {
+    return useGet<GetVoucherResponse>(Routes.GetVoucher);
+  },
+};

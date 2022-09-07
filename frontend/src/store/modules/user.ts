@@ -2,10 +2,8 @@ import { defineStore } from "pinia";
 import { store } from "@/store";
 
 import { ethers } from "ethers";
-import {
-  getLoginChallenge,
+import userService, {
   GetLoginChallengeResponse,
-  sendLoginResponse,
   SendLoginResponseResponse,
 } from "@/services/user";
 import { computed, ref, shallowRef, toRaw, unref } from "vue";
@@ -74,6 +72,7 @@ export const useUserStore = defineStore("mamo-user", () => {
       wallet.address.value === ""
         ? (await provider.value.listAccounts())[0]
         : wallet.address.value;
+    xViewerAddress.value = walletAddress;
     signer.value = provider.value.getSigner();
     balance.value = await getBalance(walletAddress);
     image.value = makeBlockie(walletAddress);
@@ -114,18 +113,21 @@ export const useUserStore = defineStore("mamo-user", () => {
   };
 
   const _getChallengeSignatureAction = async function () {
-    const { data } = await getLoginChallenge();
+    const { data } = await userService.getLoginChallenge();
     const { csrfToken, jwt, message } = unref(
       data
     ) as GetLoginChallengeResponse;
-    const signature = await signer.value?.signMessage(message);
-    bearerToken.value = jwt;
+    if (jwt) {
+      bearerToken.value = jwt;
+    }
     xCsrfToken.value = csrfToken;
-    return signature;
+    if (message) {
+      return signer.value?.signMessage(message);
+    }
   };
 
   const _sendChallengeSignature = async function (signature: string) {
-    const { data } = await sendLoginResponse(signature);
+    const { data } = await userService.sendLoginResponse(signature);
     const { jwt } = unref(data) as SendLoginResponseResponse;
     bearerToken.value = jwt;
   };

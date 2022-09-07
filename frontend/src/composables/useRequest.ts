@@ -3,33 +3,40 @@ import {
   createFetch,
   isObject,
   MaybeRef,
+  UseFetchOptions,
   UseFetchReturn,
 } from "@vueuse/core";
 import { computed, unref } from "vue";
 import { LocationQueryRaw, stringifyQuery } from "vue-router";
-import { useUserStoreWithOut } from "@/store/modules/user";
+import { useUserStore } from "@/store/modules/user";
 
 import CONFIG from "../../../config";
+import { storeToRefs } from "pinia";
+
+interface UseRequestOptionsQuery extends UseFetchOptions {
+  query?: MaybeRef<unknown>;
+}
+
+interface UseRequestOptionsPayload extends UseFetchOptions {
+  payload?: MaybeRef<unknown>;
+}
 
 const useRequest = createFetch({
   baseUrl: CONFIG.backend.url,
   options: {
     timeout: 10000,
-    immediate: false,
-    async beforeFetch({ options, cancel }: BeforeFetchContext) {
-      const { xCsrf, xViewerAddress, xCsrfToken, bearerToken } =
-        useUserStoreWithOut();
+    async beforeFetch({ options }: BeforeFetchContext) {
+      const { xCsrf, xViewerAddress, xCsrfToken, bearerToken } = storeToRefs(
+        useUserStore()
+      );
 
-      if (!xCsrfToken && !bearerToken) {
-        cancel();
-      }
       const headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
-        ["x-csrf"]: xCsrf,
-        ["x-viewer-address"]: xViewerAddress,
-        ["x-csrf-token"]: xCsrfToken ?? null,
-        Authorization: bearerToken ? `Bearer ${bearerToken}` : null,
+        ["x-csrf"]: xCsrf.value,
+        ["x-viewer-address"]: xViewerAddress.value,
+        ["x-csrf-token"]: xCsrfToken.value ?? null,
+        Authorization: bearerToken.value ? `Bearer ${bearerToken.value}` : null,
       };
       Object.assign(options.headers, headers);
       return { options };
@@ -44,12 +51,13 @@ const useRequest = createFetch({
 /**
  * get
  * @param url url
- * @param query query
+ * @param options options
  */
 export function useGet<T = unknown>(
   url: MaybeRef<string>,
-  query?: MaybeRef<unknown>
-): Promise<UseFetchReturn<T>> {
+  options: UseRequestOptionsQuery = {}
+): UseFetchReturn<T> {
+  const { query, ...requestOptions } = options;
   const _url = computed(() => {
     const _url = unref(url);
     const _query = unref(query);
@@ -59,41 +67,44 @@ export function useGet<T = unknown>(
     return `${_url}${queryString ? "?" : ""}${queryString}`;
   });
 
-  return useRequest<T>(_url).json().execute();
+  return useRequest<T>(_url, requestOptions).json();
 }
 
 /**
  * post
  * @param url url
- * @param payload payload
+ * @param options options
  */
 export function usePost<T = unknown>(
   url: MaybeRef<string>,
-  payload?: MaybeRef<unknown>
-): Promise<UseFetchReturn<T>> {
-  return useRequest<T>(url).post(payload).json().execute();
+  options: UseRequestOptionsPayload = {}
+): UseFetchReturn<T> {
+  const { payload, ...requestOptions } = options;
+  return useRequest<T>(url, requestOptions).post(payload).json();
 }
 
 /**
  * put
  * @param url url
- * @param payload payload
+ * @param options options
  */
 export function usePut<T = unknown>(
   url: MaybeRef<string>,
-  payload?: MaybeRef<unknown>
+  options: UseRequestOptionsPayload = {}
 ): Promise<UseFetchReturn<T>> {
-  return useRequest<T>(url).put(payload).json().execute();
+  const { payload, ...requestOptions } = options;
+  return useRequest<T>(url, requestOptions).put(payload).json().execute();
 }
 
 /**
  * delete
  * @param url url
- * @param payload payload
+ * @param options options
  */
 export function useDelete<T = unknown>(
   url: MaybeRef<string>,
-  payload?: MaybeRef<unknown>
+  options: UseRequestOptionsPayload = {}
 ): Promise<UseFetchReturn<T>> {
-  return useRequest<T>(url).delete(payload).json().execute();
+  const { payload, ...requestOptions } = options;
+  return useRequest<T>(url, requestOptions).delete(payload).json().execute();
 }

@@ -175,11 +175,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, toRaw, reactive, computed } from "vue";
+import { ref, watch, toRaw, reactive, computed, unref } from "vue";
 import { ethers } from "ethers";
 import { notify } from "notiwind";
 import { useHead } from "@vueuse/head";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
+import userService, { GetVoucherResponse } from "@/services/user";
 import { authInterface } from "@/services/BackendInterface";
 import MondrianInterface from "@/services/MondrianInterface";
 import useSubgraph from "@/composables/useSubgraph";
@@ -227,8 +228,8 @@ const finishedTasks = reactive({
 const setQuantity = (quantity: number) => {
   mintQuantity.value = quantity;
   return {
-    quantity,
-    price: mintPrice.value,
+    quantity: quantity,
+    price: String(mintPrice.value),
   };
 };
 
@@ -236,7 +237,8 @@ const getVoucher = async function (mintData: {
   quantity: number;
   price: string;
 }) {
-  const signature = await authInterface.getVoucher();
+  const { data } = await userService.getVoucher();
+  const { signature } = unref(data) as GetVoucherResponse;
   return { ...mintData, signature };
 };
 
@@ -247,6 +249,7 @@ const mint = async function (mintData: any) {
   );
   let tx = null;
   try {
+    console.log("mintData", mintData);
     tx = await mondrianInterface.mint(mintData, { txWait: false });
   } finally {
     showMintTransactionModal.value = false;

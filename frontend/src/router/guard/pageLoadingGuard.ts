@@ -25,7 +25,7 @@ export function createPageLoadingGuard(router: Router) {
     return true;
   });
 
-  router.afterEach(async (to, from) => {
+  router.afterEach(async (to) => {
     if (to.meta.loading === PAGE_LOADING.Manual) {
       return true;
     }
