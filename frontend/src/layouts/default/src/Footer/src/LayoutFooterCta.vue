@@ -5,9 +5,9 @@
     <div
       v-if="!presaleOpen"
       class="flex flex-col justify-center mx-auto space-y-8"
-      v-animate.stagger
     >
       <h2
+        v-animate
         class="flex flex-col items-center text-3xl font-black text-center uppercase md:text-4xl"
       >
         Get your
@@ -16,7 +16,7 @@
         />
         NFT now
       </h2>
-      <div class="mx-auto">
+      <div class="mx-auto" v-animate>
         <MamoButton color="crimson" to="/mint">Create your own</MamoButton>
       </div>
     </div>

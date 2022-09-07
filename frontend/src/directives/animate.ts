@@ -14,9 +14,8 @@ const mounted = (el: Element, binding: any) => {
     },
     scrollTrigger: {
       trigger: el,
-      start: "center bottom",
+      start: "center bottom-=240px",
     },
-    overwrite: true,
     duration,
     ease: "Power1.inOut",
     ...binding?.value,

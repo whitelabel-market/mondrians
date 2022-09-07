@@ -9,8 +9,8 @@
         v-animate.stagger
       >
         <div class="max-w-2xl space-y-6 md:col-span-3">
-          <h2 class="section-title">Roadmap</h2>
-          <p class="">
+          <h2 class="section-title" v-animate>Roadmap</h2>
+          <p class="" v-animate>
             This roadmap outlines our goals and where we want to take
             Mondrian’s. We have a lot of ideas and concepts that we are working
             on.

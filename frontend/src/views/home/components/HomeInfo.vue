@@ -6,10 +6,10 @@
     <div
       class="container grid items-center max-w-4xl gap-12 px-8 mx-auto md:grid-cols-2 md:gap-20"
     >
-      <div class="space-y-6" v-animate.stagger>
-        <div class="section-title">Creator</div>
+      <div class="space-y-6">
+        <div class="section-title" v-animate>Creator</div>
 
-        <div class="space-y-1">
+        <div class="space-y-1" v-animate>
           <p>
             I’m Piet Mondrian, a full time painter and art theoretician who is
             regarded as one of the greatest artists of the 20th century. I have
@@ -21,7 +21,7 @@
             <a class="font-medium text-candlelight" href="">private Discord</a>.
           </p>
         </div>
-        <div>
+        <div v-animate>
           <MamoButton> Follow on Twitter </MamoButton>
         </div>
       </div>

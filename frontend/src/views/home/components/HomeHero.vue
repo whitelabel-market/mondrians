@@ -1,9 +1,9 @@
 <template>
   <section
-    class="transition-colors duration-200 bg-white mondrian-border-b dark:bg-neutral-900"
+    class="transition-colors duration-200 bg-white mondrian-border-b dark:bg-neutral-900 !py-0"
   >
     <div
-      class="relative z-10 grid items-center max-w-6xl mx-auto mt-8 md:-mt-0 lgs:grid-cols-2"
+      class="relative z-10 grid items-center max-w-6xl mx-auto min-h-screen pb-20 pt-40 lgs:grid-cols-2"
     >
       <template v-if="loaded">
         <img src="@/assets/images/image-1.png" alt="Magic Mondrian" v-animate />

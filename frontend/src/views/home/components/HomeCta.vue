@@ -9,13 +9,16 @@
       <div
         class="relative z-50 flex flex-col items-center justify-end w-full p-8 mx-auto text-center translate-y-20 bg-white rounded-t-full md:max-w-lg mondrian-border-b h-72"
       >
-        <div class="w-2/3 space-y-8" v-animate.stagger>
-          <h2 class="text-xl font-black uppercase md:text-3xl text-neutral-900">
+        <div class="w-2/3 space-y-8">
+          <h2
+            class="text-xl font-black uppercase md:text-3xl text-neutral-900"
+            v-animate
+          >
             Get your
             <MamoLogoIcon class="!text-xl md:!text-3xl text-neutral-900" /> NFT
             now
           </h2>
-          <div>
+          <div v-animate>
             <MamoButton class="mx-auto" :fullWidth="false"
               >View on Opensea
             </MamoButton>

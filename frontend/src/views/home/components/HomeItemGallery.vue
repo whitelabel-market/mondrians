@@ -14,16 +14,16 @@
           "
           :key="'mobile ' + index"
           ref="innerMobile"
+          v-animate.stagger
         >
           <div
-            class="flex-grow-0 flex-shrink-0 border-4 border-black shadow-xl"
+            class="flex-grow-0 flex-shrink-0"
             v-for="col in 5"
-            v-animate.stagger
             :key="'mobile ' + col + index"
           >
             <img
               :src="require('@/assets/images/pattern-' + (col + row) + '.png')"
-              class="w-40"
+              class="w-40 border-4 border-black shadow-xl"
               :alt="'Mondrians Item ' + (col + row)"
             />
           </div>
@@ -37,17 +37,17 @@
             index % 2 === 0 ? '-ml-40 justify-start' : '-mr-40 justify-end'
           "
           :key="'desktop ' + index"
-          v-animate.stagger
           ref="innerDesktop"
+          v-animate.stagger
         >
           <div
-            class="flex-grow-0 flex-shrink-0 border-4 border-black shadow-xl"
+            class="flex-grow-0 flex-shrink-0"
             v-for="col in 7"
             :key="'desktop ' + col + index"
           >
             <img
               :src="require('@/assets/images/pattern-' + (col + row) + '.png')"
-              class="w-56"
+              class="w-56 border-4 border-black shadow-xl"
               :alt="'Mondrians Item ' + (col + row)"
             />
           </div>
@@ -77,6 +77,7 @@ const slideOnScroll = (els: Array<any>, by: number) =>
           trigger: outer.value,
           scrub: 0,
           start: "top bottom",
+          end: "bottom top",
         },
       }
     );

@@ -5,8 +5,13 @@
   >
     <div class="container max-w-4xl px-8 mx-auto space-y-8">
       <h2 class="text-center section-title" v-animate>FAQ</h2>
-      <ul class="space-y-4" v-animate.stagger>
-        <li v-for="(question, index) in questions" :key="index" class="block">
+      <ul class="space-y-4">
+        <li
+          v-for="(question, index) in questions"
+          :key="index"
+          class="block"
+          v-animate
+        >
           <MamoDisclosure>
             <template #question> {{ question }}</template>
             <template #answer>
