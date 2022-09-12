@@ -7,56 +7,46 @@
         class="container flex flex-col items-center justify-start flex-1 w-full h-full mx-auto space-y-12"
       >
         <img
-          :alt="route.params.id"
-          v-if="route?.params?.id"
-          :src="makeBlockie(route.params.id)"
+          :alt="user.displayName"
+          :src="user.image"
           class="object-cover w-24 h-24 border-4 border-black rounded"
         />
 
         <div class="flex flex-col items-center space-y-4">
           <div class="text-center text-neutral-900">
-            <div
-              class="flex items-center space-x-2"
-              v-if="ensAccount || /^0x[a-fA-F0-9]{40}$/g.test(route.params.id)"
-            >
+            <div class="flex items-center space-x-2">
               <h1 class="text-2xl font-bold slashed-zero">
-                {{ getShortAddress(ensAccount?.id || route.params.id) }}
+                {{ getShortAddress(user.address) }}
               </h1>
+
               <MamoButton
                 only-icon
                 size="xs"
                 flat
                 color="blank"
                 :tooltip="copied ? 'Copied' : 'Copy'"
-                @click.prevent="
-                  copy(
-                    ensAccount?.id ||
-                      (route.params.id.length
-                        ? route.params.id[0]
-                        : route.params.id)
-                  )
-                "
+                @click.prevent="copy(user.address)"
               >
                 <ClipboardCopyIcon class="w-6 h-6"></ClipboardCopyIcon>
               </MamoButton>
             </div>
 
             <a
-              v-if="ensAccount?.domains?.[0]"
+              v-if="user.hasEns"
               class="block mx-auto"
               target="_blank"
-              :href="`${CONFIG.ensBaseUrl}${ensAccount.id}`"
-              >{{ "@" + ensAccount.domains[0].name }}</a
+              :href="`${CONFIG.ensBaseUrl}${user.ensName}`"
+              >{{ "@" + user.ensName }}</a
             >
           </div>
 
           <div
             class="space-x-4 flex items-center justify-start transform -translate-x-0.5 -translate-y-0.5"
-            v-if="route?.params?.id"
           >
-            <MamoShareButtonGroup
-              :address="route.params.id"
-              :hintVisible="hintVisible"
+            <ShareButtonGroup
+              :address="user.address"
+              :is-current="user.isCurrent"
+              :is-meta-mask="walletProvider?.isMetaMask"
             />
           </div>
         </div>
@@ -77,88 +67,107 @@
       </div>
     </header>
     <section class="container justify-center px-8 mx-auto sm:px-4">
-      <router-view @showHint="hintVisible = true"></router-view>
+      <router-view />
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, provide, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import {
+  computed,
+  ComputedRef,
+  provide,
+  ShallowRef,
+  shallowRef,
+  watch,
+} from "vue";
+import { ethers } from "ethers";
 import { ClipboardCopyIcon } from "@heroicons/vue/outline";
-import { useClipboard, useFetch } from "@vueuse/core";
-import makeBlockie from "ethereum-blockies-base64";
+import { useClipboard } from "@vueuse/core";
+import { useRouteParams } from "@vueuse/router";
 import { useHead } from "@vueuse/head";
+import makeBlockie from "ethereum-blockies-base64";
 import CONFIG from "../../../../config";
-import { getEnsAccount, getEnsAccountReverse } from "@/services/graphql/types";
 import { getShortAddress } from "@/utils/ethereum";
-import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
-import { MamoButton, MamoShareButtonGroup } from "@/components/Button";
+import { USER } from "@/utils/types";
+import { MamoButton } from "@/components/Button";
+import { useENS } from "@/composables/useENS";
+import { useAppStore } from "@/store/modules/app";
+import { storeToRefs } from "pinia";
+import { useUserStore } from "@/store/modules/user";
+import ShareButtonGroup from "@/views/user/components/ShareButtonGroup.vue";
+
+export interface User {
+  image: string;
+  address: string;
+  displayName: string;
+  ensName: string | null;
+  hasEns: boolean;
+  isCurrent: ComputedRef<boolean>;
+}
 
 const { copy, copied } = useClipboard({ copiedDuring: 2000 });
+const {
+  isConnectedAndLoggedIn,
+  address: currentAddress,
+  walletProvider,
+} = storeToRefs(useUserStore());
 
-const hintVisible = ref(false);
+const { setPageLoading } = useAppStore();
 
 // ens handling
-const route = useRoute();
-const ensAccount = ref<EnsAccount>();
-provide(ENS_ACCOUNT, ensAccount);
+const userIdParam = useRouteParams("id");
+const ens = useENS();
+
+const user: ShallowRef<User> = shallowRef<User>({
+  image: "",
+  address: "",
+  displayName: "",
+  ensName: "",
+  hasEns: false,
+  isCurrent: computed(
+    () =>
+      isConnectedAndLoggedIn.value &&
+      currentAddress.value === user.value.address
+  ),
+});
 
 useHead({
-  title: (ensAccount.value?.domains?.[0] ||
-    ensAccount.value?.id ||
-    route.params.id) as string,
+  title: user.value.displayName,
 });
-
-const { post, onFetchResponse, data } = useFetch(CONFIG.subgraph.ens, {
-  timeout: 10000,
-  immediate: false,
-}).json();
-
-onFetchResponse(() => {
-  if (data?.value?.data?.account?.domains.length > 0) {
-    ensAccount.value = data.value.data.account;
-  } else if (data?.value?.data?.domains?.[0]?.owner?.domains.length > 0) {
-    ensAccount.value = data.value.data.domains[0].owner;
-  } else {
-    ensAccount.value = {
-      id: (route.params.id as string).toLowerCase(),
-      domains: [],
-    };
-  }
-});
-
-const isValidEthAddress = computed(() =>
-  /^0x[a-fA-F0-9]{40}$/g.test(route.params.id as string)
-);
-const isEnsName = computed(() => (route.params.id as string).endsWith(".eth"));
-const isCurrentUserRoute = computed(
-  () =>
-    route.params.id &&
-    ensAccount.value &&
-    route.params.id === ensAccount.value.id
-);
 
 watch(
-  route,
-  () => {
-    hintVisible.value = false;
-    if (route?.params?.id)
-      post(
-        JSON.stringify({
-          query: isValidEthAddress.value ? getEnsAccount : getEnsAccountReverse,
-          variables: {
-            address: isValidEthAddress.value
-              ? (route.params.id as string).toLowerCase()
-              : isEnsName.value
-              ? (route.params.id as string).toLowerCase()
-              : (route.params.id as string) + ".eth",
-          },
-        })
-      ).execute();
+  userIdParam,
+  async () => {
+    setPageLoading(true);
+    const isEns = ens.isName(userIdParam.value);
+
+    if (!isEns && !ethers.utils.isAddress(userIdParam.value)) {
+      console.log("Invalid id route param");
+    }
+
+    const [address, ensName, image] = await Promise.all([
+      isEns ? ens.resolveName(userIdParam.value) : userIdParam.value,
+      isEns ? userIdParam.value : ens.lookupAddress(userIdParam.value),
+      ens.getAvatar(userIdParam.value),
+    ]);
+
+    const hasEns = ens.isName(ensName);
+
+    user.value = {
+      ...user.value,
+      image: image || makeBlockie(address),
+      displayName: ensName || address,
+      ensName,
+      hasEns,
+      address,
+    };
+    setPageLoading(false);
   },
-  { deep: true, immediate: true }
+  { immediate: true }
 );
+
+provide(USER, user);
 
 const tabs = computed(() => {
   const tabs = {
@@ -171,6 +180,6 @@ const tabs = computed(() => {
     Print: "print",
   };
 
-  return isCurrentUserRoute.value ? { ...tabs, ...auth } : tabs;
+  return user.value.isCurrent.value ? { ...tabs, ...auth } : tabs;
 });
 </script>

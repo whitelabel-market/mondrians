@@ -1,11 +1,9 @@
 import type { App } from "vue";
 import { createPinia } from "pinia";
 import { WalletConnectorVue } from "@whitelabel-solutions/wallet-connector-vue";
-import CONFIG from "@/../../config";
+import CONFIG from "../../../config";
 
-const store = createPinia();
-
-export const wallet = WalletConnectorVue({
+const wallet = WalletConnectorVue({
   appName: "Magic Mondrian",
   infuraId: CONFIG.infura.id,
   chainId: CONFIG.chainId,
@@ -14,6 +12,8 @@ export const wallet = WalletConnectorVue({
     rpc: { [CONFIG.chainId]: CONFIG.chainList.rpc[2] },
   },
 });
+
+const store = createPinia();
 
 export function setupStore(app: App<Element>) {
   app.use(wallet);

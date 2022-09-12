@@ -39,6 +39,7 @@
               flat
             >
               <img
+                v-if="imageExists"
                 :src="image"
                 :alt="address"
                 class="object-cover w-6 h-6 rounded-full"
@@ -80,9 +81,8 @@ const showConnectModal = ref(false);
 const showUserModal = ref(false);
 
 const ensAccount = ref({});
-const { loading, isConnected, address, shortAddress, image } = storeToRefs(
-  useUserStore()
-);
+const { loading, isConnected, address, shortAddress, image, imageExists } =
+  storeToRefs(useUserStore());
 
 const routes = getRoutes().Home;
 </script>

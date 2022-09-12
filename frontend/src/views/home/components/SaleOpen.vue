@@ -13,33 +13,21 @@
     <p
       class="text-2xl font-black text-center transition-colors md:text-3xl md:mt-4 dark:duration-200 dark:text-neutral-200"
     >
-      {{ contract.totalSupply }} / {{ contract.maxSupply }}
+      {{ totalSupply }} / {{ maxSupply }}
     </p>
     <div class="flex justify-center">
       <MamoButton color="crimson" to="/mint">Create your own</MamoButton>
     </div>
-    <!-- <MintSettings
-      :model-value="modelValue"
-      @update:modelValue="emit('update:modelValue', $event)"
-      :whitelistEnabled="whitelistEnabled"
-      @submit="emit('components', $event)"
-    /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { MamoButton } from "@/components/Button";
-//import MintSettings from "@/components/components/MintSettings.vue";
-
-//const emit = defineEmits(["update:modelValue", "components"]);
+import { useContract } from "@/composables/useContract";
 
 defineProps({
   modelValue: {
     type: Number,
-    required: true,
-  },
-  contract: {
-    type: Object,
     required: true,
   },
   whitelistEnabled: {
@@ -47,4 +35,6 @@ defineProps({
     required: true,
   },
 });
+
+const { totalSupply, maxSupply } = useContract();
 </script>

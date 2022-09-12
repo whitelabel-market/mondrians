@@ -37,3 +37,5 @@ export type EnsAccount = {
 };
 
 export const ENS_ACCOUNT = Symbol();
+
+export const USER = Symbol();

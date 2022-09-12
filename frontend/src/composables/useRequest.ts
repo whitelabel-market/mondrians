@@ -8,8 +8,7 @@ import {
 } from "@vueuse/core";
 import { computed, unref } from "vue";
 import { LocationQueryRaw, stringifyQuery } from "vue-router";
-import { useUserStore } from "@/store/modules/user";
-
+import { useUserStoreWithOut } from "@/store/modules/user";
 import CONFIG from "../../../config";
 import { storeToRefs } from "pinia";
 
@@ -27,19 +26,23 @@ const useRequest = createFetch({
     timeout: 10000,
     async beforeFetch({ options }: BeforeFetchContext) {
       const { xCsrf, xViewerAddress, xCsrfToken, bearerToken } = storeToRefs(
-        useUserStore()
+        useUserStoreWithOut()
       );
 
       const headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
-        ["x-csrf"]: xCsrf.value,
-        ["x-viewer-address"]: xViewerAddress.value,
+        ["x-csrf"]: xCsrf.value ?? null,
+        ["x-viewer-address"]: xViewerAddress.value ?? null,
         ["x-csrf-token"]: xCsrfToken.value ?? null,
         Authorization: bearerToken.value ? `Bearer ${bearerToken.value}` : null,
       };
       Object.assign(options.headers, headers);
       return { options };
+    },
+    async afterFetch(ctx) {
+      console.log("afterFetch", ctx);
+      return ctx;
     },
   },
   fetchOptions: {

@@ -20,7 +20,7 @@ module.exports = {
   openseaBaseUrl: "https://testnets.opensea.io/assets/mumbai/",
   chainId: 80001,
   networkName: "maticmum",
-  contract: "0xdF31d768841d1817E61b13b0496C4E7E74eD66a3",
+  contract: "0xe3bbf29f034fa780407fd11dac7a0b3938b1bc6a",
   subgraph: {
     mamo: "https://api.thegraph.com/subgraphs/name/amrap030/mamo-drop",
     ens: "https://api.thegraph.com/subgraphs/name/ensdomains/ens",

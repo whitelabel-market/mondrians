@@ -16,7 +16,7 @@
     v-if="isFinished && transfers.length"
   >
     <div
-      v-for="(transfer, index) in (transfers as any[])"
+      v-for="(transfer, index) in transfers"
       :key="index"
       class="block w-full focus:outline-none focus:ring-2 focus:ring-dodgerblue"
     >
@@ -24,74 +24,44 @@
     </div>
   </div>
   <NoTokens
-    :ensAccount="ensAccount"
-    :error="error"
-    :aborted="aborted"
+    :is-current="user.isCurrent"
+    :error="error || aborted"
     v-if="isFinished && !transfers.length"
   >
     <template v-slot:title>No Activity</template>
-    <template v-slot:description="{ isSelf }">
-      It seems like {{ isSelf ? "you have" : "this address has" }} no activities
-      in this collection.
+    <template v-slot:description="{ isCurrent }">
+      It seems like {{ isCurrent ? "you have" : "this address has" }} no
+      activities in this collection.
     </template>
   </NoTokens>
 </template>
 
 <script setup lang="ts">
-import { inject, Ref, ref, watch } from "vue";
-import { useFetch } from "@vueuse/core";
-import { getActivity } from "@/services/graphql/types";
-import CONFIG from "@/../../config";
+import { computed, inject, ShallowRef } from "vue";
 import Activity from "@/views/user/components/Activity.vue";
 import ActivitySkeleton from "@/views/user/components/ActivitySkeleton.vue";
 import NoTokens from "@/views/user/components/NoTokens.vue";
-import { EnsAccount, ENS_ACCOUNT } from "@/utils/types";
 import { useHead } from "@vueuse/head";
+import userService from "@/services/user";
+import { USER } from "@/utils/types";
+import { User } from "@/views/user/UserView.vue";
 
-const emits = defineEmits(["showHint"]);
-
-const transfers = ref<any[]>([]);
-const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
+const user = inject(USER) as ShallowRef<User>;
 
 useHead({
   title: `Activity`,
 });
 
-// transfers fetch handling
+const { data, isFinished, error, aborted } = userService.getActivity(
+  user.value.address
+);
 
-const { onFetchResponse, data, isFinished, post, error, aborted } = useFetch(
-  CONFIG.subgraph.mamo,
-  {
-    timeout: 10000,
-    immediate: false,
-  }
-).json();
-
-onFetchResponse(() => {
-  if (data?.value?.data?.account) {
-    transfers.value = [
-      ...data.value.data.account.transfersFrom,
-      ...data.value.data.account.transfersTo,
-    ];
-  } else {
-    emits("showHint");
-  }
-});
-
-watch(
-  () => ensAccount,
-  () => {
-    if (ensAccount?.value?.id) {
-      post(
-        JSON.stringify({
-          query: getActivity,
-          variables: {
-            address: ensAccount?.value?.id.toLowerCase(),
-          },
-        })
-      ).execute();
-    }
-  },
-  { deep: true }
+const transfers = computed(() =>
+  !data.value?.data?.account
+    ? []
+    : [
+        ...data.value.data.account.transfersFrom,
+        ...data.value.data.account.transfersTo,
+      ]
 );
 </script>

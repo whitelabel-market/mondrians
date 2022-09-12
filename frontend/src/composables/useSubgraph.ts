@@ -1,61 +1,71 @@
-import { ref } from "vue";
-import { useFetch } from "@vueuse/core";
-import { ethers } from "ethers";
-import CONFIG from "../../../config.js";
-import {
-  getContract as getContractQuery,
-  getTokensFromBlock as getTokensFromBlockQuery,
-} from "@/services/graphql/types";
+import { createFetch, UseFetchOptions, UseFetchReturn } from "@vueuse/core";
+import CONFIG from "../../../config";
+import { computed, unref } from "vue";
 
-const timeout = (time: number) => {
-  return new Promise((resolve) => setTimeout(resolve, time));
-};
-
-export default function useSubgraph() {
-  const getTokenByAddress = async function (
-    address: string,
-    tx: ethers.ContractReceipt
-  ): Promise<any> {
-    const block = tx.blockNumber;
-    const tokens = ref([]);
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const { data } = await useFetch(CONFIG.subgraph.mamo, { timeout: 10000 })
-        .post(
-          JSON.stringify({
-            query: getTokensFromBlockQuery,
-            variables: {
-              address: address.toLowerCase(),
-              block,
-            },
-          })
-        )
-        .json();
-      if (data?.value?.data?.tokens?.length > 0) {
-        tokens.value = data.value.data.tokens;
-        break;
-      } else {
-        await timeout(5000); // wait 5s
+const createSubgraph = createFetch({
+  options: {
+    timeout: 10000,
+    afterFetch(ctx) {
+      if (ctx.data?.errors) {
+        throw new Error(ctx.data?.errors[0]);
       }
-    }
-    return tokens.value;
-  };
+      return ctx;
+    },
+  },
+});
 
-  const getContract = async function () {
-    return useFetch(CONFIG.subgraph.mamo, {
-      timeout: 10000,
+/**
+ * useSubgraph
+ * @param baseUrl baseUrl
+ * @param query query
+ * @param variables variables
+ * @param options options
+ */
+export function useSubgraph<T = unknown>(
+  baseUrl: string,
+  query: string,
+  variables: any,
+  options: UseFetchOptions = {}
+): UseFetchReturn<T> {
+  const payload = computed(() =>
+    JSON.stringify({
+      query,
+      variables: unref(variables),
     })
-      .post(
-        JSON.stringify({
-          query: getContractQuery,
-          variables: {
-            id: CONFIG.contract.toLocaleLowerCase(),
-          },
-        })
-      )
-      .json();
-  };
+  );
 
-  return { getTokenByAddress, getContract };
+  return createSubgraph<T>(baseUrl, options).post(payload).json();
+}
+
+/**
+ * useUniswapSubgraph
+ * @param query query
+ * @param variables variables
+ * @param options options
+ */
+export function useUniswapSubgraph<T = unknown>(
+  query: string,
+  variables: any = {},
+  options: UseFetchOptions = {}
+): UseFetchReturn<T> {
+  return useSubgraph<T>(
+    CONFIG.subgraph.uniswapPolygon,
+    query,
+    variables,
+    options
+  );
+}
+
+/**
+ * useMamoSubgraph
+ * @param query query
+ * @param variables variables
+ * @param options options
+ */
+export function useMamoSubgraph<T = unknown>(
+  query: string,
+  variables: any = {},
+  options: UseFetchOptions = {}
+): UseFetchReturn<T> {
+  return useSubgraph<T>(CONFIG.subgraph.mamo, query, variables, options);
 }

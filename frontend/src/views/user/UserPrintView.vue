@@ -12,7 +12,7 @@
     </div>
 
     <MamoAlert
-      v-model="showError"
+      :model-value="!!print.error.value"
       title="Something went wrong"
       :report="errorMessage"
     >
@@ -20,7 +20,7 @@
     </MamoAlert>
 
     <MamoAlert
-      v-model="showSuccess"
+      :model-value="print.isReady.value && !print.error.value"
       :variant="'success'"
       title="Congratulations"
     >
@@ -28,21 +28,25 @@
       your inbox.
     </MamoAlert>
 
-    <MamoLoader class="mx-auto" v-if="!isFinished" />
+    <MamoLoader class="mx-auto" v-if="!getTokens.isFinished" />
 
     <MamoPrintForm
       v-else-if="tokens.length > 0"
-      :tokens="availableTokensForPrint"
+      :tokens="tokens"
       :skippable="false"
-      :loading="loading"
-      @submit="print"
+      :loading="print.isLoading.value"
+      @submit="
+        (e) => {
+          payload.value = e;
+          print.execute();
+        }
+      "
     />
 
     <NoTokens
-      :ensAccount="ensAccount"
-      :error="error"
-      :aborted="aborted"
       v-else
+      :is-current="user.isCurrent"
+      :error="getTokens.error || getTokens.aborted"
     />
 
     <MamoTransactionModal
@@ -54,17 +58,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, inject, Ref, computed, unref } from "vue";
-import { ethers } from "ethers";
+import { ref, inject, computed, unref, toRef, ShallowRef } from "vue";
 import { notify } from "notiwind";
-import { useFetch } from "@vueuse/core";
+import { useAsyncState } from "@vueuse/core";
 import { useHead } from "@vueuse/head";
-
-import CONFIG from "@/../../config";
-import { authInterface, printedTokens } from "@/services/BackendInterface";
-import MondrianInterface from "@/services/MondrianInterface";
-import { getTokensForAccount } from "@/services/graphql/types";
-import { ENS_ACCOUNT, EnsAccount } from "@/utils/types";
+import printService from "@/services/print";
+import { USER } from "@/utils/types";
 import type { Token } from "@/utils/types";
 import { getError } from "@/utils/error";
 import { MintDescription, Price } from "@/utils/constants";
@@ -75,33 +74,28 @@ import { MamoAlert } from "@/components/Alert";
 import { MamoTransactionModal } from "@/components/WalletModal";
 import { useUserStore } from "@/store/modules/user";
 import { storeToRefs } from "pinia";
-
-const emits = defineEmits(["showHint"]);
+import { useContract } from "@/composables/useContract";
+import userService from "@/services/user";
+import { User } from "@/views/user/UserView.vue";
 
 useHead({
   title: `Print`,
 });
 
 const showPrintTransactionModal = ref(false);
-const loading = ref(false);
 const error = ref(null);
-const showError = ref(false);
-const showSuccess = ref(false);
+const payload = ref();
+const user = inject(USER) as ShallowRef<User>;
+const userAddress = toRef(user.value, "address");
+const { address } = storeToRefs(useUserStore());
 
-const tokens = ref<Token[]>([]);
-const ensAccount = inject<Ref<EnsAccount>>(ENS_ACCOUNT);
-const { address, provider } = storeToRefs(useUserStore());
 const printPrice = Price.print;
+const contract = useContract();
 
-const print = async function (printData: any) {
-  if (loading.value) {
-    return;
-  }
-  try {
-    loading.value = true;
-    await sendPrintTx(printData);
-    await authInterface.print(printData);
-    showSuccess.value = true;
+const print = useAsyncState(
+  async () => {
+    await printTx();
+    await printService.send(payload);
     notify(
       {
         group: "app",
@@ -111,81 +105,40 @@ const print = async function (printData: any) {
       },
       4000
     );
-    printedTokens.value.push(printData.token.id);
-  } catch (err: any) {
-    error.value = err;
-    showError.value = true;
-    notify({
-      group: "app",
-      type: "error",
-      title: "Something went wrong",
-      text: errorMessage.value,
-    });
-  } finally {
-    loading.value = false;
+  },
+  null,
+  {
+    immediate: false,
+    onError: () =>
+      notify({
+        group: "app",
+        type: "error",
+        title: "Something went wrong",
+        text: errorMessage.value,
+      }),
   }
-};
+);
 
-const sendPrintTx = async function (printData: any) {
-  const mondrianInterface: MondrianInterface = new MondrianInterface(
-    provider as ethers.providers.Web3Provider
-  );
+const printTx = async function () {
   showPrintTransactionModal.value = true;
-  let tx = null;
-  try {
-    tx = await mondrianInterface.print(
-      {
-        token: printData.token,
-        address: address.value,
-      },
-      { txWait: false }
-    );
-  } finally {
-    showPrintTransactionModal.value = false;
-  }
-  return tx?.wait();
+  const tx = await contract.print(
+    {
+      token: payload.value.token,
+      address: address.value,
+    },
+    { txWait: false }
+  );
+  showPrintTransactionModal.value = false;
+  await tx.wait();
 };
 
 // tokens fetch handling
+const getTokens = userService.getCollectedTokens(userAddress.value);
 
-const { onFetchResponse, data, isFinished, aborted, post } = useFetch(
-  CONFIG.subgraph.mamo,
-  {
-    timeout: 10000,
-    immediate: false,
-  }
-).json();
-
-onFetchResponse(() => {
-  if (data?.value?.data?.tokens.length) {
-    tokens.value = data.value.data.tokens;
-  } else {
-    emits("showHint");
-  }
-});
-
-watch(
-  () => ensAccount,
-  () => {
-    if (ensAccount?.value?.id) {
-      post(
-        JSON.stringify({
-          query: getTokensForAccount,
-          variables: {
-            owner: ensAccount?.value?.id.toLowerCase(),
-          },
-        })
-      ).execute();
-    }
-  },
-  { deep: true }
+const tokens = computed<Token[]>(
+  // TODO integrate printed tokens
+  () => getTokens.data?.value?.data?.tokens || []
 );
-
-const availableTokensForPrint = computed(() => {
-  return tokens.value.filter(
-    (token: any) => !printedTokens.value.includes(token.id)
-  );
-});
 
 const errorMessage = computed(() => getError(unref(error)));
 </script>

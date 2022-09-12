@@ -5,22 +5,15 @@
     <div
       class="relative z-10 grid items-center max-w-6xl mx-auto min-h-screen pb-20 pt-40 lgs:grid-cols-2"
     >
-      <template v-if="loaded">
-        <img src="@/assets/images/image-1.png" alt="Magic Mondrian" v-animate />
+      <img src="@/assets/images/image-1.png" alt="Magic Mondrian" v-animate />
 
-        <SaleOpen
-          v-if="whitelistEnabled || publicsaleEnabled"
-          v-model="quantity"
-          :whitelistEnabled="whitelistEnabled"
-          :contract="contract"
-          @mint="mintIfConnected"
-        />
-        <SaleClosed
-          v-else
-          :loaded="loaded"
-          :soldOut="contract.maxSupply === contract.totalSupply"
-        />
-      </template>
+      <SaleOpen
+        v-if="whitelistEnabled || publicsaleEnabled"
+        v-model="quantity"
+        :whitelistEnabled="whitelistEnabled"
+        @mint="mintIfConnected"
+      />
+      <SaleClosed v-else />
     </div>
   </section>
   <MamoConnectWalletModal v-model="showConnectModal" />
@@ -34,18 +27,9 @@ import SaleClosed from "@/views/home/components/SaleClosed.vue";
 import SaleOpen from "@/views/home/components/SaleOpen.vue";
 import { MamoConnectWalletModal } from "@/components/WalletModal";
 import { useFlag } from "@/composables/useFlags";
-import useContract from "@/composables/useContract";
 import { SalePhase } from "@/utils/constants/mint";
 
-defineProps({
-  loaded: {
-    type: Boolean,
-    required: true,
-  },
-});
-
 const router = useRouter();
-const { contract } = useContract();
 const { isConnected } = useWallet();
 
 const [whitelistEnabled, publicsaleEnabled] = [

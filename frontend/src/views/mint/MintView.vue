@@ -175,15 +175,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, toRaw, reactive, computed, unref } from "vue";
+import { ref, watch, reactive, computed, unref } from "vue";
 import { ethers } from "ethers";
 import { notify } from "notiwind";
 import { useHead } from "@vueuse/head";
 import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
-import userService, { GetVoucherResponse } from "@/services/user";
-import { authInterface } from "@/services/BackendInterface";
-import MondrianInterface from "@/services/MondrianInterface";
-import useSubgraph from "@/composables/useSubgraph";
+import printService from "@/services/print";
+import saleService, { GetVoucherResponse } from "@/services/sale";
 import useAsyncTasksCycle from "@/composables/useAsyncTasksCycle";
 import { Price, SalePhase, MintDescription } from "@/utils/constants";
 import { useFlag } from "@/composables/useFlags";
@@ -196,17 +194,17 @@ import { MamoStepper, MamoStepperItem } from "@/components/Stepper";
 import { MamoTransactionModal } from "@/components/WalletModal";
 import { MamoLogoIcon } from "@/components/Icon";
 import { MamoViewHeader } from "@/components/ViewHeader";
-import { useUserStore } from "@/store/modules/user";
+import { useContract } from "@/composables/useContract";
 
 const whitelistEnabled = useFlag(SalePhase.WhitelistSale);
 const presaleEnabled = useFlag(SalePhase.PreSale);
 const { address } = useWallet();
-const { provider } = useUserStore();
-const { getTokenByAddress } = useSubgraph();
 
 useHead({
   title: "Mint",
 });
+
+const contract = useContract();
 
 const mintPrice = computed(() => {
   const price = whitelistEnabled.value ? Price.whitelist : Price.default;
@@ -237,20 +235,19 @@ const getVoucher = async function (mintData: {
   quantity: number;
   price: string;
 }) {
-  const { data } = await userService.getVoucher();
+  const { data, error } = await saleService.getVoucher();
+  if (error.value) {
+    throw new Error(error.value);
+  }
   const { signature } = unref(data) as GetVoucherResponse;
   return { ...mintData, signature };
 };
 
 const mint = async function (mintData: any) {
   showMintTransactionModal.value = true;
-  const mondrianInterface: MondrianInterface = new MondrianInterface(
-    toRaw(provider) as ethers.providers.Web3Provider
-  );
   let tx = null;
   try {
-    console.log("mintData", mintData);
-    tx = await mondrianInterface.mint(mintData, { txWait: false });
+    tx = await contract.mint(mintData, { txWait: false });
   } finally {
     showMintTransactionModal.value = false;
   }
@@ -260,12 +257,16 @@ const mint = async function (mintData: any) {
 };
 
 const getTokens = async function (tx: ethers.ContractReceipt) {
-  tokens.value = await getTokenByAddress(address.value, tx);
+  const { data, error } = await saleService.getTokensFromTx(address.value, tx);
+  if (error.value) {
+    throw new Error(error.value);
+  }
+  tokens.value = data.value.data.tokens;
   finishedTasks.getTokens = true;
 };
 
 const sendTicket = async function (email: string) {
-  await authInterface.sendMail(email);
+  await saleService.sendEventInvitation({ email });
   finishedTasks.sendTicket = true;
 };
 
@@ -273,12 +274,9 @@ const setPrintData = (printData: any) => printData;
 
 const sendPrintPayment = async (printData: any) => {
   showPrintTransactionModal.value = true;
-  const mondrianInterface: MondrianInterface = new MondrianInterface(
-    toRaw(provider) as ethers.providers.Web3Provider
-  );
   let tx = null;
   try {
-    tx = await mondrianInterface.print(
+    tx = await contract.print(
       {
         token: printData.token,
         address: address.value,
@@ -293,7 +291,7 @@ const sendPrintPayment = async (printData: any) => {
 };
 
 const sendPrintOrder = async (printData: any) => {
-  await authInterface.print(printData);
+  await printService.send(printData);
   finishedTasks.print = true;
   // printedTokens.value.push(printData.token.id);
 };

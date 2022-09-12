@@ -1,9 +1,11 @@
-import { useGet, usePost } from "@/composables/useRequest";
+import { usePost } from "@/composables/useRequest";
+import { UseFetchOptions } from "@vueuse/core";
+import { useMamoSubgraph } from "@/composables/useSubgraph";
+import { getActivity, getTokensForAccount } from "@/services/graphql/types";
 
 enum Routes {
   GetLoginChallenge = "/login",
   SendLoginResponse = "/callback",
-  GetVoucher = "v1/whitelist/voucher",
 }
 
 export interface GetLoginChallengeResponse {
@@ -14,10 +16,6 @@ export interface GetLoginChallengeResponse {
 
 export interface SendLoginResponseResponse {
   jwt: string;
-}
-
-export interface GetVoucherResponse {
-  signature: string;
 }
 
 export default {
@@ -38,9 +36,28 @@ export default {
   },
 
   /**
-   * @description: get user voucher
+   * @description: get collected tokens of an owner
    */
-  getVoucher() {
-    return useGet<GetVoucherResponse>(Routes.GetVoucher);
+  getCollectedTokens(address: string, options?: UseFetchOptions) {
+    return useMamoSubgraph<any>(
+      getTokensForAccount,
+      {
+        owner: address,
+      },
+      options
+    );
+  },
+
+  /**
+   * @description: get activity of a user
+   */
+  getActivity(address: string, options?: UseFetchOptions) {
+    return useMamoSubgraph<any>(
+      getActivity,
+      {
+        address,
+      },
+      options
+    );
   },
 };

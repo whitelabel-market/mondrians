@@ -14,6 +14,7 @@ import {
 } from "@whitelabel-solutions/wallet-connector-vue";
 import makeBlockie from "ethereum-blockies-base64";
 import { weiToEth } from "@/utils/ethereum";
+import { useENS } from "@/composables/useENS";
 
 export const useUserStore = defineStore("mamo-user", () => {
   const {
@@ -29,17 +30,8 @@ export const useUserStore = defineStore("mamo-user", () => {
   const { onNewBlock } = useBlock();
 
   // state
-  const image = ref<string>(
-    wallet.address.value !== "" ? makeBlockie(wallet.address.value) : ""
-  );
+  const image = ref<string>("");
   const balance = ref<string>("0");
-
-  // ensAccount: {
-  //   name: "",
-  //     labelName: "",
-  //     labelHash: "",
-  //     createdAt: "",
-  // },
   const xViewerAddress = ref("");
   const xCsrf = ref("1");
   const xCsrfToken = ref("");
@@ -49,12 +41,19 @@ export const useUserStore = defineStore("mamo-user", () => {
   const provider = shallowRef<ethers.providers.Web3Provider | undefined>();
   const signer = shallowRef<ethers.Signer | undefined>();
   const network = shallowRef<ethers.providers.Network | undefined>();
+  const ensName = ref<null | string>(null);
 
   const isLoggedIn = computed(() => bearerToken.value !== "");
+  const ensExists = computed(() => !ensName.value);
+  const displayName = computed(() =>
+    ensExists.value ? ensName.value : wallet.address.value
+  );
 
   const isConnectedAndLoggedIn = computed(
     () => wallet.isConnected.value && isLoggedIn.value
   );
+  const imageExists = computed(() => image.value !== "");
+
   const connectWallet = async function (instance: IProvider) {
     await connect(instance);
     await refreshState();
@@ -62,6 +61,8 @@ export const useUserStore = defineStore("mamo-user", () => {
 
   // methods
   const refreshState = async () => {
+    const ens = useENS();
+
     provider.value = new ethers.providers.Web3Provider(
       toRaw(
         walletProvider.value
@@ -75,8 +76,15 @@ export const useUserStore = defineStore("mamo-user", () => {
     xViewerAddress.value = walletAddress;
     signer.value = provider.value.getSigner();
     balance.value = await getBalance(walletAddress);
-    image.value = makeBlockie(walletAddress);
     network.value = await provider.value.getNetwork();
+    ensName.value = await ens.lookupAddress(
+      "0x5555763613a12D8F3e73be831DFf8598089d3dCa"
+    );
+
+    image.value = ensExists.value
+      ? ((await ens.getAvatar(ensName.value as string)) as string)
+      : makeBlockie(walletAddress);
+
     await _login();
   };
 
@@ -85,6 +93,7 @@ export const useUserStore = defineStore("mamo-user", () => {
     signer.value = undefined;
     balance.value = "0";
     image.value = "";
+    ensName.value = "";
     xViewerAddress.value = "";
     xCsrf.value = "1";
     xCsrfToken.value = "";
@@ -108,12 +117,15 @@ export const useUserStore = defineStore("mamo-user", () => {
         await _sendChallengeSignature(signature);
       }
     } catch (error: any) {
-      console.error("Error logging in: ", error);
+      console.error("Error logging in:", error);
     }
   };
 
   const _getChallengeSignatureAction = async function () {
-    const { data } = await userService.getLoginChallenge();
+    const { data, error } = await userService.getLoginChallenge();
+    if (error.value) {
+      throw new Error(error.value);
+    }
     const { csrfToken, jwt, message } = unref(
       data
     ) as GetLoginChallengeResponse;
@@ -127,8 +139,11 @@ export const useUserStore = defineStore("mamo-user", () => {
   };
 
   const _sendChallengeSignature = async function (signature: string) {
-    const { data } = await userService.sendLoginResponse(signature);
-    const { jwt } = unref(data) as SendLoginResponseResponse;
+    const { data, error } = await userService.sendLoginResponse(signature);
+    if (error.value) {
+      throw new Error(error.value);
+    }
+    const { jwt } = unref<SendLoginResponseResponse>(data);
     bearerToken.value = jwt;
   };
 
@@ -149,11 +164,17 @@ export const useUserStore = defineStore("mamo-user", () => {
   return {
     ...wallet,
     image,
+    ensName,
+    displayName,
+    ensExists,
     provider,
+    walletProvider,
+    signer,
     network,
     balance,
     isLoggedIn,
     isConnectedAndLoggedIn,
+    imageExists,
     xViewerAddress,
     xCsrf,
     xCsrfToken,

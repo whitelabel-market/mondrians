@@ -1,35 +1,31 @@
 <template>
-  <MamoShareButton
+  <MamoButton
     v-for="(item, index) in items"
     :key="index"
-    :item="item"
-    :index="index"
-    :hintVisible="hintVisible"
-    @click="shareItem"
-  />
+    @click="shareItem(item.content)"
+    :tooltip="item.tooltip"
+    only-icon
+    size="xs"
+    rounded="full"
+  >
+    <component :is="components[item.icon]" class="w-4 h-4" />
+  </MamoButton>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
-import { MamoShareButton } from "@/components/Button";
+import { MamoButton } from "@/components/Button";
 import CONFIG from "../../../../../config";
-import { useWallet } from "@whitelabel-solutions/wallet-connector-vue";
 import { useMediaQuery } from "@vueuse/core";
+import { FacebookIcon, TwitterIcon } from "@/components/Icon";
+import { MailIcon, PlusIcon } from "@heroicons/vue/solid";
 
-const props = defineProps({
-  address: {
-    type: String,
-    required: true,
-  },
-  hintVisible: {
-    type: Boolean,
-  },
-});
+const components = { FacebookIcon, TwitterIcon, PlusIcon, MailIcon };
 
-const { address: self, provider } = useWallet();
+const props = defineProps(["isCurrent", "isMetaMask", "address"]);
 
 const text = `Look at ${
-  props.address === self.value ? "my" : "this"
+  props.isCurrent ? "my" : "this"
 } super rare Magic Mondrian collectibles. Don't miss getting one to receive some unique vouchers!`;
 
 const items = reactive([
@@ -74,8 +70,7 @@ const items = reactive([
 const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
 onMounted(() => {
-  const isMetamask = provider.value?.isMetaMask;
-  if (canHover.value && isMetamask) {
+  if (canHover.value && props.isMetaMask) {
     items.push({
       tooltip: "Add to wallet",
       icon: "PlusIcon",
@@ -88,7 +83,7 @@ type ShareContent = {
   queryParams: Record<string, string>;
 };
 
-const shareItem = (content: ShareContent | undefined): void => {
+const shareItem = (content?: ShareContent): void => {
   if (!content) {
     addToken();
   } else {

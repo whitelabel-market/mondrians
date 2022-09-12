@@ -1,5 +1,5 @@
 import { withLayoutDefault } from "@/router/helper/layoutHelper";
-import { PERMISSION_MODE } from "@/router/constants";
+import { PAGE_LOADING, PERMISSION_MODE } from "@/router/constants";
 
 const title = "User";
 
@@ -10,6 +10,7 @@ export default withLayoutDefault({
   name: title,
   meta: {
     title,
+    loading: PAGE_LOADING.Manual,
   },
   children: [
     {

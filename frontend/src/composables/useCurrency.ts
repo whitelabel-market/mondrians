@@ -1,8 +1,9 @@
-import { ref, inject } from "vue";
+import { ref, inject, computed } from "vue";
 import type { Ref } from "vue";
 import { useFetch } from "@vueuse/core";
 import CONFIG from "../../../config";
 import { getTokenHourData } from "@/services/graphql/types";
+import { useUniswapSubgraph } from "@/composables/useSubgraph";
 
 export const CURRENCY_CONTEXT = Symbol();
 
@@ -16,28 +17,18 @@ export interface UseCurrency {
 
 export function createCurrency(): UseCurrency {
   const defaultFractionDigits = 2;
-  const maticPrice = ref("0.00");
 
   const {
     data,
     error: currencyError,
     isFinished: currencyReady,
-    onFetchResponse,
-  } = useFetch(CONFIG.subgraph.uniswapPolygon, {
-    timeout: 10000,
-  })
-    .post(
-      JSON.stringify({
-        query: getTokenHourData,
-      })
-    )
-    .json();
+  } = useUniswapSubgraph<any>(getTokenHourData);
 
-  onFetchResponse(() => {
-    if (data?.value?.data?.tokenHourDatas?.length) {
-      maticPrice.value = String(data.value.data.tokenHourDatas[0].close);
-    }
-  });
+  const maticPrice = computed(() =>
+    data?.value?.data?.tokenHourDatas?.length
+      ? data.value.data.tokenHourDatas[0].close
+      : "0.00"
+  );
 
   const maticToUsd = function (
     matic: string | number,
